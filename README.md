@@ -29,7 +29,7 @@
 * 主要资源来源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
 * 主要资源来源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
 * 备选图标来源：[luestr/IconResource](https://github.com/luestr/IconResource)
-* 以及所有在开源社区中贡献规则与脚本的创作者们。
+* 以及所有在开源社区中的创作者们
 
 ---
 
