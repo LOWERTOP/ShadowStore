@@ -740,9 +740,6 @@
             cursor: text;
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
-            /* 防止iOS双击缩放和误触抖动 */
-            touch-action: manipulation;
-            -webkit-touch-callout: none;
             transition: 
                 box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.35s ease,
@@ -3066,25 +3063,7 @@
             }
         });
 
-        // ==========================================
-        // 搜索栏聚焦与页面滑动退出逻辑 (已优化)
-        // ==========================================
-        let isSearchActive = false;
-        let lastScrollYOnFocus = 0;
-
-        window.addEventListener("scroll", () => {
-            if (isSearchActive) {
-                const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-                // 如果用户在聚焦状态下滚动了页面（偏差超过10px），直接自动退出搜索状态
-                if (Math.abs(currentScrollY - lastScrollYOnFocus) > 100) {
-                    searchInput.blur();
-                }
-            }
-        }, { passive: true });
-
         searchInput.addEventListener("focus", () => {
-            lastScrollYOnFocus = window.scrollY || document.documentElement.scrollTop || 0;
-            isSearchActive = true;
             document.body.classList.add("has-search-focus");
             if (state.isListView) {
                 setListViewMode(false, false);
@@ -3095,7 +3074,6 @@
         });
 
         searchInput.addEventListener("blur", () => {
-            isSearchActive = false;
             document.body.classList.remove("has-search-focus");
         });
 
@@ -3235,6 +3213,7 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
+            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3288,6 +3267,7 @@
         observer.observe(sentinel);
 
         function filterModules() {
+            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3822,7 +3802,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; 
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3867,7 +3847,7 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; 
+                state.isInitialLoading = false; // 远程数据就绪，解除锁定
                 state.isDataLoading = false;
                 
                 filterModules();
