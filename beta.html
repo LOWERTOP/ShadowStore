@@ -283,6 +283,8 @@
             border-left: 1px solid var(--glass-border-l);
             border-right: 1px solid var(--glass-border-r);
             border-bottom: 1px solid var(--glass-border-b);
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .glass-element {
@@ -738,6 +740,9 @@
             cursor: text;
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
+            /* 防止iOS双击缩放和误触抖动 */
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
             transition: 
                 box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.35s ease,
@@ -982,7 +987,9 @@
         
         .module-icon { 
             width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; 
-            background: transparent; overflow: hidden; 
+            background: var(--bg-surface); 
+            aspect-ratio: 1/1;
+            overflow: hidden; 
             box-shadow: 0 6px 16px rgba(0,0,0,0.12); 
             border: none; 
             -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -1108,7 +1115,7 @@
             overflow: visible;
             transition: 
                 transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
         [data-theme="dark"] .button-secondary {
@@ -1355,6 +1362,8 @@
             border-bottom: 1px solid var(--glass-border-b);
             pointer-events: auto;
             overflow: hidden;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-main-card {
@@ -1534,6 +1543,8 @@
             -webkit-user-select: none;
             touch-action: none;
             pointer-events: auto;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-fast-index {
@@ -2157,7 +2168,7 @@
             rawNetworkData: [],
             filteredModules: [],
             currentlyRendered: 0,
-            isInitialLoading: true, // 核心机制：首次数据下载解析完成前绝对为 true
+            isInitialLoading: true, 
             isDataLoading: true,
             isPullRefreshing: false,
             isListView: false,
@@ -2598,7 +2609,6 @@
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
-            
             setListViewMode(false, false);
 
             searchInput.value = mod.name;
@@ -2643,7 +2653,9 @@
                 alphabetImgObserver.disconnect();
             }
 
-            alphabetScrollArea.innerHTML = "";
+            while (alphabetScrollArea.firstChild) {
+                alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
+            }
             
             Array.from(alphabetFastIndex.children).forEach(child => {
                 if (child !== alphabetPopupBubble) {
@@ -3054,7 +3066,25 @@
             }
         });
 
+        // ==========================================
+        // 搜索栏聚焦与页面滑动退出逻辑 (已优化)
+        // ==========================================
+        let isSearchActive = false;
+        let lastScrollYOnFocus = 0;
+
+        window.addEventListener("scroll", () => {
+            if (isSearchActive) {
+                const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+                // 如果用户在聚焦状态下滚动了页面（偏差超过10px），直接自动退出搜索状态
+                if (Math.abs(currentScrollY - lastScrollYOnFocus) > 100) {
+                    searchInput.blur();
+                }
+            }
+        }, { passive: true });
+
         searchInput.addEventListener("focus", () => {
+            lastScrollYOnFocus = window.scrollY || document.documentElement.scrollTop || 0;
+            isSearchActive = true;
             document.body.classList.add("has-search-focus");
             if (state.isListView) {
                 setListViewMode(false, false);
@@ -3065,6 +3095,7 @@
         });
 
         searchInput.addEventListener("blur", () => {
+            isSearchActive = false;
             document.body.classList.remove("has-search-focus");
         });
 
@@ -3204,7 +3235,6 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
-            // 核心修复判定：首次数据未下载完成时，坚决展示居中加载状态，绝不展示“未找到”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3258,7 +3288,6 @@
         observer.observe(sentinel);
 
         function filterModules() {
-            // 首次数据下载未完成时，不进行真正的过滤计算，直接调用渲染走加载提示分支
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3793,7 +3822,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
+                            state.isInitialLoading = false; 
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3838,10 +3867,10 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; // 网络拉取完毕，正式解除初始锁定
+                state.isInitialLoading = false; 
                 state.isDataLoading = false;
                 
-                filterModules(); // 此时真正渲染真实列表
+                filterModules();
                 setSearchState(true);
                 scheduleAlphabetPreRender();
 
@@ -3856,7 +3885,7 @@
                 return true;
             } catch (error) {
                 console.error("加载 modules.json 失败:", error);
-                state.isInitialLoading = false; // 失败时解除初始状态以展示兜底数据
+                state.isInitialLoading = false; 
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
                     state.statusKey = "statusErrorCache";
