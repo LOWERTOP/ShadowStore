@@ -1970,7 +1970,7 @@
                 countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
                 countText: (count, label) => `${count} 个${label}`,
                 emptyText: (label) => `没有找到匹配的${label}`,
-                loadingPlaceholder: "正在加载资源列表，请稍候...",
+                loadingText: "正在同步资源，请稍候...",
                 ptrContinue: "继续下拉将强制刷新本站",
                 ptrRelease: "松开将立即强制刷新本站",
                 ptrRefreshing: "正在强制刷新本站...",
@@ -2019,7 +2019,7 @@
                 countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
                 countText: (count, label) => `${count} ${label}`,
                 emptyText: (label) => `No matching ${label.toLowerCase()} found`,
-                loadingPlaceholder: "Loading resources, please wait...",
+                loadingText: "Syncing resources, please wait...",
                 ptrContinue: "Pull down to force refresh",
                 ptrRelease: "Release to force refresh",
                 ptrRefreshing: "Force refreshing...",
@@ -2157,7 +2157,7 @@
             rawNetworkData: [],
             filteredModules: [],
             currentlyRendered: 0,
-            isInitialLoading: true, // 核心修复：初始数据未就绪前保持为 true
+            isInitialLoading: true, // 核心机制：首次数据下载解析完成前绝对为 true
             isDataLoading: true,
             isPullRefreshing: false,
             isListView: false,
@@ -3202,8 +3202,22 @@
         }
 
         function renderFilteredList(list, customLabel = null) {
-            // 核心修复：如果是初次打开且数据尚未就绪，严禁覆盖骨架屏并显示“未找到”，直接退出
+            const langObj = I18N[state.currentLang];
+
+            // 核心修复判定：首次数据未下载完成时，坚决展示居中加载状态，绝不展示“未找到”
             if (state.isInitialLoading) {
+                sentinel.style.display = "none";
+                countText.textContent = "";
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <span class="status-dot loading" style="width: 14px; height: 14px;"></span>
+                        </div>
+                        ${escapeHTML(langObj.loadingText)}
+                    </div>
+                `;
+                scheduleLayoutUpdate();
+                checkScrollLock();
                 return;
             }
 
@@ -3211,7 +3225,6 @@
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
 
-            const langObj = I18N[state.currentLang];
             const currentLabel = customLabel || langObj.countLabel[state.activeTab] || langObj.countLabel.more;
 
             if (!state.filteredModules.length) {
@@ -3245,7 +3258,11 @@
         observer.observe(sentinel);
 
         function filterModules() {
-            if (state.isInitialLoading) return;
+            // 首次数据下载未完成时，不进行真正的过滤计算，直接调用渲染走加载提示分支
+            if (state.isInitialLoading) {
+                renderFilteredList([]);
+                return;
+            }
 
             const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
             document.body.classList.toggle("has-search-text", keyword.length > 0);
@@ -3554,11 +3571,7 @@
 
             state.isAlphabetRendered = false;
             
-            // 核心修复：仅当非初始骨架屏阶段才触发 filterModules
-            if (!state.isInitialLoading) {
-                filterModules();
-                scheduleAlphabetPreRender();
-            }
+            filterModules();
 
             requestAnimationFrame(() => updateTabIndicator(false));
         }
@@ -3780,7 +3793,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; // 缓存可用，立刻解除保护
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3805,7 +3818,6 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                // 没有有效缓存，保持骨架屏，更新状态提示
                 state.statusKey = "statusFetchingStatic";
                 statusText.textContent = langObj.statusFetchingStatic;
                 statusDot.className = "status-dot loading";
@@ -3826,10 +3838,10 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; // 网络拉取完毕，正式解除加载保护
+                state.isInitialLoading = false; // 网络拉取完毕，正式解除初始锁定
                 state.isDataLoading = false;
                 
-                filterModules(); // 此时真正将数据替换进骨架屏
+                filterModules(); // 此时真正渲染真实列表
                 setSearchState(true);
                 scheduleAlphabetPreRender();
 
@@ -3844,7 +3856,7 @@
                 return true;
             } catch (error) {
                 console.error("加载 modules.json 失败:", error);
-                state.isInitialLoading = false; // 即使失败也要解除骨架屏保护，展示静态兜底数据
+                state.isInitialLoading = false; // 失败时解除初始状态以展示兜底数据
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
                     state.statusKey = "statusErrorCache";
