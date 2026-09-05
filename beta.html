@@ -1574,7 +1574,6 @@
             }
         }
 
-        /* 修复：移除 transform: scale(1.3)，避免双重缩放动画与触摸排版晃动 */
         .alphabet-fast-char.active {
             color: var(--primary);
             font-weight: 700;
@@ -1939,7 +1938,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609060317"; 
+        const CACHE_VERSION = "202609051800"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/modules.json", 
@@ -1958,7 +1957,7 @@
                 searchPlaceholderReady: "输入关键字全局搜索...",
                 notice1: "相关资源均来源于开源社区",
                 notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "关闭列表",
+                searchClearTitle: "清空搜索",
                 backToTopTitle: "返回顶部",
                 searchInputAria: "搜索资源",
                 statusSyncing: "正在同步资源索引...",
@@ -2580,7 +2579,8 @@
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView || state.focusedModuleId;
+            // 资源列表按钮仅在抽屉展开时显示为 × 图标
+            const shouldActive = state.isListView;
 
             if (shouldActive) {
                 standaloneListBtn.classList.add("active");
@@ -2591,19 +2591,22 @@
                 standaloneListBtn.setAttribute("title", "资源列表");
                 standaloneListBtn.setAttribute("aria-label", "资源列表");
             }
+            // 搜索框有输入（包括定位填入）时显示清空按钮 ×
             document.body.classList.toggle("has-search-text", hasText);
         }
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
+            
+            // 1. 关闭字母列表视图，并重置列表按钮状态
             setListViewMode(false, false);
 
+            // 2. 将资源名称填入搜索框并激活有文字状态（使清空按钮 × 呈现）
             searchInput.value = mod.name;
-            searchInput.blur();
-            document.body.classList.remove("has-search-focus");
             document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
+            // 3. 同步切换到对应的分类 Tab
             if (state.activeTab !== mod.category) {
                 state.activeTab = mod.category;
                 tabItems.forEach(t => {
@@ -2614,14 +2617,16 @@
                 updateTabIndicator(true);
             }
 
+            // 4. 精准渲染单张卡片
             state.filteredModules = [mod];
-            state.currentlyRendered = 1;
+            state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
             sentinel.style.display = "none";
 
             const singleCard = createModuleCard(mod);
             singleCard.classList.add("single-focused");
             modulesContainer.appendChild(singleCard);
+            state.currentlyRendered = 1;
 
             const langObj = I18N[state.currentLang];
             const currentLabel = langObj.countLabel[mod.category] || langObj.countLabel.more;
@@ -2954,7 +2959,6 @@
                 state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
                 state.isListView = true;
-                state.focusedModuleId = null;
 
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
@@ -3020,30 +3024,9 @@
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const hasText = searchInput.value.length > 0;
 
             if (state.isListView) {
                 setListViewMode(false);
-            } else if (hasText || state.focusedModuleId) {
-                state.focusedModuleId = null;
-                searchInput.value = "";
-                searchInput.blur();
-                document.body.classList.remove("has-search-focus");
-                setListViewMode(false);
-                
-                state.activeTab = "module";
-                tabItems.forEach(t => {
-                    const isActive = t.getAttribute("data-tab") === "module";
-                    t.classList.toggle("active", isActive);
-                    t.setAttribute("aria-selected", isActive ? "true" : "false");
-                });
-                updateTabIndicator(true);
-
-                filterModules();
-                if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
-                    statusText.textContent = I18N[state.currentLang][state.statusKey];
-                }
-                updateStandaloneButtonState();
             } else {
                 ignoreNextClick = true;
                 searchInput.blur();
@@ -3053,11 +3036,19 @@
 
         searchClearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
+            
+            // 彻底清除单项聚焦与输入框文字，返回分类默认主页面
+            state.focusedModuleId = null;
             searchInput.value = "";
-            document.body.classList.remove("has-search-text");
+            document.body.classList.remove("has-search-text", "has-search-focus");
+            
             filterModules();
             updateStandaloneButtonState();
-            searchInput.focus();
+            
+            if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
+                statusText.textContent = I18N[state.currentLang][state.statusKey];
+            }
+            statusDot.className = "status-dot";
         });
 
         searchBoxInner.addEventListener("click", (e) => {
