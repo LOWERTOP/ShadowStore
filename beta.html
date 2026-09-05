@@ -1303,7 +1303,6 @@
             font-weight: 400 !important;
         }
 
-        /* 资源列表与字母列表区域优化：加入位移与硬件层优化，提供细腻顺滑的展开收起 */
         .alphabet-view-container {
             position: fixed;
             z-index: 999999;
@@ -1311,11 +1310,8 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transform: translate3d(0, 10px, 0) scale(0.985);
-            transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                        visibility 0.28s;
-            will-change: opacity, transform;
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+            will-change: opacity;
             box-sizing: border-box;
             background: transparent;
         }
@@ -1323,7 +1319,6 @@
         .alphabet-view-container.is-visible {
             opacity: 1;
             visibility: visible;
-            transform: translate3d(0, 0, 0) scale(1);
             pointer-events: auto;
         }
 
@@ -1360,8 +1355,6 @@
             border-bottom: 1px solid var(--glass-border-b);
             pointer-events: auto;
             overflow: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-main-card {
@@ -1541,8 +1534,6 @@
             -webkit-user-select: none;
             touch-action: none;
             pointer-events: auto;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-fast-index {
@@ -1566,7 +1557,7 @@
             font-weight: 600;
             color: var(--text-tertiary);
             cursor: pointer;
-            transition: color 0.15s ease, transform 0.15s ease;
+            transition: color 0.15s ease;
             white-space: nowrap;
         }
 
@@ -1583,18 +1574,16 @@
             }
         }
 
-        @media (hover: hover) and (pointer: fine) {
-            .alphabet-fast-index:not(.is-dragging) .alphabet-fast-char:hover {
-                color: var(--primary);
-                transform: scale(1.3);
-                font-weight: 700;
-            }
+        /* 修复：移除 transform: scale(1.3)，避免双重缩放动画与触摸排版晃动 */
+        .alphabet-fast-char.active {
+            color: var(--primary);
+            font-weight: 700;
         }
 
-        .alphabet-fast-char.active {
-            color: var(--primary) !important;
-            transform: scale(1.3) !important;
-            font-weight: 700 !important;
+        @media (hover: hover) and (pointer: fine) {
+            .alphabet-fast-char:hover:not(.disabled) {
+                color: var(--primary);
+            }
         }
 
         .alphabet-fast-char.disabled {
@@ -1950,7 +1939,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609052145"; 
+        const CACHE_VERSION = "202609060317"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/modules.json", 
@@ -2874,10 +2863,6 @@
             isTouchingIndex = false;
             lastSelectedLetter = null;
 
-            if (alphabetFastIndex) {
-                alphabetFastIndex.classList.remove("is-dragging");
-            }
-
             if (alphabetPopupBubble) {
                 alphabetPopupBubble.classList.remove("visible");
             }
@@ -2886,17 +2871,11 @@
                 activeFastIndexChar.classList.remove("active");
                 activeFastIndexChar = null;
             }
-
-            if (alphabetFastIndex) {
-                const actives = alphabetFastIndex.querySelectorAll(".alphabet-fast-char.active");
-                actives.forEach(el => el.classList.remove("active"));
-            }
         }
 
         alphabetFastIndex.addEventListener("touchstart", (e) => {
             isTouchingIndex = true;
             lastSelectedLetter = null;
-            alphabetFastIndex.classList.add("is-dragging");
             prepareFastIndexGeometry();
             e.preventDefault();
 
@@ -2918,9 +2897,8 @@
         alphabetFastIndex.addEventListener("mousedown", (e) => {
             isTouchingIndex = true;
             lastSelectedLetter = null;
-            alphabetFastIndex.classList.add("is-dragging");
             prepareFastIndexGeometry();
-            updateFastIndexSelection(e.clientX, e.clientY, true);
+            updateFastIndexSelection(e.clientX, e.clientY);
         });
 
         window.addEventListener("mousemove", (e) => {
@@ -2933,6 +2911,7 @@
 
         function updateAlphabetPosition() {
             if (!alphabetViewContainer || !standaloneListBtn || !pageContainer) return;
+            invalidateLayoutCache();
 
             const btnRect = standaloneListBtn.getBoundingClientRect();
             const containerRect = pageContainer.getBoundingClientRect();
@@ -2961,11 +2940,13 @@
             fastIndexHeight = 0;
         }
 
+        let listViewTransitionTimer = null;
         let listViewScrollLockTimer = null;
 
         function setListViewMode(enable, restoreScroll = true) {
             if (state.isListView === enable) return;
 
+            clearTimeout(listViewTransitionTimer);
             clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
@@ -2986,21 +2967,18 @@
 
                 updateAlphabetPosition();
 
-                // 移除原 320ms 迟滞硬延迟，利用双 requestAnimationFrame 实现顺滑过渡
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        if (state.isListView) {
-                            alphabetViewContainer.classList.add("is-visible");
-                        }
-                    });
-                });
+                listViewTransitionTimer = setTimeout(() => {
+                    if (state.isListView) {
+                        alphabetViewContainer.classList.add("is-visible");
+                    }
+                }, 320);
 
                 listViewScrollLockTimer = setTimeout(() => {
                     listViewScrollLockTimer = null;
                     if (state.isListView) {
                         checkScrollLock();
                     }
-                }, 300);
+                }, 450);
             } else {
                 state.isListView = false;
                 alphabetViewContainer.classList.remove("is-visible");
@@ -3265,7 +3243,7 @@
         observer.observe(sentinel);
 
         function filterModules() {
-            const keyword = searchInput.value.trim().toLowerCase();
+            const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
 
@@ -3622,10 +3600,6 @@
         }
 
         function resetPullState() {
-            window.removeEventListener('touchmove', onTouchMovePull);
-            window.removeEventListener('touchend', onTouchEndPull);
-            window.removeEventListener('touchcancel', resetPullState);
-
             isPulling = false;
             isPullLocked = false;
             if (pullRafId) cancelAnimationFrame(pullRafId);
@@ -3649,7 +3623,28 @@
             hasPulledContainer = false;
         }
 
-        function onTouchMovePull(e) {
+        window.addEventListener('touchstart', (e) => {
+            if (state.isPullRefreshing || state.isDataLoading || state.isListView) {
+                isPulling = false;
+                return;
+            }
+            if (e.target.closest("input, button, a, textarea, select, label, .module-card, .alphabet-view-container")) {
+                isPulling = false;
+                return;
+            }
+            const isAtTop = (window.scrollY || document.documentElement.scrollTop || 0) <= 0;
+            if (isAtTop) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isPulling = true;
+                isPullLocked = false;
+                hasPulledContainer = false;
+            } else {
+                isPulling = false;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
             if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
                 return;
             }
@@ -3661,12 +3656,14 @@
 
             if (!isPullLocked) {
                 if (Math.abs(diffX) > Math.abs(diffY)) {
-                    resetPullState();
+                    isPulling = false;
+                    isPullLocked = true;
                     return;
                 }
 
                 if (diffY <= 0) {
-                    resetPullState();
+                    isPulling = false;
+                    isPullLocked = true;
                     return;
                 }
 
@@ -3703,26 +3700,22 @@
 
                 if (e.cancelable) e.preventDefault();
             }
-        }
+        }, { passive: false });
 
-        function onTouchEndPull(e) {
+        window.addEventListener('touchend', (e) => {
             if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
-                resetPullState();
+                isPulling = false;
                 return;
             }
+            isPulling = false;
+            isPullLocked = false;
+            if (pullRafId) cancelAnimationFrame(pullRafId);
 
             const currentY = e.changedTouches[0].clientY;
             const diffY = currentY - touchStartY;
             const isAtTop = (window.scrollY || document.documentElement.scrollTop || 0) <= 0;
 
             if (hasPulledContainer && diffY >= PULL_TRIGGER_DIFF && isAtTop) {
-                window.removeEventListener('touchmove', onTouchMovePull);
-                window.removeEventListener('touchend', onTouchEndPull);
-                window.removeEventListener('touchcancel', resetPullState);
-                isPulling = false;
-                isPullLocked = false;
-                if (pullRafId) cancelAnimationFrame(pullRafId);
-
                 pageContainer.style.transition = 'top 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
                 pageContainer.style.top = '38px';
                 
@@ -3734,25 +3727,9 @@
             } else {
                 resetPullState();
             }
-        }
-
-        window.addEventListener('touchstart', (e) => {
-            if (state.isPullRefreshing || state.isDataLoading || state.isListView) return;
-            if (e.target.closest("input, button, a, textarea, select, label, .module-card, .alphabet-view-container")) return;
-
-            const isAtTop = (window.scrollY || document.documentElement.scrollTop || 0) <= 0;
-            if (isAtTop) {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                isPulling = true;
-                isPullLocked = false;
-                hasPulledContainer = false;
-
-                window.addEventListener('touchmove', onTouchMovePull, { passive: false });
-                window.addEventListener('touchend', onTouchEndPull, { passive: true });
-                window.addEventListener('touchcancel', resetPullState, { passive: true });
-            }
         }, { passive: true });
+
+        window.addEventListener('touchcancel', resetPullState, { passive: true });
 
         function cleanOldCaches() {
             try {
