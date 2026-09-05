@@ -283,6 +283,8 @@
             border-left: 1px solid var(--glass-border-l);
             border-right: 1px solid var(--glass-border-r);
             border-bottom: 1px solid var(--glass-border-b);
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .glass-element {
@@ -326,7 +328,6 @@
         .ptr-icon svg { width: 100%; height: 100%; }
         .ptr-icon.rotate { transform: rotate(180deg); }
 
-        /* 容器 1：大标题栏 */
         .header { 
             padding: 24px 0 18px; 
             max-height: 140px;
@@ -488,7 +489,6 @@
             filter: none; 
         }
 
-        /* 容器 2：搜索栏、状态及衍生弹窗面板：第二列固定为 var(--card-width)，确保右边缘与主卡片对齐 */
         .control-bar {
             position: sticky;
             top: max(12px, env(safe-area-inset-top, 0px));
@@ -504,7 +504,6 @@
             transition: margin-bottom 0.35s ease;
         }
 
-        /* 容器 3：标签栏 */
         .tab-bar-wrapper {
             width: 100%;
             min-width: 0;
@@ -551,8 +550,7 @@
         }
 
         .tab-item,
-        .button-secondary,
-        .alphabet-item-row {
+        .button-secondary {
             position: relative;
             isolation: isolate;
             z-index: 2;
@@ -660,7 +658,6 @@
             width: 100%;
         }
 
-        /* 独立的资源列表按钮（放在左侧，固定间距 8px）：已移除青色边框和青色遮罩 */
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -722,7 +719,6 @@
         .standalone-list-btn:active {
             transform: scale(0.92);
         }
-        /* 激活状态不再变为青色边框和青色背景，保持默认毛玻璃及图标高亮或原色 */
         .standalone-list-btn.active {
             color: var(--text-primary);
         }
@@ -730,7 +726,6 @@
             color: var(--text-primary);
         }
 
-        /* 搜索框自适应大小，无返回按钮时右侧与主卡片边缘对齐，有返回按钮时自动收缩且间距严格保持 8px */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -870,7 +865,6 @@
             display: none;
         }
 
-        /* 返回顶端按钮：显现时右侧间距与左侧资源列表按钮间距保持完美的 8px 对称一致 */
         .back-to-top-btn {
             width: 0;
             height: 44px;
@@ -990,7 +984,9 @@
         
         .module-icon { 
             width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; 
-            background: transparent; overflow: hidden; 
+            background: var(--bg-surface); 
+            aspect-ratio: 1/1;
+            overflow: hidden; 
             box-shadow: 0 6px 16px rgba(0,0,0,0.12); 
             border: none; 
             -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -1011,10 +1007,15 @@
         }
         .module-icon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
-        .card-main { min-width: 0; flex: 1; }
+        .card-main { 
+            min-width: 0; 
+            flex: 1; 
+            container-type: inline-size; 
+        }
+        
         .module-name { 
             margin: 0; 
-            font-size: 18px; 
+            font-size: clamp(13px, 6.8cqw, 18px); 
             line-height: 1.3; 
             font-weight: 700;
             letter-spacing: -0.2px; 
@@ -1111,7 +1112,7 @@
             overflow: visible;
             transition: 
                 transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
         [data-theme="dark"] .button-secondary {
@@ -1244,7 +1245,6 @@
             pointer-events: auto;
         }
 
-        /* 标签栏在竖屏模式且激活列表时的隐藏逻辑 */
         body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
             display: none !important;
             opacity: 0 !important;
@@ -1307,7 +1307,6 @@
             font-weight: 400 !important;
         }
 
-        /* 资源列表与字母列表区域 */
         .alphabet-view-container {
             position: fixed;
             z-index: 999999;
@@ -1339,7 +1338,6 @@
             pointer-events: none;
         }
 
-        /* 资源列表卡片（左侧）：左边缘始终实时与独立资源列表按钮左边缘对齐 */
         .alphabet-main-card {
             position: relative;
             z-index: 10;
@@ -1361,6 +1359,8 @@
             border-bottom: 1px solid var(--glass-border-b);
             pointer-events: auto;
             overflow: hidden;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-main-card {
@@ -1437,6 +1437,12 @@
         }
 
         .alphabet-item-row {
+            position: relative;
+            isolation: isolate;
+            z-index: 2;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
             display: flex;
             align-items: center;
             gap: 14px;
@@ -1506,7 +1512,6 @@
             flex-shrink: 0;
         }
 
-        /* 字母列表卡片（右侧） */
         .alphabet-fast-index {
             position: relative;
             z-index: 10;
@@ -1535,6 +1540,8 @@
             -webkit-user-select: none;
             touch-action: none;
             pointer-events: auto;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-fast-index {
@@ -1558,7 +1565,7 @@
             font-weight: 600;
             color: var(--text-tertiary);
             cursor: pointer;
-            transition: color 0.15s ease, transform 0.15s ease;
+            transition: color 0.15s ease;
             white-space: nowrap;
         }
 
@@ -1575,19 +1582,23 @@
             }
         }
 
-        .alphabet-fast-char:hover,
         .alphabet-fast-char.active {
             color: var(--primary);
-            transform: scale(1.3);
             font-weight: 700;
         }
+
+        @media (hover: hover) and (pointer: fine) {
+            .alphabet-fast-char:hover:not(.disabled) {
+                color: var(--primary);
+            }
+        }
+
         .alphabet-fast-char.disabled {
             opacity: 0.22;
             cursor: default;
             pointer-events: none;
         }
 
-        /* 滑动字母提示：轻量青色描边 + 放大字母，避免毛玻璃合成造成跟手延迟 */
         .alphabet-popup-bubble {
             position: absolute;
             width: 48px;
@@ -1612,7 +1623,7 @@
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             border: 1px solid var(--primary) !important;
-            will-change: top, opacity;
+            will-change: transform, opacity;
         }
 
         .alphabet-popup-bubble.visible {
@@ -1731,7 +1742,6 @@
                 -webkit-tap-highlight-color: transparent !important;
             }
 
-            /* 移动端资源列表按钮与返回按钮保持完全稳定：触摸时不缩放、不切换阴影，避免 iOS 合成层闪烁 */
             .standalone-list-btn,
             .standalone-list-btn:hover,
             .standalone-list-btn:active,
@@ -1781,49 +1791,6 @@
             .search-clear:hover {
                 color: var(--primary) !important;
             }
-        }
-
-        html.is-mobile .tab-item:not(.active)::before,
-        html.is-mobile .button-secondary::before,
-        html.is-mobile .alphabet-item-row::before,
-        html.is-mobile .tab-item:not(.active):hover::before,
-        html.is-mobile .tab-item:not(.active):active::before,
-        html.is-mobile .button-secondary:hover::before,
-        html.is-mobile .button-secondary:active::before,
-        html.is-mobile .alphabet-item-row:hover::before,
-        html.is-mobile .alphabet-item-row:active::before {
-            display: none !important;
-            opacity: 0 !important;
-        }
-        html.is-mobile .button-secondary:active,
-        html.is-mobile .theme-toggle:hover,
-        html.is-mobile .theme-toggle:active,
-        html.is-mobile .back-to-top-btn.visible:hover,
-        html.is-mobile .back-to-top-btn.visible:active {
-            transform: none !important;
-        }
-        html.is-mobile .button-primary:hover,
-        html.is-mobile .button-primary:active,
-        html.is-mobile .button-primary:focus-visible {
-            box-shadow: var(--primary-gradient-shadow) !important;
-        }
-        html.is-mobile .module-icon,
-        html.is-mobile .module-icon:hover,
-        html.is-mobile .module-icon:active,
-        html.is-mobile .module-icon:focus {
-            transform: none !important;
-            opacity: 1 !important;
-            transition: none !important;
-        }
-        html.is-mobile .standalone-list-btn,
-        html.is-mobile .standalone-list-btn:hover,
-        html.is-mobile .standalone-list-btn:active,
-        html.is-mobile .standalone-list-btn:focus,
-        html.is-mobile .standalone-list-btn:focus-visible {
-            transform: none !important;
-            box-shadow: var(--shadow-glass-ui) !important;
-            transition: none !important;
-            -webkit-tap-highlight-color: transparent !important;
         }
 
         @media (max-width: 600px) {
@@ -1979,7 +1946,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609051800"; 
+        const CACHE_VERSION = "202609060415"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/modules.json", 
@@ -1998,7 +1965,7 @@
                 searchPlaceholderReady: "输入关键字全局搜索...",
                 notice1: "相关资源均来源于开源社区",
                 notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "关闭列表",
+                searchClearTitle: "清空搜索",
                 backToTopTitle: "返回顶部",
                 searchInputAria: "搜索资源",
                 statusSyncing: "正在同步资源索引...",
@@ -2011,6 +1978,7 @@
                 countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
                 countText: (count, label) => `${count} 个${label}`,
                 emptyText: (label) => `没有找到匹配的${label}`,
+                loadingText: "正在同步资源，请稍候...",
                 ptrContinue: "继续下拉将强制刷新本站",
                 ptrRelease: "松开将立即强制刷新本站",
                 ptrRefreshing: "正在强制刷新本站...",
@@ -2059,6 +2027,7 @@
                 countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
                 countText: (count, label) => `${count} ${label}`,
                 emptyText: (label) => `No matching ${label.toLowerCase()} found`,
+                loadingText: "Syncing resources, please wait...",
                 ptrContinue: "Pull down to force refresh",
                 ptrRelease: "Release to force refresh",
                 ptrRefreshing: "Force refreshing...",
@@ -2142,8 +2111,6 @@
         const SYSTEM_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`;
         const MOON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         const SUN_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-        const CLOSE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
-        const LIST_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg>`;
 
         const tagPillBadge = document.getElementById("tagPillBadge");
         const subtitleEl = document.getElementById("subtitle");
@@ -2198,7 +2165,8 @@
             rawNetworkData: [],
             filteredModules: [],
             currentlyRendered: 0,
-            isDataLoading: false,
+            isInitialLoading: true, 
+            isDataLoading: true,
             isPullRefreshing: false,
             isListView: false,
             focusedModuleId: null,
@@ -2298,6 +2266,32 @@
             img.addEventListener("error", () => { img.src = fallbackSrc; }, { once: true });
         }
 
+        function extractInitialLetter(name) {
+            const clean = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
+            const first = clean.charAt(0);
+            if (!first) return "#";
+            if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
+            
+            if (/^[\u4e00-\u9fa5]$/.test(first)) {
+                try {
+                    const zhLetters = [
+                        { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
+                        { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
+                        { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
+                        { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
+                        { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
+                        { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
+                    ];
+                    for (let i = zhLetters.length - 1; i >= 0; i--) {
+                        if (first.localeCompare(zhLetters[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
+                            return zhLetters[i].l;
+                        }
+                    }
+                } catch (e) {}
+            }
+            return "#";
+        }
+
         function normalizeStaticResources(lang = state.currentLang) {
             return STATIC_RESOURCES_DATA
                 .filter(item => !item.isDubious)
@@ -2325,7 +2319,7 @@
                         isRepoCard: item.isRepoCard,
                         primaryBtnText: localized.primaryBtnText,
                         _searchText: searchTokens,
-                        _domElement: null
+                        _initialLetter: extractInitialLetter(localized.name)
                     };
                 });
         }
@@ -2375,7 +2369,7 @@
                         isRepoCard: Boolean(m.isRepoCard),
                         primaryBtnText: m.primaryBtnText || "",
                         _searchText: searchTokens,
-                        _domElement: null
+                        _initialLetter: extractInitialLetter(m.name || "未命名模块")
                     };
                 });
         }
@@ -2444,16 +2438,31 @@
         }
 
         let backToTopVisible = false;
-        function updateSearchLayer() {
+        let scrollRaf = 0;
+        let lastScrollY = -1;
+
+        function updateSearchLayer(scrollY = null) {
             if (!backToTopBtn) return;
-            const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            if (scrollY == null) scrollY = window.scrollY || document.documentElement.scrollTop || 0;
             const shouldShow = scrollY > 160 && !state.isListView;
             if (shouldShow === backToTopVisible) return;
             backToTopVisible = shouldShow;
             backToTopBtn.classList.toggle("visible", shouldShow);
         }
-        
-        window.addEventListener('scroll', updateSearchLayer, { passive: true });
+
+        function scheduleScrollUpdate() {
+            if (scrollRaf) return;
+            scrollRaf = requestAnimationFrame(() => {
+                scrollRaf = 0;
+                const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+                if (scrollY !== lastScrollY) {
+                    lastScrollY = scrollY;
+                    updateSearchLayer(scrollY);
+                }
+            });
+        }
+
+        window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 
         backToTopBtn.addEventListener("click", () => {
             if (state.isListView) {
@@ -2489,123 +2498,99 @@
             }
         }
 
-        function getGridColumns() {
+        let layoutCache = {
+            columns: 0,
+            cardWidth: 0,
+            gap: 0,
+            valid: false
+        };
+
+        function invalidateLayoutCache() {
+            layoutCache.valid = false;
+        }
+
+        function getGridColumns(force = false) {
+            if (!force && layoutCache.valid && layoutCache.columns > 0) return layoutCache.columns;
             const style = window.getComputedStyle(modulesContainer);
             const template = style.getPropertyValue("grid-template-columns");
-            return template ? template.trim().split(/\s+/).length : 1;
+            const columns = template ? template.trim().split(/\s+/).length : 1;
+            layoutCache.columns = Math.max(1, columns);
+            layoutCache.valid = true;
+            return layoutCache.columns;
         }
 
-        function updateControlBarLayout() {
-            const bar = document.getElementById("controlBar");
-            if (!bar || !modulesContainer) return;
-            const columns = getGridColumns();
-            bar.classList.toggle("is-single-column", columns === 1);
+        function updateControlBarLayout(columns = null) {
+            if (!controlBarEl || !modulesContainer) return;
+            const resolvedColumns = columns || getGridColumns();
+            controlBarEl.classList.toggle("is-single-column", resolvedColumns === 1);
         }
 
-        function updateCardWidth() {
+        function updateCardWidth(columns = null) {
+            const cols = columns || getGridColumns() || 1;
             const firstCard = modulesContainer.querySelector('.module-card, .loading-card');
             let newWidth = 0;
             if (firstCard && firstCard.offsetWidth > 0) {
                 newWidth = firstCard.offsetWidth;
             } else if (modulesContainer.offsetWidth > 0) {
-                const cols = getGridColumns() || 1;
-                const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--layout-gap")) || 44;
-                const totalGap = (cols - 1) * gap;
+                if (!layoutCache.gap) {
+                    layoutCache.gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--layout-gap")) || 44;
+                }
+                const totalGap = (cols - 1) * layoutCache.gap;
                 newWidth = Math.max(0, (modulesContainer.offsetWidth - totalGap) / cols);
             }
-            if (newWidth > 0 && Math.abs(newWidth - lastCardWidthVal) > 1) {
-                lastCardWidthVal = newWidth;
-                document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
-            }
-        }
-
-        function updateCardLayerOrder() {
-            const cards = modulesContainer.querySelectorAll(".module-card, .loading-card");
-            const count = cards.length;
-            if (!count) return;
-            
-            const cols = getGridColumns() || 1;
-            for (let i = 0; i < count; i++) {
-                const r = Math.floor(i / cols);
-                const c = i % cols;
-                const z = String((r + 1) * 100 + (cols - c));
-                if (cards[i].style.zIndex !== z) {
-                    cards[i].style.zIndex = z;
+            if (newWidth > 0) {
+                layoutCache.cardWidth = newWidth;
+                if (Math.abs(newWidth - lastCardWidthVal) > 1) {
+                    lastCardWidthVal = newWidth;
+                    document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
                 }
             }
         }
 
-        let resizeTimer = null;
-        function scheduleCardLayerUpdate() {
-            clearTimeout(resizeTimer);
-            updateControlBarLayout();
-            resizeTimer = setTimeout(() => {
-                updateCardWidth();
-                updateCardLayerOrder();
-                updateControlBarLayout();
+        let layoutRaf = 0;
+        let resizeEndTimer = null;
+
+        function scheduleLayoutUpdate() {
+            invalidateLayoutCache();
+            if (layoutRaf) return;
+
+            layoutRaf = requestAnimationFrame(() => {
+                layoutRaf = 0;
+
+                const columns = getGridColumns(true) || 1;
+                updateControlBarLayout(columns);
+                updateCardWidth(columns);
+                updateAlphabetPosition();
+                if (!isTabAnimating) updateTabIndicator(false);
                 checkScrollLock();
-            }, 40);
+            });
         }
 
-        let resizeDebounceTimer = null;
         window.addEventListener("resize", () => {
             document.documentElement.classList.add("is-resizing");
-            clearTimeout(resizeDebounceTimer);
-            
             isTabAnimating = false;
-            updateControlBarLayout();
-            updateTabIndicator(false);
-            scheduleCardLayerUpdate();
-            updateAlphabetPosition();
-            
-            resizeDebounceTimer = setTimeout(() => {
+
+            clearTimeout(resizeEndTimer);
+            resizeEndTimer = setTimeout(() => {
                 document.documentElement.classList.remove("is-resizing");
-                updateControlBarLayout();
-                updateTabIndicator(false);
-                checkScrollLock();
+                scheduleLayoutUpdate();
             }, 120);
+
+            scheduleLayoutUpdate();
         }, { passive: true });
 
         if (typeof ResizeObserver !== "undefined") {
             if (modulesContainer) {
-                new ResizeObserver(() => scheduleCardLayerUpdate()).observe(modulesContainer);
+                new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
             }
             if (tabBarEl) {
-                new ResizeObserver(() => {
-                    if (!isTabAnimating) updateTabIndicator(false);
-                }).observe(tabBarEl);
+                new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
             }
-        }
-
-        function getItemInitialLetter(name) {
-            const clean = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
-            const first = clean.charAt(0);
-            if (!first) return "#";
-            if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
-            
-            if (/^[\u4e00-\u9fa5]$/.test(first)) {
-                try {
-                    const zhLetters = [
-                        { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
-                        { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
-                        { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
-                        { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
-                        { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
-                        { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
-                    ];
-                    for (let i = zhLetters.length - 1; i >= 0; i--) {
-                        if (first.localeCompare(zhLetters[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
-                            return zhLetters[i].l;
-                        }
-                    }
-                } catch (e) {}
-            }
-            return "#";
         }
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView || state.focusedModuleId;
+            const shouldActive = state.isListView;
 
             if (shouldActive) {
                 standaloneListBtn.classList.add("active");
@@ -2624,8 +2609,6 @@
             setListViewMode(false, false);
 
             searchInput.value = mod.name;
-            searchInput.blur();
-            document.body.classList.remove("has-search-focus");
             document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
@@ -2640,14 +2623,14 @@
             }
 
             state.filteredModules = [mod];
-            state.currentlyRendered = 1;
+            state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
             sentinel.style.display = "none";
 
-            mod._domElement = null;
             const singleCard = createModuleCard(mod);
             singleCard.classList.add("single-focused");
             modulesContainer.appendChild(singleCard);
+            state.currentlyRendered = 1;
 
             const langObj = I18N[state.currentLang];
             const currentLabel = langObj.countLabel[mod.category] || langObj.countLabel.more;
@@ -2656,13 +2639,20 @@
             statusDot.className = "status-dot";
 
             window.scrollTo({ top: 0, behavior: "smooth" });
-            scheduleCardLayerUpdate();
+            scheduleLayoutUpdate();
             checkScrollLock();
         }
 
         function renderAlphabetList() {
             if (!alphabetScrollArea || !alphabetFastIndex) return;
-            alphabetScrollArea.innerHTML = "";
+            
+            if (alphabetImgObserver) {
+                alphabetImgObserver.disconnect();
+            }
+
+            while (alphabetScrollArea.firstChild) {
+                alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
+            }
             
             Array.from(alphabetFastIndex.children).forEach(child => {
                 if (child !== alphabetPopupBubble) {
@@ -2674,8 +2664,8 @@
 
             let sourceList = state.allModules;
             const sorted = [...sourceList].sort((a, b) => {
-                const letterA = getItemInitialLetter(a.name);
-                const letterB = getItemInitialLetter(b.name);
+                const letterA = a._initialLetter || "#";
+                const letterB = b._initialLetter || "#";
                 if (letterA === "#" && letterB !== "#") return -1;
                 if (letterA !== "#" && letterB === "#") return 1;
                 if (letterA !== letterB) return letterA.localeCompare(letterB);
@@ -2684,7 +2674,7 @@
 
             const groups = {};
             sorted.forEach(item => {
-                const l = getItemInitialLetter(item.name);
+                const l = item._initialLetter || "#";
                 if (!groups[l]) groups[l] = [];
                 groups[l].push(item);
             });
@@ -2786,8 +2776,10 @@
         let fastIndexChars = [];
         let fastIndexCharHeight = 0;
         let fastIndexTop = 0;
+        let fastIndexHeight = 0;
         let fastIndexRightOffset = 0;
         let lastSelectedLetter = null;
+        let activeFastIndexChar = null;
 
         function prepareFastIndexGeometry() {
             if (!alphabetFastIndex) return false;
@@ -2802,20 +2794,24 @@
                 : indexRect;
 
             fastIndexTop = firstRect.top;
-            fastIndexCharHeight = firstRect.height || (indexRect.height / fastIndexChars.length);
+            fastIndexHeight = indexRect.height;
+            fastIndexCharHeight = firstRect.height || (fastIndexHeight / fastIndexChars.length);
             fastIndexRightOffset = (contentRect.right - indexRect.left) + 10;
 
-            return fastIndexCharHeight > 0;
+            return fastIndexCharHeight > 0 && fastIndexHeight > 0;
         }
 
-        function updateFastIndexSelection(clientX, clientY) {
+        let fastIndexRaf = 0;
+        let pendingFastIndexX = 0;
+        let pendingFastIndexY = 0;
+
+        function renderFastIndexSelection(clientX, clientY) {
             if (!alphabetFastIndex) return;
 
             if (!fastIndexChars.length || !fastIndexCharHeight) {
                 if (!prepareFastIndexGeometry()) return;
             }
 
-            /* 所有字母使用 flex:1，直接按等高区域计算索引，避免 touchmove 时遍历 27 个元素并反复触发布局 */
             let index = Math.floor((clientY - fastIndexTop) / fastIndexCharHeight);
             index = Math.max(0, Math.min(index, fastIndexChars.length - 1));
 
@@ -2825,26 +2821,24 @@
             const letter = charEl.dataset.letter;
             if (!letter) return;
 
-            /* 只有真正切换字母时才滚动列表和切换 active */
             if (letter !== lastSelectedLetter) {
                 lastSelectedLetter = letter;
                 scrollToAlphabetLetter(letter);
 
-                const previous = alphabetFastIndex.querySelector(".alphabet-fast-char.active");
-                if (previous && previous !== charEl) {
-                    previous.classList.remove("active");
+                if (activeFastIndexChar && activeFastIndexChar !== charEl) {
+                    activeFastIndexChar.classList.remove("active");
                 }
                 charEl.classList.add("active");
+                activeFastIndexChar = charEl;
             }
 
             if (alphabetPopupBubble) {
-                const indexRect = alphabetFastIndex.getBoundingClientRect();
-                let relativeY = clientY - indexRect.top;
+                let relativeY = clientY - fastIndexTop;
                 const bubbleHalfH = 24;
 
                 relativeY = Math.max(
                     bubbleHalfH,
-                    Math.min(relativeY, indexRect.height - bubbleHalfH)
+                    Math.min(relativeY, fastIndexHeight - bubbleHalfH)
                 );
 
                 alphabetPopupBubble.textContent = letter;
@@ -2854,7 +2848,27 @@
             }
         }
 
+        function updateFastIndexSelection(clientX, clientY, immediate = false) {
+            pendingFastIndexX = clientX;
+            pendingFastIndexY = clientY;
+
+            if (immediate) {
+                renderFastIndexSelection(clientX, clientY);
+                return;
+            }
+
+            if (fastIndexRaf) return;
+            fastIndexRaf = requestAnimationFrame(() => {
+                fastIndexRaf = 0;
+                renderFastIndexSelection(pendingFastIndexX, pendingFastIndexY);
+            });
+        }
+
         function hideFastIndexSelection() {
+            if (fastIndexRaf) {
+                cancelAnimationFrame(fastIndexRaf);
+                fastIndexRaf = 0;
+            }
             if (!isTouchingIndex) return;
 
             isTouchingIndex = false;
@@ -2864,8 +2878,10 @@
                 alphabetPopupBubble.classList.remove("visible");
             }
 
-            const active = alphabetFastIndex.querySelector(".alphabet-fast-char.active");
-            if (active) active.classList.remove("active");
+            if (activeFastIndexChar) {
+                activeFastIndexChar.classList.remove("active");
+                activeFastIndexChar = null;
+            }
         }
 
         alphabetFastIndex.addEventListener("touchstart", (e) => {
@@ -2875,7 +2891,7 @@
             e.preventDefault();
 
             const touch = e.touches[0];
-            updateFastIndexSelection(touch.clientX, touch.clientY);
+            updateFastIndexSelection(touch.clientX, touch.clientY, true);
         }, { passive: false });
 
         alphabetFastIndex.addEventListener("touchmove", (e) => {
@@ -2906,6 +2922,7 @@
 
         function updateAlphabetPosition() {
             if (!alphabetViewContainer || !standaloneListBtn || !pageContainer) return;
+            invalidateLayoutCache();
 
             const btnRect = standaloneListBtn.getBoundingClientRect();
             const containerRect = pageContainer.getBoundingClientRect();
@@ -2926,28 +2943,28 @@
 
             alphabetViewContainer.style.top = `${topPos}px`;
             alphabetViewContainer.style.bottom = `${bottomPos}px`;
-            // 左边缘始终实时与资源列表按钮的左边缘对齐
             alphabetViewContainer.style.left = `${btnRect.left}px`;
             alphabetViewContainer.style.width = `${containerRect.right - btnRect.left}px`;
 
-            /* 容器尺寸或位置改变后，下次触摸重新测量 */
             fastIndexChars = [];
             fastIndexCharHeight = 0;
+            fastIndexHeight = 0;
         }
 
         let listViewTransitionTimer = null;
+        let listViewScrollLockTimer = null;
 
         function setListViewMode(enable, restoreScroll = true) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
+            clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
                 state.wasFloatingBeforeActive = isSearchFloating();
                 state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
                 state.isListView = true;
-                state.focusedModuleId = null;
 
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
@@ -2966,7 +2983,8 @@
                     }
                 }, 320);
 
-                setTimeout(() => {
+                listViewScrollLockTimer = setTimeout(() => {
+                    listViewScrollLockTimer = null;
                     if (state.isListView) {
                         checkScrollLock();
                     }
@@ -2980,7 +2998,7 @@
                 document.body.style.minHeight = "";
                 
                 checkScrollLock();
-                scheduleCardLayerUpdate();
+                scheduleLayoutUpdate();
 
                 if (restoreScroll && !state.wasFloatingBeforeActive) {
                     const targetScrollY = Math.max(0, state.listViewReturnScrollY);
@@ -3012,30 +3030,9 @@
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const hasText = searchInput.value.length > 0;
 
             if (state.isListView) {
                 setListViewMode(false);
-            } else if (hasText || state.focusedModuleId) {
-                state.focusedModuleId = null;
-                searchInput.value = "";
-                searchInput.blur();
-                document.body.classList.remove("has-search-focus");
-                setListViewMode(false);
-                
-                state.activeTab = "module";
-                tabItems.forEach(t => {
-                    const isActive = t.getAttribute("data-tab") === "module";
-                    t.classList.toggle("active", isActive);
-                    t.setAttribute("aria-selected", isActive ? "true" : "false");
-                });
-                updateTabIndicator(true);
-
-                filterModules();
-                if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
-                    statusText.textContent = I18N[state.currentLang][state.statusKey];
-                }
-                updateStandaloneButtonState();
             } else {
                 ignoreNextClick = true;
                 searchInput.blur();
@@ -3045,11 +3042,18 @@
 
         searchClearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
+            
+            state.focusedModuleId = null;
             searchInput.value = "";
-            document.body.classList.remove("has-search-text");
+            document.body.classList.remove("has-search-text", "has-search-focus");
+            
             filterModules();
             updateStandaloneButtonState();
-            searchInput.focus();
+            
+            if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
+                statusText.textContent = I18N[state.currentLang][state.statusKey];
+            }
+            statusDot.className = "status-dot";
         });
 
         searchBoxInner.addEventListener("click", (e) => {
@@ -3085,34 +3089,7 @@
             return `<span class="author">${avatarHTML}${escapeHTML(authorName)}</span>`;
         }
 
-        function autoFitModuleName(nameElement) {
-            if (!nameElement) return;
-            nameElement.style.fontSize = '18px';
-            nameElement.style.letterSpacing = '-0.2px';
-            
-            if (nameElement.scrollWidth > nameElement.clientWidth) {
-                nameElement.style.fontSize = '16px';
-                nameElement.style.letterSpacing = '-0.4px';
-            }
-            if (nameElement.scrollWidth > nameElement.clientWidth) {
-                nameElement.style.fontSize = '14.5px';
-                nameElement.style.letterSpacing = '-0.6px';
-            }
-            if (nameElement.scrollWidth > nameElement.clientWidth) {
-                nameElement.style.fontSize = '13px';
-                nameElement.style.letterSpacing = '-0.8px';
-            }
-        }
-
         function createModuleCard(module) {
-            if (module._domElement) {
-                requestAnimationFrame(() => {
-                    const nameEl = module._domElement.querySelector('.module-name');
-                    autoFitModuleName(nameEl);
-                });
-                return module._domElement;
-            }
-
             const langObj = I18N[state.currentLang];
             const card = document.createElement("article");
             card.className = "module-card glass-element";
@@ -3184,11 +3161,6 @@
                     </div>
                 </div>
             `;
-            
-            const nameEl = card.querySelector(".module-name");
-            requestAnimationFrame(() => {
-                autoFitModuleName(nameEl);
-            });
 
             const copyBtn = card.querySelector(".copy-btn");
             if (copyBtn) {
@@ -3212,7 +3184,6 @@
             bindImageError(card.querySelector(".module-icon img"), fallbackIcon);
             bindImageError(card.querySelector(".author-avatar"), null);
 
-            module._domElement = card;
             return card;
         }
 
@@ -3235,24 +3206,51 @@
             sentinel.style.display = state.currentlyRendered >= state.filteredModules.length ? "none" : "block";
             
             updateCardWidth();
-            updateCardLayerOrder();
             updateSearchLayer();
             checkScrollLock();
         }
 
         function renderFilteredList(list, customLabel = null) {
+            const langObj = I18N[state.currentLang];
+
+            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
+            if (state.isInitialLoading) {
+                sentinel.style.display = "none";
+                countText.textContent = "";
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <span class="status-dot loading" style="width: 14px; height: 14px;"></span>
+                        </div>
+                        ${escapeHTML(langObj.loadingText)}
+                    </div>
+                `;
+                scheduleLayoutUpdate();
+                checkScrollLock();
+                return;
+            }
+
             state.filteredModules = list;
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
 
-            const langObj = I18N[state.currentLang];
             const currentLabel = customLabel || langObj.countLabel[state.activeTab] || langObj.countLabel.more;
 
             if (!state.filteredModules.length) {
                 sentinel.style.display = "none";
-                modulesContainer.innerHTML = `<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg></div>${escapeHTML(langObj.emptyText(currentLabel))}</div>`;
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="6.5"></circle>
+                                <path d="m16 16 4.5 4.5"></path>
+                            </svg>
+                        </div>
+                        ${escapeHTML(langObj.emptyText(currentLabel))}
+                    </div>
+                `;
                 countText.textContent = langObj.countText(0, currentLabel);
-                scheduleCardLayerUpdate();
+                scheduleLayoutUpdate();
                 checkScrollLock();
                 return;
             }
@@ -3262,13 +3260,19 @@
         }
 
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
+            if (entries[0].isIntersecting && !state.isInitialLoading && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
                 appendNextBatch();
             }
         }, { rootMargin: "300px" });
         observer.observe(sentinel);
 
         function filterModules() {
+            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
+            if (state.isInitialLoading) {
+                renderFilteredList([]);
+                return;
+            }
+
             const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
@@ -3575,9 +3579,8 @@
             state.allModules = [...staticItems, ...dynamicItems];
 
             state.isAlphabetRendered = false;
-            state.allModules.forEach(m => { m._domElement = null; });
+            
             filterModules();
-            scheduleAlphabetPreRender();
 
             requestAnimationFrame(() => updateTabIndicator(false));
         }
@@ -3799,6 +3802,8 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
+                            state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
@@ -3808,7 +3813,6 @@
                                 state.statusKey = "statusReady";
                                 statusText.textContent = langObj.statusReady;
                                 statusDot.className = "status-dot";
-                                state.isDataLoading = false;
                                 return true;
                             }
 
@@ -3823,11 +3827,6 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                state.allModules = staticItems;
-                state.isAlphabetRendered = false;
-                filterModules();
-                setSearchState(false);
-                scheduleAlphabetPreRender();
                 state.statusKey = "statusFetchingStatic";
                 statusText.textContent = langObj.statusFetchingStatic;
                 statusDot.className = "status-dot loading";
@@ -3848,6 +3847,9 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
+                state.isInitialLoading = false; // 远程数据就绪，解除锁定
+                state.isDataLoading = false;
+                
                 filterModules();
                 setSearchState(true);
                 scheduleAlphabetPreRender();
@@ -3863,12 +3865,15 @@
                 return true;
             } catch (error) {
                 console.error("加载 modules.json 失败:", error);
+                state.isInitialLoading = false; 
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
                     state.statusKey = "statusErrorCache";
                     statusText.textContent = langObj.statusErrorCache;
                     statusDot.className = "status-dot error";
                 } else {
+                    state.allModules = staticItems;
+                    filterModules();
                     setSearchState(true);
                     state.statusKey = "statusErrorStatic";
                     statusText.textContent = langObj.statusErrorStatic;
