@@ -283,6 +283,8 @@
             border-left: 1px solid var(--glass-border-l);
             border-right: 1px solid var(--glass-border-r);
             border-bottom: 1px solid var(--glass-border-b);
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .glass-element {
@@ -982,7 +984,9 @@
         
         .module-icon { 
             width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; 
-            background: transparent; overflow: hidden; 
+            background: var(--bg-surface); 
+            aspect-ratio: 1/1;
+            overflow: hidden; 
             box-shadow: 0 6px 16px rgba(0,0,0,0.12); 
             border: none; 
             -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -1108,7 +1112,7 @@
             overflow: visible;
             transition: 
                 transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
         [data-theme="dark"] .button-secondary {
@@ -1355,6 +1359,8 @@
             border-bottom: 1px solid var(--glass-border-b);
             pointer-events: auto;
             overflow: hidden;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-main-card {
@@ -1534,6 +1540,8 @@
             -webkit-user-select: none;
             touch-action: none;
             pointer-events: auto;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         [data-theme="dark"] .alphabet-fast-index {
@@ -1557,7 +1565,7 @@
             font-weight: 600;
             color: var(--text-tertiary);
             cursor: pointer;
-            transition: color 0.15s ease, transform 0.15s ease;
+            transition: color 0.15s ease;
             white-space: nowrap;
         }
 
@@ -1574,12 +1582,17 @@
             }
         }
 
-        .alphabet-fast-char:hover,
         .alphabet-fast-char.active {
             color: var(--primary);
-            transform: scale(1.3);
             font-weight: 700;
         }
+
+        @media (hover: hover) and (pointer: fine) {
+            .alphabet-fast-char:hover:not(.disabled) {
+                color: var(--primary);
+            }
+        }
+
         .alphabet-fast-char.disabled {
             opacity: 0.22;
             cursor: default;
@@ -1933,7 +1946,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609052135"; 
+        const CACHE_VERSION = "202609051800"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/modules.json", 
@@ -1952,7 +1965,7 @@
                 searchPlaceholderReady: "输入关键字全局搜索...",
                 notice1: "相关资源均来源于开源社区",
                 notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "关闭列表",
+                searchClearTitle: "清空搜索",
                 backToTopTitle: "返回顶部",
                 searchInputAria: "搜索资源",
                 statusSyncing: "正在同步资源索引...",
@@ -1965,6 +1978,7 @@
                 countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
                 countText: (count, label) => `${count} 个${label}`,
                 emptyText: (label) => `没有找到匹配的${label}`,
+                loadingText: "正在同步资源，请稍候...",
                 ptrContinue: "继续下拉将强制刷新本站",
                 ptrRelease: "松开将立即强制刷新本站",
                 ptrRefreshing: "正在强制刷新本站...",
@@ -2013,6 +2027,7 @@
                 countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
                 countText: (count, label) => `${count} ${label}`,
                 emptyText: (label) => `No matching ${label.toLowerCase()} found`,
+                loadingText: "Syncing resources, please wait...",
                 ptrContinue: "Pull down to force refresh",
                 ptrRelease: "Release to force refresh",
                 ptrRefreshing: "Force refreshing...",
@@ -2150,7 +2165,8 @@
             rawNetworkData: [],
             filteredModules: [],
             currentlyRendered: 0,
-            isDataLoading: false,
+            isInitialLoading: true, 
+            isDataLoading: true,
             isPullRefreshing: false,
             isListView: false,
             focusedModuleId: null,
@@ -2574,7 +2590,7 @@
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView || state.focusedModuleId;
+            const shouldActive = state.isListView;
 
             if (shouldActive) {
                 standaloneListBtn.classList.add("active");
@@ -2593,8 +2609,6 @@
             setListViewMode(false, false);
 
             searchInput.value = mod.name;
-            searchInput.blur();
-            document.body.classList.remove("has-search-focus");
             document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
@@ -2609,13 +2623,14 @@
             }
 
             state.filteredModules = [mod];
-            state.currentlyRendered = 1;
+            state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
             sentinel.style.display = "none";
 
             const singleCard = createModuleCard(mod);
             singleCard.classList.add("single-focused");
             modulesContainer.appendChild(singleCard);
+            state.currentlyRendered = 1;
 
             const langObj = I18N[state.currentLang];
             const currentLabel = langObj.countLabel[mod.category] || langObj.countLabel.more;
@@ -2635,7 +2650,9 @@
                 alphabetImgObserver.disconnect();
             }
 
-            alphabetScrollArea.innerHTML = "";
+            while (alphabetScrollArea.firstChild) {
+                alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
+            }
             
             Array.from(alphabetFastIndex.children).forEach(child => {
                 if (child !== alphabetPopupBubble) {
@@ -2948,7 +2965,6 @@
                 state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
                 state.isListView = true;
-                state.focusedModuleId = null;
 
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
@@ -3014,30 +3030,9 @@
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const hasText = searchInput.value.length > 0;
 
             if (state.isListView) {
                 setListViewMode(false);
-            } else if (hasText || state.focusedModuleId) {
-                state.focusedModuleId = null;
-                searchInput.value = "";
-                searchInput.blur();
-                document.body.classList.remove("has-search-focus");
-                setListViewMode(false);
-                
-                state.activeTab = "module";
-                tabItems.forEach(t => {
-                    const isActive = t.getAttribute("data-tab") === "module";
-                    t.classList.toggle("active", isActive);
-                    t.setAttribute("aria-selected", isActive ? "true" : "false");
-                });
-                updateTabIndicator(true);
-
-                filterModules();
-                if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
-                    statusText.textContent = I18N[state.currentLang][state.statusKey];
-                }
-                updateStandaloneButtonState();
             } else {
                 ignoreNextClick = true;
                 searchInput.blur();
@@ -3047,11 +3042,18 @@
 
         searchClearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
+            
+            state.focusedModuleId = null;
             searchInput.value = "";
-            document.body.classList.remove("has-search-text");
+            document.body.classList.remove("has-search-text", "has-search-focus");
+            
             filterModules();
             updateStandaloneButtonState();
-            searchInput.focus();
+            
+            if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
+                statusText.textContent = I18N[state.currentLang][state.statusKey];
+            }
+            statusDot.className = "status-dot";
         });
 
         searchBoxInner.addEventListener("click", (e) => {
@@ -3209,16 +3211,44 @@
         }
 
         function renderFilteredList(list, customLabel = null) {
+            const langObj = I18N[state.currentLang];
+
+            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
+            if (state.isInitialLoading) {
+                sentinel.style.display = "none";
+                countText.textContent = "";
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <span class="status-dot loading" style="width: 14px; height: 14px;"></span>
+                        </div>
+                        ${escapeHTML(langObj.loadingText)}
+                    </div>
+                `;
+                scheduleLayoutUpdate();
+                checkScrollLock();
+                return;
+            }
+
             state.filteredModules = list;
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
 
-            const langObj = I18N[state.currentLang];
             const currentLabel = customLabel || langObj.countLabel[state.activeTab] || langObj.countLabel.more;
 
             if (!state.filteredModules.length) {
                 sentinel.style.display = "none";
-                modulesContainer.innerHTML = `<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg></div>${escapeHTML(langObj.emptyText(currentLabel))}</div>`;
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="6.5"></circle>
+                                <path d="m16 16 4.5 4.5"></path>
+                            </svg>
+                        </div>
+                        ${escapeHTML(langObj.emptyText(currentLabel))}
+                    </div>
+                `;
                 countText.textContent = langObj.countText(0, currentLabel);
                 scheduleLayoutUpdate();
                 checkScrollLock();
@@ -3230,13 +3260,19 @@
         }
 
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
+            if (entries[0].isIntersecting && !state.isInitialLoading && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
                 appendNextBatch();
             }
         }, { rootMargin: "300px" });
         observer.observe(sentinel);
 
         function filterModules() {
+            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
+            if (state.isInitialLoading) {
+                renderFilteredList([]);
+                return;
+            }
+
             const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
@@ -3543,8 +3579,8 @@
             state.allModules = [...staticItems, ...dynamicItems];
 
             state.isAlphabetRendered = false;
+            
             filterModules();
-            scheduleAlphabetPreRender();
 
             requestAnimationFrame(() => updateTabIndicator(false));
         }
@@ -3766,6 +3802,8 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
+                            state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
@@ -3775,7 +3813,6 @@
                                 state.statusKey = "statusReady";
                                 statusText.textContent = langObj.statusReady;
                                 statusDot.className = "status-dot";
-                                state.isDataLoading = false;
                                 return true;
                             }
 
@@ -3790,11 +3827,6 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                state.allModules = staticItems;
-                state.isAlphabetRendered = false;
-                filterModules();
-                setSearchState(false);
-                scheduleAlphabetPreRender();
                 state.statusKey = "statusFetchingStatic";
                 statusText.textContent = langObj.statusFetchingStatic;
                 statusDot.className = "status-dot loading";
@@ -3815,6 +3847,9 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
+                state.isInitialLoading = false; // 远程数据就绪，解除锁定
+                state.isDataLoading = false;
+                
                 filterModules();
                 setSearchState(true);
                 scheduleAlphabetPreRender();
@@ -3830,12 +3865,15 @@
                 return true;
             } catch (error) {
                 console.error("加载 modules.json 失败:", error);
+                state.isInitialLoading = false; 
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
                     state.statusKey = "statusErrorCache";
                     statusText.textContent = langObj.statusErrorCache;
                     statusDot.className = "status-dot error";
                 } else {
+                    state.allModules = staticItems;
+                    filterModules();
                     setSearchState(true);
                     state.statusKey = "statusErrorStatic";
                     statusText.textContent = langObj.statusErrorStatic;
