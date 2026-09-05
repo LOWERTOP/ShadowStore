@@ -22,14 +22,13 @@
 
 ## 🙏 数据来源
 
-本仓仅以前端网页的方式保存 [ShadowStore](https://shadowstore.dpdns.org/) 的交互界面，后台数据保存于 **[配色与配置](https://github.com/LOWERTOP/Shadowrocket-First/)** 仓库，以 [自动化工作流](https://github.com/LOWERTOP/Shadowrocket-First/actions/workflows/sync-modules.yml) 的方式自动运行。
+本仓仅以前端网页的方式保存 [ShadowStore](https://shadowstore.dpdns.org/) 的交互界面，后台数据以自动化工作流的方式自动运行。
 
 [ShadowStore](https://shadowstore.dpdns.org/) 的存在完全建立在广大开源作者的无私奉献之上，特别致谢以下核心项目、模块资源、图标资源贡献者：
 
 * 主要资源来源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
 * 主要资源来源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
 * 备选图标来源：[luestr/IconResource](https://github.com/luestr/IconResource)
-* 后台数据仓库：[Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
 * 以及所有在开源社区中贡献规则与脚本的创作者们。
 
 ---
