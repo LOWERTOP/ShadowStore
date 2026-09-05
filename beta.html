@@ -1970,6 +1970,7 @@
                 countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
                 countText: (count, label) => `${count} 个${label}`,
                 emptyText: (label) => `没有找到匹配的${label}`,
+                loadingPlaceholder: "正在加载资源列表，请稍候...",
                 ptrContinue: "继续下拉将强制刷新本站",
                 ptrRelease: "松开将立即强制刷新本站",
                 ptrRefreshing: "正在强制刷新本站...",
@@ -2018,6 +2019,7 @@
                 countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
                 countText: (count, label) => `${count} ${label}`,
                 emptyText: (label) => `No matching ${label.toLowerCase()} found`,
+                loadingPlaceholder: "Loading resources, please wait...",
                 ptrContinue: "Pull down to force refresh",
                 ptrRelease: "Release to force refresh",
                 ptrRefreshing: "Force refreshing...",
@@ -2155,7 +2157,8 @@
             rawNetworkData: [],
             filteredModules: [],
             currentlyRendered: 0,
-            isDataLoading: false,
+            isInitialLoading: true, // 核心修复：初始数据未就绪前保持为 true
+            isDataLoading: true,
             isPullRefreshing: false,
             isListView: false,
             focusedModuleId: null,
@@ -2579,7 +2582,6 @@
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            // 资源列表按钮仅在抽屉展开时显示为 × 图标
             const shouldActive = state.isListView;
 
             if (shouldActive) {
@@ -2591,22 +2593,18 @@
                 standaloneListBtn.setAttribute("title", "资源列表");
                 standaloneListBtn.setAttribute("aria-label", "资源列表");
             }
-            // 搜索框有输入（包括定位填入）时显示清空按钮 ×
             document.body.classList.toggle("has-search-text", hasText);
         }
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
             
-            // 1. 关闭字母列表视图，并重置列表按钮状态
             setListViewMode(false, false);
 
-            // 2. 将资源名称填入搜索框并激活有文字状态（使清空按钮 × 呈现）
             searchInput.value = mod.name;
             document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
-            // 3. 同步切换到对应的分类 Tab
             if (state.activeTab !== mod.category) {
                 state.activeTab = mod.category;
                 tabItems.forEach(t => {
@@ -2617,7 +2615,6 @@
                 updateTabIndicator(true);
             }
 
-            // 4. 精准渲染单张卡片
             state.filteredModules = [mod];
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
@@ -3037,7 +3034,6 @@
         searchClearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             
-            // 彻底清除单项聚焦与输入框文字，返回分类默认主页面
             state.focusedModuleId = null;
             searchInput.value = "";
             document.body.classList.remove("has-search-text", "has-search-focus");
@@ -3206,6 +3202,11 @@
         }
 
         function renderFilteredList(list, customLabel = null) {
+            // 核心修复：如果是初次打开且数据尚未就绪，严禁覆盖骨架屏并显示“未找到”，直接退出
+            if (state.isInitialLoading) {
+                return;
+            }
+
             state.filteredModules = list;
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
@@ -3215,7 +3216,17 @@
 
             if (!state.filteredModules.length) {
                 sentinel.style.display = "none";
-                modulesContainer.innerHTML = `<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg></div>${escapeHTML(langObj.emptyText(currentLabel))}</div>`;
+                modulesContainer.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="6.5"></circle>
+                                <path d="m16 16 4.5 4.5"></path>
+                            </svg>
+                        </div>
+                        ${escapeHTML(langObj.emptyText(currentLabel))}
+                    </div>
+                `;
                 countText.textContent = langObj.countText(0, currentLabel);
                 scheduleLayoutUpdate();
                 checkScrollLock();
@@ -3227,13 +3238,15 @@
         }
 
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
+            if (entries[0].isIntersecting && !state.isInitialLoading && !state.isDataLoading && !state.isListView && !state.focusedModuleId) {
                 appendNextBatch();
             }
         }, { rootMargin: "300px" });
         observer.observe(sentinel);
 
         function filterModules() {
+            if (state.isInitialLoading) return;
+
             const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
@@ -3540,8 +3553,12 @@
             state.allModules = [...staticItems, ...dynamicItems];
 
             state.isAlphabetRendered = false;
-            filterModules();
-            scheduleAlphabetPreRender();
+            
+            // 核心修复：仅当非初始骨架屏阶段才触发 filterModules
+            if (!state.isInitialLoading) {
+                filterModules();
+                scheduleAlphabetPreRender();
+            }
 
             requestAnimationFrame(() => updateTabIndicator(false));
         }
@@ -3763,6 +3780,8 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
+                            state.isInitialLoading = false; // 缓存可用，立刻解除保护
+                            state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
@@ -3772,7 +3791,6 @@
                                 state.statusKey = "statusReady";
                                 statusText.textContent = langObj.statusReady;
                                 statusDot.className = "status-dot";
-                                state.isDataLoading = false;
                                 return true;
                             }
 
@@ -3787,11 +3805,7 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                state.allModules = staticItems;
-                state.isAlphabetRendered = false;
-                filterModules();
-                setSearchState(false);
-                scheduleAlphabetPreRender();
+                // 没有有效缓存，保持骨架屏，更新状态提示
                 state.statusKey = "statusFetchingStatic";
                 statusText.textContent = langObj.statusFetchingStatic;
                 statusDot.className = "status-dot loading";
@@ -3812,7 +3826,10 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                filterModules();
+                state.isInitialLoading = false; // 网络拉取完毕，正式解除加载保护
+                state.isDataLoading = false;
+                
+                filterModules(); // 此时真正将数据替换进骨架屏
                 setSearchState(true);
                 scheduleAlphabetPreRender();
 
@@ -3827,12 +3844,15 @@
                 return true;
             } catch (error) {
                 console.error("加载 modules.json 失败:", error);
+                state.isInitialLoading = false; // 即使失败也要解除骨架屏保护，展示静态兜底数据
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
                     state.statusKey = "statusErrorCache";
                     statusText.textContent = langObj.statusErrorCache;
                     statusDot.className = "status-dot error";
                 } else {
+                    state.allModules = staticItems;
+                    filterModules();
                     setSearchState(true);
                     state.statusKey = "statusErrorStatic";
                     statusText.textContent = langObj.statusErrorStatic;
