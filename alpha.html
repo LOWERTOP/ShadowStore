@@ -504,6 +504,24 @@
             transition: margin-bottom 0.35s ease;
         }
 
+        /* iOS 键盘弹出时，已吸顶的控制栏临时脱离 sticky，避免 Safari 重新计算 sticky 位置。 */
+        .control-bar.is-keyboard-fixed {
+            position: fixed !important;
+            top: var(--keyboard-fixed-top, 12px) !important;
+            left: var(--keyboard-fixed-left, 16px) !important;
+            width: var(--keyboard-fixed-width, calc(100% - 32px)) !important;
+            margin-bottom: 0 !important;
+        }
+
+        .keyboard-fixed-spacer {
+            display: block;
+            width: 100%;
+            height: var(--keyboard-spacer-height, 60px);
+            flex: 0 0 auto;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
         .tab-bar-wrapper {
             width: 100%;
             min-width: 0;
@@ -2562,27 +2580,15 @@
                 updateCardWidth(columns);
                 updateAlphabetPosition();
                 if (!isTabAnimating) updateTabIndicator(false);
-                checkScrollLock();
+
+                // 键盘启动期间不要因为 viewport 变小而重新切换 html.no-scroll。
+                if (!searchKeyboardFixed) {
+                    checkScrollLock();
+                }
             });
         }
 
-        let lastViewportHeight = window.innerHeight;
-
         window.addEventListener("resize", () => {
-            const currentHeight = window.innerHeight;
-            const activeSearch = document.activeElement === searchInput;
-            const searchWasFloating = activeSearch && !state.isListView && isSearchFloating();
-
-            // iOS 键盘出现/收起时，resize 主要反映 Visual Viewport 高度变化。
-            // 搜索框已经停靠顶部且正在输入时，不重新做整套页面布局，
-            // 避免 sticky + viewport resize 触发 Safari 的二次滚动定位。
-            if (searchWasFloating && Math.abs(currentHeight - lastViewportHeight) > 80) {
-                lastViewportHeight = currentHeight;
-                return;
-            }
-
-            lastViewportHeight = currentHeight;
-
             document.documentElement.classList.add("is-resizing");
             isTabAnimating = false;
 
@@ -3072,15 +3078,91 @@
             statusDot.className = "status-dot";
         });
 
+        /*
+         * iOS 键盘聚焦隔离：
+         * - 仅针对已经吸顶的搜索框。
+         * - 在浏览器真正处理 focus 前，将 sticky 控制栏改成同位置 fixed。
+         * - 插入等高占位，保持下面内容在文档流中的原位置。
+         * - 不使用 scrollTo 追着 Safari 的键盘滚动纠正，因此不会与 Safari 抢滚动控制权。
+         * - 未吸顶时继续使用原有 floatSearchToTarget(true) 行为。
+         */
+        const isIOSKeyboardDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        let searchKeyboardFixed = false;
+        let searchKeyboardSpacer = null;
+        let searchKeyboardRestoreTimer = 0;
+
+        function shouldUseSearchKeyboardIsolation() {
+            return isIOSKeyboardDevice &&
+                !state.isListView &&
+                !!searchInput &&
+                !searchInput.disabled &&
+                isSearchFloating();
+        }
+
+        function activateSearchKeyboardIsolation() {
+            if (!controlBarEl || !shouldUseSearchKeyboardIsolation() || searchKeyboardFixed) return;
+
+            clearTimeout(searchKeyboardRestoreTimer);
+
+            const rect = controlBarEl.getBoundingClientRect();
+            const computed = window.getComputedStyle(controlBarEl);
+            const marginBottom = parseFloat(computed.marginBottom) || 0;
+            const occupiedHeight = Math.max(0, rect.height + marginBottom);
+
+            searchKeyboardSpacer = document.createElement("div");
+            searchKeyboardSpacer.className = "keyboard-fixed-spacer";
+            searchKeyboardSpacer.style.setProperty("--keyboard-spacer-height", `${occupiedHeight}px`);
+            searchKeyboardSpacer.style.height = `${occupiedHeight}px`;
+            searchKeyboardSpacer.setAttribute("aria-hidden", "true");
+            controlBarEl.parentNode.insertBefore(searchKeyboardSpacer, controlBarEl);
+
+            controlBarEl.style.setProperty("--keyboard-fixed-top", `${rect.top}px`);
+            controlBarEl.style.setProperty("--keyboard-fixed-left", `${rect.left}px`);
+            controlBarEl.style.setProperty("--keyboard-fixed-width", `${rect.width}px`);
+            controlBarEl.classList.add("is-keyboard-fixed");
+            searchKeyboardFixed = true;
+        }
+
+        function deactivateSearchKeyboardIsolation() {
+            if (!searchKeyboardFixed || !controlBarEl) return;
+
+            controlBarEl.classList.remove("is-keyboard-fixed");
+            controlBarEl.style.removeProperty("--keyboard-fixed-top");
+            controlBarEl.style.removeProperty("--keyboard-fixed-left");
+            controlBarEl.style.removeProperty("--keyboard-fixed-width");
+
+            if (searchKeyboardSpacer && searchKeyboardSpacer.parentNode) {
+                searchKeyboardSpacer.parentNode.removeChild(searchKeyboardSpacer);
+            }
+            searchKeyboardSpacer = null;
+            searchKeyboardFixed = false;
+        }
+
+        function scheduleSearchKeyboardIsolationRestore() {
+            clearTimeout(searchKeyboardRestoreTimer);
+            if (!searchKeyboardFixed) return;
+            searchKeyboardRestoreTimer = setTimeout(() => {
+                if (document.activeElement !== searchInput) {
+                    deactivateSearchKeyboardIsolation();
+                }
+            }, 280);
+        }
+
+        searchBoxInner.addEventListener("touchstart", (e) => {
+            if (e.target.closest("#searchClearBtn")) return;
+
+            // 必须在 iOS 开始自动 focus / 弹键盘之前完成。
+            activateSearchKeyboardIsolation();
+        }, { passive: true });
+
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
 
-            // 已经上浮到顶部时：不要再执行任何页面定位逻辑。
-            // 让 input 直接获得焦点，由 iOS 自己处理键盘展示。
-            const wasFloating = !state.isListView && isSearchFloating();
-
             if (document.activeElement !== searchInput) {
-                searchInput.focus({ preventScroll: wasFloating });
+                // 兼容某些 iOS 场景下 touchstart 未经过目标元素的情况。
+                activateSearchKeyboardIsolation();
+                searchInput.focus({ preventScroll: true });
             }
         });
 
@@ -3091,14 +3173,17 @@
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
             } else if (!isSearchFloating()) {
-                // 尚未上浮：保持原有行为，点击搜索框后平滑上浮。
+                // 尚未吸顶：保持原来的平滑上浮逻辑。
                 floatSearchToTarget(true);
+            } else if (isIOSKeyboardDevice) {
+                // 已经吸顶：不再调用任何 scrollTo；只确保 sticky 已被隔离。
+                activateSearchKeyboardIsolation();
             }
-            // 已经上浮：这里只进入输入状态，绝不再次触发滚动。
         });
 
         searchInput.addEventListener("blur", () => {
             document.body.classList.remove("has-search-focus");
+            scheduleSearchKeyboardIsolationRestore();
         });
 
         function renderAuthor(module) {
