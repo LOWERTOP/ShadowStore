@@ -809,35 +809,17 @@
         }
         
         .input-wrapper {
-            position: relative; 
-            flex: 1; 
-            min-width: 0;
-            height: 44px; 
-            margin: -6px 0;
-            overflow: hidden; 
+            position: relative; flex: 1; min-width: 0;
+            height: 32px; overflow: hidden; 
             display: block;
         }
 
         .search { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            display: block; 
-            line-height: 44px;
-            padding: 0; 
-            margin: 0; 
-            border: 0; 
-            outline: none; 
-            background: transparent;
-            color: var(--text-primary); 
-            font-size: 15px; 
-            font-weight: 400; 
-            vertical-align: middle;
-            -webkit-appearance: none; 
-            appearance: none; 
-            border-radius: 0;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: block; line-height: 32px;
+            padding: 0; margin: 0; border: 0; outline: none; background: transparent;
+            color: var(--text-primary); font-size: 15px; font-weight: 400; vertical-align: middle;
+            -webkit-appearance: none; appearance: none; border-radius: 0;
             z-index: 2;
             cursor: text;
             text-shadow: none; 
@@ -846,40 +828,12 @@
         .search::placeholder { color: transparent; }
         .search:disabled { cursor: not-allowed; }
 
-        .placeholder-track {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%;
-            height: 100%;
-            display: flex; 
-            flex-direction: column;
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 1; 
-            pointer-events: none;
-        }
-        
+        /* 公告完全隔离实验版：公告不再创建独立滚动层、不使用 transform、不启动定时器。 */
         .placeholder-item {
-            height: 44px; 
-            line-height: 44px;
-            color: var(--text-tertiary); 
-            font-size: 15px; 
-            font-weight: 300;
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            white-space: nowrap;
-            text-shadow: none; 
-        }
-
-        .search:focus ~ .placeholder-track,
-        .search:not(:placeholder-shown) ~ .placeholder-track {
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-        
-        .search:not(:focus):placeholder-shown ~ .placeholder-track {
-            opacity: 1;
-            transition: opacity 0.3s ease 0.1s;
+            position: absolute; top: 0; left: 0; width: 100%; height: 32px; line-height: 32px;
+            color: var(--text-tertiary); font-size: 15px; font-weight: 300;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            text-shadow: none; pointer-events: none; z-index: 1;
         }
 
         .search-shortcut { 
@@ -1917,11 +1871,7 @@
                     <div class="input-wrapper">
                         <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索模块">
                         
-                        <div id="placeholderTrack" class="placeholder-track">
-                            <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
-                            <div class="placeholder-item notice-item-1">相关资源均来源于开源社区</div>
-                            <div class="placeholder-item notice-item-2">所有权利责任归原作者所有</div>
-                        </div>
+                        <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
                     </div>
 
                     <span class="search-shortcut">/</span>
@@ -1975,10 +1925,10 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609051800"; 
+        const CACHE_VERSION = "202609061408"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "modules.json", 
+            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/refs/heads/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
@@ -2163,7 +2113,6 @@
         const countText = document.getElementById("countText");
         const toast = document.getElementById("toast");
         const sentinel = document.getElementById("sentinel");
-        const noticeTrack = document.getElementById("placeholderTrack");
 
         const pageContainer = document.getElementById("pageContainer");
         const pullRefreshIndicator = document.getElementById("pullRefreshIndicator");
@@ -3085,38 +3034,83 @@
             statusDot.className = "status-dot";
         });
 
-        searchBoxInner.addEventListener("touchstart", (e) => {
-            if (e.target.closest("#searchClearBtn")) return;
-            if (e.target !== searchInput) {
-                e.preventDefault();
-                try {
-                    searchInput.focus({ preventScroll: true });
-                } catch (err) {
-                    searchInput.focus();
-                }
+        // iOS Safari 在 sticky 元素上获得焦点时，可能再次执行一次“将输入框滚入可视区域”的原生滚动，
+        // 即使 focus({ preventScroll: true }) 也可能出现延迟滚动。这里仅在搜索框已经上浮时锁住当前页面位置，
+        // 不改变正常的搜索框上浮逻辑，也不影响键盘弹出。
+        let searchFocusScrollY = null;
+        let searchFocusRestoreRaf1 = 0;
+        let searchFocusRestoreRaf2 = 0;
+
+        function lockSearchFocusScroll() {
+            if (!isSearchFloating()) {
+                searchFocusScrollY = null;
+                return;
             }
-        }, { passive: false });
+
+            searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+            cancelAnimationFrame(searchFocusRestoreRaf1);
+            cancelAnimationFrame(searchFocusRestoreRaf2);
+
+            const restore = () => {
+                if (searchFocusScrollY == null || state.isListView) return;
+                window.scrollTo(0, searchFocusScrollY);
+            };
+
+            searchFocusRestoreRaf1 = requestAnimationFrame(() => {
+                restore();
+                searchFocusRestoreRaf2 = requestAnimationFrame(() => {
+                    restore();
+                    searchFocusScrollY = null;
+                });
+            });
+        }
+
+        searchBoxInner.addEventListener("touchstart", () => {
+            if (!state.isListView && isSearchFloating()) {
+                searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            }
+        }, { passive: true });
 
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
-            if (e.target !== searchInput && document.activeElement !== searchInput) {
-                try {
+
+            const wasFloating = !state.isListView && isSearchFloating();
+            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+            if (document.activeElement !== searchInput) {
+                if (wasFloating) {
+                    searchFocusScrollY = currentScrollY;
                     searchInput.focus({ preventScroll: true });
-                } catch (err) {
-                    searchInput.focus();
+                } else {
+                    searchInput.focus({ preventScroll: true });
                 }
+            }
+
+            // iOS 可能在 focus/click 后异步调整页面滚动；已经上浮时始终恢复到点击前的位置。
+            if (wasFloating) {
+                const restore = () => {
+                    if (state.isListView) return;
+                    window.scrollTo(0, currentScrollY);
+                };
+                requestAnimationFrame(() => {
+                    restore();
+                    requestAnimationFrame(restore);
+                });
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
+
             if (state.isListView) {
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
+            } else if (!isSearchFloating()) {
+                floatSearchToTarget(true);
             } else {
-                if (!isSearchFloating()) {
-                    floatSearchToTarget(false);
-                }
+                // 已经处于顶部时，focus 只负责进入输入状态，绝不再次触发页面滚动。
+                lockSearchFocusScroll();
             }
         });
 
@@ -3260,6 +3254,7 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
+            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3313,6 +3308,7 @@
         observer.observe(sentinel);
 
         function filterModules() {
+            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3419,59 +3415,8 @@
             }
         }
 
-        let noticeInterval = null;
-        if (noticeTrack) {
-            const firstItemClone = noticeTrack.children[0].cloneNode(true);
-            noticeTrack.appendChild(firstItemClone);
-
-            let noticeIndex = 0;
-            const originalCount = noticeTrack.children.length - 1; 
-            let isAnimating = false;
-
-            function updateNoticePosition() {
-                noticeTrack.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
-                noticeTrack.style.transform = `translateY(-${noticeIndex * 44}px)`;
-            }
-
-            function nextNotice() {
-                if (document.activeElement === searchInput || searchInput.value.length > 0 || state.isListView || state.focusedModuleId) return;
-                if (isAnimating) return;
-                isAnimating = true;
-                noticeIndex++;
-                updateNoticePosition();
-
-                if (noticeIndex === originalCount) {
-                    setTimeout(() => {
-                        noticeTrack.style.transition = 'none';
-                        noticeIndex = 0;
-                        noticeTrack.style.transform = `translateY(0)`;
-                        void noticeTrack.offsetHeight;
-                        isAnimating = false;
-                    }, 450); 
-                } else {
-                    setTimeout(() => { isAnimating = false; }, 450);
-                }
-            }
-
-            function startNoticeLoop() {
-                if (noticeInterval) clearInterval(noticeInterval);
-                noticeInterval = setInterval(nextNotice, 3800);
-            }
-
-            function stopNoticeLoop() {
-                if (noticeInterval) {
-                    clearInterval(noticeInterval);
-                    noticeInterval = null;
-                }
-            }
-
-            startNoticeLoop();
-
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden) stopNoticeLoop();
-                else startNoticeLoop();
-            });
-        }
+        // 公告完全隔离实验版：故意移除公告轮播、transform、setInterval 和 visibilitychange 联动。
+        // 本版本用于 A/B 测试 iOS 搜索框聚焦/Sticky 滚动异常是否仍然存在。
 
         const mediaQueryDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -3601,11 +3546,6 @@
             backToTopBtn.setAttribute("title", dict.backToTopTitle);
             backToTopBtn.setAttribute("aria-label", dict.backToTopTitle);
             searchInput.setAttribute("aria-label", dict.searchInputAria);
-
-            const notice1 = document.querySelector(".notice-item-1");
-            const notice2 = document.querySelector(".notice-item-2");
-            if (notice1) notice1.textContent = dict.notice1;
-            if (notice2) notice2.textContent = dict.notice2;
 
             setSearchState(!searchInput.disabled);
             updateThemeUI();
@@ -3847,7 +3787,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false;
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3892,7 +3832,7 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false;
+                state.isInitialLoading = false; // 远程数据就绪，解除锁定
                 state.isDataLoading = false;
                 
                 filterModules();
