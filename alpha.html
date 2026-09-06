@@ -3056,12 +3056,69 @@
             statusDot.className = "status-dot";
         });
 
+        // iOS Safari 在 sticky 元素上获得焦点时，可能再次执行一次“将输入框滚入可视区域”的原生滚动，
+        // 即使 focus({ preventScroll: true }) 也可能出现延迟滚动。这里仅在搜索框已经上浮时锁住当前页面位置，
+        // 不改变正常的搜索框上浮逻辑，也不影响键盘弹出。
+        let searchFocusScrollY = null;
+        let searchFocusRestoreRaf1 = 0;
+        let searchFocusRestoreRaf2 = 0;
+
+        function lockSearchFocusScroll() {
+            if (!isSearchFloating()) {
+                searchFocusScrollY = null;
+                return;
+            }
+
+            searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+            cancelAnimationFrame(searchFocusRestoreRaf1);
+            cancelAnimationFrame(searchFocusRestoreRaf2);
+
+            const restore = () => {
+                if (searchFocusScrollY == null || state.isListView) return;
+                window.scrollTo(0, searchFocusScrollY);
+            };
+
+            searchFocusRestoreRaf1 = requestAnimationFrame(() => {
+                restore();
+                searchFocusRestoreRaf2 = requestAnimationFrame(() => {
+                    restore();
+                    searchFocusScrollY = null;
+                });
+            });
+        }
+
+        searchBoxInner.addEventListener("touchstart", () => {
+            if (!state.isListView && isSearchFloating()) {
+                searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            }
+        }, { passive: true });
+
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
+
+            const wasFloating = !state.isListView && isSearchFloating();
+            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
             if (document.activeElement !== searchInput) {
-                // 已经上浮到顶部时，禁止点击搜索框触发浏览器默认的滚动调整。
-                // focus({ preventScroll: true }) 只改变焦点，不改变当前页面位置。
-                searchInput.focus({ preventScroll: true });
+                if (wasFloating) {
+                    searchFocusScrollY = currentScrollY;
+                    searchInput.focus({ preventScroll: true });
+                } else {
+                    searchInput.focus({ preventScroll: true });
+                }
+            }
+
+            // iOS 可能在 focus/click 后异步调整页面滚动；已经上浮时始终恢复到点击前的位置。
+            if (wasFloating) {
+                const restore = () => {
+                    if (state.isListView) return;
+                    window.scrollTo(0, currentScrollY);
+                };
+                requestAnimationFrame(() => {
+                    restore();
+                    requestAnimationFrame(restore);
+                });
             }
         });
 
@@ -3072,8 +3129,10 @@
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
             } else if (!isSearchFloating()) {
-                // 只有尚未上浮时才执行上浮；已经在顶部则保持当前位置不动。
                 floatSearchToTarget(true);
+            } else {
+                // 已经处于顶部时，focus 只负责进入输入状态，绝不再次触发页面滚动。
+                lockSearchFocusScroll();
             }
         });
 
