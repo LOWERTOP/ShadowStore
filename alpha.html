@@ -504,24 +504,6 @@
             transition: margin-bottom 0.35s ease;
         }
 
-        /* iOS 键盘弹出时，已吸顶的控制栏临时脱离 sticky，避免 Safari 重新计算 sticky 位置。 */
-        .control-bar.is-keyboard-fixed {
-            position: fixed !important;
-            top: var(--keyboard-fixed-top, 12px) !important;
-            left: var(--keyboard-fixed-left, 16px) !important;
-            width: var(--keyboard-fixed-width, calc(100% - 32px)) !important;
-            margin-bottom: 0 !important;
-        }
-
-        .keyboard-fixed-spacer {
-            display: block;
-            width: 100%;
-            height: var(--keyboard-spacer-height, 60px);
-            flex: 0 0 auto;
-            pointer-events: none;
-            visibility: hidden;
-        }
-
         .tab-bar-wrapper {
             width: 100%;
             min-width: 0;
@@ -1967,7 +1949,7 @@
         const CACHE_VERSION = "202609051800"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
+            DATA_JSON_URL: "modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
@@ -2580,11 +2562,7 @@
                 updateCardWidth(columns);
                 updateAlphabetPosition();
                 if (!isTabAnimating) updateTabIndicator(false);
-
-                // 键盘启动期间不要因为 viewport 变小而重新切换 html.no-scroll。
-                if (!searchKeyboardFixed) {
-                    checkScrollLock();
-                }
+                checkScrollLock();
             });
         }
 
@@ -3078,112 +3056,29 @@
             statusDot.className = "status-dot";
         });
 
-        /*
-         * iOS 键盘聚焦隔离：
-         * - 仅针对已经吸顶的搜索框。
-         * - 在浏览器真正处理 focus 前，将 sticky 控制栏改成同位置 fixed。
-         * - 插入等高占位，保持下面内容在文档流中的原位置。
-         * - 不使用 scrollTo 追着 Safari 的键盘滚动纠正，因此不会与 Safari 抢滚动控制权。
-         * - 未吸顶时继续使用原有 floatSearchToTarget(true) 行为。
-         */
-        const isIOSKeyboardDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-        let searchKeyboardFixed = false;
-        let searchKeyboardSpacer = null;
-        let searchKeyboardRestoreTimer = 0;
-
-        function shouldUseSearchKeyboardIsolation() {
-            return isIOSKeyboardDevice &&
-                !state.isListView &&
-                !!searchInput &&
-                !searchInput.disabled &&
-                isSearchFloating();
-        }
-
-        function activateSearchKeyboardIsolation() {
-            if (!controlBarEl || !shouldUseSearchKeyboardIsolation() || searchKeyboardFixed) return;
-
-            clearTimeout(searchKeyboardRestoreTimer);
-
-            const rect = controlBarEl.getBoundingClientRect();
-            const computed = window.getComputedStyle(controlBarEl);
-            const marginBottom = parseFloat(computed.marginBottom) || 0;
-            const occupiedHeight = Math.max(0, rect.height + marginBottom);
-
-            searchKeyboardSpacer = document.createElement("div");
-            searchKeyboardSpacer.className = "keyboard-fixed-spacer";
-            searchKeyboardSpacer.style.setProperty("--keyboard-spacer-height", `${occupiedHeight}px`);
-            searchKeyboardSpacer.style.height = `${occupiedHeight}px`;
-            searchKeyboardSpacer.setAttribute("aria-hidden", "true");
-            controlBarEl.parentNode.insertBefore(searchKeyboardSpacer, controlBarEl);
-
-            controlBarEl.style.setProperty("--keyboard-fixed-top", `${rect.top}px`);
-            controlBarEl.style.setProperty("--keyboard-fixed-left", `${rect.left}px`);
-            controlBarEl.style.setProperty("--keyboard-fixed-width", `${rect.width}px`);
-            controlBarEl.classList.add("is-keyboard-fixed");
-            searchKeyboardFixed = true;
-        }
-
-        function deactivateSearchKeyboardIsolation() {
-            if (!searchKeyboardFixed || !controlBarEl) return;
-
-            controlBarEl.classList.remove("is-keyboard-fixed");
-            controlBarEl.style.removeProperty("--keyboard-fixed-top");
-            controlBarEl.style.removeProperty("--keyboard-fixed-left");
-            controlBarEl.style.removeProperty("--keyboard-fixed-width");
-
-            if (searchKeyboardSpacer && searchKeyboardSpacer.parentNode) {
-                searchKeyboardSpacer.parentNode.removeChild(searchKeyboardSpacer);
-            }
-            searchKeyboardSpacer = null;
-            searchKeyboardFixed = false;
-        }
-
-        function scheduleSearchKeyboardIsolationRestore() {
-            clearTimeout(searchKeyboardRestoreTimer);
-            if (!searchKeyboardFixed) return;
-            searchKeyboardRestoreTimer = setTimeout(() => {
-                if (document.activeElement !== searchInput) {
-                    deactivateSearchKeyboardIsolation();
-                }
-            }, 280);
-        }
-
-        searchBoxInner.addEventListener("touchstart", (e) => {
-            if (e.target.closest("#searchClearBtn")) return;
-
-            // 必须在 iOS 开始自动 focus / 弹键盘之前完成。
-            activateSearchKeyboardIsolation();
-        }, { passive: true });
-
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
-
             if (document.activeElement !== searchInput) {
-                // 兼容某些 iOS 场景下 touchstart 未经过目标元素的情况。
-                activateSearchKeyboardIsolation();
-                searchInput.focus({ preventScroll: true });
+                searchInput.focus();
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-
             if (state.isListView) {
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
-            } else if (!isSearchFloating()) {
-                // 尚未吸顶：保持原来的平滑上浮逻辑。
-                floatSearchToTarget(true);
-            } else if (isIOSKeyboardDevice) {
-                // 已经吸顶：不再调用任何 scrollTo；只确保 sticky 已被隔离。
-                activateSearchKeyboardIsolation();
+            } else {
+                // 修复：如果搜索框本身已经在顶端吸顶位置，绝不重复触发滚动；
+                // 仅当用户在页面下方浏览点击时才执行定位，并使用即时跳转避免与 iOS 键盘动画产生冲突
+                if (!isSearchFloating()) {
+                    floatSearchToTarget(false);
+                }
             }
         });
 
         searchInput.addEventListener("blur", () => {
             document.body.classList.remove("has-search-focus");
-            scheduleSearchKeyboardIsolationRestore();
         });
 
         function renderAuthor(module) {
@@ -3322,7 +3217,7 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
-            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
+            // 首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3376,7 +3271,6 @@
         observer.observe(sentinel);
 
         function filterModules() {
-            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3911,7 +3805,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
+                            state.isInitialLoading = false;
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3956,7 +3850,7 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; // 远程数据就绪，解除锁定
+                state.isInitialLoading = false;
                 state.isDataLoading = false;
                 
                 filterModules();
