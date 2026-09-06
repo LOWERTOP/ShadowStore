@@ -213,13 +213,6 @@
             transition: background-color 0.4s ease; 
         }
 
-        @media (max-width: 860px) {
-            html {
-                overflow-x: hidden;
-                -webkit-text-size-adjust: 100%;
-            }
-        }
-
         html:not(.no-scroll) {
             overflow-y: scroll;
             overscroll-behavior-y: auto;
@@ -509,14 +502,6 @@
             padding: 4px 0;
             background-color: transparent;
             transition: margin-bottom 0.35s ease;
-        }
-
-        @media (max-width: 860px) {
-            .control-bar {
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-                will-change: transform;
-            }
         }
 
         .tab-bar-wrapper {
@@ -3071,6 +3056,9 @@
             statusDot.className = "status-dot";
         });
 
+        // iOS Safari 在 sticky 元素上获得焦点时，可能再次执行一次“将输入框滚入可视区域”的原生滚动，
+        // 即使 focus({ preventScroll: true }) 也可能出现延迟滚动。这里仅在搜索框已经上浮时锁住当前页面位置，
+        // 不改变正常的搜索框上浮逻辑，也不影响键盘弹出。
         let searchFocusScrollY = null;
         let searchFocusRestoreRaf1 = 0;
         let searchFocusRestoreRaf2 = 0;
@@ -3088,7 +3076,7 @@
 
             const restore = () => {
                 if (searchFocusScrollY == null || state.isListView) return;
-                window.scrollTo({ top: searchFocusScrollY, behavior: 'instant' });
+                window.scrollTo(0, searchFocusScrollY);
             };
 
             searchFocusRestoreRaf1 = requestAnimationFrame(() => {
@@ -3121,10 +3109,11 @@
                 }
             }
 
+            // iOS 可能在 focus/click 后异步调整页面滚动；已经上浮时始终恢复到点击前的位置。
             if (wasFloating) {
                 const restore = () => {
                     if (state.isListView) return;
-                    window.scrollTo({ top: currentScrollY, behavior: 'instant' });
+                    window.scrollTo(0, currentScrollY);
                 };
                 requestAnimationFrame(() => {
                     restore();
@@ -3138,10 +3127,11 @@
 
             if (state.isListView) {
                 setListViewMode(false, false);
-                window.scrollTo({ top: 0, behavior: 'instant' });
+                window.scrollTo(0, 0);
             } else if (!isSearchFloating()) {
                 floatSearchToTarget(true);
             } else {
+                // 已经处于顶部时，focus 只负责进入输入状态，绝不再次触发页面滚动。
                 lockSearchFocusScroll();
             }
         });
@@ -3286,6 +3276,7 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
+            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3339,6 +3330,7 @@
         observer.observe(sentinel);
 
         function filterModules() {
+            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3873,7 +3865,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; 
+                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3918,7 +3910,7 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; 
+                state.isInitialLoading = false; // 远程数据就绪，解除锁定
                 state.isDataLoading = false;
                 
                 filterModules();
