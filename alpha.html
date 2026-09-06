@@ -3059,16 +3059,20 @@
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
             if (document.activeElement !== searchInput) {
-                searchInput.focus();
+                // 已经上浮到顶部时，禁止点击搜索框触发浏览器默认的滚动调整。
+                // focus({ preventScroll: true }) 只改变焦点，不改变当前页面位置。
+                searchInput.focus({ preventScroll: true });
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
+
             if (state.isListView) {
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
-            } else {
+            } else if (!isSearchFloating()) {
+                // 只有尚未上浮时才执行上浮；已经在顶部则保持当前位置不动。
                 floatSearchToTarget(true);
             }
         });
