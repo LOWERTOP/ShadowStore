@@ -2221,11 +2221,6 @@
         }
 
         function checkScrollLock() {
-            // iOS 键盘弹出期间不要重新计算并切换 html.no-scroll。
-            // 否则 viewport 高度变化会让 Safari 重新建立滚动容器，进而触发
-            // sticky 搜索栏/页面整体的二次定位。
-            if (isSearchKeyboardTransitioning) return;
-
             const root = document.documentElement;
             if (state.isListView) {
                 root.classList.add("no-scroll");
@@ -2567,18 +2562,26 @@
                 updateCardWidth(columns);
                 updateAlphabetPosition();
                 if (!isTabAnimating) updateTabIndicator(false);
-
-                // 键盘启动阶段只允许 viewport 自己变化，不让布局逻辑再次干预滚动状态。
-                if (!isSearchKeyboardTransitioning) {
-                    checkScrollLock();
-                }
+                checkScrollLock();
             });
         }
 
+        let lastViewportHeight = window.innerHeight;
+
         window.addEventListener("resize", () => {
-            // iOS Safari 弹出/收起键盘时会触发 resize。此时不要把它当成普通窗口 resize，
-            // 否则会重新计算 sticky/scroll lock，并造成页面从顶部被重新定位。
-            if (isSearchKeyboardTransitioning) return;
+            const currentHeight = window.innerHeight;
+            const activeSearch = document.activeElement === searchInput;
+            const searchWasFloating = activeSearch && !state.isListView && isSearchFloating();
+
+            // iOS 键盘出现/收起时，resize 主要反映 Visual Viewport 高度变化。
+            // 搜索框已经停靠顶部且正在输入时，不重新做整套页面布局，
+            // 避免 sticky + viewport resize 触发 Safari 的二次滚动定位。
+            if (searchWasFloating && Math.abs(currentHeight - lastViewportHeight) > 80) {
+                lastViewportHeight = currentHeight;
+                return;
+            }
+
+            lastViewportHeight = currentHeight;
 
             document.documentElement.classList.add("is-resizing");
             isTabAnimating = false;
@@ -3069,136 +3072,15 @@
             statusDot.className = "status-dot";
         });
 
-        // iOS Safari 在 sticky 元素上获得焦点时，可能再次执行一次“将输入框滚入可视区域”。
-        // 关键点：搜索框已经在顶部时，键盘启动阶段要锁住 document scroll，
-        // 同时忽略由键盘产生的 resize，避免 Safari 与页面自己的滚动逻辑互相抢控制权。
-        let searchFocusScrollY = null;
-        let searchFocusRestoreRaf1 = 0;
-        let searchFocusRestoreRaf2 = 0;
-        let searchKeyboardReleaseTimer = null;
-        let isSearchKeyboardTransitioning = false;
-
-        function getCurrentScrollY() {
-            return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-        }
-
-        function restoreSearchFocusScroll() {
-            if (searchFocusScrollY == null || state.isListView) return;
-
-            const y = searchFocusScrollY;
-            if (Math.abs(getCurrentScrollY() - y) > 0.5) {
-                window.scrollTo(0, y);
-            }
-        }
-
-        function beginSearchKeyboardLock() {
-            if (state.isListView || !isSearchFloating()) return false;
-
-            searchFocusScrollY = getCurrentScrollY();
-            isSearchKeyboardTransitioning = true;
-            document.documentElement.classList.remove("is-resizing");
-
-            clearTimeout(searchKeyboardReleaseTimer);
-            cancelAnimationFrame(searchFocusRestoreRaf1);
-            cancelAnimationFrame(searchFocusRestoreRaf2);
-
-            // 立即阻止一次 Safari focus 原生滚动。
-            restoreSearchFocusScroll();
-
-            // 键盘出现时 iOS 可能在多个 frame/resize 阶段重复修正滚动位置，
-            // 所以这里持续覆盖整个启动窗口，而不是只恢复两帧。
-            const restore = () => {
-                if (!isSearchKeyboardTransitioning) return;
-                restoreSearchFocusScroll();
-                searchFocusRestoreRaf1 = requestAnimationFrame(restore);
-            };
-
-            searchFocusRestoreRaf1 = requestAnimationFrame(restore);
-
-            searchKeyboardReleaseTimer = setTimeout(() => {
-                isSearchKeyboardTransitioning = false;
-                document.documentElement.classList.remove("is-resizing");
-                cancelAnimationFrame(searchFocusRestoreRaf1);
-                cancelAnimationFrame(searchFocusRestoreRaf2);
-                restoreSearchFocusScroll();
-                searchFocusScrollY = null;
-                scheduleLayoutUpdate();
-            }, 700);
-
-            return true;
-        }
-
-        function extendSearchKeyboardLock() {
-            if (!isSearchKeyboardTransitioning || searchFocusScrollY == null) return;
-
-            clearTimeout(searchKeyboardReleaseTimer);
-            restoreSearchFocusScroll();
-
-            searchKeyboardReleaseTimer = setTimeout(() => {
-                isSearchKeyboardTransitioning = false;
-                document.documentElement.classList.remove("is-resizing");
-                cancelAnimationFrame(searchFocusRestoreRaf1);
-                cancelAnimationFrame(searchFocusRestoreRaf2);
-                restoreSearchFocusScroll();
-                searchFocusScrollY = null;
-                scheduleLayoutUpdate();
-            }, 450);
-        }
-
-        function endSearchKeyboardLock() {
-            clearTimeout(searchKeyboardReleaseTimer);
-            cancelAnimationFrame(searchFocusRestoreRaf1);
-            cancelAnimationFrame(searchFocusRestoreRaf2);
-            isSearchKeyboardTransitioning = false;
-            document.documentElement.classList.remove("is-resizing");
-            searchFocusScrollY = null;
-        }
-
-        function lockSearchFocusScroll() {
-            if (!beginSearchKeyboardLock()) {
-                endSearchKeyboardLock();
-                return;
-            }
-            extendSearchKeyboardLock();
-        }
-
-        // 仅监听 VisualViewport 的变化，不修改 visual viewport 本身。
-        // 这样可以识别“键盘导致的 viewport 变化”，而不会误伤正常旋转/缩放。
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener("resize", () => {
-                if (isSearchKeyboardTransitioning && document.activeElement === searchInput) {
-                    extendSearchKeyboardLock();
-                }
-            }, { passive: true });
-
-            window.visualViewport.addEventListener("scroll", () => {
-                if (isSearchKeyboardTransitioning && document.activeElement === searchInput) {
-                    restoreSearchFocusScroll();
-                }
-            }, { passive: true });
-        }
-
-        searchBoxInner.addEventListener("touchstart", () => {
-            if (!state.isListView && isSearchFloating()) {
-                searchFocusScrollY = getCurrentScrollY();
-                beginSearchKeyboardLock();
-            }
-        }, { passive: true });
-
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
 
+            // 已经上浮到顶部时：不要再执行任何页面定位逻辑。
+            // 让 input 直接获得焦点，由 iOS 自己处理键盘展示。
             const wasFloating = !state.isListView && isSearchFloating();
-            const currentScrollY = getCurrentScrollY();
 
-            if (wasFloating) {
-                // 先锁定当前页面位置，再让 input 获得焦点。
-                searchFocusScrollY = currentScrollY;
-                beginSearchKeyboardLock();
-                searchInput.focus({ preventScroll: true });
-                extendSearchKeyboardLock();
-            } else if (document.activeElement !== searchInput) {
-                searchInput.focus({ preventScroll: true });
+            if (document.activeElement !== searchInput) {
+                searchInput.focus({ preventScroll: wasFloating });
             }
         });
 
@@ -3209,18 +3091,14 @@
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
             } else if (!isSearchFloating()) {
-                // 尚未上浮：保留原有逻辑，由页面滚动到 sticky 位置。
-                endSearchKeyboardLock();
+                // 尚未上浮：保持原有行为，点击搜索框后平滑上浮。
                 floatSearchToTarget(true);
-            } else {
-                // 已经处于顶部：focus 只负责进入输入状态，不再触发任何页面定位动画。
-                lockSearchFocusScroll();
             }
+            // 已经上浮：这里只进入输入状态，绝不再次触发滚动。
         });
 
         searchInput.addEventListener("blur", () => {
             document.body.classList.remove("has-search-focus");
-            endSearchKeyboardLock();
         });
 
         function renderAuthor(module) {
