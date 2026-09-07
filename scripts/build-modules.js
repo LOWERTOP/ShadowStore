@@ -462,6 +462,25 @@ function getSourceRepoInfo(rawURL, githubInfo) {
 }
 
 function getAuthorFromURL(rawURL, githubInfo) {
+    if (!rawURL) return { name: "作者信息识别失败", url: "", username: "" };
+
+    // 优先匹配本仓库 PR 投递目录：.../PR/<作者用户名>/...
+    try {
+        const decodedURL = decodeURIComponent(rawURL);
+        const prMatch = decodedURL.match(/\/PR\/([^/?#]+)\//i);
+        if (prMatch && prMatch[1]) {
+            const prAuthor = prMatch[1].trim();
+            if (prAuthor && !/\.(?:sgmodule|srmodule|module)$/i.test(prAuthor)) {
+                return {
+                    name: prAuthor,
+                    url: `https://github.com/${encodeURIComponent(prAuthor)}`,
+                    username: prAuthor
+                };
+            }
+        }
+    } catch (e) {}
+
+    // 其他常规资源保持原逻辑
     if (githubInfo) return { name: githubInfo.owner, url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`, username: githubInfo.owner };
     try {
         const url = new URL(rawURL);
@@ -616,7 +635,9 @@ async function fetchModule(item) {
     const githubInfo = parseGitHubRawURL(item.rawURL);
     const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
     const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
-    const avatarUrl = githubInfo ? `https://github.com/${encodeURIComponent(githubInfo.owner)}.png?size=64` : "";
+    const avatarUrl = urlAuthor.username
+        ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64`
+        : (githubInfo ? `https://github.com/${encodeURIComponent(githubInfo.owner)}.png?size=64` : "");
     const fromMyRepo = item.fromMyRepo || false;
 
     try {
@@ -629,9 +650,7 @@ async function fetchModule(item) {
         const icon = resolveModuleIcon(metadata, item.rawURL);
 
         const isDubious = isInvalidOr404(rawText) || isInvalidOr404(description);
-        let authorAvatar = urlAuthor.username
-            ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64`
-            : avatarUrl;
+        let authorAvatar = avatarUrl;
 
         const _searchKeywords = [metadata.name, description, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase();
 
