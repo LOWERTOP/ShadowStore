@@ -22,26 +22,23 @@
 
 ## 🙏 数据来源
 
-本仓仅以前端网页的方式保存 [ShadowStore](https://shadowstore.dpdns.org/) 的交互界面，后台数据以自动化工作流的方式自动运行。
+本仓库仅以静态前端网页的形式保存 [ShadowStore](https://shadowstore.dpdns.org/) 的交互界面，相关后台数据及资源信息均通过自动化工作流进行处理、更新与维护。
 
-[ShadowStore](https://shadowstore.dpdns.org/) 的存在完全建立在广大开源作者的无私奉献之上，特别致谢以下核心项目、模块资源、图标资源贡献者：
+[ShadowStore](https://shadowstore.dpdns.org/) 的运行与发展得益于开源社区及众多创作者的持续贡献。在此特别感谢以下核心项目、模块及图标资源的作者与维护者：
 
+* 自有文件仓库：[Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
 * 主要资源来源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
 * 主要资源来源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
-* 备选图标来源：[luestr/IconResource](https://github.com/luestr/IconResource)
-* 以及所有在开源社区中的创作者们
+* 备用图标资源：[luestr/IconResource](https://github.com/luestr/IconResource)
+* 以及所有为开源社区贡献代码、模块、规则、图标及其他资源的创作者与维护者。
+
+谨向所有开源项目的贡献者致以诚挚感谢。
 
 ---
 
 ## 📥 权利说明
 
-* 本项目充分尊重每一位开源开发者的意愿。
-* 若您是某资源的原作者，**不希望您的资源被本平台索引**，或发现收录信息有误，请随时提交 [Issue](https://github.com/LOWERTOP/Shadowrocket-First/issues) 说明，ShadowStore 会在第一时间更新或移除相关索引。
-
----
-
-## ⚠️ 免责声明
-
+* 本项目充分尊重每一位开源开发者的意愿。若您是某资源的原作者，**不希望您的资源被本平台索引**，或发现收录信息有误，请随时提交 [Issue](https://github.com/LOWERTOP/ShadowStore/issues/new?title=%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82&body=%E8%A6%81%E6%B1%82%E7%AE%80%E8%BF%B0%EF%BC%9A&labels=invalid) 说明，ShadowStore 会在第一时间更新或移除相关索引。
 *  **索引检索性质**：本平台仅提供开源公开信息的索引与跳转服务，不托管、不拥有、亦不对第三方脚本的具体功能与内容负责。
 *  **知识产权归属**：所有被收录资源的名称、脚本代码及版权均归原作者或对应版权方所有。
 *  **使用风险自负**：各资源的功能与有效性由其原作者维护，请使用者自行甄别资源安全性，并遵守相关法律法规及开源协议。
