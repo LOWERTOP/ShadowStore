@@ -31,7 +31,8 @@ const APP_ALIASES = {
     "腾讯": ["tencent"], "美团": ["meituan"], "拼多多": ["pdd", "pinduoduo"],
     "闲鱼": ["xianyu"], "咸鱼": ["xianyu"], "饿了么": ["eleme"], "爱奇艺": ["iqiyi"],
     "优酷": ["youku"], "淘宝": ["taobao"], "豆瓣": ["douban"], "贴吧": ["tieba"],
-    "夸克": ["quark"], "12306": ["12306"], "高德地图": ["amap"]
+    "夸克": ["quark"], "12306": ["12306"], "高德地图": ["amap"],
+    "一汽大众": ["fawvw"]
 };
 
 const FLAG_CODES = new Set([
