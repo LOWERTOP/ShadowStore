@@ -1,4 +1,4 @@
-![ShadowStore](https://socialify.git.ci/LOWERTOP/ShadowStore/image?font=Jost&logo=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Frefs%2Fheads%2Fmain%2Fimg%2FShadowStore_02.png&name=1&pattern=Plus&theme=Light)
+[![ShadowStore](https://socialify.git.ci/LOWERTOP/ShadowStore/image?font=Jost&logo=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Frefs%2Fheads%2Fmain%2Fimg%2FShadowStore_02.png&name=1&pattern=Plus&theme=Light)](https://shadowstore.dpdns.org/ "发布页面")
 
 <div align="center">
 
