@@ -3522,17 +3522,17 @@
             const isZh = state.currentLang === "zh";
             if (mode === "light") {
                 themeToggleBtn.innerHTML = SUN_ICON;
-                const desc = isZh ? "当前：浅色模式（点击切换深色）" : "Current: Light mode (Click for Dark)";
+                const desc = isZh ? "当前：浅色主题" : "Current: Light mode (Click for Dark)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             } else if (mode === "dark") {
                 themeToggleBtn.innerHTML = MOON_ICON;
-                const desc = isZh ? "当前：深色模式（点击切换自动跟随）" : "Current: Dark mode (Click for Auto)";
+                const desc = isZh ? "当前：深色主题" : "Current: Dark mode (Click for Auto)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             } else {
                 themeToggleBtn.innerHTML = SYSTEM_ICON;
-                const desc = isZh ? "当前：自动跟随系统（点击切换反色模式）" : "Current: Auto System (Click to switch)";
+                const desc = isZh ? "当前：自动主题" : "Current: Auto System (Click to switch)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             }
