@@ -1946,7 +1946,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609061408"; 
+        const CACHE_VERSION = "202609081228"; 
         
         const CONFIG = {
             DATA_JSON_URL: "modules.json", 
@@ -1955,6 +1955,33 @@
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
+
+        // ==================== 强制刷新缓存工具 ====================
+        // ShadowStore 的资源索引使用 localStorage；同时通过 URL 时间戳
+        // 让 PC 浏览器重新请求当前 HTML 文档，避免只刷新 modules.json。
+        function clearSiteDataCache() {
+            try {
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (
+                        key.startsWith("sr_modules_data_") ||
+                        key.startsWith("sr_modules_time_")
+                    )) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+            } catch (e) {
+                console.warn("清理本站资源缓存失败:", e);
+            }
+        }
+
+        function buildForceReloadUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set("_refresh", Date.now().toString());
+            return url.href;
+        }
 
         const I18N = {
             zh: {
@@ -3660,6 +3687,15 @@
 
         updateThemeUI();
 
+        // 强制刷新完成后清理地址栏中的临时 _refresh 参数。
+        try {
+            const cleanUrl = new URL(window.location.href);
+            if (cleanUrl.searchParams.has("_refresh")) {
+                cleanUrl.searchParams.delete("_refresh");
+                window.history.replaceState({}, document.title, cleanUrl.href);
+            }
+        } catch (e) {}
+
         let touchStartX = 0, touchStartY = 0, isPulling = false, isPullLocked = false, pullRafId = null;
         let hasPulledContainer = false;
         const MIN_DRAG_DEADZONE = 30;
@@ -3673,23 +3709,27 @@
             ptrIcon.classList.remove("rotate");
             ptrText.textContent = langObj.ptrRefreshing;
 
-            const success = await loadModules(true);
-            showToast(success ? langObj.toastDataRefreshed : langObj.toastSyncFailed);
-            
-            setTimeout(() => {
-                const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)';
-                pageContainer.style.transition = reboundBezier;
-                pageContainer.style.top = '0';
+            // 清理本站自己维护的资源缓存
+            clearSiteDataCache();
 
-                pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`;
-                pullRefreshIndicator.style.opacity = '0';
-                pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)';
-                ptrIcon.classList.remove("rotate");
-                state.isPullRefreshing = false;
-                pageContainer.style.willChange = "auto";
-                hasPulledContainer = false;
-                checkScrollLock();
-            }, 500);
+            // 先让下拉区域平滑回到原位，再重新加载整个 HTML 文档
+            const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)';
+            pageContainer.style.transition = reboundBezier;
+            pageContainer.style.top = '0';
+
+            pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`;
+            pullRefreshIndicator.style.opacity = '0';
+            pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)';
+            ptrIcon.classList.remove("rotate");
+            pageContainer.style.willChange = "auto";
+            hasPulledContainer = false;
+
+            // _refresh 只用于本次请求，页面加载后会自动从地址栏移除。
+            const reloadUrl = buildForceReloadUrl();
+
+            setTimeout(() => {
+                window.location.replace(reloadUrl);
+            }, 180);
         }
 
         function resetPullState() {
@@ -3896,8 +3936,12 @@
             }
 
             try {
-                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
+                const fetchUrl = forceRefresh
+                    ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}`
+                    : CONFIG.DATA_JSON_URL;
+                const response = await fetch(fetchUrl, {
+                    cache: forceRefresh ? "no-store" : "default"
+                });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
