@@ -560,37 +560,9 @@
         }
 
         .tab-item:not(.active)::before,
-        .button-secondary::before,
-        .alphabet-item-row::before {
-            content: "";
-            position: absolute;
-            inset: -4px -8px;
-            border-radius: 9999px;
-            background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.14) 0%, rgba(59, 130, 246, 0.10) 42%, rgba(139, 92, 246, 0.05) 68%, transparent 82%);
-            filter: blur(8px);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: -1;
-        }
-
-        [data-theme="dark"] .tab-item:not(.active)::before,
-        [data-theme="dark"] .button-secondary::before,
-        [data-theme="dark"] .alphabet-item-row::before {
-            background: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.17) 0%, rgba(59, 130, 246, 0.13) 42%, rgba(167, 139, 250, 0.08) 68%, transparent 82%);
-            filter: blur(10px);
-        }
-
-        .tab-item:not(.active):hover::before,
-        .tab-item:not(.active):active::before,
-        .tab-item:not(.active):focus-visible::before,
-        .button-secondary:hover::before,
-        .button-secondary:active::before,
-        .button-secondary:focus-visible::before,
-        .alphabet-item-row:hover::before,
-        .alphabet-item-row:active::before,
-        .alphabet-item-row:focus-visible::before {
-            opacity: 1;
+        .button-secondary::before {
+            display: none !important;
+            content: none !important;
         }
 
         .tab-item {
@@ -1146,20 +1118,14 @@
         .button-primary:focus-visible { 
             background: var(--primary-gradient); 
             transform: none !important;
-            box-shadow: 
-                0 0 20px 4px rgba(59, 130, 246, 0.17),
-                0 0 30px 8px rgba(6, 182, 212, 0.13),
-                0 0 40px 10px rgba(139, 92, 246, 0.10);
+            box-shadow: var(--primary-gradient-shadow);
         }
         [data-theme="dark"] .button-primary:hover,
         [data-theme="dark"] .button-primary:active,
         [data-theme="dark"] .button-primary:focus-visible {
             background: var(--primary-gradient);
             transform: none !important;
-            box-shadow: 
-                0 0 22px 5px rgba(59, 130, 246, 0.22),
-                0 0 34px 8px rgba(34, 211, 238, 0.17),
-                0 0 44px 12px rgba(167, 139, 250, 0.14);
+            box-shadow: var(--primary-gradient-shadow);
         }
         
         .sentinel { height: 20px; margin: 10px 0; }
@@ -1195,7 +1161,7 @@
             font-size: 12.5px; 
             line-height: 1.6; 
             font-weight: 300; 
-            transition: opacity 0.15s ease;
+            transition: opacity 0.15s ease; 
         }
         
         .toast { 
@@ -1455,6 +1421,30 @@
             transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
+        .alphabet-item-row::before {
+            content: "";
+            position: absolute;
+            inset: -4px -8px;
+            border-radius: 9999px;
+            background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.14) 0%, rgba(59, 130, 246, 0.10) 42%, rgba(139, 92, 246, 0.05) 68%, transparent 82%);
+            filter: blur(8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        [data-theme="dark"] .alphabet-item-row::before {
+            background: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.17) 0%, rgba(59, 130, 246, 0.13) 42%, rgba(167, 139, 250, 0.08) 68%, transparent 82%);
+            filter: blur(10px);
+        }
+
+        .alphabet-item-row:hover::before,
+        .alphabet-item-row:active::before,
+        .alphabet-item-row:focus-visible::before {
+            opacity: 1;
+        }
+
         .alphabet-item-row:hover,
         .alphabet-item-row:active,
         .alphabet-item-row:focus-visible {
@@ -1672,13 +1662,7 @@
                 background-color: var(--bg-surface) !important;
             }
 
-            .tab-item:not(.active)::before,
-            .button-secondary::before,
             .alphabet-item-row::before,
-            .tab-item:not(.active):hover::before,
-            .tab-item:not(.active):active::before,
-            .button-secondary:hover::before,
-            .button-secondary:active::before,
             .alphabet-item-row:hover::before,
             .alphabet-item-row:active::before {
                 display: none !important;
@@ -1946,19 +1930,16 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081514"; 
+        const CACHE_VERSION = "202609081535"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "modules.json", 
+            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
 
-        // ==================== 强制刷新缓存工具 ====================
-        // ShadowStore 的资源索引使用 localStorage；同时通过 URL 时间戳
-        // 让 PC 浏览器重新请求当前 HTML 文档，避免只刷新 modules.json。
         function clearSiteDataCache() {
             try {
                 const keysToRemove = [];
@@ -2249,9 +2230,6 @@
 
         function checkScrollLock() {
             const root = document.documentElement;
-            // 仅在字母索引列表视图中锁定页面滚动。
-            // 普通标签页即使内容不足一屏，也必须保持纵向触摸手势，
-            // 否则 iOS 顶部下拉刷新会变得很难触发。
             if (state.isListView) {
                 root.classList.add("no-scroll");
             } else {
@@ -3078,9 +3056,6 @@
             statusDot.className = "status-dot";
         });
 
-        // iOS Safari 在 sticky 元素上获得焦点时，可能再次执行一次“将输入框滚入可视区域”的原生滚动，
-        // 即使 focus({ preventScroll: true }) 也可能出现延迟滚动。这里仅在搜索框已经上浮时锁住当前页面位置，
-        // 不改变正常的搜索框上浮逻辑，也不影响键盘弹出。
         let searchFocusScrollY = null;
         let searchFocusRestoreRaf1 = 0;
         let searchFocusRestoreRaf2 = 0;
@@ -3131,7 +3106,6 @@
                 }
             }
 
-            // iOS 可能在 focus/click 后异步调整页面滚动；已经上浮时始终恢复到点击前的位置。
             if (wasFloating) {
                 const restore = () => {
                     if (state.isListView) return;
@@ -3153,7 +3127,6 @@
             } else if (!isSearchFloating()) {
                 floatSearchToTarget(true);
             } else {
-                // 已经处于顶部时，focus 只负责进入输入状态，绝不再次触发页面滚动。
                 lockSearchFocusScroll();
             }
         });
@@ -3298,7 +3271,6 @@
         function renderFilteredList(list, customLabel = null) {
             const langObj = I18N[state.currentLang];
 
-            // 核心修复逻辑：首次加载尚未完成时，页面必须保持加载态，坚决不准显示“未找到匹配”
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3352,7 +3324,6 @@
         observer.observe(sentinel);
 
         function filterModules() {
-            // 首次数据下载未完成时，拦截真正的过滤计算并引导至加载提示
             if (state.isInitialLoading) {
                 renderFilteredList([]);
                 return;
@@ -3682,7 +3653,6 @@
 
         updateThemeUI();
 
-        // 强制刷新完成后清理地址栏中的临时 _refresh 参数。
         try {
             const cleanUrl = new URL(window.location.href);
             if (cleanUrl.searchParams.has("_refresh")) {
@@ -3704,10 +3674,8 @@
             ptrIcon.classList.remove("rotate");
             ptrText.textContent = langObj.ptrRefreshing;
 
-            // 清理本站自己维护的资源缓存
             clearSiteDataCache();
 
-            // 先让下拉区域平滑回到原位，再重新加载整个 HTML 文档
             const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)';
             pageContainer.style.transition = reboundBezier;
             pageContainer.style.top = '0';
@@ -3719,7 +3687,6 @@
             pageContainer.style.willChange = "auto";
             hasPulledContainer = false;
 
-            // _refresh 只用于本次请求，页面加载后会自动从地址栏移除。
             const reloadUrl = buildForceReloadUrl();
 
             setTimeout(() => {
@@ -3900,7 +3867,7 @@
                         if (normalized.length > 0) {
                             state.allModules = [...staticItems, ...normalized];
                             state.isAlphabetRendered = false;
-                            state.isInitialLoading = false; // 缓存可用，立刻解除初始锁定
+                            state.isInitialLoading = false;
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
@@ -3949,7 +3916,7 @@
 
                 state.allModules = [...staticItems, ...normalized];
                 state.isAlphabetRendered = false;
-                state.isInitialLoading = false; // 远程数据就绪，解除锁定
+                state.isInitialLoading = false;
                 state.isDataLoading = false;
                 
                 filterModules();
