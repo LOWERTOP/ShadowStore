@@ -560,8 +560,7 @@
         }
 
         .tab-item:not(.active)::before,
-        .button-secondary::before,
-        .alphabet-item-row::before {
+        .button-secondary::before {
             display: none !important;
             content: none !important;
         }
@@ -1162,7 +1161,7 @@
             font-size: 12.5px; 
             line-height: 1.6; 
             font-weight: 300; 
-            transition: opacity 0.15s ease;
+            transition: opacity 0.15s ease; 
         }
         
         .toast { 
@@ -1422,6 +1421,30 @@
             transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
+        .alphabet-item-row::before {
+            content: "";
+            position: absolute;
+            inset: -4px -8px;
+            border-radius: 9999px;
+            background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.14) 0%, rgba(59, 130, 246, 0.10) 42%, rgba(139, 92, 246, 0.05) 68%, transparent 82%);
+            filter: blur(8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        [data-theme="dark"] .alphabet-item-row::before {
+            background: radial-gradient(ellipse at center, rgba(34, 211, 238, 0.17) 0%, rgba(59, 130, 246, 0.13) 42%, rgba(167, 139, 250, 0.08) 68%, transparent 82%);
+            filter: blur(10px);
+        }
+
+        .alphabet-item-row:hover::before,
+        .alphabet-item-row:active::before,
+        .alphabet-item-row:focus-visible::before {
+            opacity: 1;
+        }
+
         .alphabet-item-row:hover,
         .alphabet-item-row:active,
         .alphabet-item-row:focus-visible {
@@ -1637,6 +1660,14 @@
                 box-shadow: var(--shadow-glass-ui) !important;
                 background-image: var(--noise-pattern) !important;
                 background-color: var(--bg-surface) !important;
+            }
+
+            .alphabet-item-row::before,
+            .alphabet-item-row:hover::before,
+            .alphabet-item-row:active::before {
+                display: none !important;
+                opacity: 0 !important;
+                transition: none !important;
             }
 
             .tab-item:not(.active):hover,
@@ -1899,10 +1930,10 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081529"; 
+        const CACHE_VERSION = "202609081535"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "modules.json", 
+            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
