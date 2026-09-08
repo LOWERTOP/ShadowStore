@@ -73,13 +73,18 @@
             --glass-border-b: rgba(255, 255, 255, 0.6);
             --glass-border-l: rgba(255, 255, 255, 0.85);
 
-            --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+            --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
 
             --shadow-glass-ui: 
-                inset 2px 2px 7px rgba(255, 255, 255, 0.38),
-                inset -2px -2px 6px rgba(0, 0, 0, 0.06),
-                0 5px 12px rgba(0, 0, 0, 0.10),
-                -8px 18px 28px -10px rgba(0, 0, 0, 0.16);
+                inset 3px 3px 10px 2px rgba(255, 255, 255, 0.45),
+                inset -3px -3px 8px -1px rgba(0, 0, 0, 0.08),
+                -2.5px 7px 4.5px -3px rgba(255, 255, 255, 0.33),
+                -1.3px 8px 6px -3.5px rgba(255, 255, 255, 0.3),
+                -3.5px 10px 7.5px -4px rgba(255, 255, 255, 0.25),
+                -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17),
+                -1px 4px 6px rgba(0, 0, 0, 0.15),
+                -8px 18px 22px -3px rgba(0, 0, 0, 0.12),
+                -25px 45px 55px -5px rgba(0, 0, 0, 0.22);
 
             --shadow-tab-bar-bottom: 
                 inset 3px 3px 10px 2px rgba(255, 255, 255, 0.45),
@@ -90,16 +95,26 @@
                 -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17);
 
             --shadow-glass-ui-hover: 
-                inset 2px 2px 8px rgba(255, 255, 255, 0.45),
-                inset -2px -2px 7px rgba(0, 0, 0, 0.07),
-                0 7px 15px rgba(0, 0, 0, 0.12),
-                -10px 20px 30px -10px rgba(0, 0, 0, 0.18);
+                inset 3.5px 3.5px 12px 3px rgba(255, 255, 255, 0.55),
+                inset -3px -3px 9px -1px rgba(0, 0, 0, 0.1),
+                -3px 8.5px 5px -3px rgba(255, 255, 255, 0.33),
+                -1.6px 9.5px 7px -3.5px rgba(255, 255, 255, 0.3),
+                -4.2px 12px 9px -4px rgba(255, 255, 255, 0.25),
+                -2.2px 14px 10px -4px rgba(255, 255, 255, 0.18),
+                -1.5px 6px 8px rgba(0, 0, 0, 0.15),
+                -10px 20px 25px -3px rgba(0, 0, 0, 0.12),
+                -30px 50px 60px -6px rgba(0, 0, 0, 0.25);
 
             --shadow-search: 
-                inset 2px 2px 6px rgba(255, 255, 255, 0.32),
-                inset -2px -2px 5px rgba(0, 0, 0, 0.06),
-                0 4px 10px rgba(0, 0, 0, 0.09),
-                -6px 12px 20px -8px rgba(0, 0, 0, 0.14);
+                inset 2.5px 2.5px 8px 1.5px rgba(255, 255, 255, 0.38),
+                inset -2.5px -2.5px 6px -1px rgba(0, 0, 0, 0.07),
+                -1.7px 4.7px 3px -2px rgba(255, 255, 255, 0.22),
+                -0.9px 5.3px 4px -2.3px rgba(255, 255, 255, 0.20),
+                -2.3px 6.7px 5px -2.7px rgba(255, 255, 255, 0.17),
+                -1.2px 8px 6px -2.7px rgba(255, 255, 255, 0.11),
+                -0.7px 2.7px 4px rgba(0, 0, 0, 0.10),
+                -5.3px 12px 14.7px -2px rgba(0, 0, 0, 0.08),
+                -16.7px 30px 36.7px -3.3px rgba(0, 0, 0, 0.15);
 
             --shadow-search-hover: 
                 inset 3px 3px 9px 2px rgba(255, 255, 255, 0.45),
@@ -148,7 +163,7 @@
             --glass-border-b: transparent;
             --glass-border-l: transparent;
 
-            --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+            --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
 
             --shadow-glass-ui: 0 6px 20px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
             --shadow-tab-bar-bottom: none;
@@ -1931,7 +1946,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081449"; 
+        const CACHE_VERSION = "202609081514"; 
         
         const CONFIG = {
             DATA_JSON_URL: "modules.json", 
@@ -3741,7 +3756,7 @@
                 isPulling = false;
                 return;
             }
-            if (e.target.closest("input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index")) {
+            if (e.target.closest('input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index')) {
                 isPulling = false;
                 return;
             }
