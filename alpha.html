@@ -30,20 +30,6 @@
             }
             document.documentElement.style.backgroundColor = themeColor;
 
-            try {
-                const savedLang = localStorage.getItem("sr_lang_override");
-                let lang = "zh";
-                if (savedLang === "en" || savedLang === "zh") {
-                    lang = savedLang;
-                } else {
-                    const primary = (navigator.languages && navigator.languages.length 
-                        ? navigator.languages[0] 
-                        : (navigator.language || navigator.userLanguage || "")).toLowerCase();
-                    lang = primary.startsWith("zh") ? "zh" : "en";
-                }
-                document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
-            } catch (e) {}
-
             const isMobileDevice = ('ontouchstart' in window) || 
                                    (navigator.maxTouchPoints > 0) || 
                                    (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
@@ -494,7 +480,7 @@
             top: max(12px, env(safe-area-inset-top, 0px));
             z-index: 999990;
             display: grid;
-            grid-template-columns: var(--card-width, 380px) var(--card-width, 380px);
+            grid-template-columns: var(--card-width, 380px) 1fr;
             gap: var(--layout-gap, 44px);
             align-items: center;
             width: 100%;
@@ -1198,11 +1184,16 @@
             position: relative;
             top: auto;
             width: 100%;
+            max-width: 100%;
             height: 44px;
             padding: 0;
             margin: 0;
             z-index: 999995;
             pointer-events: none;
+        }
+
+        .control-bar.is-single-column .tab-bar-wrapper {
+            width: 100%;
         }
 
         .control-bar.is-single-column .standalone-list-btn,
@@ -1306,7 +1297,7 @@
 
         .alphabet-main-card {
             position: relative;
-            z-index: 10;
+            z-index: 2;
             flex: 1;
             min-width: 0;
             height: 100%;
@@ -1504,7 +1495,7 @@
 
         .alphabet-fast-index {
             position: relative;
-            z-index: 10;
+            z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1606,7 +1597,7 @@
             pointer-events: none;
             transform: translate3d(0, -50%, 0);
             transition: opacity 0.12s ease, visibility 0.12s ease;
-            z-index: 999999;
+            z-index: 20;
             box-shadow: none !important;
             background: var(--primary-soft) !important;
             background-image: none !important;
@@ -1772,9 +1763,6 @@
                 color: var(--text-secondary) !important;
                 text-decoration: none !important;
             }
-            .search-clear:hover {
-                color: var(--primary) !important;
-            }
         }
 
         @media (max-width: 600px) {
@@ -1832,16 +1820,6 @@
                             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                         </svg>
                     </a>
-                    <button id="langToggle" class="theme-toggle immersive-icon" aria-label="切换语言" title="切换语言">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m5 8 6 6"/>
-                            <path d="m4 14 6-6 2-3"/>
-                            <path d="M2 5h12"/>
-                            <path d="M7 2h1"/>
-                            <path d="m22 22-5-10-5 10"/>
-                            <path d="M14 18h6"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
             <div id="subtitle" class="subtitle">
@@ -1870,12 +1848,12 @@
                     <div class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg></div>
                     
                     <div class="input-wrapper">
-                        <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索模块">
+                        <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索资源">
                         
                         <div id="placeholderTrack" class="placeholder-track">
                             <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
-                            <div class="placeholder-item notice-item-1">相关资源均来源于开源社区</div>
-                            <div class="placeholder-item notice-item-2">所有权利责任归原作者所有</div>
+                            <div class="placeholder-item">相关资源均来源于开源社区</div>
+                            <div class="placeholder-item">所有权利责任归原作者所有</div>
                         </div>
                     </div>
 
@@ -1910,7 +1888,7 @@
         
         <div id="sentinel" class="sentinel"></div>
 
-        <footer id="footerText" class="footer">
+        <footer class="footer">
             鸣谢所有开源社区作者<br>
             著作权归资源作者所有
         </footer>
@@ -1921,16 +1899,15 @@
             <div class="alphabet-main-card">
                 <div id="alphabetScrollArea" class="alphabet-scroll-area"></div>
             </div>
-            <div id="alphabetFastIndex" class="alphabet-fast-index" aria-label="字母快速定位导航">
-                <div id="alphabetPopupBubble" class="alphabet-popup-bubble glass-element">#</div>
-            </div>
+            <div id="alphabetFastIndex" class="alphabet-fast-index" aria-label="字母快速定位导航"></div>
         </div>
+        <div id="alphabetPopupBubble" class="alphabet-popup-bubble glass-element">#</div>
     </div>
     
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081535"; 
+        const CACHE_VERSION = "202609081620"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
@@ -1945,10 +1922,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (
-                        key.startsWith("sr_modules_data_") ||
-                        key.startsWith("sr_modules_time_")
-                    )) {
+                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
                         keysToRemove.push(key);
                     }
                 }
@@ -1964,114 +1938,19 @@
             return url.href;
         }
 
-        const I18N = {
-            zh: {
-                badgeCommunity: "社区资源",
-                subtitle: "Shadowrocket 开源社区资源聚合检索平台",
-                tabs: { module: "模块资源", config: "配置文件", manual: "使用手册", more: "更多资源" },
-                searchPlaceholderWait: "请在加载完成后执行搜索...",
-                searchPlaceholderReady: "输入关键字全局搜索...",
-                notice1: "相关资源均来源于开源社区",
-                notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "关闭列表",
-                backToTopTitle: "返回顶部",
-                searchInputAria: "搜索资源",
-                statusSyncing: "正在同步资源索引...",
-                statusReady: "已就绪",
-                statusChecking: "正在后台检查最新资源...",
-                statusFetchingStatic: "正在拉取最新静态资源索引...",
-                statusSynced: "已同步最新数据",
-                statusErrorCache: "在线同步异常，当前展示缓存数据",
-                statusErrorStatic: "在线资源同步失败，已展示核心入口",
-                countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
-                countText: (count, label) => `${count} 个${label}`,
-                emptyText: (label) => `没有找到匹配的${label}`,
-                loadingText: "正在同步资源，请稍候...",
-                ptrContinue: "继续下拉将强制刷新本站",
-                ptrRelease: "松开将立即强制刷新本站",
-                ptrRefreshing: "正在强制刷新本站...",
-                footer: "鸣谢所有开源社区作者<br>著作权归资源作者所有",
-                btnCopyLink: "复制链接",
-                btnPreInstall: "安装前置",
-                btnInstallModule: "安装模块",
-                btnInstallConfig: "安装配置",
-                btnViewManual: "查阅手册",
-                btnVisitRepo: "访问仓库",
-                openLinkAria: "在新窗口打开资源直链",
-                toastCopiedUrl: "已复制资源直链",
-                toastCopiedRepo: "已复制仓库链接",
-                toastCopiedConfig: "已复制配置直链",
-                toastCopiedManual: "已复制手册链接",
-                toastCopyFailed: "复制失败，请手动复制",
-                toastInvalidLink: "链接无效",
-                toastDataRefreshed: "资源数据已刷新",
-                toastSyncFailed: "在线同步失败，已保留现有数据",
-                themeLightToast: "已切换为浅色模式",
-                themeDarkToast: "已切换为深色模式",
-                themeAutoToast: "已切换为自动跟随系统",
-                langSwitchToast: "已切换为简体中文",
-                langBtnTitle: "切换为英文 (Switch to English)",
-                authorUnknown: "作者信息识别失败",
-                noDesc: "暂无描述"
-            },
-            en: {
-                badgeCommunity: "Community",
-                subtitle: "Shadowrocket Open-Source Community Resource Aggregator",
-                tabs: { module: "Modules", config: "Configs", manual: "Manual", more: "More" },
-                searchPlaceholderWait: "Please wait for loading to complete...",
-                searchPlaceholderReady: "Type keywords to search globally...",
-                notice1: "All resources originate from open source",
-                notice2: "Rights & copyrights belong to authors",
-                searchClearTitle: "Clear search",
-                backToTopTitle: "Back to top",
-                searchInputAria: "Search resources",
-                statusSyncing: "Syncing resource index...",
-                statusReady: "Ready",
-                statusChecking: "Checking for updates in background...",
-                statusFetchingStatic: "Fetching latest static index...",
-                statusSynced: "Synced latest data",
-                statusErrorCache: "Sync failed, showing cached data",
-                statusErrorStatic: "Sync failed, showing core resources",
-                countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
-                countText: (count, label) => `${count} ${label}`,
-                emptyText: (label) => `No matching ${label.toLowerCase()} found`,
-                loadingText: "Syncing resources, please wait...",
-                ptrContinue: "Pull down to force refresh",
-                ptrRelease: "Release to force refresh",
-                ptrRefreshing: "Force refreshing...",
-                footer: "Thanks to all open-source creators<br>All copyrights belong to respective authors",
-                btnCopyLink: "Copy Link",
-                btnPreInstall: "Prerequisite",
-                btnInstallModule: "Install",
-                btnInstallConfig: "Install Config",
-                btnViewManual: "View Manual",
-                btnVisitRepo: "Visit Repo",
-                openLinkAria: "Open direct link in new tab",
-                toastCopiedUrl: "Direct link copied",
-                toastCopiedRepo: "Repository link copied",
-                toastCopiedConfig: "Config link copied",
-                toastCopiedManual: "Manual link copied",
-                toastCopyFailed: "Copy failed, please copy manually",
-                toastInvalidLink: "Invalid link",
-                toastDataRefreshed: "Resource data refreshed",
-                toastSyncFailed: "Online sync failed, showing current data",
-                themeLightToast: "Switched to Light mode",
-                themeDarkToast: "Switched to Dark mode",
-                themeAutoToast: "Switched to Auto system mode",
-                langSwitchToast: "Switched to English",
-                langBtnTitle: "Switch to Chinese (切换为简体中文)",
-                authorUnknown: "Unknown Author",
-                noDesc: "No description available"
-            }
+        const TAB_NAMES = {
+            module: "模块",
+            config: "配置",
+            manual: "手册",
+            more: "资源"
         };
 
         const STATIC_RESOURCES_DATA = [
             {
                 category: "config",
-                i18n: {
-                    zh: { name: "懒人配置", description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。", primaryBtnText: "安装配置" },
-                    en: { name: "Lazy Config", description: "Out-of-the-box configuration with popular routing groups, well-balanced proxy rules, and detailed comments. Highly recommended.", primaryBtnText: "Install Config" }
-                },
+                name: "懒人配置",
+                description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。",
+                primaryBtnText: "安装配置",
                 icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2084,10 +1963,9 @@
             },
             {
                 category: "manual",
-                i18n: {
-                    zh: { name: "使用手册", description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。", primaryBtnText: "查阅手册" },
-                    en: { name: "User Manual", description: "Comprehensive guide and reference manual for Shadowrocket, covering protocols, routing rules, decryption, and advanced setups.", primaryBtnText: "View Manual" }
-                },
+                name: "使用手册",
+                description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
+                primaryBtnText: "查阅手册",
                 icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2100,10 +1978,9 @@
             },
             {
                 category: "more",
-                i18n: {
-                    zh: { name: "配色与配置仓库", description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。", primaryBtnText: "访问仓库" },
-                    en: { name: "Theme & Config Repo", description: "Curated community repository for modules, rules, and color themes, also serving as the core data processing hub.", primaryBtnText: "Visit Repo" }
-                },
+                name: "配色与配置仓库",
+                description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
+                primaryBtnText: "访问仓库",
                 icon: "https://avatars.githubusercontent.com/u/16624731?v=4",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2120,10 +1997,6 @@
         const MOON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         const SUN_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
 
-        const tagPillBadge = document.getElementById("tagPillBadge");
-        const subtitleEl = document.getElementById("subtitle");
-        const footerText = document.getElementById("footerText");
-        const langToggleBtn = document.getElementById("langToggle");
         const themeToggleBtn = document.getElementById("themeToggle");
         const backToTopBtn = document.getElementById("backToTopBtn");
         const tabItems = document.querySelectorAll(".tab-item");
@@ -2154,21 +2027,7 @@
         const alphabetFastIndex = document.getElementById("alphabetFastIndex");
         const alphabetPopupBubble = document.getElementById("alphabetPopupBubble");
 
-        function getInitialLang() {
-            try {
-                const saved = localStorage.getItem("sr_lang_override");
-                if (saved === "en" || saved === "zh") return saved;
-            } catch (e) {}
-
-            const primary = (navigator.languages && navigator.languages.length 
-                ? navigator.languages[0] 
-                : (navigator.language || navigator.userLanguage || "")).toLowerCase();
-
-            return primary.startsWith("zh") ? "zh" : "en";
-        }
-
         const state = {
-            currentLang: getInitialLang(),
             allModules: [],
             rawNetworkData: [],
             filteredModules: [],
@@ -2179,7 +2038,7 @@
             isListView: false,
             focusedModuleId: null,
             activeTab: "module",
-            statusKey: "statusSyncing",
+            statusKey: "syncing",
             isAlphabetRendered: false,
             listViewReturnScrollY: 0,
             wasFloatingBeforeActive: false
@@ -2292,22 +2151,21 @@
             return "#";
         }
 
-        function normalizeStaticResources(lang = state.currentLang) {
+        function normalizeStaticResources() {
             return STATIC_RESOURCES_DATA
                 .filter(item => !item.isDubious)
                 .map((item, idx) => {
-                    const localized = item.i18n[lang] || item.i18n.zh;
                     const searchTokens = [
-                        localized.name, localized.description, item.author.name,
+                        item.name, item.description, item.author.name,
                         item.sourceName, item.category, "shadowrocket", "手册",
                         "manual", "教程", "guide", "仓库", "repo", "文档", "docs", "配置", "config"
                     ].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
                     return {
                         id: `static_${item.category}_${idx}`,
-                        name: localized.name,
+                        name: item.name,
                         category: item.category || "more",
-                        description: localized.description,
+                        description: item.description,
                         icon: item.icon,
                         author: item.author,
                         authorAvatar: item.authorAvatar,
@@ -2317,9 +2175,9 @@
                         installURL: item.installURL,
                         isDubious: false,
                         isRepoCard: item.isRepoCard,
-                        primaryBtnText: localized.primaryBtnText,
+                        primaryBtnText: item.primaryBtnText,
                         _searchText: searchTokens,
-                        _initialLetter: extractInitialLetter(localized.name)
+                        _initialLetter: extractInitialLetter(item.name)
                     };
                 });
         }
@@ -2403,7 +2261,7 @@
 
         function createIOSAppIcon(name) {
             const cleanName = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
-            const char = Array.from(cleanName)[0] || (state.currentLang === "en" ? "M" : "模");
+            const char = Array.from(cleanName)[0] || "模";
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="128" cy="128" r="128" fill="url(#g)"/><text x="128" y="128" text-anchor="middle" dominant-baseline="central" alignment-baseline="central" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,SF Pro Text,sans-serif" font-size="110" font-weight="700">${escapeHTML(char)}</text></svg>`;
             return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
         }
@@ -2594,8 +2452,8 @@
 
             if (shouldActive) {
                 standaloneListBtn.classList.add("active");
-                standaloneListBtn.setAttribute("title", I18N[state.currentLang].searchClearTitle);
-                standaloneListBtn.setAttribute("aria-label", I18N[state.currentLang].searchClearTitle);
+                standaloneListBtn.setAttribute("title", "关闭列表");
+                standaloneListBtn.setAttribute("aria-label", "关闭列表");
             } else {
                 standaloneListBtn.classList.remove("active");
                 standaloneListBtn.setAttribute("title", "资源列表");
@@ -2632,9 +2490,8 @@
             modulesContainer.appendChild(singleCard);
             state.currentlyRendered = 1;
 
-            const langObj = I18N[state.currentLang];
-            const currentLabel = langObj.countLabel[mod.category] || langObj.countLabel.more;
-            countText.textContent = langObj.countText(1, currentLabel);
+            const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
+            countText.textContent = `1 个${currentLabel}`;
             statusText.textContent = `已定位：${mod.name}`;
             statusDot.className = "status-dot";
 
@@ -2654,11 +2511,9 @@
                 alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
             }
             
-            Array.from(alphabetFastIndex.children).forEach(child => {
-                if (child !== alphabetPopupBubble) {
-                    alphabetFastIndex.removeChild(child);
-                }
-            });
+            while (alphabetFastIndex.firstChild) {
+                alphabetFastIndex.removeChild(alphabetFastIndex.firstChild);
+            }
 
             const observer = getAlphabetImgObserver();
 
@@ -2718,9 +2573,6 @@
                         if (mod.category === "config") catName = "配置";
                         else if (mod.category === "manual") catName = "手册";
                         else if (mod.category === "more") catName = "仓库";
-                        if (state.currentLang === "en") {
-                            catName = mod.category ? mod.category.charAt(0).toUpperCase() + mod.category.slice(1) : "Module";
-                        }
 
                         row.innerHTML = `
                             <div class="alphabet-item-icon">
@@ -2754,9 +2606,6 @@
             });
 
             alphabetScrollArea.appendChild(fragment);
-            if (alphabetPopupBubble) {
-                alphabetFastIndex.appendChild(alphabetPopupBubble);
-            }
             state.isAlphabetRendered = true;
             fastIndexChars = [];
             fastIndexCharHeight = 0;
@@ -2777,7 +2626,6 @@
         let fastIndexCharHeight = 0;
         let fastIndexTop = 0;
         let fastIndexHeight = 0;
-        let fastIndexRightOffset = 0;
         let lastSelectedLetter = null;
         let activeFastIndexChar = null;
 
@@ -2789,14 +2637,10 @@
 
             const firstRect = fastIndexChars[0].getBoundingClientRect();
             const indexRect = alphabetFastIndex.getBoundingClientRect();
-            const contentRect = alphabetFastIndex.parentElement
-                ? alphabetFastIndex.parentElement.getBoundingClientRect()
-                : indexRect;
 
             fastIndexTop = firstRect.top;
             fastIndexHeight = indexRect.height;
             fastIndexCharHeight = firstRect.height || (fastIndexHeight / fastIndexChars.length);
-            fastIndexRightOffset = (contentRect.right - indexRect.left) + 10;
 
             return fastIndexCharHeight > 0 && fastIndexHeight > 0;
         }
@@ -2833,17 +2677,22 @@
             }
 
             if (alphabetPopupBubble) {
-                let relativeY = clientY - fastIndexTop;
+                const indexRect = alphabetFastIndex.getBoundingClientRect();
+                const containerRect = alphabetViewContainer.getBoundingClientRect();
+                
+                let relativeY = clientY - containerRect.top;
                 const bubbleHalfH = 24;
 
                 relativeY = Math.max(
-                    bubbleHalfH,
-                    Math.min(relativeY, fastIndexHeight - bubbleHalfH)
+                    bubbleHalfH + 8,
+                    Math.min(relativeY, containerRect.height - bubbleHalfH - 8)
                 );
+
+                const rightOffset = (containerRect.right - indexRect.left) + 10;
 
                 alphabetPopupBubble.textContent = letter;
                 alphabetPopupBubble.style.top = `${relativeY}px`;
-                alphabetPopupBubble.style.right = `${fastIndexRightOffset}px`;
+                alphabetPopupBubble.style.right = `${rightOffset}px`;
                 alphabetPopupBubble.classList.add("visible");
             }
         }
@@ -2944,7 +2793,7 @@
             alphabetViewContainer.style.top = `${topPos}px`;
             alphabetViewContainer.style.bottom = `${bottomPos}px`;
             alphabetViewContainer.style.left = `${btnRect.left}px`;
-            alphabetViewContainer.style.width = `${containerRect.right - btnRect.left}px`;
+            alphabetViewContainer.style.width = `${Math.max(0, containerRect.right - btnRect.left)}px`;
 
             fastIndexChars = [];
             fastIndexCharHeight = 0;
@@ -3050,8 +2899,17 @@
             filterModules();
             updateStandaloneButtonState();
             
-            if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
-                statusText.textContent = I18N[state.currentLang][state.statusKey];
+            const statusMap = {
+                syncing: "正在同步资源索引...",
+                ready: "已就绪",
+                checking: "正在后台检查最新资源...",
+                fetchingStatic: "正在拉取最新静态资源索引...",
+                synced: "已同步最新数据",
+                errorCache: "在线同步异常，当前展示缓存数据",
+                errorStatic: "在线资源同步失败，已展示核心入口"
+            };
+            if (statusMap[state.statusKey]) {
+                statusText.textContent = statusMap[state.statusKey];
             }
             statusDot.className = "status-dot";
         });
@@ -3140,7 +2998,7 @@
             const avatar = module.authorAvatar;
             const avatarHTML = avatar ? `<img class="author-avatar" src="${escapeHTML(avatar)}" decoding="async" referrerpolicy="no-referrer" alt="">` : "";
             const authorURL = author.url;
-            const authorName = author.name || author.username || I18N[state.currentLang].authorUnknown;
+            const authorName = author.name || author.username || "作者信息识别失败";
             if (authorURL) {
                 return `<a class="author" href="${escapeHTML(authorURL)}" target="_blank" rel="noopener">${avatarHTML}${escapeHTML(authorName)}</a>`;
             }
@@ -3148,7 +3006,6 @@
         }
 
         function createModuleCard(module) {
-            const langObj = I18N[state.currentLang];
             const card = document.createElement("article");
             card.className = "module-card glass-element";
             card.dataset.moduleId = module.id;
@@ -3162,7 +3019,7 @@
             let iconHTML = "";
             if (directOpenURL) {
                 iconHTML = `
-                    <a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(langObj.openLinkAria || '在新窗口打开资源直链')}" aria-label="${escapeHTML(langObj.openLinkAria || '在新窗口打开资源直链')}">
+                    <a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链">
                         <img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer">
                     </a>
                 `;
@@ -3180,16 +3037,16 @@
 
             let secondaryBtnHTML = "";
             if (module.preInstallURL) {
-                const preText = module.secondaryBtnText || langObj.btnPreInstall;
+                const preText = module.secondaryBtnText || "安装前置";
                 secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
             } else if (module.rawURL) {
-                secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="${langObj.btnCopyLink} ${escapeHTML(module.name)}">${langObj.btnCopyLink}</button>`;
+                secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
             }
 
-            let defaultPrimaryText = langObj.btnInstallModule;
-            if (module.category === "config") defaultPrimaryText = langObj.btnInstallConfig;
-            else if (module.category === "manual") defaultPrimaryText = langObj.btnViewManual;
-            else if (isRepo) defaultPrimaryText = langObj.btnVisitRepo;
+            let defaultPrimaryText = "安装模块";
+            if (module.category === "config") defaultPrimaryText = "安装配置";
+            else if (module.category === "manual") defaultPrimaryText = "查阅手册";
+            else if (isRepo) defaultPrimaryText = "访问仓库";
 
             const primaryText = module.primaryBtnText || defaultPrimaryText;
             const primaryTarget = isRepo ? `target="_blank" rel="noopener"` : "";
@@ -3197,7 +3054,7 @@
                 ? `<a class="button button-primary" href="${escapeHTML(module.installURL)}" ${primaryTarget} aria-label="${escapeHTML(primaryText)} ${escapeHTML(module.name)}">${escapeHTML(primaryText)}</a>` 
                 : "";
 
-            const descriptionText = module.description ? escapeHTML(module.description) : langObj.noDesc;
+            const descriptionText = module.description ? escapeHTML(module.description) : "暂无描述";
 
             card.innerHTML = `
                 <div class="card-header">
@@ -3227,15 +3084,15 @@
                     e.stopPropagation();
                     const url = copyBtn.getAttribute("data-url");
                     if (!url) {
-                        showToast(langObj.toastInvalidLink);
+                        showToast("链接无效");
                         return;
                     }
                     const success = await copyToClipboard(url);
-                    let toastMessage = langObj.toastCopiedUrl;
-                    if (isRepo) toastMessage = langObj.toastCopiedRepo;
-                    else if (module.category === "config") toastMessage = langObj.toastCopiedConfig;
-                    else if (module.category === "manual") toastMessage = langObj.toastCopiedManual;
-                    showToast(success ? toastMessage : langObj.toastCopyFailed);
+                    let toastMessage = "已复制资源直链";
+                    if (isRepo) toastMessage = "已复制仓库链接";
+                    else if (module.category === "config") toastMessage = "已复制配置直链";
+                    else if (module.category === "manual") toastMessage = "已复制手册链接";
+                    showToast(success ? toastMessage : "复制失败，请手动复制");
                 });
             }
             
@@ -3269,8 +3126,6 @@
         }
 
         function renderFilteredList(list, customLabel = null) {
-            const langObj = I18N[state.currentLang];
-
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3279,7 +3134,7 @@
                         <div class="empty-icon">
                             <span class="status-dot loading" style="width: 14px; height: 14px;"></span>
                         </div>
-                        ${escapeHTML(langObj.loadingText)}
+                        正在同步资源，请稍候...
                     </div>
                 `;
                 scheduleLayoutUpdate();
@@ -3291,7 +3146,7 @@
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
 
-            const currentLabel = customLabel || langObj.countLabel[state.activeTab] || langObj.countLabel.more;
+            const currentLabel = customLabel || TAB_NAMES[state.activeTab] || TAB_NAMES.more;
 
             if (!state.filteredModules.length) {
                 sentinel.style.display = "none";
@@ -3303,16 +3158,16 @@
                                 <path d="m16 16 4.5 4.5"></path>
                             </svg>
                         </div>
-                        ${escapeHTML(langObj.emptyText(currentLabel))}
+                        没有找到匹配的${escapeHTML(currentLabel)}
                     </div>
                 `;
-                countText.textContent = langObj.countText(0, currentLabel);
+                countText.textContent = `0 个${currentLabel}`;
                 scheduleLayoutUpdate();
                 checkScrollLock();
                 return;
             }
 
-            countText.textContent = langObj.countText(state.filteredModules.length, currentLabel);
+            countText.textContent = `${state.filteredModules.length} 个${currentLabel}`;
             appendNextBatch();
         }
 
@@ -3334,15 +3189,12 @@
             updateStandaloneButtonState();
 
             let result = [];
-            const langObj = I18N[state.currentLang];
-
             if (keyword) {
                 result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
-                const searchCountLabel = langObj.countLabel.more;
-                renderFilteredList(result, searchCountLabel);
+                renderFilteredList(result, TAB_NAMES.more);
             } else {
                 result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
-                const currentLabel = langObj.countLabel[state.activeTab] || langObj.countLabel.more;
+                const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
                 renderFilteredList(result, currentLabel);
             }
         }
@@ -3415,8 +3267,7 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const langObj = I18N[state.currentLang];
-            const text = enabled ? langObj.searchPlaceholderReady : langObj.searchPlaceholderWait;
+            const text = enabled ? "输入关键字全局搜索..." : "请在加载完成后执行搜索...";
             const mainP = document.getElementById("mainPlaceholder");
             if (mainP) mainP.textContent = text;
 
@@ -3512,22 +3363,18 @@
             }
             document.documentElement.style.backgroundColor = themeColor;
 
-            const isZh = state.currentLang === "zh";
             if (mode === "light") {
                 themeToggleBtn.innerHTML = SUN_ICON;
-                const desc = isZh ? "当前：浅色主题" : "Current: Light mode (Click for Dark)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：浅色主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：浅色主题");
             } else if (mode === "dark") {
                 themeToggleBtn.innerHTML = MOON_ICON;
-                const desc = isZh ? "当前：深色主题" : "Current: Dark mode (Click for Auto)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：深色主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：深色主题");
             } else {
                 themeToggleBtn.innerHTML = SYSTEM_ICON;
-                const desc = isZh ? "当前：自动主题" : "Current: Auto System (Click to switch)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：自动主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：自动主题");
             }
         }
 
@@ -3548,31 +3395,30 @@
             const currentMode = getThemeMode();
             const isSystemDark = mediaQueryDark.matches;
             let nextMode, toastText;
-            const langObj = I18N[state.currentLang];
 
             if (currentMode === "auto") {
                 if (isSystemDark) {
                     nextMode = "light";
-                    toastText = langObj.themeLightToast;
+                    toastText = "已切换为浅色模式";
                 } else {
                     nextMode = "dark";
-                    toastText = langObj.themeDarkToast;
+                    toastText = "已切换为深色模式";
                 }
             } else if (currentMode === "light") {
                 if (isSystemDark) {
                     nextMode = "dark";
-                    toastText = langObj.themeDarkToast;
+                    toastText = "已切换为深色模式";
                 } else {
                     nextMode = "auto";
-                    toastText = langObj.themeAutoToast;
+                    toastText = "已切换为自动跟随系统";
                 }
             } else { 
                 if (isSystemDark) {
                     nextMode = "auto";
-                    toastText = langObj.themeAutoToast;
+                    toastText = "已切换为自动跟随系统";
                 } else {
                     nextMode = "light";
-                    toastText = langObj.themeLightToast;
+                    toastText = "已切换为浅色模式";
                 }
             }
 
@@ -3588,67 +3434,6 @@
                     document.documentElement.classList.remove("theme-transitioning");
                 });
             });
-        });
-
-        function updateLanguageUI() {
-            const lang = state.currentLang;
-            const dict = I18N[lang];
-
-            document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
-            tagPillBadge.textContent = dict.badgeCommunity;
-            subtitleEl.textContent = dict.subtitle;
-            footerText.innerHTML = dict.footer;
-
-            tabItems.forEach(tab => {
-                const key = tab.getAttribute("data-tab");
-                if (dict.tabs[key]) {
-                    tab.textContent = dict.tabs[key];
-                }
-            });
-
-            langToggleBtn.setAttribute("title", dict.langBtnTitle);
-            langToggleBtn.setAttribute("aria-label", dict.langBtnTitle);
-
-            backToTopBtn.setAttribute("title", dict.backToTopTitle);
-            backToTopBtn.setAttribute("aria-label", dict.backToTopTitle);
-            searchInput.setAttribute("aria-label", dict.searchInputAria);
-
-            const notice1 = document.querySelector(".notice-item-1");
-            const notice2 = document.querySelector(".notice-item-2");
-            if (notice1) notice1.textContent = dict.notice1;
-            if (notice2) notice2.textContent = dict.notice2;
-
-            setSearchState(!searchInput.disabled);
-            updateThemeUI();
-            updateStandaloneButtonState();
-
-            if (!state.focusedModuleId && state.statusKey && dict[state.statusKey]) {
-                statusText.textContent = dict[state.statusKey];
-            }
-
-            if (!state.isPullRefreshing) {
-                ptrText.textContent = dict.ptrContinue;
-            }
-
-            const staticItems = normalizeStaticResources(lang);
-            const dynamicItems = normalizeModules(state.rawNetworkData);
-            state.allModules = [...staticItems, ...dynamicItems];
-
-            state.isAlphabetRendered = false;
-            
-            filterModules();
-
-            requestAnimationFrame(() => updateTabIndicator(false));
-        }
-
-        langToggleBtn.addEventListener("click", () => {
-            state.currentLang = state.currentLang === "zh" ? "en" : "zh";
-            try {
-                localStorage.setItem("sr_lang_override", state.currentLang);
-            } catch (e) {}
-
-            updateLanguageUI();
-            showToast(I18N[state.currentLang].langSwitchToast);
         });
 
         updateThemeUI();
@@ -3670,9 +3455,8 @@
             if (state.isPullRefreshing || state.isDataLoading) return;
             state.isPullRefreshing = true;
 
-            const langObj = I18N[state.currentLang];
             ptrIcon.classList.remove("rotate");
-            ptrText.textContent = langObj.ptrRefreshing;
+            ptrText.textContent = "正在强制刷新本站...";
 
             clearSiteDataCache();
 
@@ -3776,7 +3560,6 @@
                 const containerShift = Math.min(Math.pow(effectiveDiff, 0.65) * 1.3, 48);
                 const indicatorShift = Math.min(containerShift * 0.42, 18);
                 const progress = Math.min(effectiveDiff / (PULL_TRIGGER_DIFF - MIN_DRAG_DEADZONE), 1);
-                const langObj = I18N[state.currentLang];
 
                 if (pullRafId) cancelAnimationFrame(pullRafId);
                 pullRafId = requestAnimationFrame(() => {
@@ -3786,10 +3569,10 @@
 
                     if (diffY >= PULL_TRIGGER_DIFF) {
                         ptrIcon.classList.add("rotate");
-                        ptrText.textContent = langObj.ptrRelease;
+                        ptrText.textContent = "松开将立即强制刷新本站";
                     } else {
                         ptrIcon.classList.remove("rotate");
-                        ptrText.textContent = langObj.ptrContinue;
+                        ptrText.textContent = "继续下拉将强制刷新本站";
                     }
                 });
 
@@ -3845,8 +3628,7 @@
             state.isDataLoading = true;
             let cachedData = null;
             let cachedTime = 0;
-            const staticItems = normalizeStaticResources(state.currentLang);
-            const langObj = I18N[state.currentLang];
+            const staticItems = normalizeStaticResources();
 
             try {
                 cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
@@ -3875,14 +3657,14 @@
                             scheduleAlphabetPreRender();
 
                             if (isCacheFresh) {
-                                state.statusKey = "statusReady";
-                                statusText.textContent = langObj.statusReady;
+                                state.statusKey = "ready";
+                                statusText.textContent = "已就绪";
                                 statusDot.className = "status-dot";
                                 return true;
                             }
 
-                            state.statusKey = "statusChecking";
-                            statusText.textContent = langObj.statusChecking;
+                            state.statusKey = "checking";
+                            statusText.textContent = "正在后台检查最新资源...";
                             statusDot.className = "status-dot loading";
                         }
                     }
@@ -3892,8 +3674,8 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                state.statusKey = "statusFetchingStatic";
-                statusText.textContent = langObj.statusFetchingStatic;
+                state.statusKey = "fetchingStatic";
+                statusText.textContent = "正在拉取最新静态资源索引...";
                 statusDot.className = "status-dot loading";
             }
 
@@ -3928,8 +3710,8 @@
                     localStorage.setItem(CONFIG.CACHE_TIME_KEY, String(Date.now()));
                 } catch (e) {}
 
-                state.statusKey = "statusSynced";
-                statusText.textContent = langObj.statusSynced;
+                state.statusKey = "synced";
+                statusText.textContent = "已同步最新数据";
                 statusDot.className = "status-dot";
                 return true;
             } catch (error) {
@@ -3937,15 +3719,15 @@
                 state.isInitialLoading = false; 
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
-                    state.statusKey = "statusErrorCache";
-                    statusText.textContent = langObj.statusErrorCache;
+                    state.statusKey = "errorCache";
+                    statusText.textContent = "在线同步异常，当前展示缓存数据";
                     statusDot.className = "status-dot error";
                 } else {
                     state.allModules = staticItems;
                     filterModules();
                     setSearchState(true);
-                    state.statusKey = "statusErrorStatic";
-                    statusText.textContent = langObj.statusErrorStatic;
+                    state.statusKey = "errorStatic";
+                    statusText.textContent = "在线资源同步失败，已展示核心入口";
                     statusDot.className = "status-dot error";
                 }
                 return false;
@@ -3955,7 +3737,8 @@
             }
         }
 
-        updateLanguageUI();
+        state.allModules = normalizeStaticResources();
+        filterModules();
         updateCardWidth();
         updateControlBarLayout();
         updateTabIndicator(false);
