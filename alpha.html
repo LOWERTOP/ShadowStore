@@ -828,12 +828,29 @@
         .search::placeholder { color: transparent; }
         .search:disabled { cursor: not-allowed; }
 
-        /* 公告完全隔离实验版：公告不再创建独立滚动层、不使用 transform、不启动定时器。 */
+        .placeholder-track {
+            position: absolute; top: 0; left: 0; width: 100%;
+            display: flex; flex-direction: column;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1; pointer-events: none;
+        }
+        
         .placeholder-item {
-            position: absolute; top: 0; left: 0; width: 100%; height: 32px; line-height: 32px;
+            height: 32px; line-height: 32px;
             color: var(--text-tertiary); font-size: 15px; font-weight: 300;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            text-shadow: none; pointer-events: none; z-index: 1;
+            text-shadow: none; 
+        }
+
+        .search:focus ~ .placeholder-track,
+        .search:not(:placeholder-shown) ~ .placeholder-track {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .search:not(:focus):placeholder-shown ~ .placeholder-track {
+            opacity: 1;
+            transition: opacity 0.3s ease 0.1s;
         }
 
         .search-shortcut { 
@@ -1871,7 +1888,11 @@
                     <div class="input-wrapper">
                         <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索模块">
                         
-                        <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
+                        <div id="placeholderTrack" class="placeholder-track">
+                            <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
+                            <div class="placeholder-item notice-item-1">相关资源均来源于开源社区</div>
+                            <div class="placeholder-item notice-item-2">所有权利责任归原作者所有</div>
+                        </div>
                     </div>
 
                     <span class="search-shortcut">/</span>
@@ -1925,15 +1946,42 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609061408"; 
+        const CACHE_VERSION = "202609080900"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/refs/heads/main/modules.json", 
+            DATA_JSON_URL: "modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
+
+        // ==================== 强制刷新缓存工具 ====================
+        // ShadowStore 的资源索引使用 localStorage；同时通过 URL 时间戳
+        // 让 PC 浏览器重新请求当前 HTML 文档，避免只刷新 modules.json。
+        function clearSiteDataCache() {
+            try {
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (
+                        key.startsWith("sr_modules_data_") ||
+                        key.startsWith("sr_modules_time_")
+                    )) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+            } catch (e) {
+                console.warn("清理本站资源缓存失败:", e);
+            }
+        }
+
+        function buildForceReloadUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set("_refresh", Date.now().toString());
+            return url.href;
+        }
 
         const I18N = {
             zh: {
@@ -1944,7 +1992,7 @@
                 searchPlaceholderReady: "输入关键字全局搜索...",
                 notice1: "相关资源均来源于开源社区",
                 notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "清空搜索",
+                searchClearTitle: "关闭列表",
                 backToTopTitle: "返回顶部",
                 searchInputAria: "搜索资源",
                 statusSyncing: "正在同步资源索引...",
@@ -2113,6 +2161,7 @@
         const countText = document.getElementById("countText");
         const toast = document.getElementById("toast");
         const sentinel = document.getElementById("sentinel");
+        const noticeTrack = document.getElementById("placeholderTrack");
 
         const pageContainer = document.getElementById("pageContainer");
         const pullRefreshIndicator = document.getElementById("pullRefreshIndicator");
@@ -3415,8 +3464,59 @@
             }
         }
 
-        // 公告完全隔离实验版：故意移除公告轮播、transform、setInterval 和 visibilitychange 联动。
-        // 本版本用于 A/B 测试 iOS 搜索框聚焦/Sticky 滚动异常是否仍然存在。
+        let noticeInterval = null;
+        if (noticeTrack) {
+            const firstItemClone = noticeTrack.children[0].cloneNode(true);
+            noticeTrack.appendChild(firstItemClone);
+
+            let noticeIndex = 0;
+            const originalCount = noticeTrack.children.length - 1; 
+            let isAnimating = false;
+
+            function updateNoticePosition() {
+                noticeTrack.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+                noticeTrack.style.transform = `translateY(-${noticeIndex * 32}px)`;
+            }
+
+            function nextNotice() {
+                if (document.activeElement === searchInput || searchInput.value.length > 0 || state.isListView || state.focusedModuleId) return;
+                if (isAnimating) return;
+                isAnimating = true;
+                noticeIndex++;
+                updateNoticePosition();
+
+                if (noticeIndex === originalCount) {
+                    setTimeout(() => {
+                        noticeTrack.style.transition = 'none';
+                        noticeIndex = 0;
+                        noticeTrack.style.transform = `translateY(0)`;
+                        void noticeTrack.offsetHeight;
+                        isAnimating = false;
+                    }, 450); 
+                } else {
+                    setTimeout(() => { isAnimating = false; }, 450);
+                }
+            }
+
+            function startNoticeLoop() {
+                if (noticeInterval) clearInterval(noticeInterval);
+                noticeInterval = setInterval(nextNotice, 3800);
+            }
+
+            function stopNoticeLoop() {
+                if (noticeInterval) {
+                    clearInterval(noticeInterval);
+                    noticeInterval = null;
+                }
+            }
+
+            startNoticeLoop();
+
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) stopNoticeLoop();
+                else startNoticeLoop();
+            });
+        }
 
         const mediaQueryDark = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -3449,17 +3549,17 @@
             const isZh = state.currentLang === "zh";
             if (mode === "light") {
                 themeToggleBtn.innerHTML = SUN_ICON;
-                const desc = isZh ? "当前：浅色模式（点击切换深色）" : "Current: Light mode (Click for Dark)";
+                const desc = isZh ? "当前：浅色主题" : "Current: Light mode (Click for Dark)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             } else if (mode === "dark") {
                 themeToggleBtn.innerHTML = MOON_ICON;
-                const desc = isZh ? "当前：深色模式（点击切换自动跟随）" : "Current: Dark mode (Click for Auto)";
+                const desc = isZh ? "当前：深色主题" : "Current: Dark mode (Click for Auto)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             } else {
                 themeToggleBtn.innerHTML = SYSTEM_ICON;
-                const desc = isZh ? "当前：自动跟随系统（点击切换反色模式）" : "Current: Auto System (Click to switch)";
+                const desc = isZh ? "当前：自动主题" : "Current: Auto System (Click to switch)";
                 themeToggleBtn.setAttribute("title", desc);
                 themeToggleBtn.setAttribute("aria-label", desc);
             }
@@ -3547,6 +3647,11 @@
             backToTopBtn.setAttribute("aria-label", dict.backToTopTitle);
             searchInput.setAttribute("aria-label", dict.searchInputAria);
 
+            const notice1 = document.querySelector(".notice-item-1");
+            const notice2 = document.querySelector(".notice-item-2");
+            if (notice1) notice1.textContent = dict.notice1;
+            if (notice2) notice2.textContent = dict.notice2;
+
             setSearchState(!searchInput.disabled);
             updateThemeUI();
             updateStandaloneButtonState();
@@ -3582,6 +3687,15 @@
 
         updateThemeUI();
 
+        // 强制刷新完成后清理地址栏中的临时 _refresh 参数。
+        try {
+            const cleanUrl = new URL(window.location.href);
+            if (cleanUrl.searchParams.has("_refresh")) {
+                cleanUrl.searchParams.delete("_refresh");
+                window.history.replaceState({}, document.title, cleanUrl.href);
+            }
+        } catch (e) {}
+
         let touchStartX = 0, touchStartY = 0, isPulling = false, isPullLocked = false, pullRafId = null;
         let hasPulledContainer = false;
         const MIN_DRAG_DEADZONE = 30;
@@ -3595,23 +3709,27 @@
             ptrIcon.classList.remove("rotate");
             ptrText.textContent = langObj.ptrRefreshing;
 
-            const success = await loadModules(true);
-            showToast(success ? langObj.toastDataRefreshed : langObj.toastSyncFailed);
-            
-            setTimeout(() => {
-                const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)';
-                pageContainer.style.transition = reboundBezier;
-                pageContainer.style.top = '0';
+            // 清理本站自己维护的资源缓存
+            clearSiteDataCache();
 
-                pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`;
-                pullRefreshIndicator.style.opacity = '0';
-                pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)';
-                ptrIcon.classList.remove("rotate");
-                state.isPullRefreshing = false;
-                pageContainer.style.willChange = "auto";
-                hasPulledContainer = false;
-                checkScrollLock();
-            }, 500);
+            // 先让下拉区域平滑回到原位，再重新加载整个 HTML 文档
+            const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)';
+            pageContainer.style.transition = reboundBezier;
+            pageContainer.style.top = '0';
+
+            pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`;
+            pullRefreshIndicator.style.opacity = '0';
+            pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)';
+            ptrIcon.classList.remove("rotate");
+            pageContainer.style.willChange = "auto";
+            hasPulledContainer = false;
+
+            // _refresh 只用于本次请求，页面加载后会自动从地址栏移除。
+            const reloadUrl = buildForceReloadUrl();
+
+            setTimeout(() => {
+                window.location.replace(reloadUrl);
+            }, 180);
         }
 
         function resetPullState() {
@@ -3818,8 +3936,12 @@
             }
 
             try {
-                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
+                const fetchUrl = forceRefresh
+                    ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}`
+                    : CONFIG.DATA_JSON_URL;
+                const response = await fetch(fetchUrl, {
+                    cache: forceRefresh ? "no-store" : "default"
+                });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
