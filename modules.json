@@ -243,7 +243,7 @@
       "username": "LOWERTOP"
     },
     "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/apple_light.png",
+    "icon": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/apple_dark.png",
     "sourceName": "Shadowrocket-First",
     "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FHelper.sgmodule",
