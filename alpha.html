@@ -329,7 +329,6 @@
             display: inline-flex; 
             align-items: flex-start;
             gap: 2px; 
-            text-shadow: none; 
         }
         .title a { 
             display: inline-flex; 
@@ -373,7 +372,6 @@
             line-height: 1;
             border: none; 
             box-shadow: none; 
-            text-shadow: none;
             transform: translateY(calc(3px - 20%)); 
             user-select: none;
             -webkit-user-select: none;
@@ -388,7 +386,6 @@
         .subtitle { 
             margin-top: 8px; color: var(--text-secondary); font-size: 14px; 
             line-height: 1.5; font-weight: 300; 
-            text-shadow: none; 
         }
         
         .theme-controls { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
@@ -415,9 +412,6 @@
             background-color: var(--border-subtle); 
         }
         .theme-toggle:active { transform: scale(0.92); }
-        .theme-toggle.active { 
-            color: var(--primary); background-color: var(--primary-soft); 
-        }
         
         .theme-controls .immersive-icon {
             width: 36px;
@@ -433,15 +427,9 @@
             transform: none;
             transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .theme-controls .immersive-icon::before,
-        .theme-controls .immersive-icon::after {
-            display: none !important;
-            content: none !important;
-        }
         .theme-controls .immersive-icon:hover {
             border: none !important;
             background: transparent !important;
-            background-image: none !important;
             box-shadow: none !important;
             color: var(--text-primary);
             transform: translateY(-1px);
@@ -449,30 +437,12 @@
         .theme-controls .immersive-icon:active {
             border: none !important;
             background: transparent !important;
-            background-image: none !important;
             box-shadow: none !important;
             transform: scale(0.9);
-        }
-        .theme-controls .immersive-icon.active {
-            background: transparent !important;
-            box-shadow: none !important;
-            color: var(--primary);
-        }
-        [data-theme="dark"] .theme-controls .immersive-icon {
-            background: transparent !important;
-            background-image: none !important;
-            box-shadow: none !important;
-        }
-        [data-theme="dark"] .theme-controls .immersive-icon:hover {
-            background: transparent !important;
-            background-image: none !important;
-            box-shadow: none !important;
-            color: var(--text-primary);
         }
 
         .theme-toggle svg { 
             display: block; width: 20px; height: 20px; pointer-events: none; stroke-width: 2; 
-            filter: none; 
         }
 
         .control-bar {
@@ -490,14 +460,14 @@
             transition: margin-bottom 0.35s ease;
         }
 
+        /* 宽屏下标签栏位于主卡片(z:10)下方，阴影不会溢出遮盖卡片 */
         .tab-bar-wrapper {
-            width: 100%;
             min-width: 0;
             height: 44px;
             display: flex;
             align-items: center;
             position: relative;
-            z-index: 999990;
+            z-index: 5;
         }
 
         .tab-bar {
@@ -604,6 +574,7 @@
             font-weight: 400 !important;
         }
 
+        /* 搜索区域维持高层级吸顶，滚动时不被卡片遮挡 */
         .search-wrapper { 
             position: relative;
             height: 44px;
@@ -614,6 +585,7 @@
             display: flex;
             align-items: center;
             width: 100%;
+            z-index: 999995;
         }
 
         .standalone-list-btn {
@@ -680,9 +652,6 @@
         .standalone-list-btn.active {
             color: var(--text-primary);
         }
-        [data-theme="dark"] .standalone-list-btn.active {
-            color: var(--text-primary);
-        }
 
         .search-box-inner {
             position: relative; 
@@ -722,7 +691,6 @@
             background: transparent; box-shadow: none; border: 1px solid var(--border-subtle);
             display: flex; align-items: center; justify-content: center;
             color: var(--text-secondary); 
-            filter: none; 
             user-select: none;
             -webkit-user-select: none;
             line-height: 1;
@@ -780,7 +748,6 @@
             -webkit-appearance: none; appearance: none; border-radius: 0;
             z-index: 2;
             cursor: text;
-            text-shadow: none; 
         }
         
         .search::placeholder { color: transparent; }
@@ -797,7 +764,6 @@
             height: 32px; line-height: 32px;
             color: var(--text-tertiary); font-size: 15px; font-weight: 300;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            text-shadow: none; 
         }
 
         .search:focus ~ .placeholder-track,
@@ -869,7 +835,6 @@
         .status { 
             display: flex; align-items: center; justify-content: space-between; 
             min-height: 22px; margin: 0 4px 14px; color: var(--text-secondary); font-size: 13px; font-weight: 400; 
-            text-shadow: none; 
             transition: opacity 0.15s ease;
         }
         .status-left { display: flex; align-items: center; gap: 8px; }
@@ -879,6 +844,8 @@
         @keyframes statusPulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
         
         .modules { 
+            position: relative;
+            z-index: 10;
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); 
             gap: var(--layout-gap, 44px); 
@@ -895,6 +862,8 @@
 
         .module-card { 
             position: relative; 
+            z-index: 10;
+            isolation: isolate;
             padding: 28px; 
             height: auto;
             min-height: 0;
@@ -912,19 +881,6 @@
             -webkit-transform: translateZ(0); transform: translateZ(0); 
         }
 
-        @keyframes targetCardPulse {
-            0% { transform: scale(0.96); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .module-card.single-focused {
-            animation: targetCardPulse 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            grid-column: 1;
-            justify-self: start;
-            max-width: var(--card-width, 380px);
-            margin: 0;
-            width: 100%;
-        }
-
         @media (hover: hover) and (pointer: fine) and (min-width: 861px) {
             .module-card:hover { 
                 z-index: 50000 !important;
@@ -938,9 +894,18 @@
             }
         }
 
+        .card-header,
+        .module-description,
+        .card-bottom {
+            position: relative;
+            z-index: 1;
+        }
+
         .card-header { display: flex; align-items: center; gap: 20px; }
         
         .module-icon { 
+            position: relative;
+            z-index: 2;
             width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; 
             background: var(--bg-surface); 
             aspect-ratio: 1/1;
@@ -966,6 +931,8 @@
         .module-icon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
         .card-main { 
+            position: relative;
+            z-index: 1;
             min-width: 0; 
             flex: 1; 
             container-type: inline-size; 
@@ -981,8 +948,7 @@
             word-break: break-word; 
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
-            text-shadow: none; 
+            text-overflow: ellipsis; 
         }
         
         .module-meta { 
@@ -998,6 +964,8 @@
         .meta-separator { opacity: .4; }
         
         .author, .source-link { 
+            position: relative;
+            z-index: 2;
             display: inline-flex; 
             align-items: center; 
             gap: 6px; 
@@ -1032,7 +1000,6 @@
             line-height: 1.6; 
             font-weight: 300; 
             word-break: break-word; 
-            text-shadow: none; 
             flex: 1 1 auto;
         }
         
@@ -1048,9 +1015,18 @@
             flex-shrink: 0;
         }
 
-        .action-buttons { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .action-buttons { 
+            position: relative;
+            z-index: 2;
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            flex-shrink: 0; 
+        }
         
         .button { 
+            position: relative;
+            z-index: 2;
             display: inline-flex; align-items: center; justify-content: center; 
             height: 44px; padding: 0 20px; border: 0; border-radius: 22px; 
             font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer; 
@@ -1065,7 +1041,6 @@
             color: #0891b2; 
             border: none !important; 
             box-shadow: none !important; 
-            text-shadow: none; 
             padding: 0 16px;
             overflow: visible;
             transition: 
@@ -1096,7 +1071,6 @@
             color: #FFFFFF; 
             border: none; 
             box-shadow: var(--primary-gradient-shadow); 
-            text-shadow: none; 
             transform: none !important; 
         }
         .button-primary:hover,
@@ -1122,7 +1096,6 @@
             display: flex; align-items: center; justify-content: center;
             color: var(--primary);
             opacity: 1; 
-            filter: none; 
         }
         .empty-icon svg {
             width: 22px;
@@ -1165,7 +1138,6 @@
             opacity: 0; 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; 
             pointer-events: none; 
-            text-shadow: none;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -1193,23 +1165,6 @@
         }
 
         .control-bar.is-single-column .tab-bar-wrapper {
-            width: 100%;
-        }
-
-        .control-bar.is-single-column .standalone-list-btn,
-        .control-bar.is-single-column .search-box-inner,
-        .control-bar.is-single-column .back-to-top-btn {
-            pointer-events: auto;
-        }
-
-        body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-        }
-
-        .control-bar.is-single-column .tab-bar-wrapper {
             position: fixed;
             left: 0;
             right: 0;
@@ -1224,6 +1179,19 @@
             pointer-events: none;
             z-index: 999999;
             transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .control-bar.is-single-column .standalone-list-btn,
+        .control-bar.is-single-column .search-box-inner,
+        .control-bar.is-single-column .back-to-top-btn {
+            pointer-events: auto;
+        }
+
+        body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         .control-bar.is-single-column .tab-bar {
@@ -1611,18 +1579,6 @@
             opacity: 1;
             visibility: visible;
             transform: translate3d(0, -50%, 0);
-            box-shadow: none !important;
-        }
-
-        [data-theme="dark"] .alphabet-popup-bubble,
-        [data-theme="dark"] .alphabet-popup-bubble.visible {
-            background: var(--primary-soft) !important;
-            background-image: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border: 1px solid var(--primary) !important;
-            color: var(--primary);
-            box-shadow: none !important;
         }
 
         @media (hover: none), (pointer: coarse), (max-width: 860px) {
@@ -1745,9 +1701,6 @@
             .theme-controls .immersive-icon:hover,
             .theme-controls .immersive-icon:active {
                 transform: none !important;
-            }
-            .theme-toggle.active {
-                color: var(--primary) !important;
             }
             .back-to-top-btn.visible:hover,
             .back-to-top-btn.visible:active {
@@ -1907,7 +1860,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081620"; 
+        const CACHE_VERSION = "202609081535"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
@@ -1916,6 +1869,25 @@
             CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
+
+        const STATUS_MESSAGES = {
+            syncing: "正在同步资源索引...",
+            ready: "已就绪",
+            checking: "正在后台检查最新资源...",
+            fetchingStatic: "正在拉取最新静态资源索引...",
+            synced: "已同步最新数据",
+            errorCache: "在线同步异常，当前展示缓存数据",
+            errorStatic: "在线资源同步失败，已展示核心入口"
+        };
+
+        const PINYIN_TABLE = [
+            { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
+            { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
+            { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
+            { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
+            { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
+            { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
+        ];
 
         function clearSiteDataCache() {
             try {
@@ -2088,12 +2060,7 @@
         }
 
         function checkScrollLock() {
-            const root = document.documentElement;
-            if (state.isListView) {
-                root.classList.add("no-scroll");
-            } else {
-                root.classList.remove("no-scroll");
-            }
+            document.documentElement.classList.toggle("no-scroll", state.isListView);
         }
 
         function escapeHTML(value) {
@@ -2133,17 +2100,9 @@
             
             if (/^[\u4e00-\u9fa5]$/.test(first)) {
                 try {
-                    const zhLetters = [
-                        { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
-                        { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
-                        { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
-                        { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
-                        { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
-                        { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
-                    ];
-                    for (let i = zhLetters.length - 1; i >= 0; i--) {
-                        if (first.localeCompare(zhLetters[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
-                            return zhLetters[i].l;
+                    for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
+                        if (first.localeCompare(PINYIN_TABLE[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
+                            return PINYIN_TABLE[i].l;
                         }
                     }
                 } catch (e) {}
@@ -2268,16 +2227,14 @@
 
         function getControlBarStickyScrollTop() {
             if (!controlBarEl) return 0;
-            const style = window.getComputedStyle(controlBarEl);
-            const topSticky = parseFloat(style.top) || 12;
+            const topSticky = parseFloat(window.getComputedStyle(controlBarEl).top) || 12;
             const elementTop = controlBarEl.getBoundingClientRect().top + (window.scrollY || document.documentElement.scrollTop || 0);
             return Math.max(0, elementTop - topSticky);
         }
 
         function isSearchFloating() {
             const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-            const threshold = getControlBarStickyScrollTop();
-            return currentScrollY >= (threshold - 4);
+            return currentScrollY >= (getControlBarStickyScrollTop() - 4);
         }
 
         function floatSearchToTarget(smooth = true) {
@@ -2297,26 +2254,22 @@
 
         let backToTopVisible = false;
         let scrollRaf = 0;
-        let lastScrollY = -1;
 
-        function updateSearchLayer(scrollY = null) {
+        function updateSearchLayer() {
             if (!backToTopBtn) return;
-            if (scrollY == null) scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
             const shouldShow = scrollY > 160 && !state.isListView;
-            if (shouldShow === backToTopVisible) return;
-            backToTopVisible = shouldShow;
-            backToTopBtn.classList.toggle("visible", shouldShow);
+            if (shouldShow !== backToTopVisible) {
+                backToTopVisible = shouldShow;
+                backToTopBtn.classList.toggle("visible", shouldShow);
+            }
         }
 
         function scheduleScrollUpdate() {
             if (scrollRaf) return;
             scrollRaf = requestAnimationFrame(() => {
                 scrollRaf = 0;
-                const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-                if (scrollY !== lastScrollY) {
-                    lastScrollY = scrollY;
-                    updateSearchLayer(scrollY);
-                }
+                updateSearchLayer();
             });
         }
 
@@ -2333,14 +2286,9 @@
         function updateTabIndicator(animated = true) {
             const activeTab = document.querySelector(".tab-item.active");
             if (!activeTab || !tabIndicator) return;
-
             if (!animated && isTabAnimating) return;
 
-            if (!animated) {
-                tabIndicator.style.transition = 'none';
-            } else {
-                tabIndicator.style.transition = 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)';
-            }
+            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
 
             const left = activeTab.offsetLeft;
             const width = activeTab.offsetWidth;
@@ -2369,8 +2317,7 @@
 
         function getGridColumns(force = false) {
             if (!force && layoutCache.valid && layoutCache.columns > 0) return layoutCache.columns;
-            const style = window.getComputedStyle(modulesContainer);
-            const template = style.getPropertyValue("grid-template-columns");
+            const template = window.getComputedStyle(modulesContainer).getPropertyValue("grid-template-columns");
             const columns = template ? template.trim().split(/\s+/).length : 1;
             layoutCache.columns = Math.max(1, columns);
             layoutCache.valid = true;
@@ -2414,7 +2361,6 @@
 
             layoutRaf = requestAnimationFrame(() => {
                 layoutRaf = 0;
-
                 const columns = getGridColumns(true) || 1;
                 updateControlBarLayout(columns);
                 updateCardWidth(columns);
@@ -2438,27 +2384,18 @@
         }, { passive: true });
 
         if (typeof ResizeObserver !== "undefined") {
-            if (modulesContainer) {
-                new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
-            }
-            if (tabBarEl) {
-                new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
-            }
+            if (modulesContainer) new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
+            if (tabBarEl) new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
         }
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
             const shouldActive = state.isListView;
 
-            if (shouldActive) {
-                standaloneListBtn.classList.add("active");
-                standaloneListBtn.setAttribute("title", "关闭列表");
-                standaloneListBtn.setAttribute("aria-label", "关闭列表");
-            } else {
-                standaloneListBtn.classList.remove("active");
-                standaloneListBtn.setAttribute("title", "资源列表");
-                standaloneListBtn.setAttribute("aria-label", "资源列表");
-            }
+            standaloneListBtn.classList.toggle("active", shouldActive);
+            const title = shouldActive ? "关闭列表" : "资源列表";
+            standaloneListBtn.setAttribute("title", title);
+            standaloneListBtn.setAttribute("aria-label", title);
             document.body.classList.toggle("has-search-text", hasText);
         }
 
@@ -2485,9 +2422,7 @@
             modulesContainer.innerHTML = "";
             sentinel.style.display = "none";
 
-            const singleCard = createModuleCard(mod);
-            singleCard.classList.add("single-focused");
-            modulesContainer.appendChild(singleCard);
+            modulesContainer.appendChild(createModuleCard(mod));
             state.currentlyRendered = 1;
 
             const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
@@ -2503,22 +2438,12 @@
         function renderAlphabetList() {
             if (!alphabetScrollArea || !alphabetFastIndex) return;
             
-            if (alphabetImgObserver) {
-                alphabetImgObserver.disconnect();
-            }
-
-            while (alphabetScrollArea.firstChild) {
-                alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
-            }
-            
-            while (alphabetFastIndex.firstChild) {
-                alphabetFastIndex.removeChild(alphabetFastIndex.firstChild);
-            }
+            if (alphabetImgObserver) alphabetImgObserver.disconnect();
+            while (alphabetScrollArea.firstChild) alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
+            while (alphabetFastIndex.firstChild) alphabetFastIndex.removeChild(alphabetFastIndex.firstChild);
 
             const observer = getAlphabetImgObserver();
-
-            let sourceList = state.allModules;
-            const sorted = [...sourceList].sort((a, b) => {
+            const sorted = [...state.allModules].sort((a, b) => {
                 const letterA = a._initialLetter || "#";
                 const letterB = b._initialLetter || "#";
                 if (letterA === "#" && letterB !== "#") return -1;
@@ -2535,7 +2460,8 @@
             });
 
             const alphabetAll = ["#","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-            const fragment = document.createDocumentFragment();
+            const listFragment = document.createDocumentFragment();
+            const indexFragment = document.createDocumentFragment();
 
             alphabetAll.forEach(letter => {
                 const charEl = document.createElement("div");
@@ -2545,7 +2471,7 @@
                 if (!groups[letter] || groups[letter].length === 0) {
                     charEl.classList.add("disabled");
                 }
-                alphabetFastIndex.appendChild(charEl);
+                indexFragment.appendChild(charEl);
 
                 if (groups[letter] && groups[letter].length > 0) {
                     const groupContainer = document.createElement("div");
@@ -2584,11 +2510,8 @@
 
                         const imgEl = row.querySelector("img");
                         if (hasRemoteIcon) {
-                            if (observer) {
-                                observer.observe(imgEl);
-                            } else {
-                                imgEl.src = mod.icon;
-                            }
+                            if (observer) observer.observe(imgEl);
+                            else imgEl.src = mod.icon;
                             bindImageError(imgEl, fallbackIcon);
                         }
 
@@ -2601,11 +2524,13 @@
                     });
 
                     groupContainer.appendChild(listEl);
-                    fragment.appendChild(groupContainer);
+                    listFragment.appendChild(groupContainer);
                 }
             });
 
-            alphabetScrollArea.appendChild(fragment);
+            alphabetFastIndex.appendChild(indexFragment);
+            alphabetScrollArea.appendChild(listFragment);
+
             state.isAlphabetRendered = true;
             fastIndexChars = [];
             fastIndexCharHeight = 0;
@@ -2614,8 +2539,7 @@
         }
 
         function scrollToAlphabetLetter(letter) {
-            const targetId = letter === '#' ? 'alphabet-group-hash' : `alphabet-group-${letter}`;
-            const targetEl = document.getElementById(targetId);
+            const targetEl = document.getElementById(letter === '#' ? 'alphabet-group-hash' : `alphabet-group-${letter}`);
             if (targetEl && alphabetScrollArea) {
                 alphabetScrollArea.scrollTop = targetEl.offsetTop;
             }
@@ -2626,12 +2550,10 @@
         let fastIndexCharHeight = 0;
         let fastIndexTop = 0;
         let fastIndexHeight = 0;
-        let lastSelectedLetter = null;
         let activeFastIndexChar = null;
 
         function prepareFastIndexGeometry() {
             if (!alphabetFastIndex) return false;
-
             fastIndexChars = Array.from(alphabetFastIndex.querySelectorAll(".alphabet-fast-char"));
             if (!fastIndexChars.length) return false;
 
@@ -2646,12 +2568,10 @@
         }
 
         let fastIndexRaf = 0;
-        let pendingFastIndexX = 0;
         let pendingFastIndexY = 0;
 
-        function renderFastIndexSelection(clientX, clientY) {
+        function renderFastIndexSelection(clientY) {
             if (!alphabetFastIndex) return;
-
             if (!fastIndexChars.length || !fastIndexCharHeight) {
                 if (!prepareFastIndexGeometry()) return;
             }
@@ -2665,16 +2585,13 @@
             const letter = charEl.dataset.letter;
             if (!letter) return;
 
-            if (letter !== lastSelectedLetter) {
-                lastSelectedLetter = letter;
-                scrollToAlphabetLetter(letter);
+            scrollToAlphabetLetter(letter);
 
-                if (activeFastIndexChar && activeFastIndexChar !== charEl) {
-                    activeFastIndexChar.classList.remove("active");
-                }
-                charEl.classList.add("active");
-                activeFastIndexChar = charEl;
+            if (activeFastIndexChar && activeFastIndexChar !== charEl) {
+                activeFastIndexChar.classList.remove("active");
             }
+            charEl.classList.add("active");
+            activeFastIndexChar = charEl;
 
             if (alphabetPopupBubble) {
                 const indexRect = alphabetFastIndex.getBoundingClientRect();
@@ -2689,7 +2606,6 @@
                 );
 
                 const rightOffset = (containerRect.right - indexRect.left) + 10;
-
                 alphabetPopupBubble.textContent = letter;
                 alphabetPopupBubble.style.top = `${relativeY}px`;
                 alphabetPopupBubble.style.right = `${rightOffset}px`;
@@ -2697,19 +2613,17 @@
             }
         }
 
-        function updateFastIndexSelection(clientX, clientY, immediate = false) {
-            pendingFastIndexX = clientX;
+        function updateFastIndexSelection(clientY, immediate = false) {
             pendingFastIndexY = clientY;
-
             if (immediate) {
-                renderFastIndexSelection(clientX, clientY);
+                renderFastIndexSelection(clientY);
                 return;
             }
 
             if (fastIndexRaf) return;
             fastIndexRaf = requestAnimationFrame(() => {
                 fastIndexRaf = 0;
-                renderFastIndexSelection(pendingFastIndexX, pendingFastIndexY);
+                renderFastIndexSelection(pendingFastIndexY);
             });
         }
 
@@ -2721,12 +2635,7 @@
             if (!isTouchingIndex) return;
 
             isTouchingIndex = false;
-            lastSelectedLetter = null;
-
-            if (alphabetPopupBubble) {
-                alphabetPopupBubble.classList.remove("visible");
-            }
-
+            if (alphabetPopupBubble) alphabetPopupBubble.classList.remove("visible");
             if (activeFastIndexChar) {
                 activeFastIndexChar.classList.remove("active");
                 activeFastIndexChar = null;
@@ -2735,20 +2644,15 @@
 
         alphabetFastIndex.addEventListener("touchstart", (e) => {
             isTouchingIndex = true;
-            lastSelectedLetter = null;
             prepareFastIndexGeometry();
             e.preventDefault();
-
-            const touch = e.touches[0];
-            updateFastIndexSelection(touch.clientX, touch.clientY, true);
+            updateFastIndexSelection(e.touches[0].clientY, true);
         }, { passive: false });
 
         alphabetFastIndex.addEventListener("touchmove", (e) => {
             if (!isTouchingIndex) return;
-
             e.preventDefault();
-            const touch = e.touches[0];
-            updateFastIndexSelection(touch.clientX, touch.clientY);
+            updateFastIndexSelection(e.touches[0].clientY);
         }, { passive: false });
 
         window.addEventListener("touchend", hideFastIndexSelection, { passive: true });
@@ -2756,15 +2660,12 @@
 
         alphabetFastIndex.addEventListener("mousedown", (e) => {
             isTouchingIndex = true;
-            lastSelectedLetter = null;
             prepareFastIndexGeometry();
-            updateFastIndexSelection(e.clientX, e.clientY);
+            updateFastIndexSelection(e.clientY, true);
         });
 
         window.addEventListener("mousemove", (e) => {
-            if (isTouchingIndex) {
-                updateFastIndexSelection(e.clientX, e.clientY);
-            }
+            if (isTouchingIndex) updateFastIndexSelection(e.clientY);
         });
 
         window.addEventListener("mouseup", hideFastIndexSelection);
@@ -2775,17 +2676,13 @@
 
             const btnRect = standaloneListBtn.getBoundingClientRect();
             const containerRect = pageContainer.getBoundingClientRect();
-
-            const style = window.getComputedStyle(controlBarEl);
-            const stickyTopVal = parseFloat(style.top) || 12;
+            const stickyTopVal = parseFloat(window.getComputedStyle(controlBarEl).top) || 12;
             const topPos = Math.round(stickyTopVal + 4 + 44 + 12);
 
             let bottomPos = 16;
             const isSingleCol = controlBarEl && controlBarEl.classList.contains("is-single-column");
-            
             if (isSingleCol) {
-                const bottomOffsetVal = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--bottom-offset')) || 16;
-                bottomPos = Math.round(bottomOffsetVal);
+                bottomPos = Math.round(parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--bottom-offset')) || 16);
             } else {
                 bottomPos = 24;
             }
@@ -2812,12 +2709,10 @@
             if (enable) {
                 state.wasFloatingBeforeActive = isSearchFloating();
                 state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
                 state.isListView = true;
 
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
-
                 floatSearchToTarget(true);
 
                 if (!state.isAlphabetRendered) {
@@ -2834,9 +2729,7 @@
 
                 listViewScrollLockTimer = setTimeout(() => {
                     listViewScrollLockTimer = null;
-                    if (state.isListView) {
-                        checkScrollLock();
-                    }
+                    if (state.isListView) checkScrollLock();
                 }, 450);
             } else {
                 state.isListView = false;
@@ -2845,7 +2738,6 @@
                 updateStandaloneButtonState();
                 
                 document.body.style.minHeight = "";
-                
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
@@ -2867,11 +2759,7 @@
                 ignoreNextClick = false;
                 return;
             }
-            if (e.target.closest("#alphabetViewContainer") || 
-                e.target.closest("#controlBar") || 
-                e.target.closest("#standaloneListBtn") ||
-                e.target.closest("#toast") || 
-                e.target.closest("#pullRefreshIndicator")) {
+            if (e.target.closest("#alphabetViewContainer, #controlBar, #standaloneListBtn, #toast, #pullRefreshIndicator")) {
                 return;
             }
             setListViewMode(false);
@@ -2879,7 +2767,6 @@
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-
             if (state.isListView) {
                 setListViewMode(false);
             } else {
@@ -2891,7 +2778,6 @@
 
         searchClearBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            
             state.focusedModuleId = null;
             searchInput.value = "";
             document.body.classList.remove("has-search-text", "has-search-focus");
@@ -2899,93 +2785,26 @@
             filterModules();
             updateStandaloneButtonState();
             
-            const statusMap = {
-                syncing: "正在同步资源索引...",
-                ready: "已就绪",
-                checking: "正在后台检查最新资源...",
-                fetchingStatic: "正在拉取最新静态资源索引...",
-                synced: "已同步最新数据",
-                errorCache: "在线同步异常，当前展示缓存数据",
-                errorStatic: "在线资源同步失败，已展示核心入口"
-            };
-            if (statusMap[state.statusKey]) {
-                statusText.textContent = statusMap[state.statusKey];
+            if (STATUS_MESSAGES[state.statusKey]) {
+                statusText.textContent = STATUS_MESSAGES[state.statusKey];
             }
             statusDot.className = "status-dot";
         });
 
-        let searchFocusScrollY = null;
-        let searchFocusRestoreRaf1 = 0;
-        let searchFocusRestoreRaf2 = 0;
-
-        function lockSearchFocusScroll() {
-            if (!isSearchFloating()) {
-                searchFocusScrollY = null;
-                return;
-            }
-
-            searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
-            cancelAnimationFrame(searchFocusRestoreRaf1);
-            cancelAnimationFrame(searchFocusRestoreRaf2);
-
-            const restore = () => {
-                if (searchFocusScrollY == null || state.isListView) return;
-                window.scrollTo(0, searchFocusScrollY);
-            };
-
-            searchFocusRestoreRaf1 = requestAnimationFrame(() => {
-                restore();
-                searchFocusRestoreRaf2 = requestAnimationFrame(() => {
-                    restore();
-                    searchFocusScrollY = null;
-                });
-            });
-        }
-
-        searchBoxInner.addEventListener("touchstart", () => {
-            if (!state.isListView && isSearchFloating()) {
-                searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-            }
-        }, { passive: true });
-
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn")) return;
-
-            const wasFloating = !state.isListView && isSearchFloating();
-            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
             if (document.activeElement !== searchInput) {
-                if (wasFloating) {
-                    searchFocusScrollY = currentScrollY;
-                    searchInput.focus({ preventScroll: true });
-                } else {
-                    searchInput.focus({ preventScroll: true });
-                }
-            }
-
-            if (wasFloating) {
-                const restore = () => {
-                    if (state.isListView) return;
-                    window.scrollTo(0, currentScrollY);
-                };
-                requestAnimationFrame(() => {
-                    restore();
-                    requestAnimationFrame(restore);
-                });
+                searchInput.focus({ preventScroll: true });
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-
             if (state.isListView) {
                 setListViewMode(false, false);
                 window.scrollTo(0, 0);
             } else if (!isSearchFloating()) {
                 floatSearchToTarget(true);
-            } else {
-                lockSearchFocusScroll();
             }
         });
 
@@ -3016,20 +2835,9 @@
             const isRepo = Boolean(module.isRepoCard);
 
             const directOpenURL = module.rawURL || module.sourceURL || "";
-            let iconHTML = "";
-            if (directOpenURL) {
-                iconHTML = `
-                    <a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链">
-                        <img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer">
-                    </a>
-                `;
-            } else {
-                iconHTML = `
-                    <div class="module-icon" style="cursor: default;">
-                        <img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer">
-                    </div>
-                `;
-            }
+            let iconHTML = directOpenURL 
+                ? `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>`
+                : `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
 
             const sourceLinkHTML = module.sourceURL
                 ? `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>`
@@ -3267,9 +3075,8 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const text = enabled ? "输入关键字全局搜索..." : "请在加载完成后执行搜索...";
             const mainP = document.getElementById("mainPlaceholder");
-            if (mainP) mainP.textContent = text;
+            if (mainP) mainP.textContent = enabled ? "输入关键字全局搜索..." : "请在加载完成后执行搜索...";
 
             if (searchShortcut) {
                 searchShortcut.style.opacity = enabled ? "1" : "0.35";
@@ -3472,7 +3279,6 @@
             hasPulledContainer = false;
 
             const reloadUrl = buildForceReloadUrl();
-
             setTimeout(() => {
                 window.location.replace(reloadUrl);
             }, 180);
@@ -3534,13 +3340,7 @@
             const diffY = currentY - touchStartY;
 
             if (!isPullLocked) {
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    isPulling = false;
-                    isPullLocked = true;
-                    return;
-                }
-
-                if (diffY <= 0) {
+                if (Math.abs(diffX) > Math.abs(diffY) || diffY <= 0) {
                     isPulling = false;
                     isPullLocked = true;
                     return;
