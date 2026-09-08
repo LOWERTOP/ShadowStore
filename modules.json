@@ -252,6 +252,24 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 苹果助手 苹果服务器切换模块，编辑参数以修改 lowertop shadowrocket-first"
   },
   {
+    "name": "🆃🅾🅿🅼🅾🅳🆂 GitHub 禁止编辑缩放",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/GitHub-iOS-No-Zoom.sgmodule",
+    "description": "防止访问 GitHub 时聚焦输入框或代码编辑器导致页面自动放大",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_02.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FGitHub-iOS-No-Zoom.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 github 禁止编辑缩放 防止访问 github 时聚焦输入框或代码编辑器导致页面自动放大 lowertop shadowrocket-first"
+  },
+  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 私库助手",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Private.module",
     "description": "编辑参数以启用按GitHub用户名自动注入Token",
