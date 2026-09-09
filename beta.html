@@ -326,9 +326,7 @@
             transition: color 0.4s ease;
         }
 
-        [data-theme="dark"] .title-shadow {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .title-shadow { color: #22d3ee; }
 
         .title-store {
             font-weight: 750;
@@ -523,9 +521,7 @@
             transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
-        .tab-item:active {
-            transform: scale(0.92);
-        }
+        .tab-item:active { transform: scale(0.92); }
 
         .tab-item:not(.active) {
             background: transparent !important;
@@ -566,6 +562,11 @@
             align-items: center;
             width: 100%;
             z-index: 999995;
+        }
+
+        /* 在资源列表激活状态下，确保搜索栏位于最顶层，防止系统下拉时被遮挡 */
+        body.is-list-view .search-wrapper {
+            z-index: 1000005 !important;
         }
 
         .standalone-list-btn {
@@ -610,7 +611,6 @@
         .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
             color: #0891b2;
-            transform: none !important;
             box-shadow: var(--shadow-glass-ui) !important;
         }
         [data-theme="dark"] .standalone-list-btn:hover,
@@ -618,7 +618,6 @@
         [data-theme="dark"] .standalone-list-btn:focus-visible,
         [data-theme="dark"] .standalone-list-btn.active {
             color: #22d3ee;
-            transform: none !important;
             box-shadow: var(--shadow-glass-ui) !important;
             background-color: var(--bg-surface) !important;
         }
@@ -687,7 +686,6 @@
             color: #0891b2;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
-            transform: none !important;
         }
         [data-theme="dark"] .search-clear-btn:hover,
         [data-theme="dark"] .search-clear-btn:active {
@@ -703,7 +701,6 @@
             color: #0891b2;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
-            transform: none !important;
         }
         [data-theme="dark"] .search-submit-btn:hover,
         [data-theme="dark"] .search-submit-btn:active {
@@ -1053,11 +1050,6 @@
         .button-primary:focus-visible { 
             background: var(--primary-gradient); 
             transform: none !important;
-            box-shadow: var(--primary-gradient-shadow);
-        }
-        [data-theme="dark"] .button-primary:hover,
-        [data-theme="dark"] .button-primary:active,
-        [data-theme="dark"] .button-primary:focus-visible {
             box-shadow: var(--primary-gradient-shadow);
         }
         
@@ -1622,11 +1614,6 @@
                 box-shadow: var(--primary-gradient-shadow) !important;
                 background: var(--primary-gradient) !important;
             }
-            [data-theme="dark"] .button-primary:hover,
-            [data-theme="dark"] .button-primary:active,
-            [data-theme="dark"] .button-primary:focus-visible {
-                box-shadow: var(--primary-gradient-shadow) !important;
-            }
 
             .module-icon,
             .module-icon:hover,
@@ -1972,7 +1959,6 @@
         let isTabAnimating = false;
         let tabAnimTimer = null;
         let tabSwitchContentTimer = null;
-        let lastCardWidthVal = 0;
 
         let alphabetImgObserver = null;
         function getAlphabetImgObserver() {
@@ -2213,7 +2199,6 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
-        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)[cite: 2]
         function getControlBarStickyScrollTop() {
             const header = document.querySelector(".header");
             if (!header) return 0;
@@ -2330,8 +2315,7 @@
                     newWidth = Math.max(0, (containerWidth - totalGap) / columns);
                 }
 
-                if (newWidth > 0 && Math.abs(newWidth - lastCardWidthVal) > 1) {
-                    lastCardWidthVal = newWidth;
+                if (newWidth > 0) {
                     document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
                 }
 
@@ -2361,10 +2345,8 @@
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView;
-
-            standaloneListBtn.classList.toggle("active", shouldActive);
-            const title = shouldActive ? "关闭列表" : "资源列表";
+            standaloneListBtn.classList.toggle("active", state.isListView);
+            const title = state.isListView ? "关闭列表" : "资源列表";
             standaloneListBtn.setAttribute("title", title);
             standaloneListBtn.setAttribute("aria-label", title);
             document.body.classList.toggle("has-search-text", hasText);
@@ -2375,7 +2357,6 @@
             setListViewMode(false);
 
             searchInput.value = mod.name;
-            document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
             if (state.activeTab !== mod.category) {
@@ -2708,7 +2689,6 @@
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                // 退出列表时保持搜索框绝对值吸顶[cite: 2]
                 floatSearchToTarget(false);
                 requestAnimationFrame(() => {
                     floatSearchToTarget(false);
@@ -2742,7 +2722,6 @@
             }
         });
 
-        // 执行搜索：如果在资源列表状态下，直接退出列表并平滑展示结果[cite: 2]
         function performSearch() {
             state.focusedModuleId = null;
             if (state.isListView) {
@@ -2762,9 +2741,7 @@
             e.stopPropagation();
             state.focusedModuleId = null;
             searchInput.value = "";
-            document.body.classList.remove("has-search-text");
             
-            // 只有不在列表模式时才重置过滤列表
             if (!state.isListView) {
                 filterModules();
                 if (STATUS_MESSAGES[state.statusKey]) {
@@ -2792,16 +2769,19 @@
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn, #searchSubmitBtn")) return;
             if (document.activeElement !== searchInput) {
-                searchInput.focus({ preventScroll: true });
+                searchInput.focus();
             }
         });
 
-        // 激活搜索框时仅做常规吸顶对齐，不再关闭资源列表[cite: 2]
+        // 核心修复：防止 iOS WebKit 在聚焦时强行将输入框居中滚动导致吸顶失效被盖住
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-            if (!isSearchFloating()) {
+            
+            // 锁定并复位吸顶位置，化解 iOS 软键盘弹起时的页面位移拉扯
+            floatSearchToTarget(false);
+            setTimeout(() => {
                 floatSearchToTarget(false);
-            }
+            }, 80);
         });
 
         searchInput.addEventListener("blur", () => {
@@ -3019,7 +2999,6 @@
             });
         });
 
-        // 仅在输入变动时记录文本状态，不关闭列表也不自动触发检索[cite: 2]
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
@@ -3035,8 +3014,6 @@
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
                 e.preventDefault();
-                // 键盘快捷键激活搜索框时，不主动强制关闭列表，而是定位并聚焦
-                floatSearchToTarget(false);
                 searchInput.focus();
                 searchInput.select();
             } else if (e.key === "Escape") {
