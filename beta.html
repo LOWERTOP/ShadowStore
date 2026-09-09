@@ -25,17 +25,11 @@
             document.documentElement.setAttribute("data-theme", theme);
             const themeColor = theme === 'dark' ? '#14161a' : '#f0f2f5';
             const themeMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeMeta) {
-                themeMeta.setAttribute('content', themeColor);
-            }
+            if (themeMeta) themeMeta.setAttribute('content', themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
-            const isMobileDevice = ('ontouchstart' in window) || 
-                                   (navigator.maxTouchPoints > 0) || 
-                                   (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
-            if (isMobileDevice) {
-                document.documentElement.classList.add('is-mobile');
-            }
+            const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
+            if (isMobile) document.documentElement.classList.add('is-mobile');
 
             if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
                 document.documentElement.classList.add('is-pwa');
@@ -435,7 +429,7 @@
 
         .control-bar {
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             display: grid;
             grid-template-columns: var(--card-width, 380px) 1fr;
@@ -574,7 +568,6 @@
             z-index: 999995;
         }
 
-        /* 资源列表按钮：取消本体背景/形变预选，仅保留图标变色 */
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -608,17 +601,10 @@
             transition: color 0.2s ease;
         }
 
-        .standalone-list-btn .close-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .list-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .close-icon {
-            display: block;
-        }
+        .standalone-list-btn .close-icon { display: none; }
+        .standalone-list-btn.active .list-icon { display: none; }
+        .standalone-list-btn.active .close-icon { display: block; }
+        
         .standalone-list-btn:hover,
         .standalone-list-btn:active,
         .standalone-list-btn:focus-visible,
@@ -637,7 +623,6 @@
             background-color: var(--bg-surface) !important;
         }
 
-        /* 搜索框本体：固定底色和边框阴影，取消 focus/hover 时的背景和边框造型变化 */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -653,11 +638,9 @@
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
         }
-
         .search-box-inner:focus-within {
             box-shadow: var(--shadow-search) !important;
         }
-        
         [data-theme="dark"] .search-box-inner:focus-within {
             box-shadow: var(--shadow-search) !important;
             border-color: var(--border-subtle) !important;
@@ -699,7 +682,6 @@
             pointer-events: none;
         }
         
-        /* 仅图标变色，取消外圈高亮背景及缩放 */
         .search-clear-btn:hover,
         .search-clear-btn:active {
             color: #0891b2;
@@ -728,14 +710,9 @@
             color: #22d3ee;
         }
 
-        body.has-search-text .search-clear-btn {
-            display: flex;
-        }
-
+        body.has-search-text .search-clear-btn { display: flex; }
         body.has-search-focus .search-submit-btn,
-        body.has-search-text .search-submit-btn {
-            display: flex;
-        }
+        body.has-search-text .search-submit-btn { display: flex; }
         
         .input-wrapper {
             position: relative; flex: 1; min-width: 0;
@@ -752,7 +729,6 @@
             z-index: 2;
             cursor: text;
         }
-        
         .search::placeholder { color: transparent; }
         .search:disabled { cursor: not-allowed; }
 
@@ -793,7 +769,6 @@
             display: none;
         }
 
-        /* 返回顶部按钮：取消本体悬浮形变、背景变亮和阴影变化，仅保留图标变色 */
         .back-to-top-btn {
             width: 0;
             height: 44px;
@@ -934,13 +909,8 @@
             cursor: pointer;
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; 
         }
-        .module-icon:hover {
-            transform: scale(1.06);
-            opacity: 0.92;
-        }
-        .module-icon:active {
-            transform: scale(0.95);
-        }
+        .module-icon:hover { transform: scale(1.06); opacity: 0.92; }
+        .module-icon:active { transform: scale(0.95); }
         .module-icon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
         .card-main { 
@@ -1044,9 +1014,7 @@
             height: 44px; padding: 0 20px; border: 0; border-radius: 22px; 
             font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer; 
             text-decoration: none; 
-            transition: 
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         
         .button-secondary { 
@@ -1056,14 +1024,10 @@
             box-shadow: none !important; 
             padding: 0 16px;
             overflow: visible;
-            transition: 
-                transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: transform 0.2s ease, color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
-        [data-theme="dark"] .button-secondary {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary { color: #22d3ee; }
         
         .button-secondary:hover,
         .button-secondary:active,
@@ -1075,9 +1039,7 @@
         }
         [data-theme="dark"] .button-secondary:hover,
         [data-theme="dark"] .button-secondary:active,
-        [data-theme="dark"] .button-secondary:focus-visible {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary:focus-visible { color: #22d3ee; }
         
         .button-primary { 
             background: var(--primary-gradient); 
@@ -1096,8 +1058,6 @@
         [data-theme="dark"] .button-primary:hover,
         [data-theme="dark"] .button-primary:active,
         [data-theme="dark"] .button-primary:focus-visible {
-            background: var(--primary-gradient);
-            transform: none !important;
             box-shadow: var(--primary-gradient-shadow);
         }
         
@@ -1110,11 +1070,7 @@
             color: var(--primary);
             opacity: 1; 
         }
-        .empty-icon svg {
-            width: 22px;
-            height: 22px;
-            display: block;
-        }
+        .empty-icon svg { width: 22px; height: 22px; display: block; }
         
         .loading-card { 
             height: 180px; 
@@ -1157,7 +1113,7 @@
         .control-bar.is-single-column {
             display: block;
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             width: 100%;
             margin-bottom: 16px;
@@ -1539,9 +1495,7 @@
                 flex: 0 0 44px;
                 padding: 6px 0;
             }
-            .alphabet-fast-char {
-                font-size: 10px;
-            }
+            .alphabet-fast-char { font-size: 10px; }
         }
 
         .alphabet-fast-char.active {
@@ -1550,9 +1504,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
-            .alphabet-fast-char:hover:not(.disabled) {
-                color: var(--primary);
-            }
+            .alphabet-fast-char:hover:not(.disabled) { color: var(--primary); }
         }
 
         .alphabet-fast-char.disabled {
@@ -1705,9 +1657,7 @@
                 transform: none !important;
             }
 
-            .title a:hover {
-                opacity: 1 !important;
-            }
+            .title a:hover { opacity: 1 !important; }
             .author:hover,
             .source-link:hover:not(.source-link-static) {
                 color: var(--text-secondary) !important;
@@ -1716,9 +1666,7 @@
         }
 
         @media (max-width: 600px) {
-            :root {
-                --radius-card: 42px;
-            }
+            :root { --radius-card: 42px; }
             .title { font-size: 22px; }
             .tag-pill-badge { 
                 height: 15px; 
@@ -1812,7 +1760,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                     <button id="searchSubmitBtn" class="search-submit-btn" type="button" aria-label="执行搜索" title="执行搜索">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
                     </button>
                 </div>
 
@@ -2014,9 +1962,7 @@
             focusedModuleId: null,
             activeTab: "module",
             statusKey: "syncing",
-            isAlphabetRendered: false,
-            listViewReturnScrollY: 0,
-            wasFloatingBeforeActive: false
+            isAlphabetRendered: false
         };
 
         const moduleDataMap = new Map();
@@ -2267,23 +2213,18 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
-// 精确计算：标题栏刚好滚出、搜索框刚好吸顶悬浮时的 scrollTop
-function getControlBarStickyScrollTop() {
-    const header = document.querySelector(".header");
-    if (!header) return 0;
+        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)[cite: 2]
+        function getControlBarStickyScrollTop() {
+            const header = document.querySelector(".header");
+            if (!header) return 0;
 
-    // 1. 获取标题栏底部相对于整个文档顶部的绝对像素距离
-    const headerRect = header.getBoundingClientRect();
-    const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
-    const headerBottomDocTop = headerRect.bottom + currentScroll;
+            const headerRect = header.getBoundingClientRect();
+            const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
+            const headerBottomDocTop = headerRect.bottom + currentScroll;
+            const stickyTop = parseFloat(getComputedStyle(controlBarEl).top) || 12;
 
-    // 2. 获取吸顶时搜索条距离视口顶部的固定间距
-    // 无论是 .control-bar 还是单列下的 .search-wrapper，其吸顶位置均参考 max(12px, env(safe-area-inset-top))
-    const stickyTop = Math.max(12, parseFloat(getComputedStyle(controlBarEl).top) || 12);
-
-    // 3. 页面滚动的目标值 = 标题栏绝对底部 - 吸顶间距
-    return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
-}
+            return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
+        }
 
         function isSearchFloating() {
             const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
@@ -2328,7 +2269,7 @@ function getControlBarStickyScrollTop() {
 
         backToTopBtn.addEventListener("click", () => {
             if (state.isListView) {
-                setListViewMode(false, false);
+                setListViewMode(false);
             }
             searchInput.blur();
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2431,7 +2372,7 @@ function getControlBarStickyScrollTop() {
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
-            setListViewMode(false, false);
+            setListViewMode(false);
 
             searchInput.value = mod.name;
             document.body.classList.add("has-search-text");
@@ -2729,17 +2670,14 @@ function getControlBarStickyScrollTop() {
         let listViewTransitionTimer = null;
         let listViewScrollLockTimer = null;
 
-        function setListViewMode(enable, restoreScroll = true) {
+        function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
             clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
-                state.wasFloatingBeforeActive = isSearchFloating();
-                state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
                 state.isListView = true;
-
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
                 floatSearchToTarget(false);
@@ -2770,13 +2708,12 @@ function getControlBarStickyScrollTop() {
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                if (restoreScroll && !state.wasFloatingBeforeActive) {
-                    const targetScrollY = Math.max(0, state.listViewReturnScrollY);
-                    requestAnimationFrame(() => {
-                        window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-                        updateSearchLayer();
-                    });
-                }
+                // 退出列表时保持搜索框绝对值吸顶[cite: 2]
+                floatSearchToTarget(false);
+                requestAnimationFrame(() => {
+                    floatSearchToTarget(false);
+                    updateSearchLayer();
+                });
             }
         }
 
@@ -2805,8 +2742,12 @@ function getControlBarStickyScrollTop() {
             }
         });
 
+        // 执行搜索：如果在资源列表状态下，直接退出列表并平滑展示结果[cite: 2]
         function performSearch() {
             state.focusedModuleId = null;
+            if (state.isListView) {
+                setListViewMode(false);
+            }
             filterModules();
             searchInput.blur();
 
@@ -2823,13 +2764,16 @@ function getControlBarStickyScrollTop() {
             searchInput.value = "";
             document.body.classList.remove("has-search-text");
             
-            filterModules();
-            updateStandaloneButtonState();
-            
-            if (STATUS_MESSAGES[state.statusKey]) {
-                statusText.textContent = STATUS_MESSAGES[state.statusKey];
+            // 只有不在列表模式时才重置过滤列表
+            if (!state.isListView) {
+                filterModules();
+                if (STATUS_MESSAGES[state.statusKey]) {
+                    statusText.textContent = STATUS_MESSAGES[state.statusKey];
+                }
+                statusDot.className = "status-dot";
             }
-            statusDot.className = "status-dot";
+            
+            updateStandaloneButtonState();
 
             floatSearchToTarget(false);
             requestAnimationFrame(() => {
@@ -2852,12 +2796,10 @@ function getControlBarStickyScrollTop() {
             }
         });
 
+        // 激活搜索框时仅做常规吸顶对齐，不再关闭资源列表[cite: 2]
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-            if (state.isListView) {
-                setListViewMode(false, false);
-                window.scrollTo(0, 0);
-            } else if (!isSearchFloating()) {
+            if (!isSearchFloating()) {
                 floatSearchToTarget(false);
             }
         });
@@ -3043,7 +2985,7 @@ function getControlBarStickyScrollTop() {
             tab.addEventListener("click", () => {
                 const targetTab = tab.getAttribute("data-tab");
                 if (state.isListView) {
-                    setListViewMode(false, false);
+                    setListViewMode(false);
                 }
                 searchInput.blur();
                 document.body.classList.remove("has-search-focus");
@@ -3077,12 +3019,10 @@ function getControlBarStickyScrollTop() {
             });
         });
 
+        // 仅在输入变动时记录文本状态，不关闭列表也不自动触发检索[cite: 2]
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-            if (state.isListView) {
-                setListViewMode(false, false);
-            }
         });
 
         searchInput.addEventListener("keydown", (e) => {
@@ -3095,8 +3035,8 @@ function getControlBarStickyScrollTop() {
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
                 e.preventDefault();
-                setListViewMode(false, false);
-                window.scrollTo(0, 0);
+                // 键盘快捷键激活搜索框时，不主动强制关闭列表，而是定位并聚焦
+                floatSearchToTarget(false);
                 searchInput.focus();
                 searchInput.select();
             } else if (e.key === "Escape") {
@@ -3202,9 +3142,7 @@ function getControlBarStickyScrollTop() {
             
             const themeColor = currentTheme === "dark" ? "#14161a" : "#f0f2f5";
             const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeColorMeta) {
-                themeColorMeta.setAttribute("content", themeColor);
-            }
+            if (themeColorMeta) themeColorMeta.setAttribute("content", themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
             if (mode === "light") {
