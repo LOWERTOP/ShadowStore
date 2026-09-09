@@ -25,31 +25,11 @@
             document.documentElement.setAttribute("data-theme", theme);
             const themeColor = theme === 'dark' ? '#14161a' : '#f0f2f5';
             const themeMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeMeta) {
-                themeMeta.setAttribute('content', themeColor);
-            }
+            if (themeMeta) themeMeta.setAttribute('content', themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
-            try {
-                const savedLang = localStorage.getItem("sr_lang_override");
-                let lang = "zh";
-                if (savedLang === "en" || savedLang === "zh") {
-                    lang = savedLang;
-                } else {
-                    const primary = (navigator.languages && navigator.languages.length 
-                        ? navigator.languages[0] 
-                        : (navigator.language || navigator.userLanguage || "")).toLowerCase();
-                    lang = primary.startsWith("zh") ? "zh" : "en";
-                }
-                document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
-            } catch (e) {}
-
-            const isMobileDevice = ('ontouchstart' in window) || 
-                                   (navigator.maxTouchPoints > 0) || 
-                                   (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
-            if (isMobileDevice) {
-                document.documentElement.classList.add('is-mobile');
-            }
+            const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
+            if (isMobile) document.documentElement.classList.add('is-mobile');
 
             if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
                 document.documentElement.classList.add('is-pwa');
@@ -116,17 +96,6 @@
                 -5.3px 12px 14.7px -2px rgba(0, 0, 0, 0.08),
                 -16.7px 30px 36.7px -3.3px rgba(0, 0, 0, 0.15);
 
-            --shadow-search-hover: 
-                inset 3px 3px 9px 2px rgba(255, 255, 255, 0.45),
-                inset -2.5px -2.5px 7px -1px rgba(0, 0, 0, 0.09),
-                -2px 5.7px 3.3px -2px rgba(255, 255, 255, 0.22),
-                -1.1px 6.3px 4.7px -2.3px rgba(255, 255, 255, 0.20),
-                -2.8px 8px 6px -2.7px rgba(255, 255, 255, 0.17),
-                -1.5px 9.3px 6.7px -2.7px rgba(255, 255, 255, 0.12),
-                -1px 4px 5.3px rgba(0, 0, 0, 0.10),
-                -6.7px 13.3px 16.7px -2px rgba(0, 0, 0, 0.08),
-                -20px 33.3px 40px -4px rgba(0, 0, 0, 0.17);
-
             --text-primary: #4a4f59;
             --text-secondary: #7e8596;
             --text-tertiary: #a1a9ba;
@@ -169,7 +138,6 @@
             --shadow-tab-bar-bottom: none;
             --shadow-glass-ui-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.3);
             --shadow-search: 0 4px 13.3px rgba(0, 0, 0, 0.27), 0 1.3px 4px rgba(0, 0, 0, 0.17);
-            --shadow-search-hover: 0 5.3px 16px rgba(0, 0, 0, 0.33), 0 2px 5.3px rgba(0, 0, 0, 0.20);
 
             --text-primary: #dce1e8;
             --text-secondary: #939aa8;
@@ -343,7 +311,6 @@
             display: inline-flex; 
             align-items: flex-start;
             gap: 2px; 
-            text-shadow: none; 
         }
         .title a { 
             display: inline-flex; 
@@ -359,9 +326,7 @@
             transition: color 0.4s ease;
         }
 
-        [data-theme="dark"] .title-shadow {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .title-shadow { color: #22d3ee; }
 
         .title-store {
             font-weight: 750;
@@ -387,7 +352,6 @@
             line-height: 1;
             border: none; 
             box-shadow: none; 
-            text-shadow: none;
             transform: translateY(calc(3px - 20%)); 
             user-select: none;
             -webkit-user-select: none;
@@ -402,7 +366,6 @@
         .subtitle { 
             margin-top: 8px; color: var(--text-secondary); font-size: 14px; 
             line-height: 1.5; font-weight: 300; 
-            text-shadow: none; 
         }
         
         .theme-controls { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
@@ -429,9 +392,6 @@
             background-color: var(--border-subtle); 
         }
         .theme-toggle:active { transform: scale(0.92); }
-        .theme-toggle.active { 
-            color: var(--primary); background-color: var(--primary-soft); 
-        }
         
         .theme-controls .immersive-icon {
             width: 36px;
@@ -447,15 +407,9 @@
             transform: none;
             transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .theme-controls .immersive-icon::before,
-        .theme-controls .immersive-icon::after {
-            display: none !important;
-            content: none !important;
-        }
         .theme-controls .immersive-icon:hover {
             border: none !important;
             background: transparent !important;
-            background-image: none !important;
             box-shadow: none !important;
             color: var(--text-primary);
             transform: translateY(-1px);
@@ -463,38 +417,20 @@
         .theme-controls .immersive-icon:active {
             border: none !important;
             background: transparent !important;
-            background-image: none !important;
             box-shadow: none !important;
             transform: scale(0.9);
-        }
-        .theme-controls .immersive-icon.active {
-            background: transparent !important;
-            box-shadow: none !important;
-            color: var(--primary);
-        }
-        [data-theme="dark"] .theme-controls .immersive-icon {
-            background: transparent !important;
-            background-image: none !important;
-            box-shadow: none !important;
-        }
-        [data-theme="dark"] .theme-controls .immersive-icon:hover {
-            background: transparent !important;
-            background-image: none !important;
-            box-shadow: none !important;
-            color: var(--text-primary);
         }
 
         .theme-toggle svg { 
             display: block; width: 20px; height: 20px; pointer-events: none; stroke-width: 2; 
-            filter: none; 
         }
 
         .control-bar {
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             display: grid;
-            grid-template-columns: var(--card-width, 380px) var(--card-width, 380px);
+            grid-template-columns: var(--card-width, 380px) 1fr;
             gap: var(--layout-gap, 44px);
             align-items: center;
             width: 100%;
@@ -505,13 +441,12 @@
         }
 
         .tab-bar-wrapper {
-            width: 100%;
             min-width: 0;
             height: 44px;
             display: flex;
             align-items: center;
             position: relative;
-            z-index: 999990;
+            z-index: 5;
         }
 
         .tab-bar {
@@ -586,9 +521,7 @@
             transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
-        .tab-item:active {
-            transform: scale(0.92);
-        }
+        .tab-item:active { transform: scale(0.92); }
 
         .tab-item:not(.active) {
             background: transparent !important;
@@ -628,6 +561,11 @@
             display: flex;
             align-items: center;
             width: 100%;
+            z-index: 999995;
+        }
+
+        body.is-list-view .search-wrapper {
+            z-index: 1000005 !important;
         }
 
         .standalone-list-btn {
@@ -646,15 +584,11 @@
             border-left-color: var(--glass-border-l);
             border-right-color: var(--glass-border-r);
             border-bottom-color: var(--glass-border-b);
-            transition: 
-                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.3s ease,
-                color 0.2s ease,
-                border-color 0.35s ease;
+            transition: color 0.2s ease;
             outline: none;
             padding: 0;
             z-index: 999996;
+            transform: none !important;
         }
         [data-theme="dark"] .standalone-list-btn {
             border: 1px solid var(--border-subtle);
@@ -664,38 +598,27 @@
             width: 18px;
             height: 18px;
             pointer-events: none;
+            transition: color 0.2s ease;
         }
 
-        .standalone-list-btn .close-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .list-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .close-icon {
-            display: block;
-        }
-        .standalone-list-btn:hover {
-            background-image: var(--noise-pattern), var(--glass-bg-hover);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-glass-ui-hover);
-        }
-        [data-theme="dark"] .standalone-list-btn:hover {
-            background-image: var(--noise-pattern);
-            background-color: var(--border-subtle);
-            color: var(--text-primary);
-        }
-        .standalone-list-btn:active {
-            transform: scale(0.92);
-        }
+        .standalone-list-btn .close-icon { display: none; }
+        .standalone-list-btn.active .list-icon { display: none; }
+        .standalone-list-btn.active .close-icon { display: block; }
+        
+        .standalone-list-btn:hover,
+        .standalone-list-btn:active,
+        .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
-            color: var(--text-primary);
+            color: #0891b2;
+            box-shadow: var(--shadow-glass-ui) !important;
         }
+        [data-theme="dark"] .standalone-list-btn:hover,
+        [data-theme="dark"] .standalone-list-btn:active,
+        [data-theme="dark"] .standalone-list-btn:focus-visible,
         [data-theme="dark"] .standalone-list-btn.active {
-            color: var(--text-primary);
+            color: #22d3ee;
+            box-shadow: var(--shadow-glass-ui) !important;
+            background-color: var(--bg-surface) !important;
         }
 
         .search-box-inner {
@@ -705,38 +628,27 @@
             height: 44px; 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 6px; 
             border-radius: 22px; 
             box-shadow: var(--shadow-search); 
             padding: 6px; 
             cursor: text;
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
-            transition: 
-                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.35s ease,
-                background-color 0.35s ease;
         }
-
         .search-box-inner:focus-within {
-            background-image: var(--noise-pattern), var(--glass-bg-hover);
-            border-color: rgba(255,255,255,0.85); 
-            box-shadow: var(--shadow-search-hover); 
+            box-shadow: var(--shadow-search) !important;
         }
-        
         [data-theme="dark"] .search-box-inner:focus-within {
-            background-image: var(--noise-pattern);
-            background-color: var(--border-subtle);
-            border-color: var(--text-tertiary); 
-            box-shadow: var(--shadow-search-hover);
+            box-shadow: var(--shadow-search) !important;
+            border-color: var(--border-subtle) !important;
         }
         
-        .search-icon, .search-clear-btn { 
+        .search-icon, .search-clear-btn, .search-submit-btn { 
             width: 32px; height: 32px; flex: 0 0 32px; border-radius: 50%;
             background: transparent; box-shadow: none; border: 1px solid var(--border-subtle);
             display: flex; align-items: center; justify-content: center;
             color: var(--text-secondary); 
-            filter: none; 
             user-select: none;
             -webkit-user-select: none;
             line-height: 1;
@@ -750,35 +662,53 @@
             pointer-events: none;
         }
         
-        .search-clear-btn {
+        .search-clear-btn, .search-submit-btn {
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
             outline: none;
             padding: 0;
             border-style: solid;
             position: relative;
             z-index: 15;
             display: none;
+            transition: color 0.2s ease;
+            transform: none !important;
         }
-        .search-clear-btn svg {
+        .search-clear-btn svg, .search-submit-btn svg {
             display: block;
             width: 15px;
             height: 15px;
             pointer-events: none;
         }
-        .search-clear-btn:hover {
-            border-color: var(--primary);
-            background-color: var(--primary-soft);
-            transform: scale(1.05);
-            color: var(--primary);
-        }
+        
+        .search-clear-btn:hover,
         .search-clear-btn:active {
-            transform: scale(0.92);
+            color: #0891b2;
+            background-color: transparent !important;
+            border-color: var(--border-subtle) !important;
+        }
+        [data-theme="dark"] .search-clear-btn:hover,
+        [data-theme="dark"] .search-clear-btn:active {
+            color: #22d3ee;
         }
 
-        body.has-search-text .search-clear-btn {
-            display: flex;
+        .search-submit-btn {
+            color: var(--text-secondary);
+            border-color: var(--border-subtle);
         }
+        .search-submit-btn:hover,
+        .search-submit-btn:active {
+            color: #0891b2;
+            background-color: transparent !important;
+            border-color: var(--border-subtle) !important;
+        }
+        [data-theme="dark"] .search-submit-btn:hover,
+        [data-theme="dark"] .search-submit-btn:active {
+            color: #22d3ee;
+        }
+
+        body.has-search-text .search-clear-btn { display: flex; }
+        body.has-search-focus .search-submit-btn,
+        body.has-search-text .search-submit-btn { display: flex; }
         
         .input-wrapper {
             position: relative; flex: 1; min-width: 0;
@@ -794,9 +724,7 @@
             -webkit-appearance: none; appearance: none; border-radius: 0;
             z-index: 2;
             cursor: text;
-            text-shadow: none; 
         }
-        
         .search::placeholder { color: transparent; }
         .search:disabled { cursor: not-allowed; }
 
@@ -811,7 +739,6 @@
             height: 32px; line-height: 32px;
             color: var(--text-tertiary); font-size: 15px; font-weight: 300;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            text-shadow: none; 
         }
 
         .search:focus ~ .placeholder-track,
@@ -833,7 +760,8 @@
             transition: color 0.2s ease, opacity 0.2s ease; 
         }
 
-        body.has-search-text .search-shortcut {
+        body.has-search-text .search-shortcut,
+        body.has-search-focus .search-shortcut {
             display: none;
         }
 
@@ -855,8 +783,7 @@
                         opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                         transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                         visibility 0.35s ease,
-                        box-shadow 0.35s ease,
-                        border-color 0.35s ease;
+                        color 0.2s ease;
         }
         .back-to-top-btn.visible {
             width: 44px;
@@ -874,16 +801,24 @@
         [data-theme="dark"] .back-to-top-btn.visible {
             border-color: var(--border-subtle) !important;
         }
-        .back-to-top-btn.visible:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-search-hover);
+        .back-to-top-btn.visible:hover,
+        .back-to-top-btn.visible:active {
+            transform: scale(1) !important;
+            box-shadow: var(--shadow-search) !important;
+            background-image: var(--noise-pattern), var(--glass-bg) !important;
+            color: #0891b2;
         }
-        .back-to-top-btn.visible:active { transform: scale(0.92); }
+        [data-theme="dark"] .back-to-top-btn.visible:hover,
+        [data-theme="dark"] .back-to-top-btn.visible:active {
+            transform: scale(1) !important;
+            box-shadow: var(--shadow-search) !important;
+            background-color: var(--bg-surface) !important;
+            color: #22d3ee;
+        }
 
         .status { 
             display: flex; align-items: center; justify-content: space-between; 
             min-height: 22px; margin: 0 4px 14px; color: var(--text-secondary); font-size: 13px; font-weight: 400; 
-            text-shadow: none; 
             transition: opacity 0.15s ease;
         }
         .status-left { display: flex; align-items: center; gap: 8px; }
@@ -893,6 +828,8 @@
         @keyframes statusPulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
         
         .modules { 
+            position: relative;
+            z-index: 10;
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); 
             gap: var(--layout-gap, 44px); 
@@ -909,6 +846,8 @@
 
         .module-card { 
             position: relative; 
+            z-index: 10;
+            isolation: isolate;
             padding: 28px; 
             height: auto;
             min-height: 0;
@@ -926,19 +865,6 @@
             -webkit-transform: translateZ(0); transform: translateZ(0); 
         }
 
-        @keyframes targetCardPulse {
-            0% { transform: scale(0.96); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .module-card.single-focused {
-            animation: targetCardPulse 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            grid-column: 1;
-            justify-self: start;
-            max-width: var(--card-width, 380px);
-            margin: 0;
-            width: 100%;
-        }
-
         @media (hover: hover) and (pointer: fine) and (min-width: 861px) {
             .module-card:hover { 
                 z-index: 50000 !important;
@@ -952,9 +878,18 @@
             }
         }
 
+        .card-header,
+        .module-description,
+        .card-bottom {
+            position: relative;
+            z-index: 1;
+        }
+
         .card-header { display: flex; align-items: center; gap: 20px; }
         
         .module-icon { 
+            position: relative;
+            z-index: 2;
             width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; 
             background: var(--bg-surface); 
             aspect-ratio: 1/1;
@@ -968,18 +903,15 @@
             display: block;
             text-decoration: none;
             cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; 
         }
-        .module-icon:hover {
-            transform: scale(1.06);
-            opacity: 0.92;
-        }
-        .module-icon:active {
-            transform: scale(0.95);
-        }
+        .module-icon:hover { transform: scale(1.06); opacity: 0.92; }
+        .module-icon:active { transform: scale(0.95); }
         .module-icon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
         .card-main { 
+            position: relative;
+            z-index: 1;
             min-width: 0; 
             flex: 1; 
             container-type: inline-size; 
@@ -995,8 +927,7 @@
             word-break: break-word; 
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
-            text-shadow: none; 
+            text-overflow: ellipsis; 
         }
         
         .module-meta { 
@@ -1012,6 +943,8 @@
         .meta-separator { opacity: .4; }
         
         .author, .source-link { 
+            position: relative;
+            z-index: 2;
             display: inline-flex; 
             align-items: center; 
             gap: 6px; 
@@ -1046,7 +979,6 @@
             line-height: 1.6; 
             font-weight: 300; 
             word-break: break-word; 
-            text-shadow: none; 
             flex: 1 1 auto;
         }
         
@@ -1062,16 +994,23 @@
             flex-shrink: 0;
         }
 
-        .action-buttons { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .action-buttons { 
+            position: relative;
+            z-index: 2;
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            flex-shrink: 0; 
+        }
         
         .button { 
+            position: relative;
+            z-index: 2;
             display: inline-flex; align-items: center; justify-content: center; 
             height: 44px; padding: 0 20px; border: 0; border-radius: 22px; 
             font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer; 
             text-decoration: none; 
-            transition: 
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         
         .button-secondary { 
@@ -1079,17 +1018,12 @@
             color: #0891b2; 
             border: none !important; 
             box-shadow: none !important; 
-            text-shadow: none; 
             padding: 0 16px;
             overflow: visible;
-            transition: 
-                transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: transform 0.2s ease, color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
-        [data-theme="dark"] .button-secondary {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary { color: #22d3ee; }
         
         .button-secondary:hover,
         .button-secondary:active,
@@ -1101,29 +1035,19 @@
         }
         [data-theme="dark"] .button-secondary:hover,
         [data-theme="dark"] .button-secondary:active,
-        [data-theme="dark"] .button-secondary:focus-visible {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary:focus-visible { color: #22d3ee; }
         
         .button-primary { 
             background: var(--primary-gradient); 
             color: #FFFFFF; 
             border: none; 
             box-shadow: var(--primary-gradient-shadow); 
-            text-shadow: none; 
             transform: none !important; 
         }
         .button-primary:hover,
         .button-primary:active,
         .button-primary:focus-visible { 
             background: var(--primary-gradient); 
-            transform: none !important;
-            box-shadow: var(--primary-gradient-shadow);
-        }
-        [data-theme="dark"] .button-primary:hover,
-        [data-theme="dark"] .button-primary:active,
-        [data-theme="dark"] .button-primary:focus-visible {
-            background: var(--primary-gradient);
             transform: none !important;
             box-shadow: var(--primary-gradient-shadow);
         }
@@ -1136,13 +1060,8 @@
             display: flex; align-items: center; justify-content: center;
             color: var(--primary);
             opacity: 1; 
-            filter: none; 
         }
-        .empty-icon svg {
-            width: 22px;
-            height: 22px;
-            display: block;
-        }
+        .empty-icon svg { width: 22px; height: 22px; display: block; }
         
         .loading-card { 
             height: 180px; 
@@ -1179,43 +1098,28 @@
             opacity: 0; 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease; 
             pointer-events: none; 
-            text-shadow: none;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         .control-bar.is-single-column {
             display: block;
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             width: 100%;
             margin-bottom: 16px;
             padding: 4px 0;
-            pointer-events: none;
         }
 
         .control-bar.is-single-column .search-wrapper {
             position: relative;
             top: auto;
             width: 100%;
+            max-width: 100%;
             height: 44px;
             padding: 0;
             margin: 0;
             z-index: 999995;
-            pointer-events: none;
-        }
-
-        .control-bar.is-single-column .standalone-list-btn,
-        .control-bar.is-single-column .search-box-inner,
-        .control-bar.is-single-column .back-to-top-btn {
-            pointer-events: auto;
-        }
-
-        body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
         }
 
         .control-bar.is-single-column .tab-bar-wrapper {
@@ -1233,6 +1137,13 @@
             pointer-events: none;
             z-index: 999999;
             transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         .control-bar.is-single-column .tab-bar {
@@ -1273,6 +1184,7 @@
             font-weight: 400 !important;
         }
 
+        /* 资源列表平滑渐显、果断消隐动画定制 */
         .alphabet-view-container {
             position: fixed;
             z-index: 999999;
@@ -1280,8 +1192,12 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
-            will-change: opacity;
+            transform: translate3d(0, 6px, 0);
+            transition: 
+                opacity 0.18s cubic-bezier(0.4, 0, 1, 1),
+                transform 0.18s cubic-bezier(0.4, 0, 1, 1),
+                visibility 0.18s ease;
+            will-change: opacity, transform;
             box-sizing: border-box;
             background: transparent;
         }
@@ -1290,6 +1206,11 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translate3d(0, 0, 0) scale(1);
+            transition: 
+                opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.36s ease;
         }
 
         .alphabet-content-box {
@@ -1306,7 +1227,7 @@
 
         .alphabet-main-card {
             position: relative;
-            z-index: 10;
+            z-index: 2;
             flex: 1;
             min-width: 0;
             height: 100%;
@@ -1504,7 +1425,7 @@
 
         .alphabet-fast-index {
             position: relative;
-            z-index: 10;
+            z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1567,9 +1488,7 @@
                 flex: 0 0 44px;
                 padding: 6px 0;
             }
-            .alphabet-fast-char {
-                font-size: 10px;
-            }
+            .alphabet-fast-char { font-size: 10px; }
         }
 
         .alphabet-fast-char.active {
@@ -1578,9 +1497,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
-            .alphabet-fast-char:hover:not(.disabled) {
-                color: var(--primary);
-            }
+            .alphabet-fast-char:hover:not(.disabled) { color: var(--primary); }
         }
 
         .alphabet-fast-char.disabled {
@@ -1606,7 +1523,7 @@
             pointer-events: none;
             transform: translate3d(0, -50%, 0);
             transition: opacity 0.12s ease, visibility 0.12s ease;
-            z-index: 999999;
+            z-index: 20;
             box-shadow: none !important;
             background: var(--primary-soft) !important;
             background-image: none !important;
@@ -1620,18 +1537,6 @@
             opacity: 1;
             visibility: visible;
             transform: translate3d(0, -50%, 0);
-            box-shadow: none !important;
-        }
-
-        [data-theme="dark"] .alphabet-popup-bubble,
-        [data-theme="dark"] .alphabet-popup-bubble.visible {
-            background: var(--primary-soft) !important;
-            background-image: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border: 1px solid var(--primary) !important;
-            color: var(--primary);
-            box-shadow: none !important;
         }
 
         @media (hover: none), (pointer: coarse), (max-width: 860px) {
@@ -1710,11 +1615,6 @@
                 box-shadow: var(--primary-gradient-shadow) !important;
                 background: var(--primary-gradient) !important;
             }
-            [data-theme="dark"] .button-primary:hover,
-            [data-theme="dark"] .button-primary:active,
-            [data-theme="dark"] .button-primary:focus-visible {
-                box-shadow: var(--primary-gradient-shadow) !important;
-            }
 
             .module-icon,
             .module-icon:hover,
@@ -1722,17 +1622,6 @@
             .module-icon:focus {
                 transform: none !important;
                 opacity: 1 !important;
-                transition: none !important;
-                -webkit-tap-highlight-color: transparent !important;
-            }
-
-            .standalone-list-btn,
-            .standalone-list-btn:hover,
-            .standalone-list-btn:active,
-            .standalone-list-btn:focus,
-            .standalone-list-btn:focus-visible {
-                transform: none !important;
-                box-shadow: var(--shadow-glass-ui) !important;
                 transition: none !important;
                 -webkit-tap-highlight-color: transparent !important;
             }
@@ -1755,32 +1644,17 @@
             .theme-controls .immersive-icon:active {
                 transform: none !important;
             }
-            .theme-toggle.active {
-                color: var(--primary) !important;
-            }
-            .back-to-top-btn.visible:hover,
-            .back-to-top-btn.visible:active {
-                transform: scale(1) !important;
-                box-shadow: var(--shadow-search) !important;
-            }
 
-            .title a:hover {
-                opacity: 1 !important;
-            }
+            .title a:hover { opacity: 1 !important; }
             .author:hover,
             .source-link:hover:not(.source-link-static) {
                 color: var(--text-secondary) !important;
                 text-decoration: none !important;
             }
-            .search-clear:hover {
-                color: var(--primary) !important;
-            }
         }
 
         @media (max-width: 600px) {
-            :root {
-                --radius-card: 42px;
-            }
+            :root { --radius-card: 42px; }
             .title { font-size: 22px; }
             .tag-pill-badge { 
                 height: 15px; 
@@ -1832,16 +1706,6 @@
                             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                         </svg>
                     </a>
-                    <button id="langToggle" class="theme-toggle immersive-icon" aria-label="切换语言" title="切换语言">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m5 8 6 6"/>
-                            <path d="m4 14 6-6 2-3"/>
-                            <path d="M2 5h12"/>
-                            <path d="M7 2h1"/>
-                            <path d="m22 22-5-10-5 10"/>
-                            <path d="M14 18h6"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
             <div id="subtitle" class="subtitle">
@@ -1870,18 +1734,21 @@
                     <div class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg></div>
                     
                     <div class="input-wrapper">
-                        <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索模块">
+                        <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索资源">
                         
                         <div id="placeholderTrack" class="placeholder-track">
                             <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
-                            <div class="placeholder-item notice-item-1">相关资源均来源于开源社区</div>
-                            <div class="placeholder-item notice-item-2">所有权利责任归原作者所有</div>
+                            <div class="placeholder-item">相关资源均来源于开源社区</div>
+                            <div class="placeholder-item">所有权利责任归原作者所有</div>
                         </div>
                     </div>
 
                     <span class="search-shortcut">/</span>
                     <button id="searchClearBtn" class="search-clear-btn" type="button" aria-label="清空搜索" title="清空搜索">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                    <button id="searchSubmitBtn" class="search-submit-btn" type="button" aria-label="执行搜索" title="执行搜索">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
                     </button>
                 </div>
 
@@ -1910,7 +1777,7 @@
         
         <div id="sentinel" class="sentinel"></div>
 
-        <footer id="footerText" class="footer">
+        <footer class="footer">
             鸣谢所有开源社区作者<br>
             著作权归资源作者所有
         </footer>
@@ -1921,34 +1788,50 @@
             <div class="alphabet-main-card">
                 <div id="alphabetScrollArea" class="alphabet-scroll-area"></div>
             </div>
-            <div id="alphabetFastIndex" class="alphabet-fast-index" aria-label="字母快速定位导航">
-                <div id="alphabetPopupBubble" class="alphabet-popup-bubble glass-element">#</div>
-            </div>
+            <div id="alphabetFastIndex" class="alphabet-fast-index" aria-label="字母快速定位导航"></div>
         </div>
+        <div id="alphabetPopupBubble" class="alphabet-popup-bubble glass-element">#</div>
     </div>
     
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081535"; 
+        const CACHE_VERSION = "202609091220"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
-            CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
+
+        const STATUS_MESSAGES = {
+            syncing: "正在同步资源索引...",
+            ready: "已就绪",
+            checking: "正在后台检查最新资源...",
+            fetchingStatic: "正在拉取最新静态资源索引...",
+            synced: "已同步最新数据",
+            errorCache: "在线同步异常，当前展示缓存数据",
+            errorStatic: "在线资源同步失败，已展示核心入口"
+        };
+
+        const PINYIN_TABLE = [
+            { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
+            { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
+            { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
+            { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
+            { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
+            { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
+        ];
+
+        const pinyinCharCache = new Map();
 
         function clearSiteDataCache() {
             try {
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (
-                        key.startsWith("sr_modules_data_") ||
-                        key.startsWith("sr_modules_time_")
-                    )) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
@@ -1964,114 +1847,19 @@
             return url.href;
         }
 
-        const I18N = {
-            zh: {
-                badgeCommunity: "社区资源",
-                subtitle: "Shadowrocket 开源社区资源聚合检索平台",
-                tabs: { module: "模块资源", config: "配置文件", manual: "使用手册", more: "更多资源" },
-                searchPlaceholderWait: "请在加载完成后执行搜索...",
-                searchPlaceholderReady: "输入关键字全局搜索...",
-                notice1: "相关资源均来源于开源社区",
-                notice2: "所有权利责任归原作者所有",
-                searchClearTitle: "关闭列表",
-                backToTopTitle: "返回顶部",
-                searchInputAria: "搜索资源",
-                statusSyncing: "正在同步资源索引...",
-                statusReady: "已就绪",
-                statusChecking: "正在后台检查最新资源...",
-                statusFetchingStatic: "正在拉取最新静态资源索引...",
-                statusSynced: "已同步最新数据",
-                statusErrorCache: "在线同步异常，当前展示缓存数据",
-                statusErrorStatic: "在线资源同步失败，已展示核心入口",
-                countLabel: { module: "模块", config: "配置", manual: "手册", more: "资源" },
-                countText: (count, label) => `${count} 个${label}`,
-                emptyText: (label) => `没有找到匹配的${label}`,
-                loadingText: "正在同步资源，请稍候...",
-                ptrContinue: "继续下拉将强制刷新本站",
-                ptrRelease: "松开将立即强制刷新本站",
-                ptrRefreshing: "正在强制刷新本站...",
-                footer: "鸣谢所有开源社区作者<br>著作权归资源作者所有",
-                btnCopyLink: "复制链接",
-                btnPreInstall: "安装前置",
-                btnInstallModule: "安装模块",
-                btnInstallConfig: "安装配置",
-                btnViewManual: "查阅手册",
-                btnVisitRepo: "访问仓库",
-                openLinkAria: "在新窗口打开资源直链",
-                toastCopiedUrl: "已复制资源直链",
-                toastCopiedRepo: "已复制仓库链接",
-                toastCopiedConfig: "已复制配置直链",
-                toastCopiedManual: "已复制手册链接",
-                toastCopyFailed: "复制失败，请手动复制",
-                toastInvalidLink: "链接无效",
-                toastDataRefreshed: "资源数据已刷新",
-                toastSyncFailed: "在线同步失败，已保留现有数据",
-                themeLightToast: "已切换为浅色模式",
-                themeDarkToast: "已切换为深色模式",
-                themeAutoToast: "已切换为自动跟随系统",
-                langSwitchToast: "已切换为简体中文",
-                langBtnTitle: "切换为英文 (Switch to English)",
-                authorUnknown: "作者信息识别失败",
-                noDesc: "暂无描述"
-            },
-            en: {
-                badgeCommunity: "Community",
-                subtitle: "Shadowrocket Open-Source Community Resource Aggregator",
-                tabs: { module: "Modules", config: "Configs", manual: "Manual", more: "More" },
-                searchPlaceholderWait: "Please wait for loading to complete...",
-                searchPlaceholderReady: "Type keywords to search globally...",
-                notice1: "All resources originate from open source",
-                notice2: "Rights & copyrights belong to authors",
-                searchClearTitle: "Clear search",
-                backToTopTitle: "Back to top",
-                searchInputAria: "Search resources",
-                statusSyncing: "Syncing resource index...",
-                statusReady: "Ready",
-                statusChecking: "Checking for updates in background...",
-                statusFetchingStatic: "Fetching latest static index...",
-                statusSynced: "Synced latest data",
-                statusErrorCache: "Sync failed, showing cached data",
-                statusErrorStatic: "Sync failed, showing core resources",
-                countLabel: { module: "Modules", config: "Configs", manual: "Manuals", more: "Resources" },
-                countText: (count, label) => `${count} ${label}`,
-                emptyText: (label) => `No matching ${label.toLowerCase()} found`,
-                loadingText: "Syncing resources, please wait...",
-                ptrContinue: "Pull down to force refresh",
-                ptrRelease: "Release to force refresh",
-                ptrRefreshing: "Force refreshing...",
-                footer: "Thanks to all open-source creators<br>All copyrights belong to respective authors",
-                btnCopyLink: "Copy Link",
-                btnPreInstall: "Prerequisite",
-                btnInstallModule: "Install",
-                btnInstallConfig: "Install Config",
-                btnViewManual: "View Manual",
-                btnVisitRepo: "Visit Repo",
-                openLinkAria: "Open direct link in new tab",
-                toastCopiedUrl: "Direct link copied",
-                toastCopiedRepo: "Repository link copied",
-                toastCopiedConfig: "Config link copied",
-                toastCopiedManual: "Manual link copied",
-                toastCopyFailed: "Copy failed, please copy manually",
-                toastInvalidLink: "Invalid link",
-                toastDataRefreshed: "Resource data refreshed",
-                toastSyncFailed: "Online sync failed, showing current data",
-                themeLightToast: "Switched to Light mode",
-                themeDarkToast: "Switched to Dark mode",
-                themeAutoToast: "Switched to Auto system mode",
-                langSwitchToast: "Switched to English",
-                langBtnTitle: "Switch to Chinese (切换为简体中文)",
-                authorUnknown: "Unknown Author",
-                noDesc: "No description available"
-            }
+        const TAB_NAMES = {
+            module: "模块",
+            config: "配置",
+            manual: "手册",
+            more: "资源"
         };
 
         const STATIC_RESOURCES_DATA = [
             {
                 category: "config",
-                i18n: {
-                    zh: { name: "懒人配置", description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。", primaryBtnText: "安装配置" },
-                    en: { name: "Lazy Config", description: "Out-of-the-box configuration with popular routing groups, well-balanced proxy rules, and detailed comments. Highly recommended.", primaryBtnText: "Install Config" }
-                },
+                name: "懒人配置",
+                description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。",
+                primaryBtnText: "安装配置",
                 icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2084,10 +1872,9 @@
             },
             {
                 category: "manual",
-                i18n: {
-                    zh: { name: "使用手册", description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。", primaryBtnText: "查阅手册" },
-                    en: { name: "User Manual", description: "Comprehensive guide and reference manual for Shadowrocket, covering protocols, routing rules, decryption, and advanced setups.", primaryBtnText: "View Manual" }
-                },
+                name: "使用手册",
+                description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
+                primaryBtnText: "查阅手册",
                 icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2100,10 +1887,9 @@
             },
             {
                 category: "more",
-                i18n: {
-                    zh: { name: "配色与配置仓库", description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。", primaryBtnText: "访问仓库" },
-                    en: { name: "Theme & Config Repo", description: "Curated community repository for modules, rules, and color themes, also serving as the core data processing hub.", primaryBtnText: "Visit Repo" }
-                },
+                name: "配色与配置仓库",
+                description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
+                primaryBtnText: "访问仓库",
                 icon: "https://avatars.githubusercontent.com/u/16624731?v=4",
                 author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
                 authorAvatar: "https://github.com/LOWERTOP.png?size=64",
@@ -2120,10 +1906,6 @@
         const MOON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         const SUN_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
 
-        const tagPillBadge = document.getElementById("tagPillBadge");
-        const subtitleEl = document.getElementById("subtitle");
-        const footerText = document.getElementById("footerText");
-        const langToggleBtn = document.getElementById("langToggle");
         const themeToggleBtn = document.getElementById("themeToggle");
         const backToTopBtn = document.getElementById("backToTopBtn");
         const tabItems = document.querySelectorAll(".tab-item");
@@ -2137,6 +1919,7 @@
         const searchShortcut = document.querySelector(".search-shortcut");
         const standaloneListBtn = document.getElementById("standaloneListBtn");
         const searchClearBtn = document.getElementById("searchClearBtn");
+        const searchSubmitBtn = document.getElementById("searchSubmitBtn");
         const statusText = document.getElementById("statusText");
         const statusDot = document.getElementById("statusDot");
         const countText = document.getElementById("countText");
@@ -2154,21 +1937,7 @@
         const alphabetFastIndex = document.getElementById("alphabetFastIndex");
         const alphabetPopupBubble = document.getElementById("alphabetPopupBubble");
 
-        function getInitialLang() {
-            try {
-                const saved = localStorage.getItem("sr_lang_override");
-                if (saved === "en" || saved === "zh") return saved;
-            } catch (e) {}
-
-            const primary = (navigator.languages && navigator.languages.length 
-                ? navigator.languages[0] 
-                : (navigator.language || navigator.userLanguage || "")).toLowerCase();
-
-            return primary.startsWith("zh") ? "zh" : "en";
-        }
-
         const state = {
-            currentLang: getInitialLang(),
             allModules: [],
             rawNetworkData: [],
             filteredModules: [],
@@ -2179,18 +1948,17 @@
             isListView: false,
             focusedModuleId: null,
             activeTab: "module",
-            statusKey: "statusSyncing",
-            isAlphabetRendered: false,
-            listViewReturnScrollY: 0,
-            wasFloatingBeforeActive: false
+            statusKey: "syncing",
+            isAlphabetRendered: false
         };
 
-        let searchTimer = null;
+        const moduleDataMap = new Map();
+        const alphabetGroupElements = new Map();
+
         let toastTimer = null;
         let isTabAnimating = false;
         let tabAnimTimer = null;
         let tabSwitchContentTimer = null;
-        let lastCardWidthVal = 0;
 
         let alphabetImgObserver = null;
         function getAlphabetImgObserver() {
@@ -2215,26 +1983,8 @@
             return alphabetImgObserver;
         }
 
-        function scheduleAlphabetPreRender() {
-            const task = () => {
-                if (!state.isAlphabetRendered && state.allModules.length > 0) {
-                    renderAlphabetList();
-                }
-            };
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(task, { timeout: 2000 });
-            } else {
-                setTimeout(task, 600);
-            }
-        }
-
         function checkScrollLock() {
-            const root = document.documentElement;
-            if (state.isListView) {
-                root.classList.add("no-scroll");
-            } else {
-                root.classList.remove("no-scroll");
-            }
+            document.documentElement.classList.toggle("no-scroll", state.isListView);
         }
 
         function escapeHTML(value) {
@@ -2261,11 +2011,6 @@
             return safeURL(value, ["shadowrocket:", "https:"]);
         }
 
-        function bindImageError(img, fallbackSrc) {
-            if (!img) return;
-            img.addEventListener("error", () => { img.src = fallbackSrc; }, { once: true });
-        }
-
         function extractInitialLetter(name) {
             const clean = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
             const first = clean.charAt(0);
@@ -2273,41 +2018,36 @@
             if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
             
             if (/^[\u4e00-\u9fa5]$/.test(first)) {
+                if (pinyinCharCache.has(first)) return pinyinCharCache.get(first);
+                let res = "#";
                 try {
-                    const zhLetters = [
-                        { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
-                        { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
-                        { l: "J", c: "击" }, { l: "K", c: "喀" }, { l: "L", c: "垃" }, { l: "M", c: "妈" },
-                        { l: "N", c: "拿" }, { l: "O", c: "哦" }, { l: "P", c: "啪" }, { l: "Q", c: "期" },
-                        { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
-                        { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
-                    ];
-                    for (let i = zhLetters.length - 1; i >= 0; i--) {
-                        if (first.localeCompare(zhLetters[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
-                            return zhLetters[i].l;
+                    for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
+                        if (first.localeCompare(PINYIN_TABLE[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
+                            res = PINYIN_TABLE[i].l;
+                            break;
                         }
                     }
                 } catch (e) {}
+                pinyinCharCache.set(first, res);
+                return res;
             }
             return "#";
         }
 
-        function normalizeStaticResources(lang = state.currentLang) {
+        function normalizeStaticResources() {
             return STATIC_RESOURCES_DATA
                 .filter(item => !item.isDubious)
                 .map((item, idx) => {
-                    const localized = item.i18n[lang] || item.i18n.zh;
                     const searchTokens = [
-                        localized.name, localized.description, item.author.name,
-                        item.sourceName, item.category, "shadowrocket", "手册",
-                        "manual", "教程", "guide", "仓库", "repo", "文档", "docs", "配置", "config"
+                        item.name, item.description, item.author.name,
+                        item.sourceName, item.category
                     ].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
                     return {
                         id: `static_${item.category}_${idx}`,
-                        name: localized.name,
+                        name: item.name,
                         category: item.category || "more",
-                        description: localized.description,
+                        description: item.description,
                         icon: item.icon,
                         author: item.author,
                         authorAvatar: item.authorAvatar,
@@ -2317,9 +2057,9 @@
                         installURL: item.installURL,
                         isDubious: false,
                         isRepoCard: item.isRepoCard,
-                        primaryBtnText: localized.primaryBtnText,
+                        primaryBtnText: item.primaryBtnText,
                         _searchText: searchTokens,
-                        _initialLetter: extractInitialLetter(localized.name)
+                        _initialLetter: extractInitialLetter(item.name)
                     };
                 });
         }
@@ -2403,32 +2143,69 @@
 
         function createIOSAppIcon(name) {
             const cleanName = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
-            const char = Array.from(cleanName)[0] || (state.currentLang === "en" ? "M" : "模");
+            const char = Array.from(cleanName)[0] || "模";
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="128" cy="128" r="128" fill="url(#g)"/><text x="128" y="128" text-anchor="middle" dominant-baseline="central" alignment-baseline="central" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,SF Pro Text,sans-serif" font-size="110" font-weight="700">${escapeHTML(char)}</text></svg>`;
             return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
         }
 
+        modulesContainer.addEventListener("error", (e) => {
+            const target = e.target;
+            if (target && target.tagName === "IMG") {
+                const fallback = target.dataset.fallback;
+                if (fallback && target.src !== fallback) {
+                    target.src = fallback;
+                }
+            }
+        }, true);
+
+        modulesContainer.addEventListener("click", async (e) => {
+            const copyBtn = e.target.closest(".copy-btn");
+            if (!copyBtn) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            const url = copyBtn.getAttribute("data-url");
+            if (!url) {
+                showToast("链接无效");
+                return;
+            }
+
+            const card = copyBtn.closest(".module-card");
+            const moduleId = card ? card.dataset.moduleId : null;
+            const module = moduleId ? moduleDataMap.get(moduleId) : null;
+
+            const success = await copyToClipboard(url);
+            let toastMessage = "已复制资源直链";
+            if (module) {
+                if (module.isRepoCard) toastMessage = "已复制仓库链接";
+                else if (module.category === "config") toastMessage = "已复制配置直链";
+                else if (module.category === "manual") toastMessage = "已复制手册链接";
+            }
+            showToast(success ? toastMessage : "复制失败，请手动复制");
+        });
+
         function getControlBarStickyScrollTop() {
-            if (!controlBarEl) return 0;
-            const style = window.getComputedStyle(controlBarEl);
-            const topSticky = parseFloat(style.top) || 12;
-            const elementTop = controlBarEl.getBoundingClientRect().top + (window.scrollY || document.documentElement.scrollTop || 0);
-            return Math.max(0, elementTop - topSticky);
+            const header = document.querySelector(".header");
+            if (!header) return 0;
+
+            const headerRect = header.getBoundingClientRect();
+            const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
+            const headerBottomDocTop = headerRect.bottom + currentScroll;
+            const stickyTop = parseFloat(getComputedStyle(controlBarEl).top) || 12;
+
+            return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
         }
 
         function isSearchFloating() {
             const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-            const threshold = getControlBarStickyScrollTop();
-            return currentScrollY >= (threshold - 4);
+            return currentScrollY >= (getControlBarStickyScrollTop() - 4);
         }
 
-        function floatSearchToTarget(smooth = true) {
+        function floatSearchToTarget(smooth = false) {
             const targetTop = getControlBarStickyScrollTop();
-            if (targetTop <= 0) return;
-
-            const neededHeight = window.innerHeight + targetTop + 50;
-            if (document.body.scrollHeight < neededHeight) {
-                document.body.style.minHeight = `${neededHeight}px`;
+            const minHeight = window.innerHeight + targetTop + 100;
+            if (document.body.scrollHeight < minHeight) {
+                document.body.style.minHeight = `${minHeight}px`;
             }
 
             window.scrollTo({
@@ -2439,35 +2216,29 @@
 
         let backToTopVisible = false;
         let scrollRaf = 0;
-        let lastScrollY = -1;
 
-        function updateSearchLayer(scrollY = null) {
+        function updateSearchLayer() {
             if (!backToTopBtn) return;
-            if (scrollY == null) scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
             const shouldShow = scrollY > 160 && !state.isListView;
-            if (shouldShow === backToTopVisible) return;
-            backToTopVisible = shouldShow;
-            backToTopBtn.classList.toggle("visible", shouldShow);
+            if (shouldShow !== backToTopVisible) {
+                backToTopVisible = shouldShow;
+                backToTopBtn.classList.toggle("visible", shouldShow);
+            }
         }
 
         function scheduleScrollUpdate() {
             if (scrollRaf) return;
             scrollRaf = requestAnimationFrame(() => {
                 scrollRaf = 0;
-                const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-                if (scrollY !== lastScrollY) {
-                    lastScrollY = scrollY;
-                    updateSearchLayer(scrollY);
-                }
+                updateSearchLayer();
             });
         }
 
         window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 
         backToTopBtn.addEventListener("click", () => {
-            if (state.isListView) {
-                setListViewMode(false, false);
-            }
+            if (state.isListView) setListViewMode(false);
             searchInput.blur();
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -2475,14 +2246,9 @@
         function updateTabIndicator(animated = true) {
             const activeTab = document.querySelector(".tab-item.active");
             if (!activeTab || !tabIndicator) return;
-
             if (!animated && isTabAnimating) return;
 
-            if (!animated) {
-                tabIndicator.style.transition = 'none';
-            } else {
-                tabIndicator.style.transition = 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)';
-            }
+            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
 
             const left = activeTab.offsetLeft;
             const width = activeTab.offsetWidth;
@@ -2498,68 +2264,44 @@
             }
         }
 
-        let layoutCache = {
-            columns: 0,
-            cardWidth: 0,
-            gap: 0,
-            valid: false
-        };
-
-        function invalidateLayoutCache() {
-            layoutCache.valid = false;
-        }
+        let layoutColumnsCache = 0;
 
         function getGridColumns(force = false) {
-            if (!force && layoutCache.valid && layoutCache.columns > 0) return layoutCache.columns;
-            const style = window.getComputedStyle(modulesContainer);
-            const template = style.getPropertyValue("grid-template-columns");
+            if (!force && layoutColumnsCache > 0) return layoutColumnsCache;
+            const template = window.getComputedStyle(modulesContainer).getPropertyValue("grid-template-columns");
             const columns = template ? template.trim().split(/\s+/).length : 1;
-            layoutCache.columns = Math.max(1, columns);
-            layoutCache.valid = true;
-            return layoutCache.columns;
-        }
-
-        function updateControlBarLayout(columns = null) {
-            if (!controlBarEl || !modulesContainer) return;
-            const resolvedColumns = columns || getGridColumns();
-            controlBarEl.classList.toggle("is-single-column", resolvedColumns === 1);
-        }
-
-        function updateCardWidth(columns = null) {
-            const cols = columns || getGridColumns() || 1;
-            const firstCard = modulesContainer.querySelector('.module-card, .loading-card');
-            let newWidth = 0;
-            if (firstCard && firstCard.offsetWidth > 0) {
-                newWidth = firstCard.offsetWidth;
-            } else if (modulesContainer.offsetWidth > 0) {
-                if (!layoutCache.gap) {
-                    layoutCache.gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--layout-gap")) || 44;
-                }
-                const totalGap = (cols - 1) * layoutCache.gap;
-                newWidth = Math.max(0, (modulesContainer.offsetWidth - totalGap) / cols);
-            }
-            if (newWidth > 0) {
-                layoutCache.cardWidth = newWidth;
-                if (Math.abs(newWidth - lastCardWidthVal) > 1) {
-                    lastCardWidthVal = newWidth;
-                    document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
-                }
-            }
+            layoutColumnsCache = Math.max(1, columns);
+            return layoutColumnsCache;
         }
 
         let layoutRaf = 0;
         let resizeEndTimer = null;
 
         function scheduleLayoutUpdate() {
-            invalidateLayoutCache();
+            layoutColumnsCache = 0;
             if (layoutRaf) return;
 
             layoutRaf = requestAnimationFrame(() => {
                 layoutRaf = 0;
-
                 const columns = getGridColumns(true) || 1;
-                updateControlBarLayout(columns);
-                updateCardWidth(columns);
+                const containerWidth = modulesContainer.offsetWidth;
+                const firstCard = modulesContainer.querySelector('.module-card, .loading-card');
+                const firstCardWidth = firstCard ? firstCard.offsetWidth : 0;
+
+                controlBarEl.classList.toggle("is-single-column", columns === 1);
+
+                let newWidth = 0;
+                if (firstCardWidth > 0) {
+                    newWidth = firstCardWidth;
+                } else if (containerWidth > 0) {
+                    const totalGap = (columns - 1) * 44;
+                    newWidth = Math.max(0, (containerWidth - totalGap) / columns);
+                }
+
+                if (newWidth > 0) {
+                    document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
+                }
+
                 updateAlphabetPosition();
                 if (!isTabAnimating) updateTabIndicator(false);
                 checkScrollLock();
@@ -2580,36 +2322,24 @@
         }, { passive: true });
 
         if (typeof ResizeObserver !== "undefined") {
-            if (modulesContainer) {
-                new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
-            }
-            if (tabBarEl) {
-                new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
-            }
+            if (modulesContainer) new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
+            if (tabBarEl) new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
         }
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView;
-
-            if (shouldActive) {
-                standaloneListBtn.classList.add("active");
-                standaloneListBtn.setAttribute("title", I18N[state.currentLang].searchClearTitle);
-                standaloneListBtn.setAttribute("aria-label", I18N[state.currentLang].searchClearTitle);
-            } else {
-                standaloneListBtn.classList.remove("active");
-                standaloneListBtn.setAttribute("title", "资源列表");
-                standaloneListBtn.setAttribute("aria-label", "资源列表");
-            }
+            standaloneListBtn.classList.toggle("active", state.isListView);
+            const title = state.isListView ? "关闭列表" : "资源列表";
+            standaloneListBtn.setAttribute("title", title);
+            standaloneListBtn.setAttribute("aria-label", title);
             document.body.classList.toggle("has-search-text", hasText);
         }
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
-            setListViewMode(false, false);
+            setListViewMode(false);
 
             searchInput.value = mod.name;
-            document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
             if (state.activeTab !== mod.category) {
@@ -2627,43 +2357,27 @@
             modulesContainer.innerHTML = "";
             sentinel.style.display = "none";
 
-            const singleCard = createModuleCard(mod);
-            singleCard.classList.add("single-focused");
-            modulesContainer.appendChild(singleCard);
+            modulesContainer.appendChild(createModuleCard(mod));
             state.currentlyRendered = 1;
 
-            const langObj = I18N[state.currentLang];
-            const currentLabel = langObj.countLabel[mod.category] || langObj.countLabel.more;
-            countText.textContent = langObj.countText(1, currentLabel);
+            const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
+            countText.textContent = `1 个${currentLabel}`;
             statusText.textContent = `已定位：${mod.name}`;
             statusDot.className = "status-dot";
 
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            scheduleLayoutUpdate();
-            checkScrollLock();
+            floatSearchToTarget(false);
         }
 
         function renderAlphabetList() {
             if (!alphabetScrollArea || !alphabetFastIndex) return;
             
-            if (alphabetImgObserver) {
-                alphabetImgObserver.disconnect();
-            }
-
-            while (alphabetScrollArea.firstChild) {
-                alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
-            }
-            
-            Array.from(alphabetFastIndex.children).forEach(child => {
-                if (child !== alphabetPopupBubble) {
-                    alphabetFastIndex.removeChild(child);
-                }
-            });
+            if (alphabetImgObserver) alphabetImgObserver.disconnect();
+            alphabetScrollArea.replaceChildren();
+            alphabetFastIndex.replaceChildren();
+            alphabetGroupElements.clear();
 
             const observer = getAlphabetImgObserver();
-
-            let sourceList = state.allModules;
-            const sorted = [...sourceList].sort((a, b) => {
+            const sorted = [...state.allModules].sort((a, b) => {
                 const letterA = a._initialLetter || "#";
                 const letterB = b._initialLetter || "#";
                 if (letterA === "#" && letterB !== "#") return -1;
@@ -2680,7 +2394,8 @@
             });
 
             const alphabetAll = ["#","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-            const fragment = document.createDocumentFragment();
+            const listFragment = document.createDocumentFragment();
+            const indexFragment = document.createDocumentFragment();
 
             alphabetAll.forEach(letter => {
                 const charEl = document.createElement("div");
@@ -2690,12 +2405,12 @@
                 if (!groups[letter] || groups[letter].length === 0) {
                     charEl.classList.add("disabled");
                 }
-                alphabetFastIndex.appendChild(charEl);
+                indexFragment.appendChild(charEl);
 
                 if (groups[letter] && groups[letter].length > 0) {
                     const groupContainer = document.createElement("div");
                     groupContainer.className = "alphabet-group";
-                    groupContainer.id = `alphabet-group-${letter === '#' ? 'hash' : letter}`;
+                    alphabetGroupElements.set(letter, groupContainer);
 
                     const headerEl = document.createElement("div");
                     headerEl.className = "alphabet-letter-header";
@@ -2718,13 +2433,10 @@
                         if (mod.category === "config") catName = "配置";
                         else if (mod.category === "manual") catName = "手册";
                         else if (mod.category === "more") catName = "仓库";
-                        if (state.currentLang === "en") {
-                            catName = mod.category ? mod.category.charAt(0).toUpperCase() + mod.category.slice(1) : "Module";
-                        }
 
                         row.innerHTML = `
                             <div class="alphabet-item-icon">
-                                <img src="${escapeHTML(fallbackIcon)}" ${hasRemoteIcon ? `data-src="${escapeHTML(mod.icon)}"` : ''} alt="" decoding="async">
+                                <img src="${escapeHTML(fallbackIcon)}" ${hasRemoteIcon ? `data-src="${escapeHTML(mod.icon)}"` : ''} data-fallback="${escapeHTML(fallbackIcon)}" alt="" decoding="async">
                             </div>
                             <span class="alphabet-item-name">${escapeHTML(mod.name)}</span>
                             <span class="alphabet-item-type">${escapeHTML(catName)}</span>
@@ -2732,12 +2444,8 @@
 
                         const imgEl = row.querySelector("img");
                         if (hasRemoteIcon) {
-                            if (observer) {
-                                observer.observe(imgEl);
-                            } else {
-                                imgEl.src = mod.icon;
-                            }
-                            bindImageError(imgEl, fallbackIcon);
+                            if (observer) observer.observe(imgEl);
+                            else imgEl.src = mod.icon;
                         }
 
                         row.addEventListener("click", (e) => {
@@ -2749,14 +2457,13 @@
                     });
 
                     groupContainer.appendChild(listEl);
-                    fragment.appendChild(groupContainer);
+                    listFragment.appendChild(groupContainer);
                 }
             });
 
-            alphabetScrollArea.appendChild(fragment);
-            if (alphabetPopupBubble) {
-                alphabetFastIndex.appendChild(alphabetPopupBubble);
-            }
+            alphabetFastIndex.appendChild(indexFragment);
+            alphabetScrollArea.appendChild(listFragment);
+
             state.isAlphabetRendered = true;
             fastIndexChars = [];
             fastIndexCharHeight = 0;
@@ -2765,8 +2472,7 @@
         }
 
         function scrollToAlphabetLetter(letter) {
-            const targetId = letter === '#' ? 'alphabet-group-hash' : `alphabet-group-${letter}`;
-            const targetEl = document.getElementById(targetId);
+            const targetEl = alphabetGroupElements.get(letter);
             if (targetEl && alphabetScrollArea) {
                 alphabetScrollArea.scrollTop = targetEl.offsetTop;
             }
@@ -2777,37 +2483,28 @@
         let fastIndexCharHeight = 0;
         let fastIndexTop = 0;
         let fastIndexHeight = 0;
-        let fastIndexRightOffset = 0;
-        let lastSelectedLetter = null;
         let activeFastIndexChar = null;
 
         function prepareFastIndexGeometry() {
             if (!alphabetFastIndex) return false;
-
             fastIndexChars = Array.from(alphabetFastIndex.querySelectorAll(".alphabet-fast-char"));
             if (!fastIndexChars.length) return false;
 
             const firstRect = fastIndexChars[0].getBoundingClientRect();
             const indexRect = alphabetFastIndex.getBoundingClientRect();
-            const contentRect = alphabetFastIndex.parentElement
-                ? alphabetFastIndex.parentElement.getBoundingClientRect()
-                : indexRect;
 
             fastIndexTop = firstRect.top;
             fastIndexHeight = indexRect.height;
             fastIndexCharHeight = firstRect.height || (fastIndexHeight / fastIndexChars.length);
-            fastIndexRightOffset = (contentRect.right - indexRect.left) + 10;
 
             return fastIndexCharHeight > 0 && fastIndexHeight > 0;
         }
 
         let fastIndexRaf = 0;
-        let pendingFastIndexX = 0;
         let pendingFastIndexY = 0;
 
-        function renderFastIndexSelection(clientX, clientY) {
+        function renderFastIndexSelection(clientY) {
             if (!alphabetFastIndex) return;
-
             if (!fastIndexChars.length || !fastIndexCharHeight) {
                 if (!prepareFastIndexGeometry()) return;
             }
@@ -2821,46 +2518,45 @@
             const letter = charEl.dataset.letter;
             if (!letter) return;
 
-            if (letter !== lastSelectedLetter) {
-                lastSelectedLetter = letter;
-                scrollToAlphabetLetter(letter);
+            scrollToAlphabetLetter(letter);
 
-                if (activeFastIndexChar && activeFastIndexChar !== charEl) {
-                    activeFastIndexChar.classList.remove("active");
-                }
-                charEl.classList.add("active");
-                activeFastIndexChar = charEl;
+            if (activeFastIndexChar && activeFastIndexChar !== charEl) {
+                activeFastIndexChar.classList.remove("active");
             }
+            charEl.classList.add("active");
+            activeFastIndexChar = charEl;
 
             if (alphabetPopupBubble) {
-                let relativeY = clientY - fastIndexTop;
+                const indexRect = alphabetFastIndex.getBoundingClientRect();
+                const containerRect = alphabetViewContainer.getBoundingClientRect();
+                
+                let relativeY = clientY - containerRect.top;
                 const bubbleHalfH = 24;
 
                 relativeY = Math.max(
-                    bubbleHalfH,
-                    Math.min(relativeY, fastIndexHeight - bubbleHalfH)
+                    bubbleHalfH + 8,
+                    Math.min(relativeY, containerRect.height - bubbleHalfH - 8)
                 );
 
+                const rightOffset = (containerRect.right - indexRect.left) + 10;
                 alphabetPopupBubble.textContent = letter;
                 alphabetPopupBubble.style.top = `${relativeY}px`;
-                alphabetPopupBubble.style.right = `${fastIndexRightOffset}px`;
+                alphabetPopupBubble.style.right = `${rightOffset}px`;
                 alphabetPopupBubble.classList.add("visible");
             }
         }
 
-        function updateFastIndexSelection(clientX, clientY, immediate = false) {
-            pendingFastIndexX = clientX;
+        function updateFastIndexSelection(clientY, immediate = false) {
             pendingFastIndexY = clientY;
-
             if (immediate) {
-                renderFastIndexSelection(clientX, clientY);
+                renderFastIndexSelection(clientY);
                 return;
             }
 
             if (fastIndexRaf) return;
             fastIndexRaf = requestAnimationFrame(() => {
                 fastIndexRaf = 0;
-                renderFastIndexSelection(pendingFastIndexX, pendingFastIndexY);
+                renderFastIndexSelection(pendingFastIndexY);
             });
         }
 
@@ -2872,12 +2568,7 @@
             if (!isTouchingIndex) return;
 
             isTouchingIndex = false;
-            lastSelectedLetter = null;
-
-            if (alphabetPopupBubble) {
-                alphabetPopupBubble.classList.remove("visible");
-            }
-
+            if (alphabetPopupBubble) alphabetPopupBubble.classList.remove("visible");
             if (activeFastIndexChar) {
                 activeFastIndexChar.classList.remove("active");
                 activeFastIndexChar = null;
@@ -2886,20 +2577,15 @@
 
         alphabetFastIndex.addEventListener("touchstart", (e) => {
             isTouchingIndex = true;
-            lastSelectedLetter = null;
             prepareFastIndexGeometry();
             e.preventDefault();
-
-            const touch = e.touches[0];
-            updateFastIndexSelection(touch.clientX, touch.clientY, true);
+            updateFastIndexSelection(e.touches[0].clientY, true);
         }, { passive: false });
 
         alphabetFastIndex.addEventListener("touchmove", (e) => {
             if (!isTouchingIndex) return;
-
             e.preventDefault();
-            const touch = e.touches[0];
-            updateFastIndexSelection(touch.clientX, touch.clientY);
+            updateFastIndexSelection(e.touches[0].clientY);
         }, { passive: false });
 
         window.addEventListener("touchend", hideFastIndexSelection, { passive: true });
@@ -2907,36 +2593,28 @@
 
         alphabetFastIndex.addEventListener("mousedown", (e) => {
             isTouchingIndex = true;
-            lastSelectedLetter = null;
             prepareFastIndexGeometry();
-            updateFastIndexSelection(e.clientX, e.clientY);
+            updateFastIndexSelection(e.clientY, true);
         });
 
         window.addEventListener("mousemove", (e) => {
-            if (isTouchingIndex) {
-                updateFastIndexSelection(e.clientX, e.clientY);
-            }
+            if (isTouchingIndex) updateFastIndexSelection(e.clientY);
         });
 
         window.addEventListener("mouseup", hideFastIndexSelection);
 
         function updateAlphabetPosition() {
             if (!alphabetViewContainer || !standaloneListBtn || !pageContainer) return;
-            invalidateLayoutCache();
 
             const btnRect = standaloneListBtn.getBoundingClientRect();
             const containerRect = pageContainer.getBoundingClientRect();
-
-            const style = window.getComputedStyle(controlBarEl);
-            const stickyTopVal = parseFloat(style.top) || 12;
+            const stickyTopVal = parseFloat(window.getComputedStyle(controlBarEl).top) || 12;
             const topPos = Math.round(stickyTopVal + 4 + 44 + 12);
 
             let bottomPos = 16;
             const isSingleCol = controlBarEl && controlBarEl.classList.contains("is-single-column");
-            
             if (isSingleCol) {
-                const bottomOffsetVal = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--bottom-offset')) || 16;
-                bottomPos = Math.round(bottomOffsetVal);
+                bottomPos = Math.round(parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--bottom-offset')) || 16);
             } else {
                 bottomPos = 24;
             }
@@ -2944,7 +2622,7 @@
             alphabetViewContainer.style.top = `${topPos}px`;
             alphabetViewContainer.style.bottom = `${bottomPos}px`;
             alphabetViewContainer.style.left = `${btnRect.left}px`;
-            alphabetViewContainer.style.width = `${containerRect.right - btnRect.left}px`;
+            alphabetViewContainer.style.width = `${Math.max(0, containerRect.right - btnRect.left)}px`;
 
             fastIndexChars = [];
             fastIndexCharHeight = 0;
@@ -2954,22 +2632,17 @@
         let listViewTransitionTimer = null;
         let listViewScrollLockTimer = null;
 
-        function setListViewMode(enable, restoreScroll = true) {
+        function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
             clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
-                state.wasFloatingBeforeActive = isSearchFloating();
-                state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
                 state.isListView = true;
-
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
-
-                floatSearchToTarget(true);
+                floatSearchToTarget(false);
 
                 if (!state.isAlphabetRendered) {
                     renderAlphabetList();
@@ -2981,14 +2654,12 @@
                     if (state.isListView) {
                         alphabetViewContainer.classList.add("is-visible");
                     }
-                }, 320);
+                }, 40);
 
                 listViewScrollLockTimer = setTimeout(() => {
                     listViewScrollLockTimer = null;
-                    if (state.isListView) {
-                        checkScrollLock();
-                    }
-                }, 450);
+                    if (state.isListView) checkScrollLock();
+                }, 360);
             } else {
                 state.isListView = false;
                 alphabetViewContainer.classList.remove("is-visible");
@@ -2996,17 +2667,14 @@
                 updateStandaloneButtonState();
                 
                 document.body.style.minHeight = "";
-                
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                if (restoreScroll && !state.wasFloatingBeforeActive) {
-                    const targetScrollY = Math.max(0, state.listViewReturnScrollY);
-                    requestAnimationFrame(() => {
-                        window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-                        updateSearchLayer();
-                    });
-                }
+                floatSearchToTarget(false);
+                requestAnimationFrame(() => {
+                    floatSearchToTarget(false);
+                    updateSearchLayer();
+                });
             }
         }
 
@@ -3018,11 +2686,7 @@
                 ignoreNextClick = false;
                 return;
             }
-            if (e.target.closest("#alphabetViewContainer") || 
-                e.target.closest("#controlBar") || 
-                e.target.closest("#standaloneListBtn") ||
-                e.target.closest("#toast") || 
-                e.target.closest("#pullRefreshIndicator")) {
+            if (e.target.closest("#alphabetViewContainer, #controlBar, #standaloneListBtn, #toast, #pullRefreshIndicator")) {
                 return;
             }
             setListViewMode(false);
@@ -3030,7 +2694,6 @@
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-
             if (state.isListView) {
                 setListViewMode(false);
             } else {
@@ -3040,95 +2703,63 @@
             }
         });
 
-        searchClearBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            
+        function performSearch() {
             state.focusedModuleId = null;
-            searchInput.value = "";
-            document.body.classList.remove("has-search-text", "has-search-focus");
-            
+            if (state.isListView) {
+                setListViewMode(false);
+            }
             filterModules();
-            updateStandaloneButtonState();
-            
-            if (state.statusKey && I18N[state.currentLang][state.statusKey]) {
-                statusText.textContent = I18N[state.currentLang][state.statusKey];
-            }
-            statusDot.className = "status-dot";
-        });
+            searchInput.blur();
 
-        let searchFocusScrollY = null;
-        let searchFocusRestoreRaf1 = 0;
-        let searchFocusRestoreRaf2 = 0;
-
-        function lockSearchFocusScroll() {
-            if (!isSearchFloating()) {
-                searchFocusScrollY = null;
-                return;
-            }
-
-            searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
-            cancelAnimationFrame(searchFocusRestoreRaf1);
-            cancelAnimationFrame(searchFocusRestoreRaf2);
-
-            const restore = () => {
-                if (searchFocusScrollY == null || state.isListView) return;
-                window.scrollTo(0, searchFocusScrollY);
-            };
-
-            searchFocusRestoreRaf1 = requestAnimationFrame(() => {
-                restore();
-                searchFocusRestoreRaf2 = requestAnimationFrame(() => {
-                    restore();
-                    searchFocusScrollY = null;
-                });
+            floatSearchToTarget(false);
+            requestAnimationFrame(() => {
+                floatSearchToTarget(false);
+                updateSearchLayer();
             });
         }
 
-        searchBoxInner.addEventListener("touchstart", () => {
-            if (!state.isListView && isSearchFloating()) {
-                searchFocusScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        searchClearBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            state.focusedModuleId = null;
+            searchInput.value = "";
+            
+            if (!state.isListView) {
+                filterModules();
+                if (STATUS_MESSAGES[state.statusKey]) {
+                    statusText.textContent = STATUS_MESSAGES[state.statusKey];
+                }
+                statusDot.className = "status-dot";
             }
-        }, { passive: true });
+            
+            updateStandaloneButtonState();
+
+            floatSearchToTarget(false);
+            requestAnimationFrame(() => {
+                floatSearchToTarget(false);
+                updateSearchLayer();
+            });
+        });
+
+        if (searchSubmitBtn) {
+            searchSubmitBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                performSearch();
+            });
+        }
 
         searchBoxInner.addEventListener("click", (e) => {
-            if (e.target.closest("#searchClearBtn")) return;
-
-            const wasFloating = !state.isListView && isSearchFloating();
-            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-
+            if (e.target.closest("#searchClearBtn, #searchSubmitBtn")) return;
             if (document.activeElement !== searchInput) {
-                if (wasFloating) {
-                    searchFocusScrollY = currentScrollY;
-                    searchInput.focus({ preventScroll: true });
-                } else {
-                    searchInput.focus({ preventScroll: true });
-                }
-            }
-
-            if (wasFloating) {
-                const restore = () => {
-                    if (state.isListView) return;
-                    window.scrollTo(0, currentScrollY);
-                };
-                requestAnimationFrame(() => {
-                    restore();
-                    requestAnimationFrame(restore);
-                });
+                searchInput.focus();
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-
-            if (state.isListView) {
-                setListViewMode(false, false);
-                window.scrollTo(0, 0);
-            } else if (!isSearchFloating()) {
-                floatSearchToTarget(true);
-            } else {
-                lockSearchFocusScroll();
-            }
+            floatSearchToTarget(false);
+            setTimeout(() => {
+                floatSearchToTarget(false);
+            }, 80);
         });
 
         searchInput.addEventListener("blur", () => {
@@ -3140,7 +2771,7 @@
             const avatar = module.authorAvatar;
             const avatarHTML = avatar ? `<img class="author-avatar" src="${escapeHTML(avatar)}" decoding="async" referrerpolicy="no-referrer" alt="">` : "";
             const authorURL = author.url;
-            const authorName = author.name || author.username || I18N[state.currentLang].authorUnknown;
+            const authorName = author.name || author.username || "作者信息识别失败";
             if (authorURL) {
                 return `<a class="author" href="${escapeHTML(authorURL)}" target="_blank" rel="noopener">${avatarHTML}${escapeHTML(authorName)}</a>`;
             }
@@ -3148,7 +2779,6 @@
         }
 
         function createModuleCard(module) {
-            const langObj = I18N[state.currentLang];
             const card = document.createElement("article");
             card.className = "module-card glass-element";
             card.dataset.moduleId = module.id;
@@ -3159,20 +2789,9 @@
             const isRepo = Boolean(module.isRepoCard);
 
             const directOpenURL = module.rawURL || module.sourceURL || "";
-            let iconHTML = "";
-            if (directOpenURL) {
-                iconHTML = `
-                    <a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(langObj.openLinkAria || '在新窗口打开资源直链')}" aria-label="${escapeHTML(langObj.openLinkAria || '在新窗口打开资源直链')}">
-                        <img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer">
-                    </a>
-                `;
-            } else {
-                iconHTML = `
-                    <div class="module-icon" style="cursor: default;">
-                        <img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer">
-                    </div>
-                `;
-            }
+            let iconHTML = directOpenURL 
+                ? `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>`
+                : `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
 
             const sourceLinkHTML = module.sourceURL
                 ? `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>`
@@ -3180,16 +2799,16 @@
 
             let secondaryBtnHTML = "";
             if (module.preInstallURL) {
-                const preText = module.secondaryBtnText || langObj.btnPreInstall;
+                const preText = module.secondaryBtnText || "安装前置";
                 secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
             } else if (module.rawURL) {
-                secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="${langObj.btnCopyLink} ${escapeHTML(module.name)}">${langObj.btnCopyLink}</button>`;
+                secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
             }
 
-            let defaultPrimaryText = langObj.btnInstallModule;
-            if (module.category === "config") defaultPrimaryText = langObj.btnInstallConfig;
-            else if (module.category === "manual") defaultPrimaryText = langObj.btnViewManual;
-            else if (isRepo) defaultPrimaryText = langObj.btnVisitRepo;
+            let defaultPrimaryText = "安装模块";
+            if (module.category === "config") defaultPrimaryText = "安装配置";
+            else if (module.category === "manual") defaultPrimaryText = "查阅手册";
+            else if (isRepo) defaultPrimaryText = "访问仓库";
 
             const primaryText = module.primaryBtnText || defaultPrimaryText;
             const primaryTarget = isRepo ? `target="_blank" rel="noopener"` : "";
@@ -3197,7 +2816,7 @@
                 ? `<a class="button button-primary" href="${escapeHTML(module.installURL)}" ${primaryTarget} aria-label="${escapeHTML(primaryText)} ${escapeHTML(module.name)}">${escapeHTML(primaryText)}</a>` 
                 : "";
 
-            const descriptionText = module.description ? escapeHTML(module.description) : langObj.noDesc;
+            const descriptionText = module.description ? escapeHTML(module.description) : "暂无描述";
 
             card.innerHTML = `
                 <div class="card-header">
@@ -3220,28 +2839,6 @@
                 </div>
             `;
 
-            const copyBtn = card.querySelector(".copy-btn");
-            if (copyBtn) {
-                copyBtn.addEventListener("click", async (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const url = copyBtn.getAttribute("data-url");
-                    if (!url) {
-                        showToast(langObj.toastInvalidLink);
-                        return;
-                    }
-                    const success = await copyToClipboard(url);
-                    let toastMessage = langObj.toastCopiedUrl;
-                    if (isRepo) toastMessage = langObj.toastCopiedRepo;
-                    else if (module.category === "config") toastMessage = langObj.toastCopiedConfig;
-                    else if (module.category === "manual") toastMessage = langObj.toastCopiedManual;
-                    showToast(success ? toastMessage : langObj.toastCopyFailed);
-                });
-            }
-            
-            bindImageError(card.querySelector(".module-icon img"), fallbackIcon);
-            bindImageError(card.querySelector(".author-avatar"), null);
-
             return card;
         }
 
@@ -3263,14 +2860,12 @@
             
             sentinel.style.display = state.currentlyRendered >= state.filteredModules.length ? "none" : "block";
             
-            updateCardWidth();
+            scheduleLayoutUpdate();
             updateSearchLayer();
             checkScrollLock();
         }
 
         function renderFilteredList(list, customLabel = null) {
-            const langObj = I18N[state.currentLang];
-
             if (state.isInitialLoading) {
                 sentinel.style.display = "none";
                 countText.textContent = "";
@@ -3279,7 +2874,7 @@
                         <div class="empty-icon">
                             <span class="status-dot loading" style="width: 14px; height: 14px;"></span>
                         </div>
-                        ${escapeHTML(langObj.loadingText)}
+                        正在同步资源，请稍候...
                     </div>
                 `;
                 scheduleLayoutUpdate();
@@ -3291,7 +2886,7 @@
             state.currentlyRendered = 0;
             modulesContainer.innerHTML = "";
 
-            const currentLabel = customLabel || langObj.countLabel[state.activeTab] || langObj.countLabel.more;
+            const currentLabel = customLabel || TAB_NAMES[state.activeTab] || TAB_NAMES.more;
 
             if (!state.filteredModules.length) {
                 sentinel.style.display = "none";
@@ -3303,16 +2898,16 @@
                                 <path d="m16 16 4.5 4.5"></path>
                             </svg>
                         </div>
-                        ${escapeHTML(langObj.emptyText(currentLabel))}
+                        没有找到匹配的${escapeHTML(currentLabel)}
                     </div>
                 `;
-                countText.textContent = langObj.countText(0, currentLabel);
+                countText.textContent = `0 个${currentLabel}`;
                 scheduleLayoutUpdate();
                 checkScrollLock();
                 return;
             }
 
-            countText.textContent = langObj.countText(state.filteredModules.length, currentLabel);
+            countText.textContent = `${state.filteredModules.length} 个${currentLabel}`;
             appendNextBatch();
         }
 
@@ -3334,15 +2929,12 @@
             updateStandaloneButtonState();
 
             let result = [];
-            const langObj = I18N[state.currentLang];
-
             if (keyword) {
                 result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
-                const searchCountLabel = langObj.countLabel.more;
-                renderFilteredList(result, searchCountLabel);
+                renderFilteredList(result, TAB_NAMES.more);
             } else {
                 result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
-                const currentLabel = langObj.countLabel[state.activeTab] || langObj.countLabel.more;
+                const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
                 renderFilteredList(result, currentLabel);
             }
         }
@@ -3351,7 +2943,7 @@
             tab.addEventListener("click", () => {
                 const targetTab = tab.getAttribute("data-tab");
                 if (state.isListView) {
-                    setListViewMode(false, false);
+                    setListViewMode(false);
                 }
                 searchInput.blur();
                 document.body.classList.remove("has-search-focus");
@@ -3388,18 +2980,18 @@
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-            if (state.isListView) {
-                setListViewMode(false, false);
+        });
+
+        searchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                performSearch();
             }
-            clearTimeout(searchTimer);
-            searchTimer = setTimeout(filterModules, 120);
         });
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
                 e.preventDefault();
-                setListViewMode(false, false);
-                window.scrollTo(0, 0);
                 searchInput.focus();
                 searchInput.select();
             } else if (e.key === "Escape") {
@@ -3415,10 +3007,8 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const langObj = I18N[state.currentLang];
-            const text = enabled ? langObj.searchPlaceholderReady : langObj.searchPlaceholderWait;
             const mainP = document.getElementById("mainPlaceholder");
-            if (mainP) mainP.textContent = text;
+            if (mainP) mainP.textContent = enabled ? "输入后按回车或点击搜索..." : "请在加载完成后执行搜索...";
 
             if (searchShortcut) {
                 searchShortcut.style.opacity = enabled ? "1" : "0.35";
@@ -3431,7 +3021,7 @@
         }
 
         let noticeInterval = null;
-        if (noticeTrack) {
+        if (noticeTrack && noticeTrack.children.length > 0) {
             const firstItemClone = noticeTrack.children[0].cloneNode(true);
             noticeTrack.appendChild(firstItemClone);
 
@@ -3484,8 +3074,6 @@
             });
         }
 
-        const mediaQueryDark = window.matchMedia("(prefers-color-scheme: dark)");
-
         function getThemeMode() {
             try {
                 const saved = localStorage.getItem("sr_theme_override");
@@ -3496,8 +3084,7 @@
 
         function getEffectiveTheme(mode) {
             if (mode === "dark" || mode === "light") return mode;
-            if (mode === "auto") return mediaQueryDark.matches ? "dark" : "light";
-            return "light";
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
 
         function updateThemeUI() {
@@ -3507,73 +3094,42 @@
             
             const themeColor = currentTheme === "dark" ? "#14161a" : "#f0f2f5";
             const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeColorMeta) {
-                themeColorMeta.setAttribute("content", themeColor);
-            }
+            if (themeColorMeta) themeColorMeta.setAttribute("content", themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
-            const isZh = state.currentLang === "zh";
             if (mode === "light") {
                 themeToggleBtn.innerHTML = SUN_ICON;
-                const desc = isZh ? "当前：浅色主题" : "Current: Light mode (Click for Dark)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：浅色主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：浅色主题");
             } else if (mode === "dark") {
                 themeToggleBtn.innerHTML = MOON_ICON;
-                const desc = isZh ? "当前：深色主题" : "Current: Dark mode (Click for Auto)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：深色主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：深色主题");
             } else {
                 themeToggleBtn.innerHTML = SYSTEM_ICON;
-                const desc = isZh ? "当前：自动主题" : "Current: Auto System (Click to switch)";
-                themeToggleBtn.setAttribute("title", desc);
-                themeToggleBtn.setAttribute("aria-label", desc);
+                themeToggleBtn.setAttribute("title", "当前：自动主题");
+                themeToggleBtn.setAttribute("aria-label", "当前：自动主题");
             }
         }
 
-        mediaQueryDark.addEventListener("change", () => {
-            if (getThemeMode() === "auto") {
-                document.documentElement.classList.add("theme-transitioning");
-                updateThemeUI();
-                window.requestAnimationFrame(() => {
-                    void document.documentElement.offsetWidth;
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            }
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            if (getThemeMode() === "auto") updateThemeUI();
         });
 
         themeToggleBtn.addEventListener("click", () => {
-            document.documentElement.classList.add("theme-transitioning");
-
             const currentMode = getThemeMode();
-            const isSystemDark = mediaQueryDark.matches;
+            const isSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
             let nextMode, toastText;
-            const langObj = I18N[state.currentLang];
 
             if (currentMode === "auto") {
-                if (isSystemDark) {
-                    nextMode = "light";
-                    toastText = langObj.themeLightToast;
-                } else {
-                    nextMode = "dark";
-                    toastText = langObj.themeDarkToast;
-                }
+                nextMode = isSystemDark ? "light" : "dark";
+                toastText = isSystemDark ? "已切换为浅色模式" : "已切换为深色模式";
             } else if (currentMode === "light") {
-                if (isSystemDark) {
-                    nextMode = "dark";
-                    toastText = langObj.themeDarkToast;
-                } else {
-                    nextMode = "auto";
-                    toastText = langObj.themeAutoToast;
-                }
+                nextMode = isSystemDark ? "dark" : "auto";
+                toastText = isSystemDark ? "已切换为深色模式" : "已切换为自动跟随系统";
             } else { 
-                if (isSystemDark) {
-                    nextMode = "auto";
-                    toastText = langObj.themeAutoToast;
-                } else {
-                    nextMode = "light";
-                    toastText = langObj.themeLightToast;
-                }
+                nextMode = isSystemDark ? "auto" : "light";
+                toastText = isSystemDark ? "已切换为自动跟随系统" : "已切换为浅色模式";
             }
 
             try {
@@ -3581,74 +3137,6 @@
             } catch (e) {}
             updateThemeUI();
             showToast(toastText);
-
-            window.requestAnimationFrame(() => {
-                void document.documentElement.offsetWidth;
-                window.requestAnimationFrame(() => {
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            });
-        });
-
-        function updateLanguageUI() {
-            const lang = state.currentLang;
-            const dict = I18N[lang];
-
-            document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
-            tagPillBadge.textContent = dict.badgeCommunity;
-            subtitleEl.textContent = dict.subtitle;
-            footerText.innerHTML = dict.footer;
-
-            tabItems.forEach(tab => {
-                const key = tab.getAttribute("data-tab");
-                if (dict.tabs[key]) {
-                    tab.textContent = dict.tabs[key];
-                }
-            });
-
-            langToggleBtn.setAttribute("title", dict.langBtnTitle);
-            langToggleBtn.setAttribute("aria-label", dict.langBtnTitle);
-
-            backToTopBtn.setAttribute("title", dict.backToTopTitle);
-            backToTopBtn.setAttribute("aria-label", dict.backToTopTitle);
-            searchInput.setAttribute("aria-label", dict.searchInputAria);
-
-            const notice1 = document.querySelector(".notice-item-1");
-            const notice2 = document.querySelector(".notice-item-2");
-            if (notice1) notice1.textContent = dict.notice1;
-            if (notice2) notice2.textContent = dict.notice2;
-
-            setSearchState(!searchInput.disabled);
-            updateThemeUI();
-            updateStandaloneButtonState();
-
-            if (!state.focusedModuleId && state.statusKey && dict[state.statusKey]) {
-                statusText.textContent = dict[state.statusKey];
-            }
-
-            if (!state.isPullRefreshing) {
-                ptrText.textContent = dict.ptrContinue;
-            }
-
-            const staticItems = normalizeStaticResources(lang);
-            const dynamicItems = normalizeModules(state.rawNetworkData);
-            state.allModules = [...staticItems, ...dynamicItems];
-
-            state.isAlphabetRendered = false;
-            
-            filterModules();
-
-            requestAnimationFrame(() => updateTabIndicator(false));
-        }
-
-        langToggleBtn.addEventListener("click", () => {
-            state.currentLang = state.currentLang === "zh" ? "en" : "zh";
-            try {
-                localStorage.setItem("sr_lang_override", state.currentLang);
-            } catch (e) {}
-
-            updateLanguageUI();
-            showToast(I18N[state.currentLang].langSwitchToast);
         });
 
         updateThemeUI();
@@ -3670,9 +3158,8 @@
             if (state.isPullRefreshing || state.isDataLoading) return;
             state.isPullRefreshing = true;
 
-            const langObj = I18N[state.currentLang];
             ptrIcon.classList.remove("rotate");
-            ptrText.textContent = langObj.ptrRefreshing;
+            ptrText.textContent = "正在强制刷新本站...";
 
             clearSiteDataCache();
 
@@ -3688,7 +3175,6 @@
             hasPulledContainer = false;
 
             const reloadUrl = buildForceReloadUrl();
-
             setTimeout(() => {
                 window.location.replace(reloadUrl);
             }, 180);
@@ -3750,13 +3236,7 @@
             const diffY = currentY - touchStartY;
 
             if (!isPullLocked) {
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    isPulling = false;
-                    isPullLocked = true;
-                    return;
-                }
-
-                if (diffY <= 0) {
+                if (Math.abs(diffX) > Math.abs(diffY) || diffY <= 0) {
                     isPulling = false;
                     isPullLocked = true;
                     return;
@@ -3776,7 +3256,6 @@
                 const containerShift = Math.min(Math.pow(effectiveDiff, 0.65) * 1.3, 48);
                 const indicatorShift = Math.min(containerShift * 0.42, 18);
                 const progress = Math.min(effectiveDiff / (PULL_TRIGGER_DIFF - MIN_DRAG_DEADZONE), 1);
-                const langObj = I18N[state.currentLang];
 
                 if (pullRafId) cancelAnimationFrame(pullRafId);
                 pullRafId = requestAnimationFrame(() => {
@@ -3786,10 +3265,10 @@
 
                     if (diffY >= PULL_TRIGGER_DIFF) {
                         ptrIcon.classList.add("rotate");
-                        ptrText.textContent = langObj.ptrRelease;
+                        ptrText.textContent = "松开将立即强制刷新本站";
                     } else {
                         ptrIcon.classList.remove("rotate");
-                        ptrText.textContent = langObj.ptrContinue;
+                        ptrText.textContent = "继续下拉将强制刷新本站";
                     }
                 });
 
@@ -3831,31 +3310,31 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
-                        if (key !== CONFIG.CACHE_KEY && key !== CONFIG.CACHE_TIME_KEY) {
-                            keysToRemove.push(key);
-                        }
+                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                        keysToRemove.push(key);
                     }
                 }
                 keysToRemove.forEach(k => localStorage.removeItem(k));
             } catch (e) {}
         }
 
+        function updateAllModules(list) {
+            state.allModules = list;
+            moduleDataMap.clear();
+            list.forEach(item => {
+                moduleDataMap.set(item.id, item);
+            });
+        }
+
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
-            let cachedTime = 0;
-            const staticItems = normalizeStaticResources(state.currentLang);
-            const langObj = I18N[state.currentLang];
+            const staticItems = normalizeStaticResources();
 
             try {
                 cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
-                cachedTime = Number(localStorage.getItem(CONFIG.CACHE_TIME_KEY) || 0);
-            } catch (e) {
-                console.warn("读取本地缓存失败:", e);
-            }
+            } catch (e) {}
 
-            const isCacheFresh = !forceRefresh && cachedData && cachedTime && (Date.now() - cachedTime < CONFIG.CACHE_MAX_AGE);
             let hasRenderedCache = false;
 
             if (!forceRefresh && cachedData) {
@@ -3865,25 +3344,18 @@
                         state.rawNetworkData = parsed;
                         const normalized = normalizeModules(parsed);
                         if (normalized.length > 0) {
-                            state.allModules = [...staticItems, ...normalized];
+                            updateAllModules([...staticItems, ...normalized]);
                             state.isAlphabetRendered = false;
                             state.isInitialLoading = false;
                             state.isDataLoading = false;
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
-                            scheduleAlphabetPreRender();
 
-                            if (isCacheFresh) {
-                                state.statusKey = "statusReady";
-                                statusText.textContent = langObj.statusReady;
-                                statusDot.className = "status-dot";
-                                return true;
-                            }
-
-                            state.statusKey = "statusChecking";
-                            statusText.textContent = langObj.statusChecking;
-                            statusDot.className = "status-dot loading";
+                            state.statusKey = "ready";
+                            statusText.textContent = "已就绪";
+                            statusDot.className = "status-dot";
+                            return true;
                         }
                     }
                 } catch (e) {
@@ -3892,18 +3364,14 @@
             }
 
             if (!hasRenderedCache && state.allModules.length === 0) {
-                state.statusKey = "statusFetchingStatic";
-                statusText.textContent = langObj.statusFetchingStatic;
+                state.statusKey = "fetchingStatic";
+                statusText.textContent = "正在拉取最新静态资源索引...";
                 statusDot.className = "status-dot loading";
             }
 
             try {
-                const fetchUrl = forceRefresh
-                    ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}`
-                    : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, {
-                    cache: forceRefresh ? "no-store" : "default"
-                });
+                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
+                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
@@ -3914,22 +3382,20 @@
                 const normalized = normalizeModules(data);
                 if (!normalized.length) throw new Error("未解析到有效资源数据");
 
-                state.allModules = [...staticItems, ...normalized];
+                updateAllModules([...staticItems, ...normalized]);
                 state.isAlphabetRendered = false;
                 state.isInitialLoading = false;
                 state.isDataLoading = false;
                 
                 filterModules();
                 setSearchState(true);
-                scheduleAlphabetPreRender();
 
                 try {
                     localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
-                    localStorage.setItem(CONFIG.CACHE_TIME_KEY, String(Date.now()));
                 } catch (e) {}
 
-                state.statusKey = "statusSynced";
-                statusText.textContent = langObj.statusSynced;
+                state.statusKey = "synced";
+                statusText.textContent = "已同步最新数据";
                 statusDot.className = "status-dot";
                 return true;
             } catch (error) {
@@ -3937,15 +3403,15 @@
                 state.isInitialLoading = false; 
                 
                 if (hasRenderedCache || state.allModules.length > staticItems.length) {
-                    state.statusKey = "statusErrorCache";
-                    statusText.textContent = langObj.statusErrorCache;
+                    state.statusKey = "errorCache";
+                    statusText.textContent = "在线同步异常，当前展示缓存数据";
                     statusDot.className = "status-dot error";
                 } else {
-                    state.allModules = staticItems;
+                    updateAllModules(staticItems);
                     filterModules();
                     setSearchState(true);
-                    state.statusKey = "statusErrorStatic";
-                    statusText.textContent = langObj.statusErrorStatic;
+                    state.statusKey = "errorStatic";
+                    statusText.textContent = "在线资源同步失败，已展示核心入口";
                     statusDot.className = "status-dot error";
                 }
                 return false;
@@ -3955,9 +3421,9 @@
             }
         }
 
-        updateLanguageUI();
-        updateCardWidth();
-        updateControlBarLayout();
+        updateAllModules(normalizeStaticResources());
+        filterModules();
+        scheduleLayoutUpdate();
         updateTabIndicator(false);
         updateSearchLayer();
         cleanOldCaches();
