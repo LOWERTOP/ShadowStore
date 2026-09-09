@@ -478,7 +478,8 @@
             pointer-events: none;
             z-index: 1;
             will-change: transform, width;
-            transform: translate3d(0, 0, 0);
+            transform-origin: center center;
+            transform: translate3d(0, 0, 0) scale(1, 1);
             transition: transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1);
         }
 
@@ -2260,20 +2261,20 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
-        function updateTabIndicator(animated = true) {
+        function updateTabIndicator(animated = true, customLeft = null, customWidth = null) {
             const activeTab = document.querySelector(".tab-item.active");
             if (!activeTab || !tabIndicator) return;
             if (!animated && isTabAnimating) return;
 
-            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1), width 0.3s ease' : 'none';
+            const left = customLeft !== null ? customLeft : activeTab.offsetLeft;
+            const width = customWidth !== null ? customWidth : activeTab.offsetWidth;
 
-            const left = activeTab.offsetLeft;
-            const width = activeTab.offsetWidth;
+            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1), width 0.38s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
 
             if (Math.abs(tabIndicator.offsetWidth - width) > 1) {
                 tabIndicator.style.width = `${width}px`;
             }
-            tabIndicator.style.transform = `translate3d(${left}px, 0, 0)`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(1, 1)`;
 
             if (!animated) {
                 void tabIndicator.offsetWidth;
@@ -3044,13 +3045,19 @@
             });
         });
 
-        // 窄屏标签栏：精确以手指为中心横向绝对跟随，松手吸附最近标签
+        // 窄屏标签栏：超Q弹物理形变拖拽与吸附系统
         let isTabDragging = false;
         let isDragActive = false;
         let tabTouchStartX = 0;
         let tabTouchStartY = 0;
         let tabItemsGeometry = [];
         let activeSnapTab = null;
+
+        let dragLastX = 0;
+        let dragLastTime = 0;
+        let dragVelocity = 0;
+        let currentScaleX = 1;
+        let currentScaleY = 1;
 
         function cacheTabsGeometry() {
             if (!tabBarEl) return;
@@ -3088,10 +3095,10 @@
             return first.width;
         }
 
-        function updateIndicatorDirectly(left, width) {
+        function updateIndicatorDirectly(left, width, scaleX = 1, scaleY = 1) {
             tabIndicator.style.transition = 'none';
             tabIndicator.style.width = `${width}px`;
-            tabIndicator.style.transform = `translate3d(${left}px, 0, 0)`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX}, ${scaleY})`;
         }
 
         function handleDragAtClientX(clientX) {
@@ -3099,23 +3106,42 @@
             const barRect = tabBarEl.getBoundingClientRect();
             let pointerX = clientX - barRect.left;
 
+            const now = Date.now();
+            const dt = now - dragLastTime;
+            if (dt > 0) {
+                const instantV = (clientX - dragLastX) / dt;
+                dragVelocity = dragVelocity * 0.45 + instantV * 0.55;
+                dragLastX = clientX;
+                dragLastTime = now;
+            }
+
             const firstTab = tabItemsGeometry[0];
             const lastTab = tabItemsGeometry[tabItemsGeometry.length - 1];
 
-            // 橡皮筋阻尼限制滑块中心不超出标签栏两端
             let targetCenter = pointerX;
+            let overscrollFactor = 0;
+
             if (targetCenter < firstTab.center) {
-                targetCenter = firstTab.center - Math.pow(firstTab.center - targetCenter, 0.72) * 2;
+                const over = firstTab.center - targetCenter;
+                overscrollFactor = Math.min(over / 60, 1.2);
+                targetCenter = firstTab.center - Math.pow(over, 0.72) * 2;
             } else if (targetCenter > lastTab.center) {
-                targetCenter = lastTab.center + Math.pow(targetCenter - lastTab.center, 0.72) * 2;
+                const over = targetCenter - lastTab.center;
+                overscrollFactor = Math.min(over / 60, 1.2);
+                targetCenter = lastTab.center + Math.pow(over, 0.72) * 2;
             }
 
             const currentWidth = getInterpolatedWidthAtCenter(targetCenter);
             const targetLeft = targetCenter - (currentWidth / 2);
 
-            updateIndicatorDirectly(targetLeft, currentWidth);
+            // 速度 + 越界带来的强力果冻挤压拉伸
+            const absV = Math.min(Math.abs(dragVelocity), 3.2);
+            const stretchAmount = Math.max(absV * 0.16, overscrollFactor * 0.35);
+            currentScaleX = Math.min(1 + stretchAmount, 1.48);
+            currentScaleY = Math.max(1 - stretchAmount * 0.52, 0.72);
 
-            // 实时查找距滑块中心最近的标签，高亮指示激活状态
+            updateIndicatorDirectly(targetLeft, currentWidth, currentScaleX, currentScaleY);
+
             let closest = firstTab;
             let minDiff = Infinity;
             for (let i = 0; i < tabItemsGeometry.length; i++) {
@@ -3143,6 +3169,12 @@
                 cacheTabsGeometry();
                 tabTouchStartX = e.touches[0].clientX;
                 tabTouchStartY = e.touches[0].clientY;
+                dragLastX = tabTouchStartX;
+                dragLastTime = Date.now();
+                dragVelocity = 0;
+                currentScaleX = 1;
+                currentScaleY = 1;
+
                 isTabDragging = true;
                 isDragActive = false;
                 activeSnapTab = state.activeTab;
@@ -3153,15 +3185,15 @@
 
                 const currentX = e.touches[0].clientX;
                 const currentY = e.touches[0].clientY;
-                const diffX = currentX - tabTouchStartX;
-                const diffY = currentY - tabTouchStartY;
+                const deltaX = currentX - tabTouchStartX;
+                const deltaY = currentY - tabTouchStartY;
 
                 if (!isDragActive) {
-                    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 7) {
+                    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 7) {
                         isTabDragging = false;
                         return;
                     }
-                    if (Math.abs(diffX) > 6) {
+                    if (Math.abs(deltaX) > 6) {
                         isDragActive = true;
                         isTabAnimating = true;
                     }
@@ -3186,7 +3218,9 @@
 
                 if (e && e.cancelable) e.preventDefault();
 
-                // 松手立即吸附到最近判定的目标标签并激活对应内容
+                // 物理回弹与超Q弹高频阻尼吸附
+                tabIndicator.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.68, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.45, 0.64, 1)';
+
                 if (activeSnapTab) {
                     switchToTab(activeSnapTab);
                 } else {
@@ -3200,6 +3234,7 @@
                 isTabDragging = false;
                 isDragActive = false;
                 isTabAnimating = false;
+                tabIndicator.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.55, 0.64, 1), width 0.4s ease';
                 updateTabIndicator(true);
             }, { passive: true });
         }
@@ -3539,7 +3574,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
