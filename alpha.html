@@ -1160,7 +1160,9 @@
             gap: 4px;
             box-shadow: var(--shadow-tab-bar-bottom);
             overflow: hidden;
-            touch-action: pan-y;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .control-bar.is-single-column .tab-indicator {
@@ -3000,7 +3002,10 @@
             }
             searchInput.blur();
             document.body.classList.remove("has-search-focus");
-            if (state.activeTab === targetTab && !state.focusedModuleId) return;
+            if (state.activeTab === targetTab && !state.focusedModuleId) {
+                updateTabIndicator(true);
+                return;
+            }
 
             state.focusedModuleId = null;
             searchInput.value = "";
@@ -3039,33 +3044,94 @@
             });
         });
 
-        const tabKeyList = ["module", "config", "manual", "more"];
+        // 窄屏标签栏：精确以手指为中心横向绝对跟随，松手吸附最近标签
         let isTabDragging = false;
         let isDragActive = false;
-        let tabDragStartX = 0;
-        let tabDragStartY = 0;
-        let tabInitialLeft = 0;
-        let tabInitialWidth = 0;
+        let tabTouchStartX = 0;
+        let tabTouchStartY = 0;
         let tabItemsGeometry = [];
-        let lastMoveX = 0;
-        let lastMoveTime = 0;
-        let dragVelocityX = 0;
-        let hasMovedSignificantly = false;
+        let activeSnapTab = null;
 
         function cacheTabsGeometry() {
-            tabItemsGeometry = Array.from(tabItems).map(item => ({
-                tab: item.getAttribute("data-tab"),
-                left: item.offsetLeft,
-                width: item.offsetWidth,
-                right: item.offsetLeft + item.offsetWidth,
-                center: item.offsetLeft + item.offsetWidth / 2
-            }));
+            if (!tabBarEl) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            tabItemsGeometry = Array.from(tabItems).map(item => {
+                const itemRect = item.getBoundingClientRect();
+                const left = itemRect.left - barRect.left;
+                const width = itemRect.width;
+                return {
+                    tab: item.getAttribute("data-tab"),
+                    left: left,
+                    width: width,
+                    center: left + width / 2
+                };
+            });
+        }
+
+        function getInterpolatedWidthAtCenter(centerX) {
+            if (!tabItemsGeometry.length) return 80;
+            const first = tabItemsGeometry[0];
+            const last = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            if (centerX <= first.center) return first.width;
+            if (centerX >= last.center) return last.width;
+
+            for (let i = 0; i < tabItemsGeometry.length - 1; i++) {
+                const cur = tabItemsGeometry[i];
+                const next = tabItemsGeometry[i + 1];
+                if (centerX >= cur.center && centerX <= next.center) {
+                    const span = next.center - cur.center;
+                    const ratio = span > 0 ? (centerX - cur.center) / span : 0;
+                    return cur.width + (next.width - cur.width) * ratio;
+                }
+            }
+            return first.width;
         }
 
         function updateIndicatorDirectly(left, width) {
             tabIndicator.style.transition = 'none';
             tabIndicator.style.width = `${width}px`;
             tabIndicator.style.transform = `translate3d(${left}px, 0, 0)`;
+        }
+
+        function handleDragAtClientX(clientX) {
+            if (!tabBarEl || !tabItemsGeometry.length) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            let pointerX = clientX - barRect.left;
+
+            const firstTab = tabItemsGeometry[0];
+            const lastTab = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            // 橡皮筋阻尼限制滑块中心不超出标签栏两端
+            let targetCenter = pointerX;
+            if (targetCenter < firstTab.center) {
+                targetCenter = firstTab.center - Math.pow(firstTab.center - targetCenter, 0.72) * 2;
+            } else if (targetCenter > lastTab.center) {
+                targetCenter = lastTab.center + Math.pow(targetCenter - lastTab.center, 0.72) * 2;
+            }
+
+            const currentWidth = getInterpolatedWidthAtCenter(targetCenter);
+            const targetLeft = targetCenter - (currentWidth / 2);
+
+            updateIndicatorDirectly(targetLeft, currentWidth);
+
+            // 实时查找距滑块中心最近的标签，高亮指示激活状态
+            let closest = firstTab;
+            let minDiff = Infinity;
+            for (let i = 0; i < tabItemsGeometry.length; i++) {
+                const diff = Math.abs(tabItemsGeometry[i].center - targetCenter);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closest = tabItemsGeometry[i];
+                }
+            }
+
+            if (closest.tab !== activeSnapTab) {
+                activeSnapTab = closest.tab;
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === activeSnapTab);
+                });
+            }
         }
 
         if (tabBarWrapperEl) {
@@ -3075,20 +3141,11 @@
                 if (!isSingleCol || state.isListView) return;
 
                 cacheTabsGeometry();
-                const activeItem = tabItemsGeometry.find(item => item.tab === state.activeTab) || tabItemsGeometry[0];
-                if (!activeItem) return;
-
-                tabDragStartX = e.touches[0].clientX;
-                tabDragStartY = e.touches[0].clientY;
-                lastMoveX = tabDragStartX;
-                lastMoveTime = Date.now();
-                dragVelocityX = 0;
-                hasMovedSignificantly = false;
-
-                tabInitialLeft = activeItem.left;
-                tabInitialWidth = activeItem.width;
+                tabTouchStartX = e.touches[0].clientX;
+                tabTouchStartY = e.touches[0].clientY;
                 isTabDragging = true;
                 isDragActive = false;
+                activeSnapTab = state.activeTab;
             }, { passive: true });
 
             tabBarWrapperEl.addEventListener('touchmove', (e) => {
@@ -3096,104 +3153,48 @@
 
                 const currentX = e.touches[0].clientX;
                 const currentY = e.touches[0].clientY;
-                const deltaX = currentX - tabDragStartX;
-                const deltaY = currentY - tabDragStartY;
+                const diffX = currentX - tabTouchStartX;
+                const diffY = currentY - tabTouchStartY;
 
                 if (!isDragActive) {
-                    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
+                    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 7) {
                         isTabDragging = false;
                         return;
                     }
-                    if (Math.abs(deltaX) > 6) {
+                    if (Math.abs(diffX) > 6) {
                         isDragActive = true;
-                        hasMovedSignificantly = true;
                         isTabAnimating = true;
                     }
                 }
 
                 if (isDragActive) {
                     if (e.cancelable) e.preventDefault();
-
-                    const now = Date.now();
-                    const dt = now - lastMoveTime;
-                    if (dt > 0) {
-                        dragVelocityX = (currentX - lastMoveX) / dt;
-                        lastMoveX = currentX;
-                        lastMoveTime = now;
-                    }
-
-                    const minLeft = tabItemsGeometry[0].left;
-                    const maxLeft = tabItemsGeometry[tabItemsGeometry.length - 1].left;
-                    let targetLeft = tabInitialLeft + deltaX;
-
-                    if (targetLeft < minLeft) {
-                        targetLeft = minLeft + (targetLeft - minLeft) * 0.35;
-                    } else if (targetLeft > maxLeft) {
-                        targetLeft = maxLeft + (targetLeft - maxLeft) * 0.35;
-                    }
-
-                    let targetWidth = tabInitialWidth;
-                    for (let i = 0; i < tabItemsGeometry.length - 1; i++) {
-                        const cur = tabItemsGeometry[i];
-                        const next = tabItemsGeometry[i + 1];
-                        if (targetLeft >= cur.left && targetLeft <= next.left) {
-                            const ratio = (targetLeft - cur.left) / (next.left - cur.left);
-                            targetWidth = cur.width + (next.width - cur.width) * ratio;
-                            break;
-                        }
-                    }
-
-                    updateIndicatorDirectly(targetLeft, targetWidth);
-
-                    const currentCenter = targetLeft + targetWidth / 2;
-                    let closest = tabItemsGeometry[0];
-                    let minDiff = Infinity;
-                    tabItemsGeometry.forEach(item => {
-                        const diff = Math.abs(item.center - currentCenter);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closest = item;
-                        }
-                    });
-
-                    tabItems.forEach(t => {
-                        t.classList.toggle("active", t.getAttribute("data-tab") === closest.tab);
-                    });
+                    handleDragAtClientX(currentX);
                 }
             }, { passive: false });
 
-            const finishDrag = () => {
+            const finishDrag = (e) => {
                 if (!isTabDragging) return;
                 const wasActive = isDragActive;
                 isTabDragging = false;
                 isDragActive = false;
+                isTabAnimating = false;
 
                 if (!wasActive) {
-                    isTabAnimating = false;
                     return;
                 }
 
-                const currentIndicatorX = parseFloat(tabIndicator.style.transform.replace(/[^\d.-]/g, '')) || tabInitialLeft;
-                const currentWidth = parseFloat(tabIndicator.style.width) || tabInitialWidth;
-                const currentCenter = currentIndicatorX + currentWidth / 2;
+                if (e && e.cancelable) e.preventDefault();
 
-                let projectedCenter = currentCenter + dragVelocityX * 90;
-                let targetTab = state.activeTab;
-                let minDistance = Infinity;
-
-                tabItemsGeometry.forEach(item => {
-                    const dist = Math.abs(item.center - projectedCenter);
-                    if (dist < minDistance) {
-                        minDistance = dist;
-                        targetTab = item.tab;
-                    }
-                });
-
-                isTabAnimating = false;
-                switchToTab(targetTab);
+                // 松手立即吸附到最近判定的目标标签并激活对应内容
+                if (activeSnapTab) {
+                    switchToTab(activeSnapTab);
+                } else {
+                    updateTabIndicator(true);
+                }
             };
 
-            tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: true });
+            tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: false });
             tabBarWrapperEl.addEventListener('touchcancel', () => {
                 if (!isTabDragging) return;
                 isTabDragging = false;
@@ -3538,7 +3539,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && key.startsWith("sr_modules_data_")) {
+                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
                         keysToRemove.push(key);
                     }
                 }
