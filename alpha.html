@@ -427,7 +427,7 @@
             display: block; width: 20px; height: 20px; pointer-events: none; stroke-width: 2; 
         }
 
-        /* 统一 iOS 吸顶位置，严格适配动态安全区域 */
+        /* 统一 iOS 吸顶位置，严格适配动态安全区域[cite: 1] */
         .control-bar {
             position: sticky;
             top: calc(env(safe-area-inset-top, 0px) + 8px);
@@ -569,7 +569,7 @@
             z-index: 999995;
         }
 
-        /* 资源列表按钮：去除所有背景色/阴影/形变预选，仅保留图标变色 */
+        /* 资源列表按钮：去除所有背景色/阴影/形变预选，仅保留图标变色[cite: 2] */
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -625,7 +625,7 @@
             background-color: var(--bg-surface) !important;
         }
 
-        /* 搜索框本体：永久锁定静态阴影与边框，取消 focus/hover 时的背景色与边框扩散 */
+        /* 搜索框本体：永久锁定静态阴影与边框，取消 focus/hover 时的背景色与边框扩散[cite: 2] */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -772,7 +772,7 @@
             display: none;
         }
 
-        /* 返回顶部按钮：取消本体悬浮形变、背景变亮和阴影变化，仅保留图标变色 */
+        /* 返回顶部按钮：取消本体悬浮形变、背景变亮和阴影变化，仅保留图标变色[cite: 2] */
         .back-to-top-btn {
             width: 0;
             height: 44px;
@@ -1812,7 +1812,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081535"; 
+        const CACHE_VERSION = "202609091025"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
@@ -1966,9 +1966,7 @@
             focusedModuleId: null,
             activeTab: "module",
             statusKey: "syncing",
-            isAlphabetRendered: false,
-            listViewReturnScrollY: 0,
-            wasFloatingBeforeActive: false
+            isAlphabetRendered: false
         };
 
         const moduleDataMap = new Map();
@@ -2219,7 +2217,7 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
-        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)
+        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)[cite: 2]
         function getControlBarStickyScrollTop() {
             const header = document.querySelector(".header");
             if (!header) return 0;
@@ -2275,7 +2273,7 @@
 
         backToTopBtn.addEventListener("click", () => {
             if (state.isListView) {
-                setListViewMode(false, false);
+                setListViewMode(false);
             }
             searchInput.blur();
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2378,7 +2376,7 @@
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
-            setListViewMode(false, false);
+            setListViewMode(false);
 
             searchInput.value = mod.name;
             document.body.classList.add("has-search-text");
@@ -2676,17 +2674,15 @@
         let listViewTransitionTimer = null;
         let listViewScrollLockTimer = null;
 
-        function setListViewMode(enable, restoreScroll = true) {
+        // 取消激活/关闭资源列表时，无论何时都强制切回统一吸顶高度，绝不回滚旧位置[cite: 2]
+        function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
             clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
-                state.wasFloatingBeforeActive = isSearchFloating();
-                state.listViewReturnScrollY = window.scrollY || document.documentElement.scrollTop || 0;
                 state.isListView = true;
-
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
                 floatSearchToTarget(false);
@@ -2717,13 +2713,12 @@
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                if (restoreScroll && !state.wasFloatingBeforeActive) {
-                    const targetScrollY = Math.max(0, state.listViewReturnScrollY);
-                    requestAnimationFrame(() => {
-                        window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-                        updateSearchLayer();
-                    });
-                }
+                // 退出列表时，直接保持搜索框绝对值吸顶[cite: 2]
+                floatSearchToTarget(false);
+                requestAnimationFrame(() => {
+                    floatSearchToTarget(false);
+                    updateSearchLayer();
+                });
             }
         }
 
@@ -2802,8 +2797,7 @@
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
             if (state.isListView) {
-                setListViewMode(false, false);
-                floatSearchToTarget(false);
+                setListViewMode(false);
             } else if (!isSearchFloating()) {
                 floatSearchToTarget(false);
             }
@@ -2990,7 +2984,7 @@
             tab.addEventListener("click", () => {
                 const targetTab = tab.getAttribute("data-tab");
                 if (state.isListView) {
-                    setListViewMode(false, false);
+                    setListViewMode(false);
                 }
                 searchInput.blur();
                 document.body.classList.remove("has-search-focus");
@@ -3028,7 +3022,7 @@
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
             if (state.isListView) {
-                setListViewMode(false, false);
+                setListViewMode(false);
             }
         });
 
@@ -3042,7 +3036,7 @@
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
                 e.preventDefault();
-                setListViewMode(false, false);
+                setListViewMode(false);
                 floatSearchToTarget(false);
                 searchInput.focus();
                 searchInput.select();
@@ -3149,7 +3143,7 @@
             
             const themeColor = currentTheme === "dark" ? "#14161a" : "#f0f2f5";
             const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeColorMeta) themeColorMeta.setAttribute('content', themeColor);
+            if (themeColorMeta) themeColorMeta.setAttribute("content", themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
             if (mode === "light") {
