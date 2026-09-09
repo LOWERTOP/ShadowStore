@@ -1259,25 +1259,25 @@
             border: 1px solid var(--border-subtle);
         }
 
-        .alphabet-scroll-area {
-            position: relative;
-            flex: 1;
-            height: 100%;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-            -webkit-overscroll-behavior: contain;
-            touch-action: pan-y;
-            padding-top: 4px;
-            padding-left: 0;
-            padding-right: 16px;
-            padding-bottom: 24px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
-        }
+.alphabet-scroll-area {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    -webkit-overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding-top: 4px;
+    padding-left: 0;
+    padding-right: 16px;
+    padding-bottom: 24px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 24px, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 24px, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
+}
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
             width: 0 !important;
