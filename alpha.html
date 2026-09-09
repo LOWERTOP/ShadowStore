@@ -1184,7 +1184,6 @@
             font-weight: 400 !important;
         }
 
-        /* 资源列表平滑渐显、果断消隐动画定制 */
         .alphabet-view-container {
             position: fixed;
             z-index: 999999;
@@ -1200,6 +1199,8 @@
             will-change: opacity, transform;
             box-sizing: border-box;
             background: transparent;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
         }
 
         .alphabet-view-container.is-visible {
@@ -1265,6 +1266,9 @@
             overflow-y: scroll;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
+            touch-action: pan-y;
             padding-top: 4px;
             padding-left: 0;
             padding-right: 16px;
@@ -2630,16 +2634,15 @@
         }
 
         let listViewTransitionTimer = null;
-        let listViewScrollLockTimer = null;
 
         function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
-            clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
                 state.isListView = true;
+                checkScrollLock();
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
                 floatSearchToTarget(false);
@@ -2655,11 +2658,6 @@
                         alphabetViewContainer.classList.add("is-visible");
                     }
                 }, 40);
-
-                listViewScrollLockTimer = setTimeout(() => {
-                    listViewScrollLockTimer = null;
-                    if (state.isListView) checkScrollLock();
-                }, 360);
             } else {
                 state.isListView = false;
                 alphabetViewContainer.classList.remove("is-visible");
@@ -2676,6 +2674,35 @@
                     updateSearchLayer();
                 });
             }
+        }
+
+        let listTouchStartY = 0;
+        if (alphabetScrollArea) {
+            alphabetScrollArea.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    listTouchStartY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            alphabetScrollArea.addEventListener('touchmove', (e) => {
+                if (!state.isListView || e.touches.length === 0) return;
+                
+                const currentY = e.touches[0].clientY;
+                const deltaY = currentY - listTouchStartY;
+                const scrollTop = alphabetScrollArea.scrollTop;
+                const scrollHeight = alphabetScrollArea.scrollHeight;
+                const offsetHeight = alphabetScrollArea.offsetHeight;
+
+                if (scrollTop <= 0 && deltaY > 0) {
+                    if (e.cancelable) e.preventDefault();
+                    return;
+                }
+
+                if (scrollTop + offsetHeight >= scrollHeight && deltaY < 0) {
+                    if (e.cancelable) e.preventDefault();
+                    return;
+                }
+            }, { passive: false });
         }
 
         let ignoreNextClick = false;
@@ -3205,7 +3232,7 @@
         }
 
         window.addEventListener('touchstart', (e) => {
-            if (state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || state.isPullRefreshing || state.isDataLoading) {
                 isPulling = false;
                 return;
             }
@@ -3226,7 +3253,7 @@
         }, { passive: true });
 
         window.addEventListener('touchmove', (e) => {
-            if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || !isPulling || state.isPullRefreshing || state.isDataLoading) {
                 return;
             }
 
@@ -3277,7 +3304,7 @@
         }, { passive: false });
 
         window.addEventListener('touchend', (e) => {
-            if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || !isPulling || state.isPullRefreshing || state.isDataLoading) {
                 isPulling = false;
                 return;
             }
