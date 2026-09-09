@@ -126,9 +126,27 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 米家3d打印增强 编辑参数以隐藏底部标签页 lowertop shadowrocket-first"
   },
   {
+    "name": "Skip Proxy And Real-IP Lists",
+    "rawURL": "https://raw.githubusercontent.com/mieqq/mieqq/master/skip-proxy-lists.sgmodule",
+    "description": "跳过部分应用的代理检测",
+    "author": {
+      "name": "mieqq",
+      "url": "https://github.com/mieqq",
+      "username": "mieqq"
+    },
+    "authorAvatar": "https://github.com/mieqq.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
+    "sourceName": "mieqq",
+    "sourceURL": "https://github.com/mieqq/mieqq",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fmieqq%2Fmieqq%2Fmaster%2Fskip-proxy-lists.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
+  },
+  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 优化VPN检测提示",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/VPNdetected.sgmodule",
-    "description": "通过调整部分域名的处理方式，改善部分应用在非 TUN 模式下出现“检测到正在使用 VPN”等提示的问题",
+    "description": "通过调整部分域名的处理方式，改善部分应用在非 TUN 模式下出现“检测到正在使用 VPN”等提示的问题。规则来源：github.com/mieqq",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -141,7 +159,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FVPNdetected.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用在非 tun 模式下出现“检测到正在使用 vpn”等提示的问题 lowertop shadowrocket-first"
+    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用在非 tun 模式下出现“检测到正在使用 vpn”等提示的问题。规则来源：github.com/mieqq lowertop shadowrocket-first"
   },
   {
     "name": "🆃🅾🅿🅼🅾🅳🆂 CMCC iTV",
