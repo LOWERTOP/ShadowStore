@@ -326,9 +326,7 @@
             transition: color 0.4s ease;
         }
 
-        [data-theme="dark"] .title-shadow {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .title-shadow { color: #22d3ee; }
 
         .title-store {
             font-weight: 750;
@@ -427,7 +425,6 @@
             display: block; width: 20px; height: 20px; pointer-events: none; stroke-width: 2; 
         }
 
-        /* 统一 iOS 吸顶位置，严格适配动态安全区域[cite: 1] */
         .control-bar {
             position: sticky;
             top: calc(env(safe-area-inset-top, 0px) + 8px);
@@ -524,9 +521,7 @@
             transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
 
-        .tab-item:active {
-            transform: scale(0.92);
-        }
+        .tab-item:active { transform: scale(0.92); }
 
         .tab-item:not(.active) {
             background: transparent !important;
@@ -569,7 +564,10 @@
             z-index: 999995;
         }
 
-        /* 资源列表按钮：去除所有背景色/阴影/形变预选，仅保留图标变色[cite: 2] */
+        body.is-list-view .search-wrapper {
+            z-index: 1000005 !important;
+        }
+
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -612,7 +610,6 @@
         .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
             color: #0891b2;
-            transform: none !important;
             box-shadow: var(--shadow-glass-ui) !important;
         }
         [data-theme="dark"] .standalone-list-btn:hover,
@@ -620,12 +617,10 @@
         [data-theme="dark"] .standalone-list-btn:focus-visible,
         [data-theme="dark"] .standalone-list-btn.active {
             color: #22d3ee;
-            transform: none !important;
             box-shadow: var(--shadow-glass-ui) !important;
             background-color: var(--bg-surface) !important;
         }
 
-        /* 搜索框本体：永久锁定静态阴影与边框，取消 focus/hover 时的背景色与边框扩散[cite: 2] */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -690,7 +685,6 @@
             color: #0891b2;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
-            transform: none !important;
         }
         [data-theme="dark"] .search-clear-btn:hover,
         [data-theme="dark"] .search-clear-btn:active {
@@ -706,7 +700,6 @@
             color: #0891b2;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
-            transform: none !important;
         }
         [data-theme="dark"] .search-submit-btn:hover,
         [data-theme="dark"] .search-submit-btn:active {
@@ -772,7 +765,6 @@
             display: none;
         }
 
-        /* 返回顶部按钮：取消本体悬浮形变、背景变亮和阴影变化，仅保留图标变色[cite: 2] */
         .back-to-top-btn {
             width: 0;
             height: 44px;
@@ -1059,11 +1051,6 @@
             transform: none !important;
             box-shadow: var(--primary-gradient-shadow);
         }
-        [data-theme="dark"] .button-primary:hover,
-        [data-theme="dark"] .button-primary:active,
-        [data-theme="dark"] .button-primary:focus-visible {
-            box-shadow: var(--primary-gradient-shadow);
-        }
         
         .sentinel { height: 20px; margin: 10px 0; }
         .empty { padding: 60px 20px; text-align: center; color: var(--text-secondary); font-size: 15px; font-weight: 300; grid-column: 1 / -1; width: 100%; animation: cardFadeIn 0.3s ease forwards; }
@@ -1122,7 +1109,6 @@
             width: 100%;
             margin-bottom: 16px;
             padding: 4px 0;
-            pointer-events: none;
         }
 
         .control-bar.is-single-column .search-wrapper {
@@ -1134,7 +1120,6 @@
             padding: 0;
             margin: 0;
             z-index: 999995;
-            pointer-events: none;
         }
 
         .control-bar.is-single-column .tab-bar-wrapper {
@@ -1152,12 +1137,6 @@
             pointer-events: none;
             z-index: 999999;
             transition: opacity 0.2s ease, visibility 0.2s ease;
-        }
-
-        .control-bar.is-single-column .standalone-list-btn,
-        .control-bar.is-single-column .search-box-inner,
-        .control-bar.is-single-column .back-to-top-btn {
-            pointer-events: auto;
         }
 
         body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
@@ -1205,6 +1184,7 @@
             font-weight: 400 !important;
         }
 
+        /* 资源列表平滑渐显、果断消隐动画定制 */
         .alphabet-view-container {
             position: fixed;
             z-index: 999999;
@@ -1212,8 +1192,12 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
-            will-change: opacity;
+            transform: translate3d(0, 6px, 0);
+            transition: 
+                opacity 0.18s cubic-bezier(0.4, 0, 1, 1),
+                transform 0.18s cubic-bezier(0.4, 0, 1, 1),
+                visibility 0.18s ease;
+            will-change: opacity, transform;
             box-sizing: border-box;
             background: transparent;
         }
@@ -1222,6 +1206,11 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translate3d(0, 0, 0) scale(1);
+            transition: 
+                opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.36s ease;
         }
 
         .alphabet-content-box {
@@ -1626,11 +1615,6 @@
                 box-shadow: var(--primary-gradient-shadow) !important;
                 background: var(--primary-gradient) !important;
             }
-            [data-theme="dark"] .button-primary:hover,
-            [data-theme="dark"] .button-primary:active,
-            [data-theme="dark"] .button-primary:focus-visible {
-                box-shadow: var(--primary-gradient-shadow) !important;
-            }
 
             .module-icon,
             .module-icon:hover,
@@ -1812,13 +1796,12 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609091025"; 
+        const CACHE_VERSION = "202609081535"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
-            CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
 
@@ -1848,7 +1831,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
@@ -1976,7 +1959,6 @@
         let isTabAnimating = false;
         let tabAnimTimer = null;
         let tabSwitchContentTimer = null;
-        let lastCardWidthVal = 0;
 
         let alphabetImgObserver = null;
         function getAlphabetImgObserver() {
@@ -1999,19 +1981,6 @@
                 });
             }
             return alphabetImgObserver;
-        }
-
-        function scheduleAlphabetPreRender() {
-            const task = () => {
-                if (!state.isAlphabetRendered && state.allModules.length > 0) {
-                    renderAlphabetList();
-                }
-            };
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(task, { timeout: 2000 });
-            } else {
-                setTimeout(task, 600);
-            }
         }
 
         function checkScrollLock() {
@@ -2049,9 +2018,7 @@
             if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
             
             if (/^[\u4e00-\u9fa5]$/.test(first)) {
-                if (pinyinCharCache.has(first)) {
-                    return pinyinCharCache.get(first);
-                }
+                if (pinyinCharCache.has(first)) return pinyinCharCache.get(first);
                 let res = "#";
                 try {
                     for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
@@ -2217,7 +2184,6 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
-        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)[cite: 2]
         function getControlBarStickyScrollTop() {
             const header = document.querySelector(".header");
             if (!header) return 0;
@@ -2272,9 +2238,7 @@
         window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 
         backToTopBtn.addEventListener("click", () => {
-            if (state.isListView) {
-                setListViewMode(false);
-            }
+            if (state.isListView) setListViewMode(false);
             searchInput.blur();
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -2334,8 +2298,7 @@
                     newWidth = Math.max(0, (containerWidth - totalGap) / columns);
                 }
 
-                if (newWidth > 0 && Math.abs(newWidth - lastCardWidthVal) > 1) {
-                    lastCardWidthVal = newWidth;
+                if (newWidth > 0) {
                     document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
                 }
 
@@ -2365,10 +2328,8 @@
 
         function updateStandaloneButtonState() {
             const hasText = searchInput.value.length > 0;
-            const shouldActive = state.isListView;
-
-            standaloneListBtn.classList.toggle("active", shouldActive);
-            const title = shouldActive ? "关闭列表" : "资源列表";
+            standaloneListBtn.classList.toggle("active", state.isListView);
+            const title = state.isListView ? "关闭列表" : "资源列表";
             standaloneListBtn.setAttribute("title", title);
             standaloneListBtn.setAttribute("aria-label", title);
             document.body.classList.toggle("has-search-text", hasText);
@@ -2379,7 +2340,6 @@
             setListViewMode(false);
 
             searchInput.value = mod.name;
-            document.body.classList.add("has-search-text");
             updateStandaloneButtonState();
 
             if (state.activeTab !== mod.category) {
@@ -2406,8 +2366,6 @@
             statusDot.className = "status-dot";
 
             floatSearchToTarget(false);
-            scheduleLayoutUpdate();
-            checkScrollLock();
         }
 
         function renderAlphabetList() {
@@ -2674,7 +2632,6 @@
         let listViewTransitionTimer = null;
         let listViewScrollLockTimer = null;
 
-        // 取消激活/关闭资源列表时，无论何时都强制切回统一吸顶高度，绝不回滚旧位置[cite: 2]
         function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
@@ -2697,12 +2654,12 @@
                     if (state.isListView) {
                         alphabetViewContainer.classList.add("is-visible");
                     }
-                }, 320);
+                }, 40);
 
                 listViewScrollLockTimer = setTimeout(() => {
                     listViewScrollLockTimer = null;
                     if (state.isListView) checkScrollLock();
-                }, 450);
+                }, 360);
             } else {
                 state.isListView = false;
                 alphabetViewContainer.classList.remove("is-visible");
@@ -2713,7 +2670,6 @@
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                // 退出列表时，直接保持搜索框绝对值吸顶[cite: 2]
                 floatSearchToTarget(false);
                 requestAnimationFrame(() => {
                     floatSearchToTarget(false);
@@ -2749,6 +2705,9 @@
 
         function performSearch() {
             state.focusedModuleId = null;
+            if (state.isListView) {
+                setListViewMode(false);
+            }
             filterModules();
             searchInput.blur();
 
@@ -2763,15 +2722,16 @@
             e.stopPropagation();
             state.focusedModuleId = null;
             searchInput.value = "";
-            document.body.classList.remove("has-search-text");
             
-            filterModules();
-            updateStandaloneButtonState();
-            
-            if (STATUS_MESSAGES[state.statusKey]) {
-                statusText.textContent = STATUS_MESSAGES[state.statusKey];
+            if (!state.isListView) {
+                filterModules();
+                if (STATUS_MESSAGES[state.statusKey]) {
+                    statusText.textContent = STATUS_MESSAGES[state.statusKey];
+                }
+                statusDot.className = "status-dot";
             }
-            statusDot.className = "status-dot";
+            
+            updateStandaloneButtonState();
 
             floatSearchToTarget(false);
             requestAnimationFrame(() => {
@@ -2790,17 +2750,16 @@
         searchBoxInner.addEventListener("click", (e) => {
             if (e.target.closest("#searchClearBtn, #searchSubmitBtn")) return;
             if (document.activeElement !== searchInput) {
-                searchInput.focus({ preventScroll: true });
+                searchInput.focus();
             }
         });
 
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-            if (state.isListView) {
-                setListViewMode(false);
-            } else if (!isSearchFloating()) {
+            floatSearchToTarget(false);
+            setTimeout(() => {
                 floatSearchToTarget(false);
-            }
+            }, 80);
         });
 
         searchInput.addEventListener("blur", () => {
@@ -3021,9 +2980,6 @@
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-            if (state.isListView) {
-                setListViewMode(false);
-            }
         });
 
         searchInput.addEventListener("keydown", (e) => {
@@ -3036,8 +2992,6 @@
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
                 e.preventDefault();
-                setListViewMode(false);
-                floatSearchToTarget(false);
                 searchInput.focus();
                 searchInput.select();
             } else if (e.key === "Escape") {
@@ -3120,8 +3074,6 @@
             });
         }
 
-        const mediaQueryDark = window.matchMedia("(prefers-color-scheme: dark)");
-
         function getThemeMode() {
             try {
                 const saved = localStorage.getItem("sr_theme_override");
@@ -3132,8 +3084,7 @@
 
         function getEffectiveTheme(mode) {
             if (mode === "dark" || mode === "light") return mode;
-            if (mode === "auto") return mediaQueryDark.matches ? "dark" : "light";
-            return "light";
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
 
         function updateThemeUI() {
@@ -3161,48 +3112,24 @@
             }
         }
 
-        mediaQueryDark.addEventListener("change", () => {
-            if (getThemeMode() === "auto") {
-                document.documentElement.classList.add("theme-transitioning");
-                updateThemeUI();
-                window.requestAnimationFrame(() => {
-                    void document.documentElement.offsetWidth;
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            }
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            if (getThemeMode() === "auto") updateThemeUI();
         });
 
         themeToggleBtn.addEventListener("click", () => {
-            document.documentElement.classList.add("theme-transitioning");
-
             const currentMode = getThemeMode();
-            const isSystemDark = mediaQueryDark.matches;
+            const isSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
             let nextMode, toastText;
 
             if (currentMode === "auto") {
-                if (isSystemDark) {
-                    nextMode = "light";
-                    toastText = "已切换为浅色模式";
-                } else {
-                    nextMode = "dark";
-                    toastText = "已切换为深色模式";
-                }
+                nextMode = isSystemDark ? "light" : "dark";
+                toastText = isSystemDark ? "已切换为浅色模式" : "已切换为深色模式";
             } else if (currentMode === "light") {
-                if (isSystemDark) {
-                    nextMode = "dark";
-                    toastText = "已切换为深色模式";
-                } else {
-                    nextMode = "auto";
-                    toastText = "已切换为自动跟随系统";
-                }
+                nextMode = isSystemDark ? "dark" : "auto";
+                toastText = isSystemDark ? "已切换为深色模式" : "已切换为自动跟随系统";
             } else { 
-                if (isSystemDark) {
-                    nextMode = "auto";
-                    toastText = "已切换为自动跟随系统";
-                } else {
-                    nextMode = "light";
-                    toastText = "已切换为浅色模式";
-                }
+                nextMode = isSystemDark ? "auto" : "light";
+                toastText = isSystemDark ? "已切换为自动跟随系统" : "已切换为浅色模式";
             }
 
             try {
@@ -3210,13 +3137,6 @@
             } catch (e) {}
             updateThemeUI();
             showToast(toastText);
-
-            window.requestAnimationFrame(() => {
-                void document.documentElement.offsetWidth;
-                window.requestAnimationFrame(() => {
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            });
         });
 
         updateThemeUI();
@@ -3390,10 +3310,8 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
-                        if (key !== CONFIG.CACHE_KEY && key !== CONFIG.CACHE_TIME_KEY) {
-                            keysToRemove.push(key);
-                        }
+                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                        keysToRemove.push(key);
                     }
                 }
                 keysToRemove.forEach(k => localStorage.removeItem(k));
@@ -3411,17 +3329,12 @@
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
-            let cachedTime = 0;
             const staticItems = normalizeStaticResources();
 
             try {
                 cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
-                cachedTime = Number(localStorage.getItem(CONFIG.CACHE_TIME_KEY) || 0);
-            } catch (e) {
-                console.warn("读取本地缓存失败:", e);
-            }
+            } catch (e) {}
 
-            const isCacheFresh = !forceRefresh && cachedData && cachedTime && (Date.now() - cachedTime < CONFIG.CACHE_MAX_AGE);
             let hasRenderedCache = false;
 
             if (!forceRefresh && cachedData) {
@@ -3438,18 +3351,11 @@
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
-                            scheduleAlphabetPreRender();
 
-                            if (isCacheFresh) {
-                                state.statusKey = "ready";
-                                statusText.textContent = "已就绪";
-                                statusDot.className = "status-dot";
-                                return true;
-                            }
-
-                            state.statusKey = "checking";
-                            statusText.textContent = "正在后台检查最新资源...";
-                            statusDot.className = "status-dot loading";
+                            state.statusKey = "ready";
+                            statusText.textContent = "已就绪";
+                            statusDot.className = "status-dot";
+                            return true;
                         }
                     }
                 } catch (e) {
@@ -3464,12 +3370,8 @@
             }
 
             try {
-                const fetchUrl = forceRefresh
-                    ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}`
-                    : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, {
-                    cache: forceRefresh ? "no-store" : "default"
-                });
+                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
+                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
@@ -3487,11 +3389,9 @@
                 
                 filterModules();
                 setSearchState(true);
-                scheduleAlphabetPreRender();
 
                 try {
                     localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
-                    localStorage.setItem(CONFIG.CACHE_TIME_KEY, String(Date.now()));
                 } catch (e) {}
 
                 state.statusKey = "synced";
