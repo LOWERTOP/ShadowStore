@@ -564,7 +564,6 @@
             z-index: 999995;
         }
 
-        /* 在资源列表激活状态下，确保搜索栏位于最顶层，防止系统下拉时被遮挡 */
         body.is-list-view .search-wrapper {
             z-index: 1000005 !important;
         }
@@ -1110,7 +1109,6 @@
             width: 100%;
             margin-bottom: 16px;
             padding: 4px 0;
-            pointer-events: none;
         }
 
         .control-bar.is-single-column .search-wrapper {
@@ -1122,7 +1120,6 @@
             padding: 0;
             margin: 0;
             z-index: 999995;
-            pointer-events: none;
         }
 
         .control-bar.is-single-column .tab-bar-wrapper {
@@ -1140,12 +1137,6 @@
             pointer-events: none;
             z-index: 999999;
             transition: opacity 0.2s ease, visibility 0.2s ease;
-        }
-
-        .control-bar.is-single-column .standalone-list-btn,
-        .control-bar.is-single-column .search-box-inner,
-        .control-bar.is-single-column .back-to-top-btn {
-            pointer-events: auto;
         }
 
         body.is-list-view .control-bar.is-single-column .tab-bar-wrapper {
@@ -1795,13 +1786,12 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609081535"; 
+        const CACHE_VERSION = "202609091116"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
-            CACHE_TIME_KEY: `sr_modules_time_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
         };
 
@@ -1983,19 +1973,6 @@
             return alphabetImgObserver;
         }
 
-        function scheduleAlphabetPreRender() {
-            const task = () => {
-                if (!state.isAlphabetRendered && state.allModules.length > 0) {
-                    renderAlphabetList();
-                }
-            };
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(task, { timeout: 2000 });
-            } else {
-                setTimeout(task, 600);
-            }
-        }
-
         function checkScrollLock() {
             document.documentElement.classList.toggle("no-scroll", state.isListView);
         }
@@ -2031,9 +2008,7 @@
             if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
             
             if (/^[\u4e00-\u9fa5]$/.test(first)) {
-                if (pinyinCharCache.has(first)) {
-                    return pinyinCharCache.get(first);
-                }
+                if (pinyinCharCache.has(first)) return pinyinCharCache.get(first);
                 let res = "#";
                 try {
                     for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
@@ -2253,9 +2228,7 @@
         window.addEventListener('scroll', scheduleScrollUpdate, { passive: true });
 
         backToTopBtn.addEventListener("click", () => {
-            if (state.isListView) {
-                setListViewMode(false);
-            }
+            if (state.isListView) setListViewMode(false);
             searchInput.blur();
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -2383,8 +2356,6 @@
             statusDot.className = "status-dot";
 
             floatSearchToTarget(false);
-            scheduleLayoutUpdate();
-            checkScrollLock();
         }
 
         function renderAlphabetList() {
@@ -2773,11 +2744,8 @@
             }
         });
 
-        // 核心修复：防止 iOS WebKit 在聚焦时强行将输入框居中滚动导致吸顶失效被盖住
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
-            
-            // 锁定并复位吸顶位置，化解 iOS 软键盘弹起时的页面位移拉扯
             floatSearchToTarget(false);
             setTimeout(() => {
                 floatSearchToTarget(false);
@@ -3096,8 +3064,6 @@
             });
         }
 
-        const mediaQueryDark = window.matchMedia("(prefers-color-scheme: dark)");
-
         function getThemeMode() {
             try {
                 const saved = localStorage.getItem("sr_theme_override");
@@ -3108,8 +3074,7 @@
 
         function getEffectiveTheme(mode) {
             if (mode === "dark" || mode === "light") return mode;
-            if (mode === "auto") return mediaQueryDark.matches ? "dark" : "light";
-            return "light";
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
 
         function updateThemeUI() {
@@ -3137,48 +3102,24 @@
             }
         }
 
-        mediaQueryDark.addEventListener("change", () => {
-            if (getThemeMode() === "auto") {
-                document.documentElement.classList.add("theme-transitioning");
-                updateThemeUI();
-                window.requestAnimationFrame(() => {
-                    void document.documentElement.offsetWidth;
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            }
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            if (getThemeMode() === "auto") updateThemeUI();
         });
 
         themeToggleBtn.addEventListener("click", () => {
-            document.documentElement.classList.add("theme-transitioning");
-
             const currentMode = getThemeMode();
-            const isSystemDark = mediaQueryDark.matches;
+            const isSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
             let nextMode, toastText;
 
             if (currentMode === "auto") {
-                if (isSystemDark) {
-                    nextMode = "light";
-                    toastText = "已切换为浅色模式";
-                } else {
-                    nextMode = "dark";
-                    toastText = "已切换为深色模式";
-                }
+                nextMode = isSystemDark ? "light" : "dark";
+                toastText = isSystemDark ? "已切换为浅色模式" : "已切换为深色模式";
             } else if (currentMode === "light") {
-                if (isSystemDark) {
-                    nextMode = "dark";
-                    toastText = "已切换为深色模式";
-                } else {
-                    nextMode = "auto";
-                    toastText = "已切换为自动跟随系统";
-                }
+                nextMode = isSystemDark ? "dark" : "auto";
+                toastText = isSystemDark ? "已切换为深色模式" : "已切换为自动跟随系统";
             } else { 
-                if (isSystemDark) {
-                    nextMode = "auto";
-                    toastText = "已切换为自动跟随系统";
-                } else {
-                    nextMode = "light";
-                    toastText = "已切换为浅色模式";
-                }
+                nextMode = isSystemDark ? "auto" : "light";
+                toastText = isSystemDark ? "已切换为自动跟随系统" : "已切换为浅色模式";
             }
 
             try {
@@ -3186,13 +3127,6 @@
             } catch (e) {}
             updateThemeUI();
             showToast(toastText);
-
-            window.requestAnimationFrame(() => {
-                void document.documentElement.offsetWidth;
-                window.requestAnimationFrame(() => {
-                    document.documentElement.classList.remove("theme-transitioning");
-                });
-            });
         });
 
         updateThemeUI();
@@ -3366,10 +3300,8 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
-                        if (key !== CONFIG.CACHE_KEY && key !== CONFIG.CACHE_TIME_KEY) {
-                            keysToRemove.push(key);
-                        }
+                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                        keysToRemove.push(key);
                     }
                 }
                 keysToRemove.forEach(k => localStorage.removeItem(k));
@@ -3387,17 +3319,12 @@
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
-            let cachedTime = 0;
             const staticItems = normalizeStaticResources();
 
             try {
                 cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
-                cachedTime = Number(localStorage.getItem(CONFIG.CACHE_TIME_KEY) || 0);
-            } catch (e) {
-                console.warn("读取本地缓存失败:", e);
-            }
+            } catch (e) {}
 
-            const isCacheFresh = !forceRefresh && cachedData && cachedTime && (Date.now() - cachedTime < CONFIG.CACHE_MAX_AGE);
             let hasRenderedCache = false;
 
             if (!forceRefresh && cachedData) {
@@ -3414,18 +3341,11 @@
                             filterModules();
                             setSearchState(true);
                             hasRenderedCache = true;
-                            scheduleAlphabetPreRender();
 
-                            if (isCacheFresh) {
-                                state.statusKey = "ready";
-                                statusText.textContent = "已就绪";
-                                statusDot.className = "status-dot";
-                                return true;
-                            }
-
-                            state.statusKey = "checking";
-                            statusText.textContent = "正在后台检查最新资源...";
-                            statusDot.className = "status-dot loading";
+                            state.statusKey = "ready";
+                            statusText.textContent = "已就绪";
+                            statusDot.className = "status-dot";
+                            return true;
                         }
                     }
                 } catch (e) {
@@ -3440,12 +3360,8 @@
             }
 
             try {
-                const fetchUrl = forceRefresh
-                    ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}`
-                    : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, {
-                    cache: forceRefresh ? "no-store" : "default"
-                });
+                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
+                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
@@ -3463,11 +3379,9 @@
                 
                 filterModules();
                 setSearchState(true);
-                scheduleAlphabetPreRender();
 
                 try {
                     localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
-                    localStorage.setItem(CONFIG.CACHE_TIME_KEY, String(Date.now()));
                 } catch (e) {}
 
                 state.statusKey = "synced";
