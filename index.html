@@ -72,7 +72,8 @@
                 -2.5px 7px 4.5px -3px rgba(255, 255, 255, 0.33),
                 -1.3px 8px 6px -3.5px rgba(255, 255, 255, 0.3),
                 -3.5px 10px 7.5px -4px rgba(255, 255, 255, 0.25),
-                -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17);
+                -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17),
+                -2px 6px 8px 0px rgba(0, 0, 0, 0.25);
 
             --shadow-glass-ui-hover: 
                 inset 3.5px 3.5px 12px 3px rgba(255, 255, 255, 0.55),
@@ -135,7 +136,7 @@
             --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
 
             --shadow-glass-ui: 0 6px 20px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
-            --shadow-tab-bar-bottom: none;
+            --shadow-tab-bar-bottom: 0 14px 28px rgba(0, 0, 0, 0.38);
             --shadow-glass-ui-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.3);
             --shadow-search: 0 4px 13.3px rgba(0, 0, 0, 0.27), 0 1.3px 4px rgba(0, 0, 0, 0.17);
 
@@ -447,6 +448,7 @@
             align-items: center;
             position: relative;
             z-index: 5;
+            touch-action: pan-y pinch-zoom;
         }
 
         .tab-bar {
@@ -475,13 +477,10 @@
             box-shadow: var(--primary-gradient-shadow);
             pointer-events: none;
             z-index: 1;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
+            will-change: transform, width;
+            transform-origin: center center;
+            transform: translate3d(0, 0, 0) scale(1, 1);
             transition: transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1);
-        }
-
-        .control-bar.is-single-column .tab-indicator {
-            border-radius: 26px;
         }
 
         .tab-item,
@@ -836,7 +835,13 @@
             align-items: stretch; 
             padding-bottom: 24px; 
             min-height: 0; 
-            transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity;
+        }
+
+        .modules.fade-out {
+            opacity: 0 !important;
+            pointer-events: none;
         }
 
         @keyframes cardFadeIn {
@@ -1156,6 +1161,13 @@
             gap: 4px;
             box-shadow: var(--shadow-tab-bar-bottom);
             overflow: hidden;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .control-bar.is-single-column .tab-indicator {
+            border-radius: 26px;
         }
 
         .control-bar.is-single-column .tab-item {
@@ -1259,25 +1271,25 @@
             border: 1px solid var(--border-subtle);
         }
 
-.alphabet-scroll-area {
-    position: relative;
-    flex: 1;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    -webkit-overscroll-behavior: contain;
-    touch-action: pan-y;
-    padding-top: 4px;
-    padding-left: 0;
-    padding-right: 16px;
-    padding-bottom: 24px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 24px, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 24px, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
-}
+        .alphabet-scroll-area {
+            position: relative;
+            flex: 1;
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
+            touch-action: pan-y;
+            padding-top: 4px;
+            padding-left: 0;
+            padding-right: 16px;
+            padding-bottom: 24px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+        }
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
             width: 0 !important;
@@ -1718,8 +1730,8 @@
         </header>
 
         <div id="controlBar" class="control-bar">
-            <nav class="tab-bar-wrapper" aria-label="资源分类导航">
-                <div class="tab-bar glass-element" role="tablist">
+            <nav id="tabBarWrapper" class="tab-bar-wrapper" aria-label="资源分类导航">
+                <div id="tabBar" class="tab-bar glass-element" role="tablist">
                     <div id="tabIndicator" class="tab-indicator"></div>
                     <button class="tab-item active" role="tab" aria-selected="true" data-tab="module">模块资源</button>
                     <button class="tab-item" role="tab" aria-selected="false" data-tab="config">配置文件</button>
@@ -1914,7 +1926,8 @@
         const backToTopBtn = document.getElementById("backToTopBtn");
         const tabItems = document.querySelectorAll(".tab-item");
         const tabIndicator = document.getElementById("tabIndicator");
-        const tabBarEl = document.querySelector(".tab-bar");
+        const tabBarEl = document.getElementById("tabBar");
+        const tabBarWrapperEl = document.getElementById("tabBarWrapper");
 
         const controlBarEl = document.getElementById("controlBar");
         const searchBoxInner = document.getElementById('searchBoxInner');
@@ -1963,6 +1976,7 @@
         let isTabAnimating = false;
         let tabAnimTimer = null;
         let tabSwitchContentTimer = null;
+        let modulesFadeTimer = null;
 
         let alphabetImgObserver = null;
         function getAlphabetImgObserver() {
@@ -2247,20 +2261,20 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
-        function updateTabIndicator(animated = true) {
+        function updateTabIndicator(animated = true, customLeft = null, customWidth = null) {
             const activeTab = document.querySelector(".tab-item.active");
             if (!activeTab || !tabIndicator) return;
             if (!animated && isTabAnimating) return;
 
-            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
+            const left = customLeft !== null ? customLeft : activeTab.offsetLeft;
+            const width = customWidth !== null ? customWidth : activeTab.offsetWidth;
 
-            const left = activeTab.offsetLeft;
-            const width = activeTab.offsetWidth;
+            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1), width 0.38s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
 
             if (Math.abs(tabIndicator.offsetWidth - width) > 1) {
                 tabIndicator.style.width = `${width}px`;
             }
-            tabIndicator.style.transform = `translate3d(${left}px, 0, 0)`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(1, 1)`;
 
             if (!animated) {
                 void tabIndicator.offsetWidth;
@@ -2356,20 +2370,24 @@
                 updateTabIndicator(true);
             }
 
-            state.filteredModules = [mod];
-            state.currentlyRendered = 0;
-            modulesContainer.innerHTML = "";
-            sentinel.style.display = "none";
+            modulesContainer.classList.add("fade-out");
+            setTimeout(() => {
+                state.filteredModules = [mod];
+                state.currentlyRendered = 0;
+                modulesContainer.innerHTML = "";
+                sentinel.style.display = "none";
 
-            modulesContainer.appendChild(createModuleCard(mod));
-            state.currentlyRendered = 1;
+                modulesContainer.appendChild(createModuleCard(mod));
+                state.currentlyRendered = 1;
 
-            const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
-            countText.textContent = `1 个${currentLabel}`;
-            statusText.textContent = `已定位：${mod.name}`;
-            statusDot.className = "status-dot";
+                const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
+                countText.textContent = `1 个${currentLabel}`;
+                statusText.textContent = `已定位：${mod.name}`;
+                statusDot.className = "status-dot";
 
-            floatSearchToTarget(false);
+                modulesContainer.classList.remove("fade-out");
+                floatSearchToTarget(false);
+            }, 140);
         }
 
         function renderAlphabetList() {
@@ -2735,7 +2753,9 @@
             if (state.isListView) {
                 setListViewMode(false);
             }
-            filterModules();
+            switchWithFade(() => {
+                filterModules();
+            });
             searchInput.blur();
 
             floatSearchToTarget(false);
@@ -2751,11 +2771,13 @@
             searchInput.value = "";
             
             if (!state.isListView) {
-                filterModules();
-                if (STATUS_MESSAGES[state.statusKey]) {
-                    statusText.textContent = STATUS_MESSAGES[state.statusKey];
-                }
-                statusDot.className = "status-dot";
+                switchWithFade(() => {
+                    filterModules();
+                    if (STATUS_MESSAGES[state.statusKey]) {
+                        statusText.textContent = STATUS_MESSAGES[state.statusKey];
+                    }
+                    statusDot.className = "status-dot";
+                });
             }
             
             updateStandaloneButtonState();
@@ -2966,43 +2988,256 @@
             }
         }
 
-        tabItems.forEach(tab => {
-            tab.addEventListener("click", () => {
-                const targetTab = tab.getAttribute("data-tab");
-                if (state.isListView) {
-                    setListViewMode(false);
-                }
-                searchInput.blur();
-                document.body.classList.remove("has-search-focus");
-                if (state.activeTab === targetTab && !state.focusedModuleId) return;
+        function switchWithFade(renderCallback) {
+            clearTimeout(modulesFadeTimer);
+            modulesContainer.classList.add("fade-out");
+            modulesFadeTimer = setTimeout(() => {
+                renderCallback();
+                modulesContainer.classList.remove("fade-out");
+            }, 180);
+        }
 
-                state.focusedModuleId = null;
-                searchInput.value = "";
-                document.body.classList.remove("has-search-text");
-                updateStandaloneButtonState();
-
-                state.activeTab = targetTab;
-                tabItems.forEach(t => {
-                    const isActive = t === tab;
-                    t.classList.toggle("active", isActive);
-                    t.setAttribute("aria-selected", isActive ? "true" : "false");
-                });
-
-                isTabAnimating = true;
-                clearTimeout(tabAnimTimer);
-                tabAnimTimer = setTimeout(() => { isTabAnimating = false; }, 460);
-
+        function switchToTab(targetTab) {
+            if (state.isListView) {
+                setListViewMode(false);
+            }
+            searchInput.blur();
+            document.body.classList.remove("has-search-focus");
+            if (state.activeTab === targetTab && !state.focusedModuleId) {
                 updateTabIndicator(true);
+                return;
+            }
 
-                clearTimeout(tabSwitchContentTimer);
-                tabSwitchContentTimer = setTimeout(() => {
+            state.focusedModuleId = null;
+            searchInput.value = "";
+            document.body.classList.remove("has-search-text");
+            updateStandaloneButtonState();
+
+            state.activeTab = targetTab;
+            tabItems.forEach(t => {
+                const isActive = t.getAttribute("data-tab") === targetTab;
+                t.classList.toggle("active", isActive);
+                t.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
+
+            isTabAnimating = true;
+            clearTimeout(tabAnimTimer);
+            tabAnimTimer = setTimeout(() => { isTabAnimating = false; }, 460);
+
+            updateTabIndicator(true);
+
+            clearTimeout(tabSwitchContentTimer);
+            tabSwitchContentTimer = setTimeout(() => {
+                switchWithFade(() => {
                     filterModules();
                     if (window.scrollY > 0) {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                     }
-                }, 160);
+                });
+            }, 80);
+        }
+
+        tabItems.forEach(tab => {
+            tab.addEventListener("click", () => {
+                if (isTabDragging) return;
+                const targetTab = tab.getAttribute("data-tab");
+                switchToTab(targetTab);
             });
         });
+
+        // 窄屏标签栏：超Q弹物理形变拖拽与吸附系统
+        let isTabDragging = false;
+        let isDragActive = false;
+        let tabTouchStartX = 0;
+        let tabTouchStartY = 0;
+        let tabItemsGeometry = [];
+        let activeSnapTab = null;
+
+        let dragLastX = 0;
+        let dragLastTime = 0;
+        let dragVelocity = 0;
+        let currentScaleX = 1;
+        let currentScaleY = 1;
+
+        function cacheTabsGeometry() {
+            if (!tabBarEl) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            tabItemsGeometry = Array.from(tabItems).map(item => {
+                const itemRect = item.getBoundingClientRect();
+                const left = itemRect.left - barRect.left;
+                const width = itemRect.width;
+                return {
+                    tab: item.getAttribute("data-tab"),
+                    left: left,
+                    width: width,
+                    center: left + width / 2
+                };
+            });
+        }
+
+        function getInterpolatedWidthAtCenter(centerX) {
+            if (!tabItemsGeometry.length) return 80;
+            const first = tabItemsGeometry[0];
+            const last = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            if (centerX <= first.center) return first.width;
+            if (centerX >= last.center) return last.width;
+
+            for (let i = 0; i < tabItemsGeometry.length - 1; i++) {
+                const cur = tabItemsGeometry[i];
+                const next = tabItemsGeometry[i + 1];
+                if (centerX >= cur.center && centerX <= next.center) {
+                    const span = next.center - cur.center;
+                    const ratio = span > 0 ? (centerX - cur.center) / span : 0;
+                    return cur.width + (next.width - cur.width) * ratio;
+                }
+            }
+            return first.width;
+        }
+
+        function updateIndicatorDirectly(left, width, scaleX = 1, scaleY = 1) {
+            tabIndicator.style.transition = 'none';
+            tabIndicator.style.width = `${width}px`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX}, ${scaleY})`;
+        }
+
+        function handleDragAtClientX(clientX) {
+            if (!tabBarEl || !tabItemsGeometry.length) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            let pointerX = clientX - barRect.left;
+
+            const now = Date.now();
+            const dt = now - dragLastTime;
+            if (dt > 0) {
+                const instantV = (clientX - dragLastX) / dt;
+                dragVelocity = dragVelocity * 0.45 + instantV * 0.55;
+                dragLastX = clientX;
+                dragLastTime = now;
+            }
+
+            const firstTab = tabItemsGeometry[0];
+            const lastTab = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            let targetCenter = pointerX;
+            let overscrollFactor = 0;
+
+            if (targetCenter < firstTab.center) {
+                const over = firstTab.center - targetCenter;
+                overscrollFactor = Math.min(over / 60, 1.2);
+                targetCenter = firstTab.center - Math.pow(over, 0.72) * 2;
+            } else if (targetCenter > lastTab.center) {
+                const over = targetCenter - lastTab.center;
+                overscrollFactor = Math.min(over / 60, 1.2);
+                targetCenter = lastTab.center + Math.pow(over, 0.72) * 2;
+            }
+
+            const currentWidth = getInterpolatedWidthAtCenter(targetCenter);
+            const targetLeft = targetCenter - (currentWidth / 2);
+
+            // 速度 + 越界带来的强力果冻挤压拉伸
+            const absV = Math.min(Math.abs(dragVelocity), 3.2);
+            const stretchAmount = Math.max(absV * 0.16, overscrollFactor * 0.35);
+            currentScaleX = Math.min(1 + stretchAmount, 1.48);
+            currentScaleY = Math.max(1 - stretchAmount * 0.52, 0.72);
+
+            updateIndicatorDirectly(targetLeft, currentWidth, currentScaleX, currentScaleY);
+
+            let closest = firstTab;
+            let minDiff = Infinity;
+            for (let i = 0; i < tabItemsGeometry.length; i++) {
+                const diff = Math.abs(tabItemsGeometry[i].center - targetCenter);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closest = tabItemsGeometry[i];
+                }
+            }
+
+            if (closest.tab !== activeSnapTab) {
+                activeSnapTab = closest.tab;
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === activeSnapTab);
+                });
+            }
+        }
+
+        if (tabBarWrapperEl) {
+            tabBarWrapperEl.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                const isSingleCol = controlBarEl && controlBarEl.classList.contains("is-single-column");
+                if (!isSingleCol || state.isListView) return;
+
+                cacheTabsGeometry();
+                tabTouchStartX = e.touches[0].clientX;
+                tabTouchStartY = e.touches[0].clientY;
+                dragLastX = tabTouchStartX;
+                dragLastTime = Date.now();
+                dragVelocity = 0;
+                currentScaleX = 1;
+                currentScaleY = 1;
+
+                isTabDragging = true;
+                isDragActive = false;
+                activeSnapTab = state.activeTab;
+            }, { passive: true });
+
+            tabBarWrapperEl.addEventListener('touchmove', (e) => {
+                if (!isTabDragging || e.touches.length !== 1) return;
+
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const deltaX = currentX - tabTouchStartX;
+                const deltaY = currentY - tabTouchStartY;
+
+                if (!isDragActive) {
+                    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 7) {
+                        isTabDragging = false;
+                        return;
+                    }
+                    if (Math.abs(deltaX) > 6) {
+                        isDragActive = true;
+                        isTabAnimating = true;
+                    }
+                }
+
+                if (isDragActive) {
+                    if (e.cancelable) e.preventDefault();
+                    handleDragAtClientX(currentX);
+                }
+            }, { passive: false });
+
+            const finishDrag = (e) => {
+                if (!isTabDragging) return;
+                const wasActive = isDragActive;
+                isTabDragging = false;
+                isDragActive = false;
+                isTabAnimating = false;
+
+                if (!wasActive) {
+                    return;
+                }
+
+                if (e && e.cancelable) e.preventDefault();
+
+                // 物理回弹与超Q弹高频阻尼吸附
+                tabIndicator.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.68, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.45, 0.64, 1)';
+
+                if (activeSnapTab) {
+                    switchToTab(activeSnapTab);
+                } else {
+                    updateTabIndicator(true);
+                }
+            };
+
+            tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: false });
+            tabBarWrapperEl.addEventListener('touchcancel', () => {
+                if (!isTabDragging) return;
+                isTabDragging = false;
+                isDragActive = false;
+                isTabAnimating = false;
+                tabIndicator.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.55, 0.64, 1), width 0.4s ease';
+                updateTabIndicator(true);
+            }, { passive: true });
+        }
 
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
@@ -3027,7 +3262,9 @@
                 searchInput.blur();
                 document.body.classList.remove("has-search-text", "has-search-focus");
                 setListViewMode(false);
-                filterModules();
+                switchWithFade(() => {
+                    filterModules();
+                });
                 updateStandaloneButtonState();
             }
         });
@@ -3236,7 +3473,7 @@
                 isPulling = false;
                 return;
             }
-            if (e.target.closest('input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index')) {
+            if (e.target.closest('input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index, .tab-bar-wrapper')) {
                 isPulling = false;
                 return;
             }
@@ -3337,7 +3574,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
