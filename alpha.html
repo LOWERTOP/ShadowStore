@@ -25,17 +25,11 @@
             document.documentElement.setAttribute("data-theme", theme);
             const themeColor = theme === 'dark' ? '#14161a' : '#f0f2f5';
             const themeMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeMeta) {
-                themeMeta.setAttribute('content', themeColor);
-            }
+            if (themeMeta) themeMeta.setAttribute('content', themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
-            const isMobileDevice = ('ontouchstart' in window) || 
-                                   (navigator.maxTouchPoints > 0) || 
-                                   (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
-            if (isMobileDevice) {
-                document.documentElement.classList.add('is-mobile');
-            }
+            const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches);
+            if (isMobile) document.documentElement.classList.add('is-mobile');
 
             if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
                 document.documentElement.classList.add('is-pwa');
@@ -433,9 +427,10 @@
             display: block; width: 20px; height: 20px; pointer-events: none; stroke-width: 2; 
         }
 
+        /* 统一 iOS 吸顶位置，严格适配动态安全区域 */
         .control-bar {
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             display: grid;
             grid-template-columns: var(--card-width, 380px) 1fr;
@@ -574,7 +569,7 @@
             z-index: 999995;
         }
 
-        /* 资源列表按钮：取消本体背景/形变预选，仅保留图标变色 */
+        /* 资源列表按钮：去除所有背景色/阴影/形变预选，仅保留图标变色 */
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -608,17 +603,10 @@
             transition: color 0.2s ease;
         }
 
-        .standalone-list-btn .close-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .list-icon {
-            display: none;
-        }
-
-        .standalone-list-btn.active .close-icon {
-            display: block;
-        }
+        .standalone-list-btn .close-icon { display: none; }
+        .standalone-list-btn.active .list-icon { display: none; }
+        .standalone-list-btn.active .close-icon { display: block; }
+        
         .standalone-list-btn:hover,
         .standalone-list-btn:active,
         .standalone-list-btn:focus-visible,
@@ -637,7 +625,7 @@
             background-color: var(--bg-surface) !important;
         }
 
-        /* 搜索框本体：固定底色和边框阴影，取消 focus/hover 时的背景和边框造型变化 */
+        /* 搜索框本体：永久锁定静态阴影与边框，取消 focus/hover 时的背景色与边框扩散 */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -653,11 +641,9 @@
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
         }
-
         .search-box-inner:focus-within {
             box-shadow: var(--shadow-search) !important;
         }
-        
         [data-theme="dark"] .search-box-inner:focus-within {
             box-shadow: var(--shadow-search) !important;
             border-color: var(--border-subtle) !important;
@@ -699,7 +685,6 @@
             pointer-events: none;
         }
         
-        /* 仅图标变色，取消外圈高亮背景及缩放 */
         .search-clear-btn:hover,
         .search-clear-btn:active {
             color: #0891b2;
@@ -728,14 +713,9 @@
             color: #22d3ee;
         }
 
-        body.has-search-text .search-clear-btn {
-            display: flex;
-        }
-
+        body.has-search-text .search-clear-btn { display: flex; }
         body.has-search-focus .search-submit-btn,
-        body.has-search-text .search-submit-btn {
-            display: flex;
-        }
+        body.has-search-text .search-submit-btn { display: flex; }
         
         .input-wrapper {
             position: relative; flex: 1; min-width: 0;
@@ -752,7 +732,6 @@
             z-index: 2;
             cursor: text;
         }
-        
         .search::placeholder { color: transparent; }
         .search:disabled { cursor: not-allowed; }
 
@@ -934,13 +913,8 @@
             cursor: pointer;
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; 
         }
-        .module-icon:hover {
-            transform: scale(1.06);
-            opacity: 0.92;
-        }
-        .module-icon:active {
-            transform: scale(0.95);
-        }
+        .module-icon:hover { transform: scale(1.06); opacity: 0.92; }
+        .module-icon:active { transform: scale(0.95); }
         .module-icon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
         .card-main { 
@@ -1044,9 +1018,7 @@
             height: 44px; padding: 0 20px; border: 0; border-radius: 22px; 
             font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer; 
             text-decoration: none; 
-            transition: 
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         
         .button-secondary { 
@@ -1056,14 +1028,10 @@
             box-shadow: none !important; 
             padding: 0 16px;
             overflow: visible;
-            transition: 
-                transform 0.2s ease,
-                color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: transform 0.2s ease, color 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .button-secondary:active { transform: scale(0.96); }
-        [data-theme="dark"] .button-secondary {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary { color: #22d3ee; }
         
         .button-secondary:hover,
         .button-secondary:active,
@@ -1075,9 +1043,7 @@
         }
         [data-theme="dark"] .button-secondary:hover,
         [data-theme="dark"] .button-secondary:active,
-        [data-theme="dark"] .button-secondary:focus-visible {
-            color: #22d3ee;
-        }
+        [data-theme="dark"] .button-secondary:focus-visible { color: #22d3ee; }
         
         .button-primary { 
             background: var(--primary-gradient); 
@@ -1096,8 +1062,6 @@
         [data-theme="dark"] .button-primary:hover,
         [data-theme="dark"] .button-primary:active,
         [data-theme="dark"] .button-primary:focus-visible {
-            background: var(--primary-gradient);
-            transform: none !important;
             box-shadow: var(--primary-gradient-shadow);
         }
         
@@ -1110,11 +1074,7 @@
             color: var(--primary);
             opacity: 1; 
         }
-        .empty-icon svg {
-            width: 22px;
-            height: 22px;
-            display: block;
-        }
+        .empty-icon svg { width: 22px; height: 22px; display: block; }
         
         .loading-card { 
             height: 180px; 
@@ -1157,7 +1117,7 @@
         .control-bar.is-single-column {
             display: block;
             position: sticky;
-            top: max(12px, env(safe-area-inset-top, 0px));
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             width: 100%;
             margin-bottom: 16px;
@@ -1539,9 +1499,7 @@
                 flex: 0 0 44px;
                 padding: 6px 0;
             }
-            .alphabet-fast-char {
-                font-size: 10px;
-            }
+            .alphabet-fast-char { font-size: 10px; }
         }
 
         .alphabet-fast-char.active {
@@ -1550,9 +1508,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
-            .alphabet-fast-char:hover:not(.disabled) {
-                color: var(--primary);
-            }
+            .alphabet-fast-char:hover:not(.disabled) { color: var(--primary); }
         }
 
         .alphabet-fast-char.disabled {
@@ -1705,9 +1661,7 @@
                 transform: none !important;
             }
 
-            .title a:hover {
-                opacity: 1 !important;
-            }
+            .title a:hover { opacity: 1 !important; }
             .author:hover,
             .source-link:hover:not(.source-link-static) {
                 color: var(--text-secondary) !important;
@@ -1716,9 +1670,7 @@
         }
 
         @media (max-width: 600px) {
-            :root {
-                --radius-card: 42px;
-            }
+            :root { --radius-card: 42px; }
             .title { font-size: 22px; }
             .tag-pill-badge { 
                 height: 15px; 
@@ -1812,7 +1764,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                     <button id="searchSubmitBtn" class="search-submit-btn" type="button" aria-label="执行搜索" title="执行搜索">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
                     </button>
                 </div>
 
@@ -2267,7 +2219,7 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
-        // 精确计算：标题栏刚好滚出、搜索框刚好吸顶悬浮时的 scrollTop[cite: 2]
+        // 绝对文档坐标定位：完全对齐 CSS 中的 calc(env(safe-area-inset-top, 0px) + 8px)
         function getControlBarStickyScrollTop() {
             const header = document.querySelector(".header");
             if (!header) return 0;
@@ -2275,7 +2227,7 @@
             const headerRect = header.getBoundingClientRect();
             const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
             const headerBottomDocTop = headerRect.bottom + currentScroll;
-            const stickyTop = Math.max(12, parseFloat(getComputedStyle(controlBarEl).top) || 12);
+            const stickyTop = parseFloat(getComputedStyle(controlBarEl).top) || 12;
 
             return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
         }
@@ -2426,7 +2378,6 @@
 
         function focusSingleResource(mod) {
             state.focusedModuleId = mod.id;
-            // 选择单项退出列表时，直接平移到吸顶位置，绝不回滚旧位置[cite: 2]
             setListViewMode(false, false);
 
             searchInput.value = mod.name;
@@ -2766,7 +2717,6 @@
                 checkScrollLock();
                 scheduleLayoutUpdate();
 
-                // 仅在明确允许恢复滚动且打开前未吸顶时，才回滚到旧位置[cite: 2]
                 if (restoreScroll && !state.wasFloatingBeforeActive) {
                     const targetScrollY = Math.max(0, state.listViewReturnScrollY);
                     requestAnimationFrame(() => {
@@ -2852,7 +2802,6 @@
         searchInput.addEventListener("focus", () => {
             document.body.classList.add("has-search-focus");
             if (state.isListView) {
-                // 如果在资源列表激活了搜索，关闭列表且禁止回滚旧位置，统一锚定到吸顶浮动位置[cite: 2]
                 setListViewMode(false, false);
                 floatSearchToTarget(false);
             } else if (!isSearchFloating()) {
@@ -3200,9 +3149,7 @@
             
             const themeColor = currentTheme === "dark" ? "#14161a" : "#f0f2f5";
             const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-            if (themeColorMeta) {
-                themeColorMeta.setAttribute("content", themeColor);
-            }
+            if (themeColorMeta) themeColorMeta.setAttribute('content', themeColor);
             document.documentElement.style.backgroundColor = themeColor;
 
             if (mode === "light") {
