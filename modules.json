@@ -162,6 +162,24 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用在非 tun 模式下出现“检测到正在使用 vpn”等提示的问题。规则来源：github.com/mieqq lowertop shadowrocket-first"
   },
   {
+    "name": "Skip Proxy And Real-IP Lists",
+    "rawURL": "https://raw.githubusercontent.com/mieqq/mieqq/refs/heads/master/skip-proxy-lists.sgmodule",
+    "description": "跳过部分应用的代理检测",
+    "author": {
+      "name": "mieqq",
+      "url": "https://github.com/mieqq",
+      "username": "mieqq"
+    },
+    "authorAvatar": "https://github.com/mieqq.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
+    "sourceName": "mieqq",
+    "sourceURL": "https://github.com/mieqq/mieqq",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fmieqq%2Fmieqq%2Frefs%2Fheads%2Fmaster%2Fskip-proxy-lists.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
+  },
+  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 CMCC iTV",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CMCCiTV.sgmodule",
     "description": "有参数编辑功能。中国移动iTV平台中的部分域名在非移动网络下会被解析到CF的DNS服务IP上，导致无法访问，本模块根据PIXMAN大佬Coding自制DNS的解决方案所制作，应该可以解决这个问题",
@@ -9468,9 +9486,9 @@
     "_searchKeywords": "易捷加油 - ejoy 易捷加油 zirawell r-store"
   },
   {
-    "name": "易校园 - YIXIAOYUAN",
+    "name": "yixiaoyuan",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/Y/%E6%98%93%E6%A0%A1%E5%9B%AD/yixiaoyuan.sgmodule",
-    "description": "易校园-校园服务,助力成长",
+    "description": "yixiaoyuan 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -9481,9 +9499,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FY%2F%25E6%2598%2593%25E6%25A0%25A1%25E5%259B%25AD%2Fyixiaoyuan.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "易校园 - yixiaoyuan 易校园-校园服务,助力成长 zirawell r-store"
+    "_searchKeywords": "yixiaoyuan yixiaoyuan 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "易车 - YICHE",
@@ -9846,9 +9864,9 @@
     "_searchKeywords": "中国国航 - airchina 中国国航-凤凰知音会员的行程管家 zirawell r-store"
   },
   {
-    "name": "中国大学MOOC - MOOC",
+    "name": "mooc",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/Z/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6MOOC/mooc.sgmodule",
-    "description": "中国大学MOOC（慕课）",
+    "description": "mooc 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -9859,9 +9877,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FZ%2F%25E4%25B8%25AD%25E5%259B%25BD%25E5%25A4%25A7%25E5%25AD%25A6MOOC%2Fmooc.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "中国大学mooc - mooc 中国大学mooc（慕课） zirawell r-store"
+    "_searchKeywords": "mooc mooc 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "中国工商银行 - ICBC",
@@ -9972,9 +9990,9 @@
     "_searchKeywords": "中国移动云盘 - mcloud 中国移动云盘-全民不限速 zirawell r-store"
   },
   {
-    "name": "中国联通 - 10010",
+    "name": "10010",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/Z/%E4%B8%AD%E5%9B%BD%E8%81%94%E9%80%9A/10010.sgmodule",
-    "description": "中国联通",
+    "description": "10010 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -9985,9 +10003,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FZ%2F%25E4%25B8%25AD%25E5%259B%25BD%25E8%2581%2594%25E9%2580%259A%2F10010.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "中国联通 - 10010 中国联通 zirawell r-store"
+    "_searchKeywords": "10010 10010 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "中国银行 - BOC",
@@ -10008,9 +10026,9 @@
     "_searchKeywords": "中国银行 - boc 中国银行 zirawell r-store"
   },
   {
-    "name": "中羽在线 - BADMINTONCN",
+    "name": "badmintoncn",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/Z/%E4%B8%AD%E7%BE%BD%E5%9C%A8%E7%BA%BF/badmintoncn.sgmodule",
-    "description": "中羽在线 - 超人气羽毛球互动社区",
+    "description": "badmintoncn 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -10021,9 +10039,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FZ%2F%25E4%25B8%25AD%25E7%25BE%25BD%25E5%259C%25A8%25E7%25BA%25BF%2Fbadmintoncn.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "中羽在线 - badmintoncn 中羽在线 - 超人气羽毛球互动社区 zirawell r-store"
+    "_searchKeywords": "badmintoncn badmintoncn 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "中银跨境GO - BOCGO",
@@ -10260,9 +10278,9 @@
     "_searchKeywords": "掌上道聚城 - djcapp 掌上道聚城 zirawell r-store"
   },
   {
-    "name": "掌上鹿城 - ZSLC",
+    "name": "zslc",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/Z/%E6%8E%8C%E4%B8%8A%E9%B9%BF%E5%9F%8E/zslc.sgmodule",
-    "description": "掌上鹿城-第一时间了解鹿城资讯",
+    "description": "zslc 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -10273,9 +10291,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FZ%2F%25E6%258E%258C%25E4%25B8%258A%25E9%25B9%25BF%25E5%259F%258E%2Fzslc.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "掌上鹿城 - zslc 掌上鹿城-第一时间了解鹿城资讯 zirawell r-store"
+    "_searchKeywords": "zslc zslc 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "掌阅 - IREADER",
