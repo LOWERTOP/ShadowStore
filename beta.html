@@ -66,13 +66,15 @@
                 -8px 18px 22px -3px rgba(0, 0, 0, 0.12),
                 -25px 45px 55px -5px rgba(0, 0, 0, 0.22);
 
+            /* 窄屏吸底主标签栏：在现有折射光斑基础上，仅加一层稍大一些的同向单层柔和阴影 */
             --shadow-tab-bar-bottom: 
                 inset 3px 3px 10px 2px rgba(255, 255, 255, 0.45),
                 inset -3px -3px 8px -1px rgba(0, 0, 0, 0.08),
                 -2.5px 7px 4.5px -3px rgba(255, 255, 255, 0.33),
                 -1.3px 8px 6px -3.5px rgba(255, 255, 255, 0.3),
                 -3.5px 10px 7.5px -4px rgba(255, 255, 255, 0.25),
-                -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17);
+                -1.8px 12px 9px -4px rgba(255, 255, 255, 0.17),
+                -8px 16px 16px -2px rgba(0, 0, 0, 0.33);
 
             --shadow-glass-ui-hover: 
                 inset 3.5px 3.5px 12px 3px rgba(255, 255, 255, 0.55),
@@ -135,7 +137,7 @@
             --noise-pattern: url("data:image/svg+xml,%3Csvg width='256' height='256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
 
             --shadow-glass-ui: 0 6px 20px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
-            --shadow-tab-bar-bottom: none;
+            --shadow-tab-bar-bottom: 0 14px 28px rgba(0, 0, 0, 0.38);
             --shadow-glass-ui-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.3);
             --shadow-search: 0 4px 13.3px rgba(0, 0, 0, 0.27), 0 1.3px 4px rgba(0, 0, 0, 0.17);
 
@@ -447,6 +449,7 @@
             align-items: center;
             position: relative;
             z-index: 5;
+            touch-action: pan-y pinch-zoom;
         }
 
         .tab-bar {
@@ -478,10 +481,6 @@
             will-change: transform;
             transform: translate3d(0, 0, 0);
             transition: transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1);
-        }
-
-        .control-bar.is-single-column .tab-indicator {
-            border-radius: 26px;
         }
 
         .tab-item,
@@ -836,7 +835,13 @@
             align-items: stretch; 
             padding-bottom: 24px; 
             min-height: 0; 
-            transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity;
+        }
+
+        .modules.fade-out {
+            opacity: 0 !important;
+            pointer-events: none;
         }
 
         @keyframes cardFadeIn {
@@ -1156,6 +1161,11 @@
             gap: 4px;
             box-shadow: var(--shadow-tab-bar-bottom);
             overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .control-bar.is-single-column .tab-indicator {
+            border-radius: 26px;
         }
 
         .control-bar.is-single-column .tab-item {
@@ -1191,16 +1201,27 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
-            will-change: opacity;
+            transform: translate3d(0, 6px, 0);
+            transition: 
+                opacity 0.18s cubic-bezier(0.4, 0, 1, 1),
+                transform 0.18s cubic-bezier(0.4, 0, 1, 1),
+                visibility 0.18s ease;
+            will-change: opacity, transform;
             box-sizing: border-box;
             background: transparent;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
         }
 
         .alphabet-view-container.is-visible {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+            transform: translate3d(0, 0, 0) scale(1);
+            transition: 
+                opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.36s ease;
         }
 
         .alphabet-content-box {
@@ -1255,14 +1276,17 @@
             overflow-y: scroll;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
+            touch-action: pan-y;
             padding-top: 4px;
             padding-left: 0;
             padding-right: 16px;
             padding-bottom: 24px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) calc(100% - 24px), transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
         }
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
@@ -1704,8 +1728,8 @@
         </header>
 
         <div id="controlBar" class="control-bar">
-            <nav class="tab-bar-wrapper" aria-label="资源分类导航">
-                <div class="tab-bar glass-element" role="tablist">
+            <nav id="tabBarWrapper" class="tab-bar-wrapper" aria-label="资源分类导航">
+                <div id="tabBar" class="tab-bar glass-element" role="tablist">
                     <div id="tabIndicator" class="tab-indicator"></div>
                     <button class="tab-item active" role="tab" aria-selected="true" data-tab="module">模块资源</button>
                     <button class="tab-item" role="tab" aria-selected="false" data-tab="config">配置文件</button>
@@ -1786,7 +1810,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609091116"; 
+        const CACHE_VERSION = "202609091632"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
@@ -1821,7 +1845,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && (key.startsWith("sr_modules_data_") || key.startsWith("sr_modules_time_"))) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
@@ -1900,7 +1924,8 @@
         const backToTopBtn = document.getElementById("backToTopBtn");
         const tabItems = document.querySelectorAll(".tab-item");
         const tabIndicator = document.getElementById("tabIndicator");
-        const tabBarEl = document.querySelector(".tab-bar");
+        const tabBarEl = document.getElementById("tabBar");
+        const tabBarWrapperEl = document.getElementById("tabBarWrapper");
 
         const controlBarEl = document.getElementById("controlBar");
         const searchBoxInner = document.getElementById('searchBoxInner');
@@ -1949,6 +1974,7 @@
         let isTabAnimating = false;
         let tabAnimTimer = null;
         let tabSwitchContentTimer = null;
+        let modulesFadeTimer = null;
 
         let alphabetImgObserver = null;
         function getAlphabetImgObserver() {
@@ -2342,20 +2368,24 @@
                 updateTabIndicator(true);
             }
 
-            state.filteredModules = [mod];
-            state.currentlyRendered = 0;
-            modulesContainer.innerHTML = "";
-            sentinel.style.display = "none";
+            modulesContainer.classList.add("fade-out");
+            setTimeout(() => {
+                state.filteredModules = [mod];
+                state.currentlyRendered = 0;
+                modulesContainer.innerHTML = "";
+                sentinel.style.display = "none";
 
-            modulesContainer.appendChild(createModuleCard(mod));
-            state.currentlyRendered = 1;
+                modulesContainer.appendChild(createModuleCard(mod));
+                state.currentlyRendered = 1;
 
-            const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
-            countText.textContent = `1 个${currentLabel}`;
-            statusText.textContent = `已定位：${mod.name}`;
-            statusDot.className = "status-dot";
+                const currentLabel = TAB_NAMES[mod.category] || TAB_NAMES.more;
+                countText.textContent = `1 个${currentLabel}`;
+                statusText.textContent = `已定位：${mod.name}`;
+                statusDot.className = "status-dot";
 
-            floatSearchToTarget(false);
+                modulesContainer.classList.remove("fade-out");
+                floatSearchToTarget(false);
+            }, 140);
         }
 
         function renderAlphabetList() {
@@ -2620,16 +2650,15 @@
         }
 
         let listViewTransitionTimer = null;
-        let listViewScrollLockTimer = null;
 
         function setListViewMode(enable) {
             if (state.isListView === enable) return;
 
             clearTimeout(listViewTransitionTimer);
-            clearTimeout(listViewScrollLockTimer);
 
             if (enable) {
                 state.isListView = true;
+                checkScrollLock();
                 document.body.classList.add("is-list-view");
                 updateStandaloneButtonState();
                 floatSearchToTarget(false);
@@ -2644,12 +2673,7 @@
                     if (state.isListView) {
                         alphabetViewContainer.classList.add("is-visible");
                     }
-                }, 320);
-
-                listViewScrollLockTimer = setTimeout(() => {
-                    listViewScrollLockTimer = null;
-                    if (state.isListView) checkScrollLock();
-                }, 450);
+                }, 40);
             } else {
                 state.isListView = false;
                 alphabetViewContainer.classList.remove("is-visible");
@@ -2666,6 +2690,35 @@
                     updateSearchLayer();
                 });
             }
+        }
+
+        let listTouchStartY = 0;
+        if (alphabetScrollArea) {
+            alphabetScrollArea.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    listTouchStartY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            alphabetScrollArea.addEventListener('touchmove', (e) => {
+                if (!state.isListView || e.touches.length === 0) return;
+                
+                const currentY = e.touches[0].clientY;
+                const deltaY = currentY - listTouchStartY;
+                const scrollTop = alphabetScrollArea.scrollTop;
+                const scrollHeight = alphabetScrollArea.scrollHeight;
+                const offsetHeight = alphabetScrollArea.offsetHeight;
+
+                if (scrollTop <= 0 && deltaY > 0) {
+                    if (e.cancelable) e.preventDefault();
+                    return;
+                }
+
+                if (scrollTop + offsetHeight >= scrollHeight && deltaY < 0) {
+                    if (e.cancelable) e.preventDefault();
+                    return;
+                }
+            }, { passive: false });
         }
 
         let ignoreNextClick = false;
@@ -2698,7 +2751,9 @@
             if (state.isListView) {
                 setListViewMode(false);
             }
-            filterModules();
+            switchWithFade(() => {
+                filterModules();
+            });
             searchInput.blur();
 
             floatSearchToTarget(false);
@@ -2714,11 +2769,13 @@
             searchInput.value = "";
             
             if (!state.isListView) {
-                filterModules();
-                if (STATUS_MESSAGES[state.statusKey]) {
-                    statusText.textContent = STATUS_MESSAGES[state.statusKey];
-                }
-                statusDot.className = "status-dot";
+                switchWithFade(() => {
+                    filterModules();
+                    if (STATUS_MESSAGES[state.statusKey]) {
+                        statusText.textContent = STATUS_MESSAGES[state.statusKey];
+                    }
+                    statusDot.className = "status-dot";
+                });
             }
             
             updateStandaloneButtonState();
@@ -2929,43 +2986,107 @@
             }
         }
 
-        tabItems.forEach(tab => {
-            tab.addEventListener("click", () => {
-                const targetTab = tab.getAttribute("data-tab");
-                if (state.isListView) {
-                    setListViewMode(false);
-                }
-                searchInput.blur();
-                document.body.classList.remove("has-search-focus");
-                if (state.activeTab === targetTab && !state.focusedModuleId) return;
+        function switchWithFade(renderCallback) {
+            clearTimeout(modulesFadeTimer);
+            modulesContainer.classList.add("fade-out");
+            modulesFadeTimer = setTimeout(() => {
+                renderCallback();
+                modulesContainer.classList.remove("fade-out");
+            }, 180);
+        }
 
-                state.focusedModuleId = null;
-                searchInput.value = "";
-                document.body.classList.remove("has-search-text");
-                updateStandaloneButtonState();
+        function switchToTab(targetTab) {
+            if (state.isListView) {
+                setListViewMode(false);
+            }
+            searchInput.blur();
+            document.body.classList.remove("has-search-focus");
+            if (state.activeTab === targetTab && !state.focusedModuleId) return;
 
-                state.activeTab = targetTab;
-                tabItems.forEach(t => {
-                    const isActive = t === tab;
-                    t.classList.toggle("active", isActive);
-                    t.setAttribute("aria-selected", isActive ? "true" : "false");
-                });
+            state.focusedModuleId = null;
+            searchInput.value = "";
+            document.body.classList.remove("has-search-text");
+            updateStandaloneButtonState();
 
-                isTabAnimating = true;
-                clearTimeout(tabAnimTimer);
-                tabAnimTimer = setTimeout(() => { isTabAnimating = false; }, 460);
+            state.activeTab = targetTab;
+            tabItems.forEach(t => {
+                const isActive = t.getAttribute("data-tab") === targetTab;
+                t.classList.toggle("active", isActive);
+                t.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
 
-                updateTabIndicator(true);
+            isTabAnimating = true;
+            clearTimeout(tabAnimTimer);
+            tabAnimTimer = setTimeout(() => { isTabAnimating = false; }, 460);
 
-                clearTimeout(tabSwitchContentTimer);
-                tabSwitchContentTimer = setTimeout(() => {
+            updateTabIndicator(true);
+
+            clearTimeout(tabSwitchContentTimer);
+            tabSwitchContentTimer = setTimeout(() => {
+                switchWithFade(() => {
                     filterModules();
                     if (window.scrollY > 0) {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                     }
-                }, 160);
+                });
+            }, 80);
+        }
+
+        tabItems.forEach(tab => {
+            tab.addEventListener("click", () => {
+                const targetTab = tab.getAttribute("data-tab");
+                switchToTab(targetTab);
             });
         });
+
+        const tabKeyList = ["module", "config", "manual", "more"];
+        let tabTouchStartX = 0;
+        let tabTouchStartY = 0;
+        let isTabSwiping = false;
+
+        if (tabBarWrapperEl) {
+            tabBarWrapperEl.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                const isSingleCol = controlBarEl && controlBarEl.classList.contains("is-single-column");
+                if (!isSingleCol || state.isListView) return;
+
+                tabTouchStartX = e.touches[0].clientX;
+                tabTouchStartY = e.touches[0].clientY;
+                isTabSwiping = true;
+            }, { passive: true });
+
+            tabBarWrapperEl.addEventListener('touchmove', (e) => {
+                if (!isTabSwiping || e.touches.length !== 1) return;
+                const deltaX = e.touches[0].clientX - tabTouchStartX;
+                const deltaY = e.touches[0].clientY - tabTouchStartY;
+
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+                    if (e.cancelable) e.preventDefault();
+                }
+            }, { passive: false });
+
+            tabBarWrapperEl.addEventListener('touchend', (e) => {
+                if (!isTabSwiping) return;
+                isTabSwiping = false;
+                const deltaX = e.changedTouches[0].clientX - tabTouchStartX;
+                const deltaY = e.changedTouches[0].clientY - tabTouchStartY;
+
+                if (Math.abs(deltaX) > 38 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+                    const currentIndex = tabKeyList.indexOf(state.activeTab);
+                    if (currentIndex !== -1) {
+                        if (deltaX < 0 && currentIndex < tabKeyList.length - 1) {
+                            switchToTab(tabKeyList[currentIndex + 1]);
+                        } else if (deltaX > 0 && currentIndex > 0) {
+                            switchToTab(tabKeyList[currentIndex - 1]);
+                        }
+                    }
+                }
+            }, { passive: true });
+
+            tabBarWrapperEl.addEventListener('touchcancel', () => {
+                isTabSwiping = false;
+            }, { passive: true });
+        }
 
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
@@ -2990,7 +3111,9 @@
                 searchInput.blur();
                 document.body.classList.remove("has-search-text", "has-search-focus");
                 setListViewMode(false);
-                filterModules();
+                switchWithFade(() => {
+                    filterModules();
+                });
                 updateStandaloneButtonState();
             }
         });
@@ -3195,11 +3318,11 @@
         }
 
         window.addEventListener('touchstart', (e) => {
-            if (state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || state.isPullRefreshing || state.isDataLoading) {
                 isPulling = false;
                 return;
             }
-            if (e.target.closest('input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index')) {
+            if (e.target.closest('input, button, a, textarea, select, label, [contenteditable="true"], .alphabet-view-container, .alphabet-fast-index, .tab-bar-wrapper')) {
                 isPulling = false;
                 return;
             }
@@ -3216,7 +3339,7 @@
         }, { passive: true });
 
         window.addEventListener('touchmove', (e) => {
-            if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || !isPulling || state.isPullRefreshing || state.isDataLoading) {
                 return;
             }
 
@@ -3267,7 +3390,7 @@
         }, { passive: false });
 
         window.addEventListener('touchend', (e) => {
-            if (!isPulling || state.isPullRefreshing || state.isDataLoading || state.isListView) {
+            if (state.isListView || !isPulling || state.isPullRefreshing || state.isDataLoading) {
                 isPulling = false;
                 return;
             }
@@ -3300,7 +3423,7 @@
                 const keysToRemove = [];
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && key.startsWith("sr_modules_data_") && key !== CONFIG.CACHE_KEY) {
+                    if (key && key.startsWith("sr_modules_data_")) {
                         keysToRemove.push(key);
                     }
                 }
