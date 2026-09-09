@@ -102,17 +102,6 @@
                 -5.3px 12px 14.7px -2px rgba(0, 0, 0, 0.08),
                 -16.7px 30px 36.7px -3.3px rgba(0, 0, 0, 0.15);
 
-            --shadow-search-hover: 
-                inset 3px 3px 9px 2px rgba(255, 255, 255, 0.45),
-                inset -2.5px -2.5px 7px -1px rgba(0, 0, 0, 0.09),
-                -2px 5.7px 3.3px -2px rgba(255, 255, 255, 0.22),
-                -1.1px 6.3px 4.7px -2.3px rgba(255, 255, 255, 0.20),
-                -2.8px 8px 6px -2.7px rgba(255, 255, 255, 0.17),
-                -1.5px 9.3px 6.7px -2.7px rgba(255, 255, 255, 0.12),
-                -1px 4px 5.3px rgba(0, 0, 0, 0.10),
-                -6.7px 13.3px 16.7px -2px rgba(0, 0, 0, 0.08),
-                -20px 33.3px 40px -4px rgba(0, 0, 0, 0.17);
-
             --text-primary: #4a4f59;
             --text-secondary: #7e8596;
             --text-tertiary: #a1a9ba;
@@ -155,7 +144,6 @@
             --shadow-tab-bar-bottom: none;
             --shadow-glass-ui-hover: 0 8px 24px rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.3);
             --shadow-search: 0 4px 13.3px rgba(0, 0, 0, 0.27), 0 1.3px 4px rgba(0, 0, 0, 0.17);
-            --shadow-search-hover: 0 5.3px 16px rgba(0, 0, 0, 0.33), 0 2px 5.3px rgba(0, 0, 0, 0.20);
 
             --text-primary: #dce1e8;
             --text-secondary: #939aa8;
@@ -586,6 +574,7 @@
             z-index: 999995;
         }
 
+        /* 资源列表按钮：取消本体背景/形变预选，仅保留图标变色 */
         .standalone-list-btn {
             width: 44px;
             height: 44px;
@@ -602,15 +591,11 @@
             border-left-color: var(--glass-border-l);
             border-right-color: var(--glass-border-r);
             border-bottom-color: var(--glass-border-b);
-            transition: 
-                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.3s ease,
-                color 0.2s ease,
-                border-color 0.35s ease;
+            transition: color 0.2s ease;
             outline: none;
             padding: 0;
             z-index: 999996;
+            transform: none !important;
         }
         [data-theme="dark"] .standalone-list-btn {
             border: 1px solid var(--border-subtle);
@@ -620,6 +605,7 @@
             width: 18px;
             height: 18px;
             pointer-events: none;
+            transition: color 0.2s ease;
         }
 
         .standalone-list-btn .close-icon {
@@ -633,24 +619,25 @@
         .standalone-list-btn.active .close-icon {
             display: block;
         }
-        .standalone-list-btn:hover {
-            background-image: var(--noise-pattern), var(--glass-bg-hover);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-glass-ui-hover);
-        }
-        [data-theme="dark"] .standalone-list-btn:hover {
-            background-image: var(--noise-pattern);
-            background-color: var(--border-subtle);
-            color: var(--text-primary);
-        }
-        .standalone-list-btn:active {
-            transform: scale(0.92);
-        }
+        .standalone-list-btn:hover,
+        .standalone-list-btn:active,
+        .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
-            color: var(--text-primary);
+            color: #0891b2;
+            transform: none !important;
+            box-shadow: var(--shadow-glass-ui) !important;
+        }
+        [data-theme="dark"] .standalone-list-btn:hover,
+        [data-theme="dark"] .standalone-list-btn:active,
+        [data-theme="dark"] .standalone-list-btn:focus-visible,
+        [data-theme="dark"] .standalone-list-btn.active {
+            color: #22d3ee;
+            transform: none !important;
+            box-shadow: var(--shadow-glass-ui) !important;
+            background-color: var(--bg-surface) !important;
         }
 
+        /* 搜索框本体：固定底色和边框阴影，取消 focus/hover 时的背景和边框造型变化 */
         .search-box-inner {
             position: relative; 
             flex: 1 1 auto; 
@@ -665,23 +652,15 @@
             cursor: text;
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
-            transition: 
-                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.35s ease,
-                background-color 0.35s ease;
         }
 
         .search-box-inner:focus-within {
-            background-image: var(--noise-pattern), var(--glass-bg-hover);
-            border-color: rgba(255,255,255,0.85); 
-            box-shadow: var(--shadow-search-hover); 
+            box-shadow: var(--shadow-search) !important;
         }
         
         [data-theme="dark"] .search-box-inner:focus-within {
-            background-image: var(--noise-pattern);
-            background-color: var(--border-subtle);
-            border-color: var(--text-tertiary); 
-            box-shadow: var(--shadow-search-hover);
+            box-shadow: var(--shadow-search) !important;
+            border-color: var(--border-subtle) !important;
         }
         
         .search-icon, .search-clear-btn, .search-submit-btn { 
@@ -704,13 +683,14 @@
         
         .search-clear-btn, .search-submit-btn {
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
             outline: none;
             padding: 0;
             border-style: solid;
             position: relative;
             z-index: 15;
             display: none;
+            transition: color 0.2s ease;
+            transform: none !important;
         }
         .search-clear-btn svg, .search-submit-btn svg {
             display: block;
@@ -718,28 +698,34 @@
             height: 15px;
             pointer-events: none;
         }
-        .search-clear-btn:hover {
-            border-color: var(--primary);
-            background-color: var(--primary-soft);
-            transform: scale(1.05);
-            color: var(--primary);
-        }
+        
+        /* 仅图标变色，取消外圈高亮背景及缩放 */
+        .search-clear-btn:hover,
         .search-clear-btn:active {
-            transform: scale(0.92);
+            color: #0891b2;
+            background-color: transparent !important;
+            border-color: var(--border-subtle) !important;
+            transform: none !important;
+        }
+        [data-theme="dark"] .search-clear-btn:hover,
+        [data-theme="dark"] .search-clear-btn:active {
+            color: #22d3ee;
         }
 
         .search-submit-btn {
-            color: var(--primary);
+            color: var(--text-secondary);
             border-color: var(--border-subtle);
         }
-        .search-submit-btn:hover {
-            border-color: var(--primary);
-            background-color: var(--primary-soft);
-            transform: scale(1.05);
-            color: var(--primary);
-        }
+        .search-submit-btn:hover,
         .search-submit-btn:active {
-            transform: scale(0.92);
+            color: #0891b2;
+            background-color: transparent !important;
+            border-color: var(--border-subtle) !important;
+            transform: none !important;
+        }
+        [data-theme="dark"] .search-submit-btn:hover,
+        [data-theme="dark"] .search-submit-btn:active {
+            color: #22d3ee;
         }
 
         body.has-search-text .search-clear-btn {
@@ -807,6 +793,7 @@
             display: none;
         }
 
+        /* 返回顶部按钮：取消本体悬浮形变、背景变亮和阴影变化，仅保留图标变色 */
         .back-to-top-btn {
             width: 0;
             height: 44px;
@@ -825,8 +812,7 @@
                         opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                         transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                         visibility 0.35s ease,
-                        box-shadow 0.35s ease,
-                        border-color 0.35s ease;
+                        color 0.2s ease;
         }
         .back-to-top-btn.visible {
             width: 44px;
@@ -844,11 +830,20 @@
         [data-theme="dark"] .back-to-top-btn.visible {
             border-color: var(--border-subtle) !important;
         }
-        .back-to-top-btn.visible:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-search-hover);
+        .back-to-top-btn.visible:hover,
+        .back-to-top-btn.visible:active {
+            transform: scale(1) !important;
+            box-shadow: var(--shadow-search) !important;
+            background-image: var(--noise-pattern), var(--glass-bg) !important;
+            color: #0891b2;
         }
-        .back-to-top-btn.visible:active { transform: scale(0.92); }
+        [data-theme="dark"] .back-to-top-btn.visible:hover,
+        [data-theme="dark"] .back-to-top-btn.visible:active {
+            transform: scale(1) !important;
+            box-shadow: var(--shadow-search) !important;
+            background-color: var(--bg-surface) !important;
+            color: #22d3ee;
+        }
 
         .status { 
             display: flex; align-items: center; justify-content: space-between; 
@@ -937,7 +932,7 @@
             display: block;
             text-decoration: none;
             cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; 
         }
         .module-icon:hover {
             transform: scale(1.06);
@@ -1691,17 +1686,6 @@
                 -webkit-tap-highlight-color: transparent !important;
             }
 
-            .standalone-list-btn,
-            .standalone-list-btn:hover,
-            .standalone-list-btn:active,
-            .standalone-list-btn:focus,
-            .standalone-list-btn:focus-visible {
-                transform: none !important;
-                box-shadow: var(--shadow-glass-ui) !important;
-                transition: none !important;
-                -webkit-tap-highlight-color: transparent !important;
-            }
-
             .theme-toggle:hover,
             .theme-toggle:active {
                 transform: none !important;
@@ -1719,11 +1703,6 @@
             .theme-controls .immersive-icon:hover,
             .theme-controls .immersive-icon:active {
                 transform: none !important;
-            }
-            .back-to-top-btn.visible:hover,
-            .back-to-top-btn.visible:active {
-                transform: scale(1) !important;
-                box-shadow: var(--shadow-search) !important;
             }
 
             .title a:hover {
@@ -1910,6 +1889,8 @@
             { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
         ];
 
+        const pinyinCharCache = new Map();
+
         function clearSiteDataCache() {
             try {
                 const keysToRemove = [];
@@ -2038,6 +2019,9 @@
             wasFloatingBeforeActive: false
         };
 
+        const moduleDataMap = new Map();
+        const alphabetGroupElements = new Map();
+
         let toastTimer = null;
         let isTabAnimating = false;
         let tabAnimTimer = null;
@@ -2108,11 +2092,6 @@
             return safeURL(value, ["shadowrocket:", "https:"]);
         }
 
-        function bindImageError(img, fallbackSrc) {
-            if (!img) return;
-            img.addEventListener("error", () => { img.src = fallbackSrc; }, { once: true });
-        }
-
         function extractInitialLetter(name) {
             const clean = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
             const first = clean.charAt(0);
@@ -2120,13 +2099,20 @@
             if (/^[A-Za-z]$/.test(first)) return first.toUpperCase();
             
             if (/^[\u4e00-\u9fa5]$/.test(first)) {
+                if (pinyinCharCache.has(first)) {
+                    return pinyinCharCache.get(first);
+                }
+                let res = "#";
                 try {
                     for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
                         if (first.localeCompare(PINYIN_TABLE[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
-                            return PINYIN_TABLE[i].l;
+                            res = PINYIN_TABLE[i].l;
+                            break;
                         }
                     }
                 } catch (e) {}
+                pinyinCharCache.set(first, res);
+                return res;
             }
             return "#";
         }
@@ -2137,8 +2123,7 @@
                 .map((item, idx) => {
                     const searchTokens = [
                         item.name, item.description, item.author.name,
-                        item.sourceName, item.category, "shadowrocket", "手册",
-                        "manual", "教程", "guide", "仓库", "repo", "文档", "docs", "配置", "config"
+                        item.sourceName, item.category
                     ].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
                     return {
@@ -2246,14 +2231,59 @@
             return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
         }
 
-        // 以文档绝对坐标获取控制栏开始吸顶悬浮时的 scrollTop
-        function getControlBarStickyScrollTop() {
-            const header = document.querySelector(".header");
-            if (!header) return 0;
-            const headerHeight = header.offsetHeight || 0;
-            const bodyPaddingTop = parseFloat(getComputedStyle(document.body).paddingTop) || 16;
-            return Math.max(0, headerHeight + bodyPaddingTop - 8);
-        }
+        modulesContainer.addEventListener("error", (e) => {
+            const target = e.target;
+            if (target && target.tagName === "IMG") {
+                const fallback = target.dataset.fallback;
+                if (fallback && target.src !== fallback) {
+                    target.src = fallback;
+                }
+            }
+        }, true);
+
+        modulesContainer.addEventListener("click", async (e) => {
+            const copyBtn = e.target.closest(".copy-btn");
+            if (!copyBtn) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            const url = copyBtn.getAttribute("data-url");
+            if (!url) {
+                showToast("链接无效");
+                return;
+            }
+
+            const card = copyBtn.closest(".module-card");
+            const moduleId = card ? card.dataset.moduleId : null;
+            const module = moduleId ? moduleDataMap.get(moduleId) : null;
+
+            const success = await copyToClipboard(url);
+            let toastMessage = "已复制资源直链";
+            if (module) {
+                if (module.isRepoCard) toastMessage = "已复制仓库链接";
+                else if (module.category === "config") toastMessage = "已复制配置直链";
+                else if (module.category === "manual") toastMessage = "已复制手册链接";
+            }
+            showToast(success ? toastMessage : "复制失败，请手动复制");
+        });
+
+// 精确计算：标题栏刚好滚出、搜索框刚好吸顶悬浮时的 scrollTop
+function getControlBarStickyScrollTop() {
+    const header = document.querySelector(".header");
+    if (!header) return 0;
+
+    // 1. 获取标题栏底部相对于整个文档顶部的绝对像素距离
+    const headerRect = header.getBoundingClientRect();
+    const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
+    const headerBottomDocTop = headerRect.bottom + currentScroll;
+
+    // 2. 获取吸顶时搜索条距离视口顶部的固定间距
+    // 无论是 .control-bar 还是单列下的 .search-wrapper，其吸顶位置均参考 max(12px, env(safe-area-inset-top))
+    const stickyTop = Math.max(12, parseFloat(getComputedStyle(controlBarEl).top) || 12);
+
+    // 3. 页面滚动的目标值 = 标题栏绝对底部 - 吸顶间距
+    return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
+}
 
         function isSearchFloating() {
             const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
@@ -2325,66 +2355,45 @@
             }
         }
 
-        let layoutCache = {
-            columns: 0,
-            cardWidth: 0,
-            gap: 0,
-            valid: false
-        };
-
-        function invalidateLayoutCache() {
-            layoutCache.valid = false;
-        }
+        let layoutColumnsCache = 0;
 
         function getGridColumns(force = false) {
-            if (!force && layoutCache.valid && layoutCache.columns > 0) return layoutCache.columns;
+            if (!force && layoutColumnsCache > 0) return layoutColumnsCache;
             const template = window.getComputedStyle(modulesContainer).getPropertyValue("grid-template-columns");
             const columns = template ? template.trim().split(/\s+/).length : 1;
-            layoutCache.columns = Math.max(1, columns);
-            layoutCache.valid = true;
-            return layoutCache.columns;
-        }
-
-        function updateControlBarLayout(columns = null) {
-            if (!controlBarEl || !modulesContainer) return;
-            const resolvedColumns = columns || getGridColumns();
-            controlBarEl.classList.toggle("is-single-column", resolvedColumns === 1);
-        }
-
-        function updateCardWidth(columns = null) {
-            const cols = columns || getGridColumns() || 1;
-            const firstCard = modulesContainer.querySelector('.module-card, .loading-card');
-            let newWidth = 0;
-            if (firstCard && firstCard.offsetWidth > 0) {
-                newWidth = firstCard.offsetWidth;
-            } else if (modulesContainer.offsetWidth > 0) {
-                if (!layoutCache.gap) {
-                    layoutCache.gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--layout-gap")) || 44;
-                }
-                const totalGap = (cols - 1) * layoutCache.gap;
-                newWidth = Math.max(0, (modulesContainer.offsetWidth - totalGap) / cols);
-            }
-            if (newWidth > 0) {
-                layoutCache.cardWidth = newWidth;
-                if (Math.abs(newWidth - lastCardWidthVal) > 1) {
-                    lastCardWidthVal = newWidth;
-                    document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
-                }
-            }
+            layoutColumnsCache = Math.max(1, columns);
+            return layoutColumnsCache;
         }
 
         let layoutRaf = 0;
         let resizeEndTimer = null;
 
         function scheduleLayoutUpdate() {
-            invalidateLayoutCache();
+            layoutColumnsCache = 0;
             if (layoutRaf) return;
 
             layoutRaf = requestAnimationFrame(() => {
                 layoutRaf = 0;
                 const columns = getGridColumns(true) || 1;
-                updateControlBarLayout(columns);
-                updateCardWidth(columns);
+                const containerWidth = modulesContainer.offsetWidth;
+                const firstCard = modulesContainer.querySelector('.module-card, .loading-card');
+                const firstCardWidth = firstCard ? firstCard.offsetWidth : 0;
+
+                controlBarEl.classList.toggle("is-single-column", columns === 1);
+
+                let newWidth = 0;
+                if (firstCardWidth > 0) {
+                    newWidth = firstCardWidth;
+                } else if (containerWidth > 0) {
+                    const totalGap = (columns - 1) * 44;
+                    newWidth = Math.max(0, (containerWidth - totalGap) / columns);
+                }
+
+                if (newWidth > 0 && Math.abs(newWidth - lastCardWidthVal) > 1) {
+                    lastCardWidthVal = newWidth;
+                    document.documentElement.style.setProperty('--card-width', `${newWidth}px`);
+                }
+
                 updateAlphabetPosition();
                 if (!isTabAnimating) updateTabIndicator(false);
                 checkScrollLock();
@@ -2460,8 +2469,9 @@
             if (!alphabetScrollArea || !alphabetFastIndex) return;
             
             if (alphabetImgObserver) alphabetImgObserver.disconnect();
-            while (alphabetScrollArea.firstChild) alphabetScrollArea.removeChild(alphabetScrollArea.firstChild);
-            while (alphabetFastIndex.firstChild) alphabetFastIndex.removeChild(alphabetFastIndex.firstChild);
+            alphabetScrollArea.replaceChildren();
+            alphabetFastIndex.replaceChildren();
+            alphabetGroupElements.clear();
 
             const observer = getAlphabetImgObserver();
             const sorted = [...state.allModules].sort((a, b) => {
@@ -2497,7 +2507,7 @@
                 if (groups[letter] && groups[letter].length > 0) {
                     const groupContainer = document.createElement("div");
                     groupContainer.className = "alphabet-group";
-                    groupContainer.id = `alphabet-group-${letter === '#' ? 'hash' : letter}`;
+                    alphabetGroupElements.set(letter, groupContainer);
 
                     const headerEl = document.createElement("div");
                     headerEl.className = "alphabet-letter-header";
@@ -2523,7 +2533,7 @@
 
                         row.innerHTML = `
                             <div class="alphabet-item-icon">
-                                <img src="${escapeHTML(fallbackIcon)}" ${hasRemoteIcon ? `data-src="${escapeHTML(mod.icon)}"` : ''} alt="" decoding="async">
+                                <img src="${escapeHTML(fallbackIcon)}" ${hasRemoteIcon ? `data-src="${escapeHTML(mod.icon)}"` : ''} data-fallback="${escapeHTML(fallbackIcon)}" alt="" decoding="async">
                             </div>
                             <span class="alphabet-item-name">${escapeHTML(mod.name)}</span>
                             <span class="alphabet-item-type">${escapeHTML(catName)}</span>
@@ -2533,7 +2543,6 @@
                         if (hasRemoteIcon) {
                             if (observer) observer.observe(imgEl);
                             else imgEl.src = mod.icon;
-                            bindImageError(imgEl, fallbackIcon);
                         }
 
                         row.addEventListener("click", (e) => {
@@ -2560,7 +2569,7 @@
         }
 
         function scrollToAlphabetLetter(letter) {
-            const targetEl = document.getElementById(letter === '#' ? 'alphabet-group-hash' : `alphabet-group-${letter}`);
+            const targetEl = alphabetGroupElements.get(letter);
             if (targetEl && alphabetScrollArea) {
                 alphabetScrollArea.scrollTop = targetEl.offsetTop;
             }
@@ -2693,7 +2702,6 @@
 
         function updateAlphabetPosition() {
             if (!alphabetViewContainer || !standaloneListBtn || !pageContainer) return;
-            invalidateLayoutCache();
 
             const btnRect = standaloneListBtn.getBoundingClientRect();
             const containerRect = pageContainer.getBoundingClientRect();
@@ -2797,7 +2805,6 @@
             }
         });
 
-        // 统一执行搜索：清空单项焦点、筛选结果并直接切换到搜索框吸顶位置
         function performSearch() {
             state.focusedModuleId = null;
             filterModules();
@@ -2883,8 +2890,8 @@
 
             const directOpenURL = module.rawURL || module.sourceURL || "";
             let iconHTML = directOpenURL 
-                ? `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>`
-                : `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
+                ? `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>`
+                : `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
 
             const sourceLinkHTML = module.sourceURL
                 ? `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>`
@@ -2932,28 +2939,6 @@
                 </div>
             `;
 
-            const copyBtn = card.querySelector(".copy-btn");
-            if (copyBtn) {
-                copyBtn.addEventListener("click", async (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const url = copyBtn.getAttribute("data-url");
-                    if (!url) {
-                        showToast("链接无效");
-                        return;
-                    }
-                    const success = await copyToClipboard(url);
-                    let toastMessage = "已复制资源直链";
-                    if (isRepo) toastMessage = "已复制仓库链接";
-                    else if (module.category === "config") toastMessage = "已复制配置直链";
-                    else if (module.category === "manual") toastMessage = "已复制手册链接";
-                    showToast(success ? toastMessage : "复制失败，请手动复制");
-                });
-            }
-            
-            bindImageError(card.querySelector(".module-icon img"), fallbackIcon);
-            bindImageError(card.querySelector(".author-avatar"), null);
-
             return card;
         }
 
@@ -2975,7 +2960,7 @@
             
             sentinel.style.display = state.currentlyRendered >= state.filteredModules.length ? "none" : "block";
             
-            updateCardWidth();
+            scheduleLayoutUpdate();
             updateSearchLayer();
             checkScrollLock();
         }
@@ -3141,7 +3126,7 @@
         }
 
         let noticeInterval = null;
-        if (noticeTrack) {
+        if (noticeTrack && noticeTrack.children.length > 0) {
             const firstItemClone = noticeTrack.children[0].cloneNode(true);
             noticeTrack.appendChild(firstItemClone);
 
@@ -3476,6 +3461,14 @@
             } catch (e) {}
         }
 
+        function updateAllModules(list) {
+            state.allModules = list;
+            moduleDataMap.clear();
+            list.forEach(item => {
+                moduleDataMap.set(item.id, item);
+            });
+        }
+
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
@@ -3499,7 +3492,7 @@
                         state.rawNetworkData = parsed;
                         const normalized = normalizeModules(parsed);
                         if (normalized.length > 0) {
-                            state.allModules = [...staticItems, ...normalized];
+                            updateAllModules([...staticItems, ...normalized]);
                             state.isAlphabetRendered = false;
                             state.isInitialLoading = false;
                             state.isDataLoading = false;
@@ -3548,7 +3541,7 @@
                 const normalized = normalizeModules(data);
                 if (!normalized.length) throw new Error("未解析到有效资源数据");
 
-                state.allModules = [...staticItems, ...normalized];
+                updateAllModules([...staticItems, ...normalized]);
                 state.isAlphabetRendered = false;
                 state.isInitialLoading = false;
                 state.isDataLoading = false;
@@ -3575,7 +3568,7 @@
                     statusText.textContent = "在线同步异常，当前展示缓存数据";
                     statusDot.className = "status-dot error";
                 } else {
-                    state.allModules = staticItems;
+                    updateAllModules(staticItems);
                     filterModules();
                     setSearchState(true);
                     state.statusKey = "errorStatic";
@@ -3589,10 +3582,9 @@
             }
         }
 
-        state.allModules = normalizeStaticResources();
+        updateAllModules(normalizeStaticResources());
         filterModules();
-        updateCardWidth();
-        updateControlBarLayout();
+        scheduleLayoutUpdate();
         updateTabIndicator(false);
         updateSearchLayer();
         cleanOldCaches();
