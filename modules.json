@@ -506,7 +506,7 @@
   {
     "name": "DiDiClean",
     "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/DiDiClean.sgmodule",
-    "description": "DiDiClean 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "移除滴滴开屏广告，精简首页、底栏和我的页面",
     "author": {
       "name": "iab0x00",
       "url": "https://github.com/iab0x00",
@@ -517,9 +517,9 @@
     "sourceName": "ProxyRules",
     "sourceURL": "https://github.com/iab0x00/ProxyRules",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FDiDiClean.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "didiclean didiclean 模块信息获取失败，请自行判断该模块的作用和有效性。 iab0x00 proxyrules"
+    "_searchKeywords": "didiclean 移除滴滴开屏广告，精简首页、底栏和我的页面 iab0x00 proxyrules"
   },
   {
     "name": "RedNote",
@@ -576,22 +576,22 @@
     "_searchKeywords": "weibointl 移除开屏、瀑布流、趋势页、用户中心广告 iab0x00 proxyrules"
   },
   {
-    "name": "weibo",
+    "name": "微博去广告&净化",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Surge/module/weibo.module",
-    "description": "weibo 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "去除常见的广告和部分多余的模块",
     "author": {
       "name": "fmz200",
       "url": "https://github.com/fmz200",
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-46.png",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FSurge%2Fmodule%2Fweibo.module",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "weibo weibo 模块信息获取失败，请自行判断该模块的作用和有效性。 fmz200 wool_scripts"
+    "_searchKeywords": "微博去广告&净化 去除常见的广告和部分多余的模块 fmz200 wool_scripts"
   },
   {
     "name": "贴吧去广告(>=iOS15)",
@@ -864,9 +864,9 @@
     "_searchKeywords": "app-广告拦截合集 某些规则要清除缓存或者重新安装app，拦截广告才会生效！ zirawell r-store"
   },
   {
-    "name": "wechatAdBlock",
+    "name": "微信小程序-广告拦截合集",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/All/wechatAdBlock.sgmodule",
-    "description": "wechatAdBlock 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "某些规则要清除缓存或者重新安装APP，拦截广告才会生效！",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -877,14 +877,14 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FAll%2FwechatAdBlock.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "wechatadblock wechatadblock 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
+    "_searchKeywords": "微信小程序-广告拦截合集 某些规则要清除缓存或者重新安装app，拦截广告才会生效！ zirawell r-store"
   },
   {
-    "name": "alipayAdBlock",
+    "name": "支付宝小程序-广告拦截合集",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/All/alipayAdBlock.sgmodule",
-    "description": "alipayAdBlock 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "某些规则要清除缓存或者重新安装APP，拦截广告才会生效！",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -895,9 +895,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FAll%2FalipayAdBlock.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "alipayadblock alipayadblock 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
+    "_searchKeywords": "支付宝小程序-广告拦截合集 某些规则要清除缓存或者重新安装app，拦截广告才会生效！ zirawell r-store"
   },
   {
     "name": "功能类插件 - FUNCTIONAL PLUGIN",
@@ -1008,9 +1008,9 @@
     "_searchKeywords": "2345天气王 - 2345 2345天气王-天气和空气质量查询小组件 zirawell r-store"
   },
   {
-    "name": "360kids",
+    "name": "360儿童卫士 - 360KIDS",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/0-9/360%E5%84%BF%E7%AB%A5%E5%8D%AB%E5%A3%AB/360kids.sgmodule",
-    "description": "360kids 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "360儿童卫士",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -1021,9 +1021,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2F0-9%2F360%25E5%2584%25BF%25E7%25AB%25A5%25E5%258D%25AB%25E5%25A3%25AB%2F360kids.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "360kids 360kids 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
+    "_searchKeywords": "360儿童卫士 - 360kids 360儿童卫士 zirawell r-store"
   },
   {
     "name": "360摄像机 - 360CAM",
@@ -1656,9 +1656,9 @@
     "_searchKeywords": "比亚迪 - byd 比亚迪 zirawell r-store"
   },
   {
-    "name": "bitqiu",
+    "name": "比特球网盘 - BITQIU",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/B/%E6%AF%94%E7%89%B9%E7%90%83%E7%BD%91%E7%9B%98/bitqiu.sgmodule",
-    "description": "bitqiu 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "比特球网盘-宅磁力,链接下载,云端播放器",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -1669,9 +1669,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FB%2F%25E6%25AF%2594%25E7%2589%25B9%25E7%2590%2583%25E7%25BD%2591%25E7%259B%2598%2Fbitqiu.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "bitqiu bitqiu 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
+    "_searchKeywords": "比特球网盘 - bitqiu 比特球网盘-宅磁力,链接下载,云端播放器 zirawell r-store"
   },
   {
     "name": "波点音乐 - BODIAN",
@@ -1800,9 +1800,9 @@
     "_searchKeywords": "百度贴吧 - baidutieba 百度贴吧 zirawell r-store"
   },
   {
-    "name": "baiduinput",
+    "name": "百度输入法 - BAIDUINPUT",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/B/%E7%99%BE%E5%BA%A6%E8%BE%93%E5%85%A5%E6%B3%95/baiduinput.sgmodule",
-    "description": "baiduinput 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "百度输入法-语音表情斗图输入法",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -1813,9 +1813,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FB%2F%25E7%2599%25BE%25E5%25BA%25A6%25E8%25BE%2593%25E5%2585%25A5%25E6%25B3%2595%2Fbaiduinput.sgmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "baiduinput baiduinput 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
+    "_searchKeywords": "百度输入法 - baiduinput 百度输入法-语音表情斗图输入法 zirawell r-store"
   },
   {
     "name": "百词斩 - BAICIZHAN",
@@ -16938,9 +16938,9 @@
     "_searchKeywords": "会声会影 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
-    "name": "GlobalTimes",
+    "name": "环球网",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partH/GlobalTimes.srmodule",
-    "description": "GlobalTimes 模块信息获取失败，请自行判断该模块的作用和有效性。",
+    "description": "某些APP要清除缓存或者重新安装拦截广告才会生效！",
     "author": {
       "name": "fmz200",
       "url": "https://github.com/fmz200",
@@ -16951,9 +16951,9 @@
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartH%2FGlobalTimes.srmodule",
-    "isDubious": true,
+    "isDubious": false,
     "fromMyRepo": false,
-    "_searchKeywords": "globaltimes globaltimes 模块信息获取失败，请自行判断该模块的作用和有效性。 fmz200 wool_scripts"
+    "_searchKeywords": "环球网 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
     "name": "HDO",
