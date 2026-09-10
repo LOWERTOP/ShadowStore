@@ -288,7 +288,25 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 苹果助手 苹果下载/更新服务器切换模块，编辑参数以修改 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 GitHub 禁止缩放",
+    "name": "🅶🅸🆃🅷🆄🅱 功能增强",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/GitHubPro.sgmodule",
+    "description": "GitHub 综合增强模块，整合私库访问、语言限制解除及 iOS 页面防自动缩放功能",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FGitHubPro.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 功能增强 github 综合增强模块，整合私库访问、语言限制解除及 ios 页面防自动缩放功能 lowertop shadowrocket-first"
+  },
+  {
+    "name": "🅶🅸🆃🅷🆄🅱 禁止缩放",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/GitHub-iOS-No-Zoom.sgmodule",
     "description": "防止 GitHub 输入框与代码编辑器触发 iOS 自动缩放，同时避免影响 GitHub 非仓库页面",
     "author": {
@@ -303,10 +321,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FGitHub-iOS-No-Zoom.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 github 禁止缩放 防止 github 输入框与代码编辑器触发 ios 自动缩放，同时避免影响 github 非仓库页面 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 禁止缩放 防止 github 输入框与代码编辑器触发 ios 自动缩放，同时避免影响 github 非仓库页面 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 GitHub 私库助手",
+    "name": "🅶🅸🆃🅷🆄🅱 私库助手",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Private.module",
     "description": "编辑参数以启用按 GitHub 用户名自动注入 Token，用于访问对应的私密仓库",
     "author": {
@@ -321,7 +339,25 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FPrivate.module",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 github 私库助手 编辑参数以启用按 github 用户名自动注入 token，用于访问对应的私密仓库 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 私库助手 编辑参数以启用按 github 用户名自动注入 token，用于访问对应的私密仓库 lowertop shadowrocket-first"
+  },
+  {
+    "name": "🅶🅸🆃🅷🆄🅱 限制解除",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/FuckGitHub.sgmodule",
+    "description": "解除 GitHub 针对 zh-CN 的语言限制",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FFuckGitHub.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 限制解除 解除 github 针对 zh-cn 的语言限制 lowertop shadowrocket-first"
   },
   {
     "name": "🆃🅾🅿🅼🅾🅳🆂 证书模块",
