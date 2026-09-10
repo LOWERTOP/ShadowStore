@@ -72,7 +72,7 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 talkatone talkatone 日常使用模块，可进入参数编辑详细设置 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 红果短剧",
+    "name": "🅷🅾🅽🅶🅶🆄🅾 红果短剧",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/HongGuo.module",
     "description": "红果短剧去除部分广告。模块仅为自用，不承诺完全去除相应服务的广告",
     "author": {
@@ -87,7 +87,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FHongGuo.module",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 红果短剧 红果短剧去除部分广告。模块仅为自用，不承诺完全去除相应服务的广告 lowertop shadowrocket-first"
+    "_searchKeywords": "🅷🅾🅽🅶🅶🆄🅾 红果短剧 红果短剧去除部分广告。模块仅为自用，不承诺完全去除相应服务的广告 lowertop shadowrocket-first"
   },
   {
     "name": "🅲🅻🅴🅰🅽🅴🆁",
@@ -108,7 +108,7 @@
     "_searchKeywords": "🅲🅻🅴🅰🅽🅴🆁 红果短剧、包子漫画网页、知乎网页及小蚁摄像机等去广告。模块仅为自用，不承诺完全去除相应服务的广告 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 米家3D打印增强",
+    "name": "🆁🅴🆂🅸🅽🅿🆁 米家3D打印增强",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Mi3D-Enhance.sgmodule",
     "description": "编辑参数以隐藏底部标签页",
     "author": {
@@ -123,10 +123,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FMi3D-Enhance.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 米家3d打印增强 编辑参数以隐藏底部标签页 lowertop shadowrocket-first"
+    "_searchKeywords": "🆁🅴🆂🅸🅽🅿🆁 米家3d打印增强 编辑参数以隐藏底部标签页 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 优化VPN检测提示",
+    "name": "🆅🅿🅽🆂🅺🅸🅿 优化VPN检测提示",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/VPNdetected.sgmodule",
     "description": "通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 VPN” 等类似提示的问题。详情请查看编辑参数内的说明",
     "author": {
@@ -141,7 +141,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FVPNdetected.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
+    "_searchKeywords": "🆅🅿🅽🆂🅺🅸🅿 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
   },
   {
     "name": "Skip Proxy And Real-IP Lists",
@@ -162,7 +162,7 @@
     "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 CMCC iTV",
+    "name": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CMCCiTV.sgmodule",
     "description": "有参数编辑功能。中国移动iTV平台中的部分域名在非移动网络下会被解析到CF的DNS服务IP上，导致无法访问，本模块根据PIXMAN大佬Coding自制DNS的解决方案所制作，应该可以解决这个问题",
     "author": {
@@ -177,7 +177,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCMCCiTV.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 cmcc itv 有参数编辑功能。中国移动itv平台中的部分域名在非移动网络下会被解析到cf的dns服务ip上，导致无法访问，本模块根据pixman大佬coding自制dns的解决方案所制作，应该可以解决这个问题 lowertop shadowrocket-first"
+    "_searchKeywords": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析 有参数编辑功能。中国移动itv平台中的部分域名在非移动网络下会被解析到cf的dns服务ip上，导致无法访问，本模块根据pixman大佬coding自制dns的解决方案所制作，应该可以解决这个问题 lowertop shadowrocket-first"
   },
   {
     "name": "🆃🅾🅿🅼🅾🅳🆂 DeepSeek",
@@ -198,7 +198,7 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 deepseek 本模块主要为 deepseek 进行分流，可使用其他登录方式注册和登录，并尝试屏蔽上传信息的地址 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 Emby模块",
+    "name": "🅴🅼🅱🆈🅺🅸🆃 Emby模块",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/EmbyProxy.module",
     "description": "编辑参数以设置分流策略",
     "author": {
@@ -213,10 +213,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FEmbyProxy.module",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 emby模块 编辑参数以设置分流策略 lowertop shadowrocket-first"
+    "_searchKeywords": "🅴🅼🅱🆈🅺🅸🆃 emby模块 编辑参数以设置分流策略 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 HK Call",
+    "name": "🆆🅸🅵🅸🆅🅾🅲 HK Call",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/WiFiCallingHK.sgmodule",
     "description": "香港 SIM 卡 Wi-Fi Calling 配置规则，本规则适用于 CSL、CMHK、3 HK 的香港 SIM 卡的 Wi-Fi Calling 功能，分流节点须是香港节点",
     "author": {
@@ -231,10 +231,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FWiFiCallingHK.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 hk call 香港 sim 卡 wi-fi calling 配置规则，本规则适用于 csl、cmhk、3 hk 的香港 sim 卡的 wi-fi calling 功能，分流节点须是香港节点 lowertop shadowrocket-first"
+    "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 hk call 香港 sim 卡 wi-fi calling 配置规则，本规则适用于 csl、cmhk、3 hk 的香港 sim 卡的 wi-fi calling 功能，分流节点须是香港节点 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 US Call",
+    "name": "🆆🅸🅵🅸🆅🅾🅲 US Call",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/WiFiCallingUS.sgmodule",
     "description": "参数编辑可以细化设置。适用于部分美国SIM卡的Wi-Fi Calling功能。使用本模块后打开飞行模式后再关闭飞行模式进行联网即可正常开启Wi-Fi calling",
     "author": {
@@ -249,10 +249,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FWiFiCallingUS.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 us call 参数编辑可以细化设置。适用于部分美国sim卡的wi-fi calling功能。使用本模块后打开飞行模式后再关闭飞行模式进行联网即可正常开启wi-fi calling lowertop shadowrocket-first"
+    "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 us call 参数编辑可以细化设置。适用于部分美国sim卡的wi-fi calling功能。使用本模块后打开飞行模式后再关闭飞行模式进行联网即可正常开启wi-fi calling lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 UK Call",
+    "name": "🆆🅸🅵🅸🆅🅾🅲 UK Call",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/WiFiCallingUK.sgmodule",
     "description": "参数编辑可以细化设置。适用于部分英国SIM卡的Wi-Fi Calling功能",
     "author": {
@@ -267,10 +267,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FWiFiCallingUK.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 uk call 参数编辑可以细化设置。适用于部分英国sim卡的wi-fi calling功能 lowertop shadowrocket-first"
+    "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 uk call 参数编辑可以细化设置。适用于部分英国sim卡的wi-fi calling功能 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 苹果助手",
+    "name": "🅸🅷🅴🅻🅿🅴🆁 苹果助手",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Helper.sgmodule",
     "description": "苹果下载/更新服务器切换模块，编辑参数以修改",
     "author": {
@@ -285,10 +285,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FHelper.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 苹果助手 苹果下载/更新服务器切换模块，编辑参数以修改 lowertop shadowrocket-first"
+    "_searchKeywords": "🅸🅷🅴🅻🅿🅴🆁 苹果助手 苹果下载/更新服务器切换模块，编辑参数以修改 lowertop shadowrocket-first"
   },
   {
-    "name": "🅶🅸🆃🅷🆄🅱 功能增强",
+    "name": "🅶🅸🆃🅷🅴🅻🅿 功能增强",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/GitHubPro.sgmodule",
     "description": "GitHub 综合增强模块，整合私库访问、语言限制解除及 iOS 页面防自动缩放功能",
     "author": {
@@ -303,10 +303,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FGitHubPro.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 功能增强 github 综合增强模块，整合私库访问、语言限制解除及 ios 页面防自动缩放功能 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 功能增强 github 综合增强模块，整合私库访问、语言限制解除及 ios 页面防自动缩放功能 lowertop shadowrocket-first"
   },
   {
-    "name": "🅶🅸🆃🅷🆄🅱 禁止缩放",
+    "name": "🅶🅸🆃🅷🅴🅻🅿 禁止缩放",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/GitHub-iOS-No-Zoom.sgmodule",
     "description": "防止 GitHub 输入框与代码编辑器触发 iOS 自动缩放，同时避免影响 GitHub 非仓库页面",
     "author": {
@@ -321,10 +321,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FGitHub-iOS-No-Zoom.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 禁止缩放 防止 github 输入框与代码编辑器触发 ios 自动缩放，同时避免影响 github 非仓库页面 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 禁止缩放 防止 github 输入框与代码编辑器触发 ios 自动缩放，同时避免影响 github 非仓库页面 lowertop shadowrocket-first"
   },
   {
-    "name": "🅶🅸🆃🅷🆄🅱 私库助手",
+    "name": "🅶🅸🆃🅷🅴🅻🅿 私库助手",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Private.module",
     "description": "编辑参数以启用按 GitHub 用户名自动注入 Token，用于访问对应的私密仓库",
     "author": {
@@ -339,10 +339,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FPrivate.module",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 私库助手 编辑参数以启用按 github 用户名自动注入 token，用于访问对应的私密仓库 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 私库助手 编辑参数以启用按 github 用户名自动注入 token，用于访问对应的私密仓库 lowertop shadowrocket-first"
   },
   {
-    "name": "🅶🅸🆃🅷🆄🅱 限制解除",
+    "name": "🅶🅸🆃🅷🅴🅻🅿 限制解除",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/FuckGitHub.sgmodule",
     "description": "解除 GitHub 针对 zh-CN 的语言限制",
     "author": {
@@ -357,10 +357,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FFuckGitHub.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅶🅸🆃🅷🆄🅱 限制解除 解除 github 针对 zh-cn 的语言限制 lowertop shadowrocket-first"
+    "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 限制解除 解除 github 针对 zh-cn 的语言限制 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 证书模块",
+    "name": "🅲🅴🆁🆃🅷🆄🅱 证书模块",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CA.sgmodule",
     "description": "需要以编辑参数的方式启用并填写完整",
     "author": {
@@ -375,10 +375,10 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCA.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 证书模块 需要以编辑参数的方式启用并填写完整 lowertop shadowrocket-first"
+    "_searchKeywords": "🅲🅴🆁🆃🅷🆄🅱 证书模块 需要以编辑参数的方式启用并填写完整 lowertop shadowrocket-first"
   },
   {
-    "name": "🆃🅾🅿🅼🅾🅳🆂 排除解密模块",
+    "name": "🅼🅸🆃🅼🅾🅵🅵 排除解密模块",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Anti-MITM.sgmodule",
     "description": "放置于模块列表最下方并以编辑参数的方式添加需要排除解密的主机名。本模块所有功能均包含在本仓【证书模块】内",
     "author": {
@@ -393,7 +393,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FAnti-MITM.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 排除解密模块 放置于模块列表最下方并以编辑参数的方式添加需要排除解密的主机名。本模块所有功能均包含在本仓【证书模块】内 lowertop shadowrocket-first"
+    "_searchKeywords": "🅼🅸🆃🅼🅾🅵🅵 排除解密模块 放置于模块列表最下方并以编辑参数的方式添加需要排除解密的主机名。本模块所有功能均包含在本仓【证书模块】内 lowertop shadowrocket-first"
   },
   {
     "name": "🅳🅴🆅🆃🅾🅾🅻",
