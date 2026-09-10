@@ -128,7 +128,7 @@
   {
     "name": "🆃🅾🅿🅼🅾🅳🆂 优化VPN检测提示",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/VPNdetected.sgmodule",
-    "description": "通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 VPN” 等类似提示的问题",
+    "description": "通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 VPN” 等类似提示的问题。详情请查看编辑参数内的说明",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -141,7 +141,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FVPNdetected.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题 lowertop shadowrocket-first"
+    "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
   },
   {
     "name": "Skip Proxy And Real-IP Lists",
