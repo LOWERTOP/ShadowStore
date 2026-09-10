@@ -396,22 +396,22 @@
     "_searchKeywords": "plugin2rocket 将可莉插件中心转换给小火箭使用; 插件中心 https://hub.kelee.one ; 此版集成script-hub，若有侵权可联系我们立马删除 iab0x00 proxyrules"
   },
   {
-    "name": "Apple WLOC 定位修改",
+    "name": "wloc",
     "rawURL": "https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.module",
-    "description": "修改 Apple 网络定位返回坐标 (Shadowrocket 小火箭) | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f | 选点页面: https://wloc-pages.pages.dev/",
+    "description": "wloc 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "Yu9191",
       "url": "https://github.com/Yu9191",
       "username": "Yu9191"
     },
     "authorAvatar": "https://github.com/Yu9191.png?size=64",
-    "icon": "https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/wloc.jpg",
+    "icon": "",
     "sourceName": "wloc",
     "sourceURL": "https://github.com/Yu9191/wloc",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FYu9191%2Fwloc%2Frefs%2Fheads%2Fmain%2Fmodules%2Fwloc.module",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": true,
-    "_searchKeywords": "apple wloc 定位修改 修改 apple 网络定位返回坐标 (shadowrocket 小火箭) | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f | 选点页面: https://wloc-pages.pages.dev/ yu9191 wloc"
+    "_searchKeywords": "wloc wloc 模块信息获取失败，请自行判断该模块的作用和有效性。 yu9191 wloc"
   },
   {
     "name": "YouTubeNoAds",
