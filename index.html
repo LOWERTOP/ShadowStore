@@ -462,7 +462,7 @@
             padding: 5px;
             border-radius: 22px;
             box-shadow: var(--shadow-search);
-            overflow: hidden;
+            overflow: visible;
             transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -1160,7 +1160,7 @@
             border-radius: 31px;
             gap: 4px;
             box-shadow: var(--shadow-tab-bar-bottom);
-            overflow: hidden;
+            overflow: visible;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
@@ -1287,8 +1287,8 @@
             padding-bottom: 24px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
         }
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
@@ -1812,7 +1812,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609091252"; 
+        const CACHE_VERSION = "202609111206"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/modules.json", 
@@ -3045,7 +3045,6 @@
             });
         });
 
-        // 窄屏标签栏：超Q弹物理形变拖拽与吸附系统
         let isTabDragging = false;
         let isDragActive = false;
         let tabTouchStartX = 0;
@@ -3110,7 +3109,7 @@
             const dt = now - dragLastTime;
             if (dt > 0) {
                 const instantV = (clientX - dragLastX) / dt;
-                dragVelocity = dragVelocity * 0.45 + instantV * 0.55;
+                dragVelocity = dragVelocity * 0.35 + instantV * 0.65;
                 dragLastX = clientX;
                 dragLastTime = now;
             }
@@ -3123,22 +3122,21 @@
 
             if (targetCenter < firstTab.center) {
                 const over = firstTab.center - targetCenter;
-                overscrollFactor = Math.min(over / 60, 1.2);
-                targetCenter = firstTab.center - Math.pow(over, 0.72) * 2;
+                overscrollFactor = Math.min(over / 40, 2.5);
+                targetCenter = firstTab.center - Math.pow(over, 0.82) * 2.6;
             } else if (targetCenter > lastTab.center) {
                 const over = targetCenter - lastTab.center;
-                overscrollFactor = Math.min(over / 60, 1.2);
-                targetCenter = lastTab.center + Math.pow(over, 0.72) * 2;
+                overscrollFactor = Math.min(over / 40, 2.5);
+                targetCenter = lastTab.center + Math.pow(over, 0.82) * 2.6;
             }
 
             const currentWidth = getInterpolatedWidthAtCenter(targetCenter);
             const targetLeft = targetCenter - (currentWidth / 2);
 
-            // 速度 + 越界带来的强力果冻挤压拉伸
-            const absV = Math.min(Math.abs(dragVelocity), 3.2);
-            const stretchAmount = Math.max(absV * 0.16, overscrollFactor * 0.35);
-            currentScaleX = Math.min(1 + stretchAmount, 1.48);
-            currentScaleY = Math.max(1 - stretchAmount * 0.52, 0.72);
+            const absV = Math.min(Math.abs(dragVelocity), 4.5);
+            const stretchAmount = Math.max(absV * 0.22, overscrollFactor * 0.55);
+            currentScaleX = Math.min(1 + stretchAmount, 1.75);
+            currentScaleY = Math.max(1 - stretchAmount * 0.6, 0.58);
 
             updateIndicatorDirectly(targetLeft, currentWidth, currentScaleX, currentScaleY);
 
@@ -3189,11 +3187,15 @@
                 const deltaY = currentY - tabTouchStartY;
 
                 if (!isDragActive) {
+                    if (deltaY < -4 && Math.abs(deltaY) > Math.abs(deltaX) * 0.7) {
+                        isTabDragging = false;
+                        return;
+                    }
                     if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 7) {
                         isTabDragging = false;
                         return;
                     }
-                    if (Math.abs(deltaX) > 6) {
+                    if (Math.abs(deltaX) > 10) {
                         isDragActive = true;
                         isTabAnimating = true;
                     }
@@ -3213,27 +3215,38 @@
                 isTabAnimating = false;
 
                 if (!wasActive) {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
                     return;
                 }
 
                 if (e && e.cancelable) e.preventDefault();
 
-                // 物理回弹与超Q弹高频阻尼吸附
-                tabIndicator.style.transition = 'transform 0.55s cubic-bezier(0.34, 1.68, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.45, 0.64, 1)';
+                tabIndicator.style.transition = 'transform 0.58s cubic-bezier(0.34, 1.85, 0.64, 1), width 0.48s cubic-bezier(0.34, 1.6, 0.64, 1)';
 
-                if (activeSnapTab) {
+                if (activeSnapTab && activeSnapTab !== state.activeTab) {
                     switchToTab(activeSnapTab);
                 } else {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
                     updateTabIndicator(true);
                 }
             };
 
             tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: false });
+
             tabBarWrapperEl.addEventListener('touchcancel', () => {
                 if (!isTabDragging) return;
                 isTabDragging = false;
                 isDragActive = false;
                 isTabAnimating = false;
+
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                });
+
                 tabIndicator.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.55, 0.64, 1), width 0.4s ease';
                 updateTabIndicator(true);
             }, { passive: true });
