@@ -66,7 +66,6 @@
                 -8px 18px 22px -3px rgba(0, 0, 0, 0.12),
                 -25px 45px 55px -5px rgba(0, 0, 0, 0.22);
 
-            /* 窄屏吸底主标签栏：在现有折射光斑基础上，仅加一层稍大一些的同向单层柔和阴影 */
             --shadow-tab-bar-bottom: 
                 inset 3px 3px 10px 2px rgba(255, 255, 255, 0.45),
                 inset -3px -3px 8px -1px rgba(0, 0, 0, 0.08),
@@ -463,7 +462,7 @@
             padding: 5px;
             border-radius: 22px;
             box-shadow: var(--shadow-search);
-            overflow: hidden;
+            overflow: visible;
             transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -478,8 +477,9 @@
             box-shadow: var(--primary-gradient-shadow);
             pointer-events: none;
             z-index: 1;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
+            will-change: transform, width;
+            transform-origin: center center;
+            transform: translate3d(0, 0, 0) scale(1, 1);
             transition: transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1);
         }
 
@@ -1160,8 +1160,10 @@
             border-radius: 31px;
             gap: 4px;
             box-shadow: var(--shadow-tab-bar-bottom);
-            overflow: hidden;
-            touch-action: pan-y;
+            overflow: visible;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .control-bar.is-single-column .tab-indicator {
@@ -1285,8 +1287,8 @@
             padding-bottom: 24px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
         }
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
@@ -2259,20 +2261,20 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
-        function updateTabIndicator(animated = true) {
+        function updateTabIndicator(animated = true, customLeft = null, customWidth = null) {
             const activeTab = document.querySelector(".tab-item.active");
             if (!activeTab || !tabIndicator) return;
             if (!animated && isTabAnimating) return;
 
-            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
+            const left = customLeft !== null ? customLeft : activeTab.offsetLeft;
+            const width = customWidth !== null ? customWidth : activeTab.offsetWidth;
 
-            const left = activeTab.offsetLeft;
-            const width = activeTab.offsetWidth;
+            tabIndicator.style.transition = animated ? 'transform 0.44s cubic-bezier(0.34, 1.32, 0.64, 1), width 0.38s cubic-bezier(0.34, 1.32, 0.64, 1)' : 'none';
 
             if (Math.abs(tabIndicator.offsetWidth - width) > 1) {
                 tabIndicator.style.width = `${width}px`;
             }
-            tabIndicator.style.transform = `translate3d(${left}px, 0, 0)`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(1, 1)`;
 
             if (!animated) {
                 void tabIndicator.offsetWidth;
@@ -3001,7 +3003,10 @@
             }
             searchInput.blur();
             document.body.classList.remove("has-search-focus");
-            if (state.activeTab === targetTab && !state.focusedModuleId) return;
+            if (state.activeTab === targetTab && !state.focusedModuleId) {
+                updateTabIndicator(true);
+                return;
+            }
 
             state.focusedModuleId = null;
             searchInput.value = "";
@@ -3034,15 +3039,124 @@
 
         tabItems.forEach(tab => {
             tab.addEventListener("click", () => {
+                if (isTabDragging) return;
                 const targetTab = tab.getAttribute("data-tab");
                 switchToTab(targetTab);
             });
         });
 
-        const tabKeyList = ["module", "config", "manual", "more"];
+        let isTabDragging = false;
+        let isDragActive = false;
         let tabTouchStartX = 0;
         let tabTouchStartY = 0;
-        let isTabSwiping = false;
+        let tabItemsGeometry = [];
+        let activeSnapTab = null;
+
+        let dragLastX = 0;
+        let dragLastTime = 0;
+        let dragVelocity = 0;
+        let currentScaleX = 1;
+        let currentScaleY = 1;
+
+        function cacheTabsGeometry() {
+            if (!tabBarEl) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            tabItemsGeometry = Array.from(tabItems).map(item => {
+                const itemRect = item.getBoundingClientRect();
+                const left = itemRect.left - barRect.left;
+                const width = itemRect.width;
+                return {
+                    tab: item.getAttribute("data-tab"),
+                    left: left,
+                    width: width,
+                    center: left + width / 2
+                };
+            });
+        }
+
+        function getInterpolatedWidthAtCenter(centerX) {
+            if (!tabItemsGeometry.length) return 80;
+            const first = tabItemsGeometry[0];
+            const last = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            if (centerX <= first.center) return first.width;
+            if (centerX >= last.center) return last.width;
+
+            for (let i = 0; i < tabItemsGeometry.length - 1; i++) {
+                const cur = tabItemsGeometry[i];
+                const next = tabItemsGeometry[i + 1];
+                if (centerX >= cur.center && centerX <= next.center) {
+                    const span = next.center - cur.center;
+                    const ratio = span > 0 ? (centerX - cur.center) / span : 0;
+                    return cur.width + (next.width - cur.width) * ratio;
+                }
+            }
+            return first.width;
+        }
+
+        function updateIndicatorDirectly(left, width, scaleX = 1, scaleY = 1) {
+            tabIndicator.style.transition = 'none';
+            tabIndicator.style.width = `${width}px`;
+            tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX}, ${scaleY})`;
+        }
+
+        function handleDragAtClientX(clientX) {
+            if (!tabBarEl || !tabItemsGeometry.length) return;
+            const barRect = tabBarEl.getBoundingClientRect();
+            let pointerX = clientX - barRect.left;
+
+            const now = Date.now();
+            const dt = now - dragLastTime;
+            if (dt > 0) {
+                const instantV = (clientX - dragLastX) / dt;
+                dragVelocity = dragVelocity * 0.35 + instantV * 0.65;
+                dragLastX = clientX;
+                dragLastTime = now;
+            }
+
+            const firstTab = tabItemsGeometry[0];
+            const lastTab = tabItemsGeometry[tabItemsGeometry.length - 1];
+
+            let targetCenter = pointerX;
+            let overscrollFactor = 0;
+
+            if (targetCenter < firstTab.center) {
+                const over = firstTab.center - targetCenter;
+                overscrollFactor = Math.min(over / 40, 2.5);
+                targetCenter = firstTab.center - Math.pow(over, 0.82) * 2.6;
+            } else if (targetCenter > lastTab.center) {
+                const over = targetCenter - lastTab.center;
+                overscrollFactor = Math.min(over / 40, 2.5);
+                targetCenter = lastTab.center + Math.pow(over, 0.82) * 2.6;
+            }
+
+            const currentWidth = getInterpolatedWidthAtCenter(targetCenter);
+            const targetLeft = targetCenter - (currentWidth / 2);
+
+            const absV = Math.min(Math.abs(dragVelocity), 4.5);
+            const stretchAmount = Math.max(absV * 0.22, overscrollFactor * 0.55);
+            currentScaleX = Math.min(1 + stretchAmount, 1.75);
+            currentScaleY = Math.max(1 - stretchAmount * 0.6, 0.58);
+
+            updateIndicatorDirectly(targetLeft, currentWidth, currentScaleX, currentScaleY);
+
+            let closest = firstTab;
+            let minDiff = Infinity;
+            for (let i = 0; i < tabItemsGeometry.length; i++) {
+                const diff = Math.abs(tabItemsGeometry[i].center - targetCenter);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closest = tabItemsGeometry[i];
+                }
+            }
+
+            if (closest.tab !== activeSnapTab) {
+                activeSnapTab = closest.tab;
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === activeSnapTab);
+                });
+            }
+        }
 
         if (tabBarWrapperEl) {
             tabBarWrapperEl.addEventListener('touchstart', (e) => {
@@ -3050,41 +3164,91 @@
                 const isSingleCol = controlBarEl && controlBarEl.classList.contains("is-single-column");
                 if (!isSingleCol || state.isListView) return;
 
+                cacheTabsGeometry();
                 tabTouchStartX = e.touches[0].clientX;
                 tabTouchStartY = e.touches[0].clientY;
-                isTabSwiping = true;
+                dragLastX = tabTouchStartX;
+                dragLastTime = Date.now();
+                dragVelocity = 0;
+                currentScaleX = 1;
+                currentScaleY = 1;
+
+                isTabDragging = true;
+                isDragActive = false;
+                activeSnapTab = state.activeTab;
             }, { passive: true });
 
             tabBarWrapperEl.addEventListener('touchmove', (e) => {
-                if (!isTabSwiping || e.touches.length !== 1) return;
-                const deltaX = e.touches[0].clientX - tabTouchStartX;
-                const deltaY = e.touches[0].clientY - tabTouchStartY;
+                if (!isTabDragging || e.touches.length !== 1) return;
 
-                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const deltaX = currentX - tabTouchStartX;
+                const deltaY = currentY - tabTouchStartY;
+
+                if (!isDragActive) {
+                    if (deltaY < -4 && Math.abs(deltaY) > Math.abs(deltaX) * 0.7) {
+                        isTabDragging = false;
+                        return;
+                    }
+                    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 7) {
+                        isTabDragging = false;
+                        return;
+                    }
+                    if (Math.abs(deltaX) > 10) {
+                        isDragActive = true;
+                        isTabAnimating = true;
+                    }
+                }
+
+                if (isDragActive) {
                     if (e.cancelable) e.preventDefault();
+                    handleDragAtClientX(currentX);
                 }
             }, { passive: false });
 
-            tabBarWrapperEl.addEventListener('touchend', (e) => {
-                if (!isTabSwiping) return;
-                isTabSwiping = false;
-                const deltaX = e.changedTouches[0].clientX - tabTouchStartX;
-                const deltaY = e.changedTouches[0].clientY - tabTouchStartY;
+            const finishDrag = (e) => {
+                if (!isTabDragging) return;
+                const wasActive = isDragActive;
+                isTabDragging = false;
+                isDragActive = false;
+                isTabAnimating = false;
 
-                if (Math.abs(deltaX) > 38 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
-                    const currentIndex = tabKeyList.indexOf(state.activeTab);
-                    if (currentIndex !== -1) {
-                        if (deltaX < 0 && currentIndex < tabKeyList.length - 1) {
-                            switchToTab(tabKeyList[currentIndex + 1]);
-                        } else if (deltaX > 0 && currentIndex > 0) {
-                            switchToTab(tabKeyList[currentIndex - 1]);
-                        }
-                    }
+                if (!wasActive) {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
+                    return;
                 }
-            }, { passive: true });
+
+                if (e && e.cancelable) e.preventDefault();
+
+                tabIndicator.style.transition = 'transform 0.58s cubic-bezier(0.34, 1.85, 0.64, 1), width 0.48s cubic-bezier(0.34, 1.6, 0.64, 1)';
+
+                if (activeSnapTab && activeSnapTab !== state.activeTab) {
+                    switchToTab(activeSnapTab);
+                } else {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
+                    updateTabIndicator(true);
+                }
+            };
+
+            tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: false });
 
             tabBarWrapperEl.addEventListener('touchcancel', () => {
-                isTabSwiping = false;
+                if (!isTabDragging) return;
+                isTabDragging = false;
+                isDragActive = false;
+                isTabAnimating = false;
+
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                });
+
+                tabIndicator.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.55, 0.64, 1), width 0.4s ease';
+                updateTabIndicator(true);
             }, { passive: true });
         }
 
