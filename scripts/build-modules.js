@@ -18,8 +18,7 @@ const CONFIG = {
 };
 
 const APP_ALIASES = {
-    "🅳🅴🆅🆃🅾🅾🅻": ["🅲🅴🆁🆃🅷🆄🅱 证书模块"], "Plugin2Rocket": ["🅲🅴🆁🆃🅷🆄🅱 证书模块"],
-    "一汽大众": ["fawvw"], "上汽大众": ["csvw"], "流媒体": ["netflix"], "影视": ["netflix"], "大师兄": ["netflix"],
+    "Plugin2Rocket": ["Shadowrocket"],"一汽大众": ["fawvw"], "上汽大众": ["csvw"], "流媒体": ["netflix"], "影视": ["netflix"], "大师兄": ["netflix"],
     "苹果": ["apple"], "apple": ["apple"], "谷歌": ["google"], "微软": ["microsoft"],
     "油管": ["youtube"], "youtube": ["youtube"], "电报": ["telegram"], "推特": ["twitter", "x"],
     "奈飞": ["netflix"], "网飞": ["netflix"], "迪士尼": ["disney"], "cmcc": ["中国移动"],
