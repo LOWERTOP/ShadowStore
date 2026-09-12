@@ -398,7 +398,7 @@
   {
     "name": "🅳🅴🆅🆃🅾🅾🅻",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Commands.sgmodule",
-    "description": "配置调试工具，编辑参数以使用",
+    "description": "配置调试工具，以编辑参数的方式使用隐式参数及规则等",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -411,7 +411,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCommands.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，编辑参数以使用 lowertop shadowrocket-first"
+    "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，以编辑参数的方式使用隐式参数及规则等 lowertop shadowrocket-first"
   },
   {
     "name": "Plugin2Rocket",
