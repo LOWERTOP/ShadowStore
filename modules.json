@@ -126,60 +126,6 @@
     "_searchKeywords": "🆁🅴🆂🅸🅽🅿🆁 米家3d打印增强 编辑参数以隐藏底部标签页 lowertop shadowrocket-first"
   },
   {
-    "name": "🆅🅿🅽🆂🅺🅸🅿 优化VPN检测提示",
-    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/VPNdetected.sgmodule",
-    "description": "通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 VPN” 等类似提示的问题。详情请查看编辑参数内的说明",
-    "author": {
-      "name": "LOWERTOP",
-      "url": "https://github.com/LOWERTOP",
-      "username": "LOWERTOP"
-    },
-    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/Shadowrocket_icon.png",
-    "sourceName": "Shadowrocket-First",
-    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FVPNdetected.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "_searchKeywords": "🆅🅿🅽🆂🅺🅸🅿 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
-  },
-  {
-    "name": "Skip Proxy And Real-IP Lists",
-    "rawURL": "https://raw.githubusercontent.com/mieqq/mieqq/refs/heads/master/skip-proxy-lists.sgmodule",
-    "description": "跳过部分应用的代理检测",
-    "author": {
-      "name": "mieqq",
-      "url": "https://github.com/mieqq",
-      "username": "mieqq"
-    },
-    "authorAvatar": "https://github.com/mieqq.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
-    "sourceName": "mieqq",
-    "sourceURL": "https://github.com/mieqq/mieqq",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fmieqq%2Fmieqq%2Frefs%2Fheads%2Fmaster%2Fskip-proxy-lists.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
-  },
-  {
-    "name": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析",
-    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CMCCiTV.sgmodule",
-    "description": "有参数编辑功能。中国移动iTV平台中的部分域名在非移动网络下会被解析到CF的DNS服务IP上，导致无法访问，本模块根据PIXMAN大佬Coding自制DNS的解决方案所制作，应该可以解决这个问题",
-    "author": {
-      "name": "LOWERTOP",
-      "url": "https://github.com/LOWERTOP",
-      "username": "LOWERTOP"
-    },
-    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/10086.png",
-    "sourceName": "Shadowrocket-First",
-    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCMCCiTV.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "_searchKeywords": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析 有参数编辑功能。中国移动itv平台中的部分域名在非移动网络下会被解析到cf的dns服务ip上，导致无法访问，本模块根据pixman大佬coding自制dns的解决方案所制作，应该可以解决这个问题 lowertop shadowrocket-first"
-  },
-  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 DeepSeek",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/DeepSeek.sgmodule",
     "description": "本模块主要为 DeepSeek 进行分流，可使用其他登录方式注册和登录，并尝试屏蔽上传信息的地址",
@@ -268,6 +214,60 @@
     "isDubious": false,
     "fromMyRepo": true,
     "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 uk call 参数编辑可以细化设置。适用于部分英国sim卡的wi-fi calling功能 lowertop shadowrocket-first"
+  },
+  {
+    "name": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CMCCiTV.sgmodule",
+    "description": "有参数编辑功能。中国移动iTV平台中的部分域名在非移动网络下会被解析到CF的DNS服务IP上，导致无法访问，本模块根据PIXMAN大佬Coding自制DNS的解决方案所制作，应该可以解决这个问题",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/10086.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCMCCiTV.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析 有参数编辑功能。中国移动itv平台中的部分域名在非移动网络下会被解析到cf的dns服务ip上，导致无法访问，本模块根据pixman大佬coding自制dns的解决方案所制作，应该可以解决这个问题 lowertop shadowrocket-first"
+  },
+  {
+    "name": "🆅🅿🅽🆂🅺🅸🅿 优化VPN检测提示",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/VPNdetected.sgmodule",
+    "description": "通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 VPN” 等类似提示的问题。详情请查看编辑参数内的说明",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/Shadowrocket_icon.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FVPNdetected.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "🆅🅿🅽🆂🅺🅸🅿 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
+  },
+  {
+    "name": "Skip Proxy And Real-IP Lists",
+    "rawURL": "https://raw.githubusercontent.com/mieqq/mieqq/refs/heads/master/skip-proxy-lists.sgmodule",
+    "description": "跳过部分应用的代理检测",
+    "author": {
+      "name": "mieqq",
+      "url": "https://github.com/mieqq",
+      "username": "mieqq"
+    },
+    "authorAvatar": "https://github.com/mieqq.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
+    "sourceName": "mieqq",
+    "sourceURL": "https://github.com/mieqq/mieqq",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fmieqq%2Fmieqq%2Frefs%2Fheads%2Fmaster%2Fskip-proxy-lists.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
   },
   {
     "name": "🅸🅷🅴🅻🅿🅴🆁 苹果助手",
