@@ -14,6 +14,8 @@
 
 [<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStore_ScreenShot.png" width="100%">](https://shadowstore.dpdns.org/ "访问页面")
 
+**网站地址：[ShadowStore.dpdns.org](https://shadowstore.dpdns.org)**
+
 **[ShadowStore](https://shadowstore.dpdns.org/)** 是一个专为 Shadowrocket 打造的开源社区资源聚合检索平台，提供 **资源索引**、**资源检索**、**一键安装**、**一键复制** 等功能，集中收录和整理公开资源。目前已收录超过 1000 款模块及其他多种资源，支持添加网页快捷方式至桌面，并提供应用图标显示，为 Shadowrocket 用户提供更加便捷的资源发现与使用体验
 
 * **原始直链引用**：所有资源卡片均直接解析并指向 **原作者的官方开源仓库或原始资源直链**，不做任何代码篡改、二次打包或镜像托管
