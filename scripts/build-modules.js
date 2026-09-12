@@ -31,7 +31,7 @@ const APP_ALIASES = {
     "闲鱼": ["xianyu"], "咸鱼": ["xianyu"], "饿了么": ["eleme"], "爱奇艺": ["iqiyi"],
     "优酷": ["youku"], "淘宝": ["taobao"], "豆瓣": ["douban"], "贴吧": ["tieba"],
     "夸克": ["quark"], "12306": ["12306"], "高德地图": ["amap"],
-    "一汽大众": ["fawvw"], "上汽大众": ["csvw"], "流媒体": ["netflix"], "影视": ["netflix"], "大师兄": ["netflix"]
+    "一汽大众": ["fawvw"], "上汽大众": ["csvw"], "流媒体": ["netflix"], "影视": ["netflix"], "大师兄": ["netflix"], "🅳🅴🆅🆃🅾🅾🅻": ["Shadowrocket_icon"], "Plugin2Rocket": ["Shadowrocket_icon"]
 };
 
 const FLAG_CODES = new Set([
