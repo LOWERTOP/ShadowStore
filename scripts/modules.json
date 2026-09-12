@@ -405,7 +405,7 @@
       "username": "LOWERTOP"
     },
     "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png",
+    "icon": "",
     "sourceName": "Shadowrocket-First",
     "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCommands.sgmodule",
