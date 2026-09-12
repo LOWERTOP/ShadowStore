@@ -423,7 +423,7 @@
       "username": "iab0x00"
     },
     "authorAvatar": "https://github.com/iab0x00.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/rocket.png",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/shadowrocket.png",
     "sourceName": "ProxyRules",
     "sourceURL": "https://github.com/iab0x00/ProxyRules",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FPlugin2Rocket.srmodule",
