@@ -1763,7 +1763,7 @@
                         <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索资源">
                         
                         <div id="placeholderTrack" class="placeholder-track">
-                            <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
+                            <div class="placeholder-item">输入关键词回车或点击搜索</div>
                             <div class="placeholder-item">相关资源均来源于开源社区</div>
                             <div class="placeholder-item">所有权利责任归原作者所有</div>
                         </div>
@@ -3325,8 +3325,6 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const mainP = document.getElementById("mainPlaceholder");
-            if (mainP) mainP.textContent = enabled ? "输入后按回车或点击搜索..." : "请在加载完成后执行搜索...";
 
             if (searchShortcut) {
                 searchShortcut.style.opacity = enabled ? "1" : "0.35";
