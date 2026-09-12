@@ -396,7 +396,7 @@
     "_searchKeywords": "🅼🅸🆃🅼🅾🅵🅵 排除解密模块 放置于模块列表最下方并以编辑参数的方式添加需要排除解密的主机名。本模块所有功能均包含在本仓【证书模块】内 lowertop shadowrocket-first"
   },
   {
-    "name": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具",
+    "name": "🅳🅴🆅🆃🅾🅾🅻",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Commands.sgmodule",
     "description": "配置调试工具，编辑参数以使用",
     "author": {
@@ -411,7 +411,7 @@
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FCommands.sgmodule",
     "isDubious": false,
     "fromMyRepo": true,
-    "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具 配置调试工具，编辑参数以使用 lowertop shadowrocket-first"
+    "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，编辑参数以使用 lowertop shadowrocket-first"
   },
   {
     "name": "Plugin2Rocket",
@@ -11900,7 +11900,7 @@
   {
     "name": "mtqq",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/Applet/Wechat/M/%E7%BE%8E%E5%9B%A2%E5%9C%88%E5%9C%88/mtqq.sgmodule",
-    "description": "> 美团圈圈<微信小程序> - MTQQ",
+    "description": "mtqq 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -11911,9 +11911,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FM%2F%25E7%25BE%258E%25E5%259B%25A2%25E5%259C%2588%25E5%259C%2588%2Fmtqq.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "mtqq > 美团圈圈<微信小程序> - mtqq zirawell r-store"
+    "_searchKeywords": "mtqq mtqq 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "meituanwm",
@@ -12152,7 +12152,7 @@
   {
     "name": "sd",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/Applet/Wechat/S/%E6%90%9C%E7%94%B5%E5%85%85%E7%94%B5/sd.sgmodule",
-    "description": "> 搜电充电<微信小程序> - SD",
+    "description": "sd 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "zirawell",
       "url": "https://github.com/zirawell",
@@ -12163,9 +12163,9 @@
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FS%2F%25E6%2590%259C%25E7%2594%25B5%25E5%2585%2585%25E7%2594%25B5%2Fsd.sgmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "sd > 搜电充电<微信小程序> - sd zirawell r-store"
+    "_searchKeywords": "sd sd 模块信息获取失败，请自行判断该模块的作用和有效性。 zirawell r-store"
   },
   {
     "name": "shouqianba",
@@ -13392,22 +13392,22 @@
     "_searchKeywords": "x(twitter)网页版去广告 移除网页版 x (twitter) 广告。 fmz200 wool_scripts"
   },
   {
-    "name": "广告拦截&净化合集",
+    "name": "blockAds",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/blockAds.srmodule",
-    "description": "(支持约730款APP/小程序)针对部分APP和小程序广告进行拦截，某些APP要清除缓存或者重新安装拦截广告才会生效！规则明细可以查看本插件的注释",
+    "description": "blockAds 模块信息获取失败，请自行判断该模块的作用和有效性。",
     "author": {
       "name": "fmz200",
       "url": "https://github.com/fmz200",
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AdblockPlus.png",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Ads.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2FblockAds.srmodule",
-    "isDubious": false,
+    "isDubious": true,
     "fromMyRepo": false,
-    "_searchKeywords": "广告拦截&净化合集 (支持约730款app/小程序)针对部分app和小程序广告进行拦截，某些app要清除缓存或者重新安装拦截广告才会生效！规则明细可以查看本插件的注释 fmz200 wool_scripts"
+    "_searchKeywords": "blockads blockads 模块信息获取失败，请自行判断该模块的作用和有效性。 fmz200 wool_scripts"
   },
   {
     "name": "HTTPDNS拦截器",
