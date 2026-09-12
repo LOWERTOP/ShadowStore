@@ -741,7 +741,7 @@ async function main() {
     const finalModules = await processModulesPool(sourceModules);
     const sortedResult = sortPinnedModules(finalModules);
 
-    const outputPath = path.join(__dirname, '..', 'modules.json');
+    const outputPath = path.join(__dirname, 'modules.json');
     fs.writeFileSync(outputPath, JSON.stringify(sortedResult, null, 2), 'utf-8');
     
     console.log(`✅ 构建完成！共输出 ${sortedResult.length} 个模块至 ${outputPath}`);
