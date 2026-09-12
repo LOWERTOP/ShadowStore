@@ -12,6 +12,11 @@ on:
       - 'scripts/**'
       - '.github/workflows/sync-modules.yml'
 
+# 防止多个自动化同时构建并提交 modules.json
+concurrency:
+  group: shadowstore-sync-modules
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
