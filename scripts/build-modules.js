@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 针对 README 默认分支设计，负责拉取各开源仓库、解析元数据、匹配图标并生成 modules.json
+ * 负责拉取各开源仓库、解析元数据、匹配图标并生成 modules.json
  */
 
 const fs = require('fs');
