@@ -324,6 +324,10 @@
             align-items: baseline; 
             text-decoration: none; 
             transition: opacity 0.2s ease; 
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
         }
         .title a:hover { opacity: 0.88; }
 
@@ -334,6 +338,7 @@
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
+            -webkit-user-drag: none;
             cursor: pointer;
         }
 
@@ -2247,13 +2252,28 @@
             titleShadowEl.addEventListener("mouseup", cancelLongPress);
             titleShadowEl.addEventListener("mouseleave", cancelLongPress);
 
-            titleShadowEl.closest("a")?.addEventListener("click", (e) => {
-                if (isLongPressTriggered) {
+            titleShadowEl.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
+
+            const parentAnchor = titleShadowEl.closest("a");
+            if (parentAnchor) {
+                parentAnchor.addEventListener("contextmenu", (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    isLongPressTriggered = false;
-                }
-            });
+                    return false;
+                });
+
+                parentAnchor.addEventListener("click", (e) => {
+                    if (isLongPressTriggered) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        isLongPressTriggered = false;
+                    }
+                });
+            }
         }
 
         clientBtns.forEach(btn => {
