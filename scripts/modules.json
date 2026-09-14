@@ -432,24 +432,6 @@
     "_searchKeywords": "plugin2rocket 将可莉插件中心转换给小火箭使用; 插件中心 https://hub.kelee.one ; 此版集成script-hub，若有侵权可联系我们立马删除 iab0x00 proxyrules"
   },
   {
-    "name": "wloc",
-    "rawURL": "https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/modules/wloc.module",
-    "description": "wloc 模块信息获取失败，请自行判断该模块的作用和有效性。",
-    "author": {
-      "name": "Yu9191",
-      "url": "https://github.com/Yu9191",
-      "username": "Yu9191"
-    },
-    "authorAvatar": "https://github.com/Yu9191.png?size=64",
-    "icon": "",
-    "sourceName": "wloc",
-    "sourceURL": "https://github.com/Yu9191/wloc",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FYu9191%2Fwloc%2Frefs%2Fheads%2Fmain%2Fmodules%2Fwloc.module",
-    "isDubious": true,
-    "fromMyRepo": true,
-    "_searchKeywords": "wloc wloc 模块信息获取失败，请自行判断该模块的作用和有效性。 yu9191 wloc"
-  },
-  {
     "name": "YouTubeNoAds",
     "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/YouTubeNoAd.sgmodule",
     "description": "YouTube Enhance & AdsBlock",
