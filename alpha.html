@@ -51,7 +51,7 @@
     </script>
 
     <link rel="icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_03.png">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_01.png">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_01_512.png">
 
     <style>
         :root, [data-theme="light"] {
@@ -114,7 +114,7 @@
             --text-secondary: #7e8596;
             --text-tertiary: #a1a9ba;
 
-            --primary: #0891b2; 
+            --primary: #06b6d4; 
             --primary-soft: rgba(6, 182, 212, 0.15);
 
             --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
@@ -157,7 +157,7 @@
             --text-secondary: #939aa8;
             --text-tertiary: #6b7280;
 
-            --primary: #0891b2; 
+            --primary: #06b6d4; 
             --primary-soft: rgba(6, 182, 212, 0.2);
 
             --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
@@ -336,7 +336,7 @@
 
         .title-shadow {
             font-weight: 300;
-            color: #0891b2;
+            color: #06b6d4;
             transition: color 0.4s ease;
         }
 
@@ -359,7 +359,7 @@
             padding: 0 6px;
             border-radius: var(--radius-pill); 
             background: rgba(6, 182, 212, 0.12);
-            color: #0891b2; 
+            color: #06b6d4; 
             font-size: 10px; 
             font-weight: 600; 
             letter-spacing: 0.3px;
@@ -544,7 +544,7 @@
         .tab-item:not(.active):hover,
         .tab-item:not(.active):active,
         .tab-item:not(.active):focus-visible {
-            color: #0891b2;
+            color: #06b6d4;
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
@@ -621,7 +621,7 @@
         .standalone-list-btn:active,
         .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
-            color: #0891b2;
+            color: #06b6d4;
             box-shadow: var(--shadow-glass-ui) !important;
         }
         [data-theme="dark"] .standalone-list-btn:hover,
@@ -694,7 +694,7 @@
         
         .search-clear-btn:hover,
         .search-clear-btn:active {
-            color: #0891b2;
+            color: #06b6d4;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
         }
@@ -709,7 +709,7 @@
         }
         .search-submit-btn:hover,
         .search-submit-btn:active {
-            color: #0891b2;
+            color: #06b6d4;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
         }
@@ -818,7 +818,7 @@
             transform: scale(1) !important;
             box-shadow: var(--shadow-search) !important;
             background-image: var(--noise-pattern), var(--glass-bg) !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
         [data-theme="dark"] .back-to-top-btn.visible:hover,
         [data-theme="dark"] .back-to-top-btn.visible:active {
@@ -1033,7 +1033,7 @@
         
         .button-secondary { 
             background: transparent !important; 
-            color: #0891b2; 
+            color: #06b6d4; 
             border: none !important; 
             box-shadow: none !important; 
             padding: 0 16px;
@@ -1049,7 +1049,7 @@
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
         [data-theme="dark"] .button-secondary:hover,
         [data-theme="dark"] .button-secondary:active,
@@ -1261,7 +1261,7 @@
             flex-direction: column;
             padding: 28px;
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-glass-ui);
+            box-shadow: var(--shadow-tab-bar-bottom);
             background-color: transparent;
             background-image: var(--noise-pattern), var(--glass-bg);
             backdrop-filter: blur(32px) saturate(120%) brightness(102%);
@@ -1300,8 +1300,8 @@
             padding-bottom: 24px;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 1) calc(100% - 24px), transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
         }
         .alphabet-scroll-area::-webkit-scrollbar {
             display: none;
@@ -1313,6 +1313,7 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
+            contain: content;
         }
 
         .alphabet-letter-header {
@@ -1400,7 +1401,7 @@
         .alphabet-item-row:focus-visible {
             background: transparent !important;
             transform: none !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
 
         [data-theme="dark"] .alphabet-item-row:hover,
@@ -1466,7 +1467,7 @@
             height: 100%;
             padding: 8px 0;
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-glass-ui);
+            box-shadow: var(--shadow-tab-bar-bottom);
             box-sizing: border-box;
             background-color: transparent;
             background-image: var(--noise-pattern), var(--glass-bg);
@@ -1553,12 +1554,7 @@
             transform: translate3d(0, -50%, 0);
             transition: opacity 0.12s ease, visibility 0.12s ease;
             z-index: 20;
-            box-shadow: none !important;
-            background: var(--primary-soft) !important;
-            background-image: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border: 1px solid var(--primary) !important;
+            box-shadow: var(--shadow-tab-bar-bottom);
             will-change: transform, opacity;
         }
 
@@ -1627,7 +1623,7 @@
                 transform: none !important;
                 box-shadow: none !important;
                 background: transparent !important;
-                color: #0891b2 !important;
+                color: #06b6d4 !important;
             }
             [data-theme="dark"] .button-secondary,
             [data-theme="dark"] .button-secondary:hover,
@@ -1679,6 +1675,20 @@
             .source-link:hover:not(.source-link-static) {
                 color: var(--text-secondary) !important;
                 text-decoration: none !important;
+            }
+
+            .standalone-list-btn:not(.active),
+            .standalone-list-btn:not(.active):hover,
+            .standalone-list-btn:not(.active):active,
+            .standalone-list-btn:not(.active):focus,
+            .standalone-list-btn:not(.active):focus-visible {
+                color: var(--text-secondary) !important;
+            }
+            .standalone-list-btn.active {
+                color: #06b6d4 !important;
+            }
+            [data-theme="dark"] .standalone-list-btn.active {
+                color: #22d3ee !important;
             }
         }
 
@@ -1766,7 +1776,7 @@
                         <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索资源">
                         
                         <div id="placeholderTrack" class="placeholder-track">
-                            <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
+                            <div class="placeholder-item">输入关键词回车或点击搜索</div>
                             <div class="placeholder-item">相关资源均来源于开源社区</div>
                             <div class="placeholder-item">所有权利责任归原作者所有</div>
                         </div>
@@ -1825,7 +1835,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609091252"; 
+        const CACHE_VERSION = "202609141530"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/scripts/modules.json", 
@@ -1854,6 +1864,7 @@
         ];
 
         const pinyinCharCache = new Map();
+        const iconSvgCache = new Map();
 
         function clearSiteDataCache() {
             try {
@@ -1979,7 +1990,8 @@
             focusedModuleId: null,
             activeTab: "module",
             statusKey: "syncing",
-            isAlphabetRendered: false
+            isAlphabetRendered: false,
+            isAlphabetPrebuilding: false
         };
 
         const moduleDataMap = new Map();
@@ -2008,7 +2020,7 @@
                     });
                 }, {
                     root: alphabetScrollArea,
-                    rootMargin: '100px 0px'
+                    rootMargin: '120px 0px'
                 });
             }
             return alphabetImgObserver;
@@ -2098,7 +2110,18 @@
         function normalizeModules(data) {
             if (!Array.isArray(data)) return [];
             return data
-                .filter(item => item && typeof item === "object" && !item.isDubious)
+                .filter(item => {
+                    if (!item || typeof item !== "object" || item.isDubious) return false;
+                    const desc = String(item.description || "").trim();
+                    if (
+                        desc.includes("模块信息获取失败，请自行判断该模块的作用和有效性。") || 
+                        desc.includes("模块信息获取失败") || 
+                        desc.includes("获取失败")
+                    ) {
+                        return false;
+                    }
+                    return true;
+                })
                 .map((m, idx) => {
                     const rawURL = safeURL(m.rawURL || m.url || "");
                     const authorName = m.author?.name || m.author?.username || "";
@@ -2175,8 +2198,12 @@
         function createIOSAppIcon(name) {
             const cleanName = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
             const char = Array.from(cleanName)[0] || "模";
+            if (iconSvgCache.has(char)) return iconSvgCache.get(char);
+            
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="128" cy="128" r="128" fill="url(#g)"/><text x="128" y="128" text-anchor="middle" dominant-baseline="central" alignment-baseline="central" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,SF Pro Text,sans-serif" font-size="110" font-weight="700">${escapeHTML(char)}</text></svg>`;
-            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+            const url = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+            iconSvgCache.set(char, url);
+            return url;
         }
 
         modulesContainer.addEventListener("error", (e) => {
@@ -2404,7 +2431,7 @@
         }
 
         function renderAlphabetList() {
-            if (!alphabetScrollArea || !alphabetFastIndex) return;
+            if (!alphabetScrollArea || !alphabetFastIndex || state.isAlphabetRendered) return;
             
             if (alphabetImgObserver) alphabetImgObserver.disconnect();
             alphabetScrollArea.replaceChildren();
@@ -2412,37 +2439,40 @@
             alphabetGroupElements.clear();
 
             const observer = getAlphabetImgObserver();
-            const sorted = [...state.allModules].sort((a, b) => {
-                const letterA = a._initialLetter || "#";
-                const letterB = b._initialLetter || "#";
-                if (letterA === "#" && letterB !== "#") return -1;
-                if (letterA !== "#" && letterB === "#") return 1;
-                if (letterA !== letterB) return letterA.localeCompare(letterB);
-                return a.name.localeCompare(b.name, "zh-Hans-CN");
-            });
-
+            
             const groups = {};
-            sorted.forEach(item => {
-                const l = item._initialLetter || "#";
-                if (!groups[l]) groups[l] = [];
-                groups[l].push(item);
-            });
-
             const alphabetAll = ["#","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+            alphabetAll.forEach(char => groups[char] = []);
+
+            for (let i = 0; i < state.allModules.length; i++) {
+                const item = state.allModules[i];
+                const letter = item._initialLetter || "#";
+                if (groups[letter]) {
+                    groups[letter].push(item);
+                } else {
+                    groups["#"].push(item);
+                }
+            }
+
             const listFragment = document.createDocumentFragment();
             const indexFragment = document.createDocumentFragment();
 
-            alphabetAll.forEach(letter => {
+            for (let i = 0; i < alphabetAll.length; i++) {
+                const letter = alphabetAll[i];
                 const charEl = document.createElement("div");
                 charEl.className = "alphabet-fast-char";
                 charEl.textContent = letter;
                 charEl.dataset.letter = letter;
-                if (!groups[letter] || groups[letter].length === 0) {
+
+                const items = groups[letter];
+                if (!items || items.length === 0) {
                     charEl.classList.add("disabled");
                 }
                 indexFragment.appendChild(charEl);
 
-                if (groups[letter] && groups[letter].length > 0) {
+                if (items && items.length > 0) {
+                    items.sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
+
                     const groupContainer = document.createElement("div");
                     groupContainer.className = "alphabet-group";
                     alphabetGroupElements.set(letter, groupContainer);
@@ -2455,7 +2485,8 @@
                     const listEl = document.createElement("div");
                     listEl.className = "alphabet-item-list";
 
-                    groups[letter].forEach(mod => {
+                    for (let j = 0; j < items.length; j++) {
+                        const mod = items[j];
                         const row = document.createElement("div");
                         row.className = "alphabet-item-row";
                         row.setAttribute("role", "button");
@@ -2489,12 +2520,12 @@
                         });
 
                         listEl.appendChild(row);
-                    });
+                    }
 
                     groupContainer.appendChild(listEl);
                     listFragment.appendChild(groupContainer);
                 }
-            });
+            }
 
             alphabetFastIndex.appendChild(indexFragment);
             alphabetScrollArea.appendChild(listFragment);
@@ -2504,6 +2535,22 @@
             fastIndexCharHeight = 0;
             prepareFastIndexGeometry();
             updateAlphabetPosition();
+        }
+
+        function scheduleAlphabetPrebuild() {
+            if (state.isAlphabetRendered || state.isAlphabetPrebuilding || !state.allModules.length) return;
+            state.isAlphabetPrebuilding = true;
+
+            const run = () => {
+                renderAlphabetList();
+                state.isAlphabetPrebuilding = false;
+            };
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(run, { timeout: 1200 });
+            } else {
+                setTimeout(run, 400);
+            }
         }
 
         function scrollToAlphabetLetter(letter) {
@@ -2748,12 +2795,14 @@
                 return;
             }
             setListViewMode(false);
+            if (standaloneListBtn) standaloneListBtn.blur();
         });
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             if (state.isListView) {
                 setListViewMode(false);
+                standaloneListBtn.blur();
             } else {
                 ignoreNextClick = true;
                 searchInput.blur();
@@ -2765,6 +2814,7 @@
             state.focusedModuleId = null;
             if (state.isListView) {
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
             }
             switchWithFade(() => {
                 filterModules();
@@ -3013,6 +3063,7 @@
         function switchToTab(targetTab) {
             if (state.isListView) {
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
             }
             searchInput.blur();
             document.body.classList.remove("has-search-focus");
@@ -3200,11 +3251,15 @@
                 const deltaY = currentY - tabTouchStartY;
 
                 if (!isDragActive) {
+                    if (deltaY < -4 && Math.abs(deltaY) > Math.abs(deltaX) * 0.7) {
+                        isTabDragging = false;
+                        return;
+                    }
                     if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 7) {
                         isTabDragging = false;
                         return;
                     }
-                    if (Math.abs(deltaX) > 6) {
+                    if (Math.abs(deltaX) > 10) {
                         isDragActive = true;
                         isTabAnimating = true;
                     }
@@ -3224,6 +3279,9 @@
                 isTabAnimating = false;
 
                 if (!wasActive) {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
                     return;
                 }
 
@@ -3231,19 +3289,28 @@
 
                 tabIndicator.style.transition = 'transform 0.58s cubic-bezier(0.34, 1.85, 0.64, 1), width 0.48s cubic-bezier(0.34, 1.6, 0.64, 1)';
 
-                if (activeSnapTab) {
+                if (activeSnapTab && activeSnapTab !== state.activeTab) {
                     switchToTab(activeSnapTab);
                 } else {
+                    tabItems.forEach(t => {
+                        t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                    });
                     updateTabIndicator(true);
                 }
             };
 
             tabBarWrapperEl.addEventListener('touchend', finishDrag, { passive: false });
+
             tabBarWrapperEl.addEventListener('touchcancel', () => {
                 if (!isTabDragging) return;
                 isTabDragging = false;
                 isDragActive = false;
                 isTabAnimating = false;
+
+                tabItems.forEach(t => {
+                    t.classList.toggle("active", t.getAttribute("data-tab") === state.activeTab);
+                });
+
                 tabIndicator.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.55, 0.64, 1), width 0.4s ease';
                 updateTabIndicator(true);
             }, { passive: true });
@@ -3272,6 +3339,7 @@
                 searchInput.blur();
                 document.body.classList.remove("has-search-text", "has-search-focus");
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
                 switchWithFade(() => {
                     filterModules();
                 });
@@ -3281,8 +3349,6 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const mainP = document.getElementById("mainPlaceholder");
-            if (mainP) mainP.textContent = enabled ? "输入后按回车或点击搜索..." : "请在加载完成后执行搜索...";
 
             if (searchShortcut) {
                 searchShortcut.style.opacity = enabled ? "1" : "0.35";
@@ -3598,6 +3664,8 @@
             list.forEach(item => {
                 moduleDataMap.set(item.id, item);
             });
+            state.isAlphabetRendered = false;
+            scheduleAlphabetPrebuild();
         }
 
         async function loadModules(forceRefresh = false) {
