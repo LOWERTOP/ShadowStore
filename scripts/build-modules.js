@@ -728,7 +728,7 @@ async function main() {
     const localModules = parseRepositoryModules(repoMarkdown).map(m => ({ ...m, fromMyRepo: true }));
 
     const seenURLs = new Set();
-    let sourceModules = [...localModules, ...zirawellModules, ...fmzModules].filter(item => {
+    let sourceModules = [...localModules, ...fmzModules, ...zirawellModules].filter(item => {
         if (!item.rawURL || !/\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(item.rawURL) || seenURLs.has(item.rawURL.toLowerCase())) return false;
         seenURLs.add(item.rawURL.toLowerCase());
         return true;
