@@ -441,7 +441,7 @@
 
         .control-bar {
             position: sticky;
-            top: calc(env(safe-area-inset-top, 0px) + 30px);
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             display: grid;
             grid-template-columns: var(--card-width, 380px) 1fr;
@@ -452,6 +452,13 @@
             padding: 4px 0;
             background-color: transparent;
             transition: margin-bottom 0.35s ease;
+        }
+
+        /* 专门针对 PWA 模式调高顶部安全距离 */
+        html.is-pwa .control-bar,
+        html.is-pwa .control-bar.is-single-column {
+            /* 将这里的高度，改为 24px-32px，以避开顶部渐变遮罩 */
+            top: calc(env(safe-area-inset-top, 0px) + 28px); 
         }
 
         .tab-bar-wrapper {
@@ -1122,7 +1129,7 @@
         .control-bar.is-single-column {
             display: block;
             position: sticky;
-            top: calc(env(safe-area-inset-top, 0px) + 30px);
+            top: calc(env(safe-area-inset-top, 0px) + 8px);
             z-index: 999990;
             width: 100%;
             margin-bottom: 16px;
