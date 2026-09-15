@@ -2089,14 +2089,43 @@
         const titleShadowEl = document.getElementById("titleShadowText");
         const clientBtns = document.querySelectorAll(".client-modal-btn");
 
-        let currentClient = "Shadowrocket";
-        try {
-            const savedClient = localStorage.getItem("sr_client_target");
-            if (savedClient === "Shadowrocket" || savedClient === "Egern" || savedClient === "Surge") {
-                currentClient = savedClient;
-            }
-        } catch (e) {}
+let currentClient = "Shadowrocket";
+try {
+    // 1. 获取 URL 中的查询参数（例如 ?v=surge, ?c=egern 等）
+    const urlParams = new URLSearchParams(window.location.search);
+    // 这里支持了 v, c, client 三种参数名，你可以根据喜好决定，统一转为小写处理
+    const clientParam = (urlParams.get('v') || urlParams.get('c') || urlParams.get('client'))?.toLowerCase();
 
+    let targetClient = null;
+    if (clientParam === "surge") {
+        targetClient = "Surge";
+    } else if (clientParam === "egern") {
+        targetClient = "Egern";
+    } else if (clientParam === "shadowrocket" || clientParam === "shadow") {
+        targetClient = "Shadowrocket";
+    }
+
+    if (targetClient) {
+        // 2. 如果 URL 提供了有效参数，优先使用它并更新本地缓存
+        currentClient = targetClient;
+        localStorage.setItem("sr_client_target", currentClient);
+
+        // 3. (可选体验优化) 自动清理地址栏中的参数，让 URL 变回干净的状态
+        urlParams.delete('v');
+        urlParams.delete('c');
+        urlParams.delete('client');
+        const newSearch = urlParams.toString() ? '?' + urlParams.toString() : '';
+        const cleanUrl = window.location.pathname + newSearch + window.location.hash;
+        window.history.replaceState(null, '', cleanUrl);
+        
+    } else {
+        // 4. 如果没有提供参数，正常读取本地缓存
+        const savedClient = localStorage.getItem("sr_client_target");
+        if (savedClient === "Shadowrocket" || savedClient === "Egern" || savedClient === "Surge") {
+            currentClient = savedClient;
+        }
+    }
+} catch (e) {}
         const state = {
             allModules: [],
             rawNetworkData: [],
