@@ -9,8 +9,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#f0f2f5">
     
-    <title>ShadowStore</title>
+<title>ShadowStore</title>
 
+<meta name="description" content="Shadowrocket 开源社区资源聚合检索平台">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ShadowStore">
+<meta property="og:title" content="ShadowStore">
+<meta property="og:description" content="Shadowrocket 开源社区资源聚合检索平台">
+<meta property="og:url" content="https://shadowstore.dpdns.org/">
+<meta property="og:image" content="https://lowertop.github.io/Shadowrocket-First/img/ShadowStoreSocialPreview1280x640.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ShadowStore">
+<meta name="twitter:description" content="Shadowrocket 开源社区资源聚合检索平台">
+<meta name="twitter:image" content="https://lowertop.github.io/Shadowrocket-First/img/ShadowStoreSocialPreview1280x640.png">
+    
     <script>
         (function() {
             let theme = "light";
@@ -38,7 +57,7 @@
     </script>
 
     <link rel="icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_03.png">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_01.png">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_01_512.png">
 
     <style>
         :root, [data-theme="light"] {
@@ -101,7 +120,7 @@
             --text-secondary: #7e8596;
             --text-tertiary: #a1a9ba;
 
-            --primary: #0891b2; 
+            --primary: #06b6d4; 
             --primary-soft: rgba(6, 182, 212, 0.15);
 
             --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
@@ -144,7 +163,7 @@
             --text-secondary: #939aa8;
             --text-tertiary: #6b7280;
 
-            --primary: #0891b2; 
+            --primary: #06b6d4; 
             --primary-soft: rgba(6, 182, 212, 0.2);
 
             --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
@@ -323,7 +342,7 @@
 
         .title-shadow {
             font-weight: 300;
-            color: #0891b2;
+            color: #06b6d4;
             transition: color 0.4s ease;
         }
 
@@ -346,7 +365,7 @@
             padding: 0 6px;
             border-radius: var(--radius-pill); 
             background: rgba(6, 182, 212, 0.12);
-            color: #0891b2; 
+            color: #06b6d4; 
             font-size: 10px; 
             font-weight: 600; 
             letter-spacing: 0.3px;
@@ -441,6 +460,11 @@
             transition: margin-bottom 0.35s ease;
         }
 
+        html.is-pwa .control-bar,
+        html.is-pwa .control-bar.is-single-column {
+            top: calc(env(safe-area-inset-top, 0px) + 28px); 
+        }
+
         .tab-bar-wrapper {
             min-width: 0;
             height: 44px;
@@ -531,7 +555,7 @@
         .tab-item:not(.active):hover,
         .tab-item:not(.active):active,
         .tab-item:not(.active):focus-visible {
-            color: #0891b2;
+            color: #06b6d4;
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
@@ -608,7 +632,7 @@
         .standalone-list-btn:active,
         .standalone-list-btn:focus-visible,
         .standalone-list-btn.active {
-            color: #0891b2;
+            color: #06b6d4;
             box-shadow: var(--shadow-glass-ui) !important;
         }
         [data-theme="dark"] .standalone-list-btn:hover,
@@ -681,7 +705,7 @@
         
         .search-clear-btn:hover,
         .search-clear-btn:active {
-            color: #0891b2;
+            color: #06b6d4;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
         }
@@ -696,7 +720,7 @@
         }
         .search-submit-btn:hover,
         .search-submit-btn:active {
-            color: #0891b2;
+            color: #06b6d4;
             background-color: transparent !important;
             border-color: var(--border-subtle) !important;
         }
@@ -805,7 +829,7 @@
             transform: scale(1) !important;
             box-shadow: var(--shadow-search) !important;
             background-image: var(--noise-pattern), var(--glass-bg) !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
         [data-theme="dark"] .back-to-top-btn.visible:hover,
         [data-theme="dark"] .back-to-top-btn.visible:active {
@@ -849,6 +873,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 准虚拟化优化：跳过远离视口卡片的重排重绘 */
         .module-card { 
             position: relative; 
             z-index: 10;
@@ -868,6 +893,8 @@
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                 background-image 0.4s ease;
             -webkit-transform: translateZ(0); transform: translateZ(0); 
+            content-visibility: auto;
+            contain-intrinsic-size: 380px 220px;
         }
 
         @media (hover: hover) and (pointer: fine) and (min-width: 861px) {
@@ -1020,7 +1047,7 @@
         
         .button-secondary { 
             background: transparent !important; 
-            color: #0891b2; 
+            color: #06b6d4; 
             border: none !important; 
             box-shadow: none !important; 
             padding: 0 16px;
@@ -1036,7 +1063,7 @@
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
         [data-theme="dark"] .button-secondary:hover,
         [data-theme="dark"] .button-secondary:active,
@@ -1248,7 +1275,7 @@
             flex-direction: column;
             padding: 28px;
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-glass-ui);
+            box-shadow: var(--shadow-tab-bar-bottom);
             background-color: transparent;
             background-image: var(--noise-pattern), var(--glass-bg);
             backdrop-filter: blur(32px) saturate(120%) brightness(102%);
@@ -1300,6 +1327,7 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
+            contain: content;
         }
 
         .alphabet-letter-header {
@@ -1387,7 +1415,7 @@
         .alphabet-item-row:focus-visible {
             background: transparent !important;
             transform: none !important;
-            color: #0891b2;
+            color: #06b6d4;
         }
 
         [data-theme="dark"] .alphabet-item-row:hover,
@@ -1453,7 +1481,7 @@
             height: 100%;
             padding: 8px 0;
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-glass-ui);
+            box-shadow: var(--shadow-tab-bar-bottom);
             box-sizing: border-box;
             background-color: transparent;
             background-image: var(--noise-pattern), var(--glass-bg);
@@ -1540,12 +1568,7 @@
             transform: translate3d(0, -50%, 0);
             transition: opacity 0.12s ease, visibility 0.12s ease;
             z-index: 20;
-            box-shadow: none !important;
-            background: var(--primary-soft) !important;
-            background-image: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border: 1px solid var(--primary) !important;
+            box-shadow: var(--shadow-tab-bar-bottom);
             will-change: transform, opacity;
         }
 
@@ -1614,7 +1637,7 @@
                 transform: none !important;
                 box-shadow: none !important;
                 background: transparent !important;
-                color: #0891b2 !important;
+                color: #06b6d4 !important;
             }
             [data-theme="dark"] .button-secondary,
             [data-theme="dark"] .button-secondary:hover,
@@ -1666,6 +1689,20 @@
             .source-link:hover:not(.source-link-static) {
                 color: var(--text-secondary) !important;
                 text-decoration: none !important;
+            }
+
+            .standalone-list-btn:not(.active),
+            .standalone-list-btn:not(.active):hover,
+            .standalone-list-btn:not(.active):active,
+            .standalone-list-btn:not(.active):focus,
+            .standalone-list-btn:not(.active):focus-visible {
+                color: var(--text-secondary) !important;
+            }
+            .standalone-list-btn.active {
+                color: #06b6d4 !important;
+            }
+            [data-theme="dark"] .standalone-list-btn.active {
+                color: #22d3ee !important;
             }
         }
 
@@ -1753,7 +1790,7 @@
                         <input id="search" class="search" type="text" inputmode="search" placeholder=" " autocomplete="off" spellcheck="false" aria-label="搜索资源">
                         
                         <div id="placeholderTrack" class="placeholder-track">
-                            <div id="mainPlaceholder" class="placeholder-item">请在加载完成后执行搜索...</div>
+                            <div class="placeholder-item">输入关键词回车或点击搜索</div>
                             <div class="placeholder-item">相关资源均来源于开源社区</div>
                             <div class="placeholder-item">所有权利责任归原作者所有</div>
                         </div>
@@ -1812,13 +1849,14 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609091252"; 
+        const CACHE_VERSION = "202609151530"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/scripts/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
-            CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
+            CACHE_MAX_AGE: 6 * 60 * 60 * 1000,
+            FETCH_TIMEOUT: 8000
         };
 
         const STATUS_MESSAGES = {
@@ -1831,6 +1869,57 @@
             errorStatic: "在线资源同步失败，已展示核心入口"
         };
 
+        // 轻量 Service Worker 缓存静态资源
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            window.addEventListener('load', () => {
+                const swContent = `
+                    const SW_CACHE = 'shadowstore-v1';
+                    self.addEventListener('install', e => self.skipWaiting());
+                    self.addEventListener('activate', e => clients.claim());
+                    self.addEventListener('fetch', e => {
+                        if (e.request.destination === 'image' || e.request.url.includes('/img/')) {
+                            e.respondWith(
+                                caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+                                    const clone = res.clone();
+                                    caches.open(SW_CACHE).then(c => c.put(e.request, clone));
+                                    return res;
+                                }))
+                            );
+                        }
+                    });
+                `;
+                const blob = new Blob([swContent], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+            });
+        }
+
+        // 内联 Web Worker 检索模块
+        const workerScript = `
+            let searchDataset = [];
+            self.onmessage = function(e) {
+                const { type, data, keyword, activeTab } = e.data;
+                if (type === 'SET_DATA') {
+                    searchDataset = data;
+                } else if (type === 'SEARCH') {
+                    const kw = (keyword || '').trim().toLowerCase();
+                    let res = [];
+                    if (kw) {
+                        res = searchDataset.filter(m => m._searchText && m._searchText.includes(kw));
+                    } else {
+                        res = searchDataset.filter(m => (m.category || 'module') === activeTab);
+                    }
+                    self.postMessage({ type: 'SEARCH_RESULT', results: res, keyword });
+                }
+            };
+        `;
+        let searchWorker = null;
+        try {
+            const workerBlob = new Blob([workerScript], { type: 'application/javascript' });
+            searchWorker = new Worker(URL.createObjectURL(workerBlob));
+        } catch (e) {
+            console.warn("Worker 初始化降级至主线程处理");
+        }
+
         const PINYIN_TABLE = [
             { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
             { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
@@ -1840,7 +1929,11 @@
             { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
         ];
 
+        const pinyinCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl.Collator("zh-Hans-CN-u-co-pinyin") : null;
+        const defaultZhCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl.Collator("zh-Hans-CN") : null;
+
         const pinyinCharCache = new Map();
+        const iconSvgCache = new Map();
 
         function clearSiteDataCache() {
             try {
@@ -1966,7 +2059,8 @@
             focusedModuleId: null,
             activeTab: "module",
             statusKey: "syncing",
-            isAlphabetRendered: false
+            isAlphabetRendered: false,
+            isAlphabetPrebuilding: false
         };
 
         const moduleDataMap = new Map();
@@ -1995,7 +2089,7 @@
                     });
                 }, {
                     root: alphabetScrollArea,
-                    rootMargin: '100px 0px'
+                    rootMargin: '120px 0px'
                 });
             }
             return alphabetImgObserver;
@@ -2040,7 +2134,11 @@
                 let res = "#";
                 try {
                     for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
-                        if (first.localeCompare(PINYIN_TABLE[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
+                        const targetChar = PINYIN_TABLE[i].c;
+                        const cmp = pinyinCollator 
+                            ? pinyinCollator.compare(first, targetChar)
+                            : first.localeCompare(targetChar, "zh-Hans-CN-u-co-pinyin");
+                        if (cmp >= 0) {
                             res = PINYIN_TABLE[i].l;
                             break;
                         }
@@ -2056,8 +2154,9 @@
             return STATIC_RESOURCES_DATA
                 .filter(item => !item.isDubious)
                 .map((item, idx) => {
+                    const authorName = item.author?.name || "";
                     const searchTokens = [
-                        item.name, item.description, item.author.name,
+                        item.name, item.description, authorName,
                         item.sourceName, item.category
                     ].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
@@ -2066,13 +2165,17 @@
                         name: item.name,
                         category: item.category || "more",
                         description: item.description,
-                        icon: item.icon,
-                        author: item.author,
-                        authorAvatar: item.authorAvatar,
+                        icon: safeURL(item.icon),
+                        author: {
+                            name: authorName,
+                            url: safeURL(item.author?.url),
+                            username: item.author?.username || ""
+                        },
+                        authorAvatar: safeURL(item.authorAvatar),
                         sourceName: item.sourceName,
-                        sourceURL: item.sourceURL,
-                        rawURL: item.rawURL,
-                        installURL: item.installURL,
+                        sourceURL: safeURL(item.sourceURL),
+                        rawURL: safeURL(item.rawURL),
+                        installURL: safeInstallURL(item.installURL),
                         isDubious: false,
                         isRepoCard: item.isRepoCard,
                         primaryBtnText: item.primaryBtnText,
@@ -2085,11 +2188,22 @@
         function normalizeModules(data) {
             if (!Array.isArray(data)) return [];
             return data
-                .filter(item => item && typeof item === "object" && !item.isDubious)
+                .filter(item => {
+                    if (!item || typeof item !== "object" || item.isDubious) return false;
+                    const desc = String(item.description || "").trim();
+                    if (
+                        desc.includes("模块信息获取失败，请自行判断该模块的作用和有效性。") || 
+                        desc.includes("模块信息获取失败") || 
+                        desc.includes("获取失败")
+                    ) {
+                        return false;
+                    }
+                    return true;
+                })
                 .map((m, idx) => {
                     const rawURL = safeURL(m.rawURL || m.url || "");
                     const authorName = m.author?.name || m.author?.username || "";
-                    const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${m.author.username}` : ""));
+                    const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${encodeURIComponent(m.author.username)}` : ""));
                     const authorAvatar = safeURL(m.authorAvatar || m.author?.avatar || "");
                     const sourceName = m.sourceName || "开源仓库";
                     const sourceURL = safeURL(m.sourceURL || "");
@@ -2140,21 +2254,25 @@
         }
 
         async function copyToClipboard(text) {
-            try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
+            if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+                try {
                     await navigator.clipboard.writeText(text);
                     return true;
-                }
-            } catch (e) {}
+                } catch (e) {}
+            }
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.left = "-9999px";
             textArea.style.opacity = "0";
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
             let success = false;
-            try { success = document.execCommand("copy"); } catch (e) {}
+            try { 
+                success = document.execCommand("copy"); 
+            } catch (e) {}
             document.body.removeChild(textArea);
             return success;
         }
@@ -2162,8 +2280,12 @@
         function createIOSAppIcon(name) {
             const cleanName = (name || "").trim().replace(/^[\[\(\{#_\-\s【（〔［]+/, "");
             const char = Array.from(cleanName)[0] || "模";
+            if (iconSvgCache.has(char)) return iconSvgCache.get(char);
+            
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="128" cy="128" r="128" fill="url(#g)"/><text x="128" y="128" text-anchor="middle" dominant-baseline="central" alignment-baseline="central" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,SF Pro Text,sans-serif" font-size="110" font-weight="700">${escapeHTML(char)}</text></svg>`;
-            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+            const url = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+            iconSvgCache.set(char, url);
+            return url;
         }
 
         modulesContainer.addEventListener("error", (e) => {
@@ -2202,7 +2324,42 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
+        // 小火箭协议唤起超时智能降级
+        document.addEventListener("click", (e) => {
+            const installBtn = e.target.closest('a[href^="shadowrocket://"]');
+            if (!installBtn) return;
+
+            e.preventDefault();
+            const targetUrl = installBtn.getAttribute("href");
+            const card = installBtn.closest(".module-card");
+            const rawUrl = card?.querySelector(".copy-btn")?.getAttribute("data-url");
+
+            let hasAppOpened = false;
+            const blurHandler = () => { hasAppOpened = true; };
+
+            window.addEventListener("pagehide", blurHandler, { once: true });
+            window.addEventListener("blur", blurHandler, { once: true });
+
+            window.location.href = targetUrl;
+
+            setTimeout(async () => {
+                window.removeEventListener("pagehide", blurHandler);
+                window.removeEventListener("blur", blurHandler);
+
+                if (!hasAppOpened && !document.hidden) {
+                    if (rawUrl) {
+                        await copyToClipboard(rawUrl);
+                        showToast("未调起客户端，已自动复制直链");
+                    } else {
+                        showToast("唤起失败，请确认是否已安装小火箭");
+                    }
+                }
+            }, 1600);
+        });
+
+        let cachedStickyOffset = null;
         function getControlBarStickyScrollTop() {
+            if (cachedStickyOffset !== null) return cachedStickyOffset;
             const header = document.querySelector(".header");
             if (!header) return 0;
 
@@ -2211,12 +2368,8 @@
             const headerBottomDocTop = headerRect.bottom + currentScroll;
             const stickyTop = parseFloat(getComputedStyle(controlBarEl).top) || 12;
 
-            return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
-        }
-
-        function isSearchFloating() {
-            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-            return currentScrollY >= (getControlBarStickyScrollTop() - 4);
+            cachedStickyOffset = Math.max(0, Math.round(headerBottomDocTop - stickyTop));
+            return cachedStickyOffset;
         }
 
         function floatSearchToTarget(smooth = false) {
@@ -2297,6 +2450,7 @@
 
         function scheduleLayoutUpdate() {
             layoutColumnsCache = 0;
+            cachedStickyOffset = null;
             if (layoutRaf) return;
 
             layoutRaf = requestAnimationFrame(() => {
@@ -2340,8 +2494,9 @@
         }, { passive: true });
 
         if (typeof ResizeObserver !== "undefined") {
-            if (modulesContainer) new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
-            if (tabBarEl) new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
+            const observerInstance = new ResizeObserver(scheduleLayoutUpdate);
+            if (modulesContainer) observerInstance.observe(modulesContainer);
+            if (tabBarEl) observerInstance.observe(tabBarEl);
         }
 
         function updateStandaloneButtonState() {
@@ -2391,7 +2546,7 @@
         }
 
         function renderAlphabetList() {
-            if (!alphabetScrollArea || !alphabetFastIndex) return;
+            if (!alphabetScrollArea || !alphabetFastIndex || state.isAlphabetRendered) return;
             
             if (alphabetImgObserver) alphabetImgObserver.disconnect();
             alphabetScrollArea.replaceChildren();
@@ -2399,37 +2554,44 @@
             alphabetGroupElements.clear();
 
             const observer = getAlphabetImgObserver();
-            const sorted = [...state.allModules].sort((a, b) => {
-                const letterA = a._initialLetter || "#";
-                const letterB = b._initialLetter || "#";
-                if (letterA === "#" && letterB !== "#") return -1;
-                if (letterA !== "#" && letterB === "#") return 1;
-                if (letterA !== letterB) return letterA.localeCompare(letterB);
-                return a.name.localeCompare(b.name, "zh-Hans-CN");
-            });
-
+            
             const groups = {};
-            sorted.forEach(item => {
-                const l = item._initialLetter || "#";
-                if (!groups[l]) groups[l] = [];
-                groups[l].push(item);
-            });
-
             const alphabetAll = ["#","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+            alphabetAll.forEach(char => groups[char] = []);
+
+            for (let i = 0; i < state.allModules.length; i++) {
+                const item = state.allModules[i];
+                const letter = item._initialLetter || "#";
+                if (groups[letter]) {
+                    groups[letter].push(item);
+                } else {
+                    groups["#"].push(item);
+                }
+            }
+
             const listFragment = document.createDocumentFragment();
             const indexFragment = document.createDocumentFragment();
 
-            alphabetAll.forEach(letter => {
+            for (let i = 0; i < alphabetAll.length; i++) {
+                const letter = alphabetAll[i];
                 const charEl = document.createElement("div");
                 charEl.className = "alphabet-fast-char";
                 charEl.textContent = letter;
                 charEl.dataset.letter = letter;
-                if (!groups[letter] || groups[letter].length === 0) {
+
+                const items = groups[letter];
+                if (!items || items.length === 0) {
                     charEl.classList.add("disabled");
                 }
                 indexFragment.appendChild(charEl);
 
-                if (groups[letter] && groups[letter].length > 0) {
+                if (items && items.length > 0) {
+                    if (defaultZhCollator) {
+                        items.sort((a, b) => defaultZhCollator.compare(a.name, b.name));
+                    } else {
+                        items.sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
+                    }
+
                     const groupContainer = document.createElement("div");
                     groupContainer.className = "alphabet-group";
                     alphabetGroupElements.set(letter, groupContainer);
@@ -2442,11 +2604,13 @@
                     const listEl = document.createElement("div");
                     listEl.className = "alphabet-item-list";
 
-                    groups[letter].forEach(mod => {
+                    for (let j = 0; j < items.length; j++) {
+                        const mod = items[j];
                         const row = document.createElement("div");
                         row.className = "alphabet-item-row";
                         row.setAttribute("role", "button");
                         row.setAttribute("tabindex", "0");
+                        row.dataset.modId = mod.id;
                         
                         const fallbackIcon = createIOSAppIcon(mod.name);
                         const hasRemoteIcon = Boolean(mod.icon);
@@ -2470,18 +2634,13 @@
                             else imgEl.src = mod.icon;
                         }
 
-                        row.addEventListener("click", (e) => {
-                            e.preventDefault();
-                            focusSingleResource(mod);
-                        });
-
                         listEl.appendChild(row);
-                    });
+                    }
 
                     groupContainer.appendChild(listEl);
                     listFragment.appendChild(groupContainer);
                 }
-            });
+            }
 
             alphabetFastIndex.appendChild(indexFragment);
             alphabetScrollArea.appendChild(listFragment);
@@ -2491,6 +2650,34 @@
             fastIndexCharHeight = 0;
             prepareFastIndexGeometry();
             updateAlphabetPosition();
+        }
+
+        // 事件委托绑定字母列表项点击
+        if (alphabetScrollArea) {
+            alphabetScrollArea.addEventListener("click", (e) => {
+                const row = e.target.closest(".alphabet-item-row");
+                if (!row) return;
+                e.preventDefault();
+                const modId = row.dataset.modId;
+                const mod = moduleDataMap.get(modId);
+                if (mod) focusSingleResource(mod);
+            });
+        }
+
+        function scheduleAlphabetPrebuild() {
+            if (state.isAlphabetRendered || state.isAlphabetPrebuilding || !state.allModules.length) return;
+            state.isAlphabetPrebuilding = true;
+
+            const run = () => {
+                renderAlphabetList();
+                state.isAlphabetPrebuilding = false;
+            };
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(run, { timeout: 1200 });
+            } else {
+                setTimeout(run, 400);
+            }
         }
 
         function scrollToAlphabetLetter(letter) {
@@ -2735,12 +2922,14 @@
                 return;
             }
             setListViewMode(false);
+            if (standaloneListBtn) standaloneListBtn.blur();
         });
 
         standaloneListBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             if (state.isListView) {
                 setListViewMode(false);
+                standaloneListBtn.blur();
             } else {
                 ignoreNextClick = true;
                 searchInput.blur();
@@ -2752,6 +2941,7 @@
             state.focusedModuleId = null;
             if (state.isListView) {
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
             }
             switchWithFade(() => {
                 filterModules();
@@ -2967,6 +3157,17 @@
         }, { rootMargin: "300px" });
         observer.observe(sentinel);
 
+        // 接收 Worker 异步检索结果
+        if (searchWorker) {
+            searchWorker.onmessage = function(e) {
+                if (e.data.type === 'SEARCH_RESULT') {
+                    const { results, keyword } = e.data;
+                    const currentLabel = keyword ? TAB_NAMES.more : (TAB_NAMES[state.activeTab] || TAB_NAMES.more);
+                    renderFilteredList(results, currentLabel);
+                }
+            };
+        }
+
         function filterModules() {
             if (state.isInitialLoading) {
                 renderFilteredList([]);
@@ -2977,16 +3178,34 @@
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
 
-            let result = [];
-            if (keyword) {
-                result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
-                renderFilteredList(result, TAB_NAMES.more);
+            if (searchWorker) {
+                searchWorker.postMessage({
+                    type: 'SEARCH',
+                    keyword: keyword,
+                    activeTab: state.activeTab
+                });
             } else {
-                result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
-                const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
-                renderFilteredList(result, currentLabel);
+                let result = [];
+                if (keyword) {
+                    result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
+                    renderFilteredList(result, TAB_NAMES.more);
+                } else {
+                    result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
+                    const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
+                    renderFilteredList(result, currentLabel);
+                }
             }
         }
+
+        // 防抖函数
+        function debounce(fn, delay = 200) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+        const debouncedFilterModules = debounce(filterModules, 180);
 
         function switchWithFade(renderCallback) {
             clearTimeout(modulesFadeTimer);
@@ -3000,6 +3219,7 @@
         function switchToTab(targetTab) {
             if (state.isListView) {
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
             }
             searchInput.blur();
             document.body.classList.remove("has-search-focus");
@@ -3255,6 +3475,7 @@
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
+            debouncedFilterModules();
         });
 
         searchInput.addEventListener("keydown", (e) => {
@@ -3266,6 +3487,10 @@
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
+                const tag = document.activeElement ? document.activeElement.tagName : "";
+                if (tag === "INPUT" || tag === "TEXTAREA" || (document.activeElement && document.activeElement.isContentEditable)) {
+                    return;
+                }
                 e.preventDefault();
                 searchInput.focus();
                 searchInput.select();
@@ -3275,6 +3500,7 @@
                 searchInput.blur();
                 document.body.classList.remove("has-search-text", "has-search-focus");
                 setListViewMode(false);
+                if (standaloneListBtn) standaloneListBtn.blur();
                 switchWithFade(() => {
                     filterModules();
                 });
@@ -3284,8 +3510,6 @@
 
         function setSearchState(enabled) {
             searchInput.disabled = !enabled;
-            const mainP = document.getElementById("mainPlaceholder");
-            if (mainP) mainP.textContent = enabled ? "输入后按回车或点击搜索..." : "请在加载完成后执行搜索...";
 
             if (searchShortcut) {
                 searchShortcut.style.opacity = enabled ? "1" : "0.35";
@@ -3601,8 +3825,14 @@
             list.forEach(item => {
                 moduleDataMap.set(item.id, item);
             });
+            if (searchWorker) {
+                searchWorker.postMessage({ type: 'SET_DATA', data: list });
+            }
+            state.isAlphabetRendered = false;
+            scheduleAlphabetPrebuild();
         }
 
+        // Stale-While-Revalidate (SWR) 数据加载机制
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
@@ -3614,6 +3844,7 @@
 
             let hasRenderedCache = false;
 
+            // 1. SWR - 优先呈现本地旧缓存 (Stale)
             if (!forceRefresh && cachedData) {
                 try {
                     const parsed = JSON.parse(cachedData);
@@ -3632,7 +3863,6 @@
                             state.statusKey = "ready";
                             statusText.textContent = "已就绪";
                             statusDot.className = "status-dot";
-                            return true;
                         }
                     }
                 } catch (e) {
@@ -3646,36 +3876,54 @@
                 statusDot.className = "status-dot loading";
             }
 
+            // 2. SWR - 后台验证并同步最新云端数据 (Revalidate)
+            const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+            const timeoutId = controller ? setTimeout(() => controller.abort(), CONFIG.FETCH_TIMEOUT) : null;
+
             try {
                 const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
+                const response = await fetch(fetchUrl, { 
+                    cache: forceRefresh ? "no-store" : "default",
+                    signal: controller ? controller.signal : undefined
+                });
+                if (timeoutId) clearTimeout(timeoutId);
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const data = await response.json();
                 if (!Array.isArray(data) || !data.length) throw new Error("资源列表为空");
 
-                state.rawNetworkData = data;
-                const normalized = normalizeModules(data);
-                if (!normalized.length) throw new Error("未解析到有效资源数据");
+                const freshStr = JSON.stringify(data);
+                const isDataChanged = freshStr !== cachedData;
 
-                updateAllModules([...staticItems, ...normalized]);
-                state.isAlphabetRendered = false;
-                state.isInitialLoading = false;
-                state.isDataLoading = false;
-                
-                filterModules();
-                setSearchState(true);
+                if (isDataChanged || !hasRenderedCache) {
+                    state.rawNetworkData = data;
+                    const normalized = normalizeModules(data);
+                    if (!normalized.length) throw new Error("未解析到有效资源数据");
 
-                try {
-                    localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
-                } catch (e) {}
+                    updateAllModules([...staticItems, ...normalized]);
+                    state.isAlphabetRendered = false;
+                    state.isInitialLoading = false;
+                    state.isDataLoading = false;
+                    
+                    filterModules();
+                    setSearchState(true);
+
+                    try {
+                        localStorage.setItem(CONFIG.CACHE_KEY, freshStr);
+                    } catch (e) {}
+
+                    if (hasRenderedCache) {
+                        showToast("已同步云端最新资源");
+                    }
+                }
 
                 state.statusKey = "synced";
                 statusText.textContent = "已同步最新数据";
                 statusDot.className = "status-dot";
                 return true;
             } catch (error) {
+                if (timeoutId) clearTimeout(timeoutId);
                 console.error("加载 modules.json 失败:", error);
                 state.isInitialLoading = false; 
                 
