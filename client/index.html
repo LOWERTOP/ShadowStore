@@ -1615,6 +1615,14 @@
             margin: 0 0 4px;
             color: var(--text-primary);
         }
+        /* 新增的说明文本样式 */
+        .client-modal-desc {
+          font-size: 12px;
+          font-weight: 300;
+          text-align: center;
+          margin: -8px 0 4px;
+          color: var(--text-tertiary);
+        }
         .client-modal-options {
             display: flex;
             flex-direction: column;
@@ -1920,26 +1928,30 @@
     
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
-    <!-- 客户端选择弹窗 -->
-    <div id="clientModalBackdrop" class="client-modal-backdrop">
-        <div class="client-modal-card glass-element">
-            <h3 class="client-modal-title">选择安装客户端</h3>
-            <div class="client-modal-options">
-                <button class="client-modal-btn" data-client="Shadowrocket" type="button">
-                    <span>Shadowrocket</span>
-                    <span class="client-btn-check">✓</span>
-                </button>
-                <button class="client-modal-btn" data-client="Surge" type="button">
-                    <span>Surge</span>
-                    <span class="client-btn-check">✓</span>
-                </button>
-                <button class="client-modal-btn" data-client="Egern" type="button">
-                    <span>Egern</span>
-                    <span class="client-btn-check">✓</span>
-                </button>
-            </div>
-        </div>
+<!-- 客户端选择弹窗 -->
+<div id="clientModalBackdrop" class="client-modal-backdrop">
+  <div class="client-modal-card glass-element">
+    <h3 class="client-modal-title">选择安装客户端</h3>
+    
+    <!-- 新增的说明文本 -->
+    <p class="client-modal-desc">其他客户端若有兼容性问题请自行转换</p>
+    
+    <div class="client-modal-options">
+      <button class="client-modal-btn" data-client="Shadowrocket" type="button">
+        <span>Shadowrocket</span>
+        <span class="client-btn-check">✓</span>
+      </button>
+      <button class="client-modal-btn" data-client="Surge" type="button">
+        <span>Surge</span>
+        <span class="client-btn-check">✓</span>
+      </button>
+      <button class="client-modal-btn" data-client="Egern" type="button">
+        <span>Egern</span>
+        <span class="client-btn-check">✓</span>
+      </button>
     </div>
+  </div>
+</div>
 
     <script>
         const CACHE_VERSION = "202609111206"; 
