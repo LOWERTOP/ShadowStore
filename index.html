@@ -460,10 +460,8 @@
             transition: margin-bottom 0.35s ease;
         }
 
-        /* 专门针对 PWA 模式调高顶部安全距离 */
         html.is-pwa .control-bar,
         html.is-pwa .control-bar.is-single-column {
-            /* 将这里的高度，改为 24px-32px，以避开顶部渐变遮罩 */
             top: calc(env(safe-area-inset-top, 0px) + 28px); 
         }
 
@@ -875,6 +873,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 准虚拟化优化：跳过远离视口卡片的重排重绘 */
         .module-card { 
             position: relative; 
             z-index: 10;
@@ -894,6 +893,8 @@
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                 background-image 0.4s ease;
             -webkit-transform: translateZ(0); transform: translateZ(0); 
+            content-visibility: auto;
+            contain-intrinsic-size: 380px 220px;
         }
 
         @media (hover: hover) and (pointer: fine) and (min-width: 861px) {
@@ -1848,13 +1849,14 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609151530"; 
+        const CACHE_VERSION = "202609171645"; 
         
         const CONFIG = {
             DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/scripts/modules.json", 
             PAGE_SIZE: 16, 
             CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
-            CACHE_MAX_AGE: 6 * 60 * 60 * 1000 
+            CACHE_MAX_AGE: 6 * 60 * 60 * 1000,
+            FETCH_TIMEOUT: 8000
         };
 
         const STATUS_MESSAGES = {
@@ -1867,6 +1869,57 @@
             errorStatic: "在线资源同步失败，已展示核心入口"
         };
 
+        // 轻量 Service Worker 缓存静态资源
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            window.addEventListener('load', () => {
+                const swContent = `
+                    const SW_CACHE = 'shadowstore-v1';
+                    self.addEventListener('install', e => self.skipWaiting());
+                    self.addEventListener('activate', e => clients.claim());
+                    self.addEventListener('fetch', e => {
+                        if (e.request.destination === 'image' || e.request.url.includes('/img/')) {
+                            e.respondWith(
+                                caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+                                    const clone = res.clone();
+                                    caches.open(SW_CACHE).then(c => c.put(e.request, clone));
+                                    return res;
+                                }))
+                            );
+                        }
+                    });
+                `;
+                const blob = new Blob([swContent], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+            });
+        }
+
+        // 内联 Web Worker 检索模块
+        const workerScript = `
+            let searchDataset = [];
+            self.onmessage = function(e) {
+                const { type, data, keyword, activeTab } = e.data;
+                if (type === 'SET_DATA') {
+                    searchDataset = data;
+                } else if (type === 'SEARCH') {
+                    const kw = (keyword || '').trim().toLowerCase();
+                    let res = [];
+                    if (kw) {
+                        res = searchDataset.filter(m => m._searchText && m._searchText.includes(kw));
+                    } else {
+                        res = searchDataset.filter(m => (m.category || 'module') === activeTab);
+                    }
+                    self.postMessage({ type: 'SEARCH_RESULT', results: res, keyword });
+                }
+            };
+        `;
+        let searchWorker = null;
+        try {
+            const workerBlob = new Blob([workerScript], { type: 'application/javascript' });
+            searchWorker = new Worker(URL.createObjectURL(workerBlob));
+        } catch (e) {
+            console.warn("Worker 初始化降级至主线程处理");
+        }
+
         const PINYIN_TABLE = [
             { l: "A", c: "啊" }, { l: "B", c: "芭" }, { l: "C", c: "擦" }, { l: "D", c: "搭" },
             { l: "E", c: "蛾" }, { l: "F", c: "发" }, { l: "G", c: "噶" }, { l: "H", c: "哈" },
@@ -1875,6 +1928,9 @@
             { l: "R", c: "然" }, { l: "S", c: "撒" }, { l: "T", c: "塌" }, { l: "W", c: "挖" },
             { l: "X", c: "昔" }, { l: "Y", c: "压" }, { l: "Z", c: "匝" }
         ];
+
+        const pinyinCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl.Collator("zh-Hans-CN-u-co-pinyin") : null;
+        const defaultZhCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl.Collator("zh-Hans-CN") : null;
 
         const pinyinCharCache = new Map();
         const iconSvgCache = new Map();
@@ -2078,7 +2134,11 @@
                 let res = "#";
                 try {
                     for (let i = PINYIN_TABLE.length - 1; i >= 0; i--) {
-                        if (first.localeCompare(PINYIN_TABLE[i].c, "zh-Hans-CN-u-co-pinyin") >= 0) {
+                        const targetChar = PINYIN_TABLE[i].c;
+                        const cmp = pinyinCollator 
+                            ? pinyinCollator.compare(first, targetChar)
+                            : first.localeCompare(targetChar, "zh-Hans-CN-u-co-pinyin");
+                        if (cmp >= 0) {
                             res = PINYIN_TABLE[i].l;
                             break;
                         }
@@ -2094,8 +2154,9 @@
             return STATIC_RESOURCES_DATA
                 .filter(item => !item.isDubious)
                 .map((item, idx) => {
+                    const authorName = item.author?.name || "";
                     const searchTokens = [
-                        item.name, item.description, item.author.name,
+                        item.name, item.description, authorName,
                         item.sourceName, item.category
                     ].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
@@ -2104,13 +2165,17 @@
                         name: item.name,
                         category: item.category || "more",
                         description: item.description,
-                        icon: item.icon,
-                        author: item.author,
-                        authorAvatar: item.authorAvatar,
+                        icon: safeURL(item.icon),
+                        author: {
+                            name: authorName,
+                            url: safeURL(item.author?.url),
+                            username: item.author?.username || ""
+                        },
+                        authorAvatar: safeURL(item.authorAvatar),
                         sourceName: item.sourceName,
-                        sourceURL: item.sourceURL,
-                        rawURL: item.rawURL,
-                        installURL: item.installURL,
+                        sourceURL: safeURL(item.sourceURL),
+                        rawURL: safeURL(item.rawURL),
+                        installURL: safeInstallURL(item.installURL),
                         isDubious: false,
                         isRepoCard: item.isRepoCard,
                         primaryBtnText: item.primaryBtnText,
@@ -2138,7 +2203,7 @@
                 .map((m, idx) => {
                     const rawURL = safeURL(m.rawURL || m.url || "");
                     const authorName = m.author?.name || m.author?.username || "";
-                    const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${m.author.username}` : ""));
+                    const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${encodeURIComponent(m.author.username)}` : ""));
                     const authorAvatar = safeURL(m.authorAvatar || m.author?.avatar || "");
                     const sourceName = m.sourceName || "开源仓库";
                     const sourceURL = safeURL(m.sourceURL || "");
@@ -2189,21 +2254,25 @@
         }
 
         async function copyToClipboard(text) {
-            try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
+            if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+                try {
                     await navigator.clipboard.writeText(text);
                     return true;
-                }
-            } catch (e) {}
+                } catch (e) {}
+            }
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.left = "-9999px";
             textArea.style.opacity = "0";
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
             let success = false;
-            try { success = document.execCommand("copy"); } catch (e) {}
+            try { 
+                success = document.execCommand("copy"); 
+            } catch (e) {}
             document.body.removeChild(textArea);
             return success;
         }
@@ -2255,7 +2324,42 @@
             showToast(success ? toastMessage : "复制失败，请手动复制");
         });
 
+        // 小火箭协议唤起超时智能降级
+        document.addEventListener("click", (e) => {
+            const installBtn = e.target.closest('a[href^="shadowrocket://"]');
+            if (!installBtn) return;
+
+            e.preventDefault();
+            const targetUrl = installBtn.getAttribute("href");
+            const card = installBtn.closest(".module-card");
+            const rawUrl = card?.querySelector(".copy-btn")?.getAttribute("data-url");
+
+            let hasAppOpened = false;
+            const blurHandler = () => { hasAppOpened = true; };
+
+            window.addEventListener("pagehide", blurHandler, { once: true });
+            window.addEventListener("blur", blurHandler, { once: true });
+
+            window.location.href = targetUrl;
+
+            setTimeout(async () => {
+                window.removeEventListener("pagehide", blurHandler);
+                window.removeEventListener("blur", blurHandler);
+
+                if (!hasAppOpened && !document.hidden) {
+                    if (rawUrl) {
+                        await copyToClipboard(rawUrl);
+                        showToast("未调起客户端，已自动复制直链");
+                    } else {
+                        showToast("唤起失败，请确认是否已安装小火箭");
+                    }
+                }
+            }, 1600);
+        });
+
+        let cachedStickyOffset = null;
         function getControlBarStickyScrollTop() {
+            if (cachedStickyOffset !== null) return cachedStickyOffset;
             const header = document.querySelector(".header");
             if (!header) return 0;
 
@@ -2264,12 +2368,8 @@
             const headerBottomDocTop = headerRect.bottom + currentScroll;
             const stickyTop = parseFloat(getComputedStyle(controlBarEl).top) || 12;
 
-            return Math.max(0, Math.round(headerBottomDocTop - stickyTop));
-        }
-
-        function isSearchFloating() {
-            const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-            return currentScrollY >= (getControlBarStickyScrollTop() - 4);
+            cachedStickyOffset = Math.max(0, Math.round(headerBottomDocTop - stickyTop));
+            return cachedStickyOffset;
         }
 
         function floatSearchToTarget(smooth = false) {
@@ -2350,6 +2450,7 @@
 
         function scheduleLayoutUpdate() {
             layoutColumnsCache = 0;
+            cachedStickyOffset = null;
             if (layoutRaf) return;
 
             layoutRaf = requestAnimationFrame(() => {
@@ -2393,8 +2494,9 @@
         }, { passive: true });
 
         if (typeof ResizeObserver !== "undefined") {
-            if (modulesContainer) new ResizeObserver(scheduleLayoutUpdate).observe(modulesContainer);
-            if (tabBarEl) new ResizeObserver(scheduleLayoutUpdate).observe(tabBarEl);
+            const observerInstance = new ResizeObserver(scheduleLayoutUpdate);
+            if (modulesContainer) observerInstance.observe(modulesContainer);
+            if (tabBarEl) observerInstance.observe(tabBarEl);
         }
 
         function updateStandaloneButtonState() {
@@ -2484,7 +2586,11 @@
                 indexFragment.appendChild(charEl);
 
                 if (items && items.length > 0) {
-                    items.sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
+                    if (defaultZhCollator) {
+                        items.sort((a, b) => defaultZhCollator.compare(a.name, b.name));
+                    } else {
+                        items.sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
+                    }
 
                     const groupContainer = document.createElement("div");
                     groupContainer.className = "alphabet-group";
@@ -2504,6 +2610,7 @@
                         row.className = "alphabet-item-row";
                         row.setAttribute("role", "button");
                         row.setAttribute("tabindex", "0");
+                        row.dataset.modId = mod.id;
                         
                         const fallbackIcon = createIOSAppIcon(mod.name);
                         const hasRemoteIcon = Boolean(mod.icon);
@@ -2527,11 +2634,6 @@
                             else imgEl.src = mod.icon;
                         }
 
-                        row.addEventListener("click", (e) => {
-                            e.preventDefault();
-                            focusSingleResource(mod);
-                        });
-
                         listEl.appendChild(row);
                     }
 
@@ -2548,6 +2650,18 @@
             fastIndexCharHeight = 0;
             prepareFastIndexGeometry();
             updateAlphabetPosition();
+        }
+
+        // 事件委托绑定字母列表项点击
+        if (alphabetScrollArea) {
+            alphabetScrollArea.addEventListener("click", (e) => {
+                const row = e.target.closest(".alphabet-item-row");
+                if (!row) return;
+                e.preventDefault();
+                const modId = row.dataset.modId;
+                const mod = moduleDataMap.get(modId);
+                if (mod) focusSingleResource(mod);
+            });
         }
 
         function scheduleAlphabetPrebuild() {
@@ -3043,6 +3157,17 @@
         }, { rootMargin: "300px" });
         observer.observe(sentinel);
 
+        // 接收 Worker 异步检索结果
+        if (searchWorker) {
+            searchWorker.onmessage = function(e) {
+                if (e.data.type === 'SEARCH_RESULT') {
+                    const { results, keyword } = e.data;
+                    const currentLabel = keyword ? TAB_NAMES.more : (TAB_NAMES[state.activeTab] || TAB_NAMES.more);
+                    renderFilteredList(results, currentLabel);
+                }
+            };
+        }
+
         function filterModules() {
             if (state.isInitialLoading) {
                 renderFilteredList([]);
@@ -3053,16 +3178,34 @@
             document.body.classList.toggle("has-search-text", keyword.length > 0);
             updateStandaloneButtonState();
 
-            let result = [];
-            if (keyword) {
-                result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
-                renderFilteredList(result, TAB_NAMES.more);
+            if (searchWorker) {
+                searchWorker.postMessage({
+                    type: 'SEARCH',
+                    keyword: keyword,
+                    activeTab: state.activeTab
+                });
             } else {
-                result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
-                const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
-                renderFilteredList(result, currentLabel);
+                let result = [];
+                if (keyword) {
+                    result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
+                    renderFilteredList(result, TAB_NAMES.more);
+                } else {
+                    result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
+                    const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
+                    renderFilteredList(result, currentLabel);
+                }
             }
         }
+
+        // 防抖函数
+        function debounce(fn, delay = 200) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+        const debouncedFilterModules = debounce(filterModules, 180);
 
         function switchWithFade(renderCallback) {
             clearTimeout(modulesFadeTimer);
@@ -3332,6 +3475,7 @@
         searchInput.addEventListener("input", () => {
             state.focusedModuleId = null;
             document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
+            debouncedFilterModules();
         });
 
         searchInput.addEventListener("keydown", (e) => {
@@ -3343,6 +3487,10 @@
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "/" && document.activeElement !== searchInput) {
+                const tag = document.activeElement ? document.activeElement.tagName : "";
+                if (tag === "INPUT" || tag === "TEXTAREA" || (document.activeElement && document.activeElement.isContentEditable)) {
+                    return;
+                }
                 e.preventDefault();
                 searchInput.focus();
                 searchInput.select();
@@ -3677,10 +3825,14 @@
             list.forEach(item => {
                 moduleDataMap.set(item.id, item);
             });
+            if (searchWorker) {
+                searchWorker.postMessage({ type: 'SET_DATA', data: list });
+            }
             state.isAlphabetRendered = false;
             scheduleAlphabetPrebuild();
         }
 
+        // Stale-While-Revalidate (SWR) 数据加载机制
         async function loadModules(forceRefresh = false) {
             state.isDataLoading = true;
             let cachedData = null;
@@ -3692,6 +3844,7 @@
 
             let hasRenderedCache = false;
 
+            // 1. SWR - 优先呈现本地旧缓存 (Stale)
             if (!forceRefresh && cachedData) {
                 try {
                     const parsed = JSON.parse(cachedData);
@@ -3710,7 +3863,6 @@
                             state.statusKey = "ready";
                             statusText.textContent = "已就绪";
                             statusDot.className = "status-dot";
-                            return true;
                         }
                     }
                 } catch (e) {
@@ -3724,36 +3876,54 @@
                 statusDot.className = "status-dot loading";
             }
 
+            // 2. SWR - 后台验证并同步最新云端数据 (Revalidate)
+            const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+            const timeoutId = controller ? setTimeout(() => controller.abort(), CONFIG.FETCH_TIMEOUT) : null;
+
             try {
                 const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, { cache: forceRefresh ? "no-store" : "default" });
+                const response = await fetch(fetchUrl, { 
+                    cache: forceRefresh ? "no-store" : "default",
+                    signal: controller ? controller.signal : undefined
+                });
+                if (timeoutId) clearTimeout(timeoutId);
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const data = await response.json();
                 if (!Array.isArray(data) || !data.length) throw new Error("资源列表为空");
 
-                state.rawNetworkData = data;
-                const normalized = normalizeModules(data);
-                if (!normalized.length) throw new Error("未解析到有效资源数据");
+                const freshStr = JSON.stringify(data);
+                const isDataChanged = freshStr !== cachedData;
 
-                updateAllModules([...staticItems, ...normalized]);
-                state.isAlphabetRendered = false;
-                state.isInitialLoading = false;
-                state.isDataLoading = false;
-                
-                filterModules();
-                setSearchState(true);
+                if (isDataChanged || !hasRenderedCache) {
+                    state.rawNetworkData = data;
+                    const normalized = normalizeModules(data);
+                    if (!normalized.length) throw new Error("未解析到有效资源数据");
 
-                try {
-                    localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(data));
-                } catch (e) {}
+                    updateAllModules([...staticItems, ...normalized]);
+                    state.isAlphabetRendered = false;
+                    state.isInitialLoading = false;
+                    state.isDataLoading = false;
+                    
+                    filterModules();
+                    setSearchState(true);
+
+                    try {
+                        localStorage.setItem(CONFIG.CACHE_KEY, freshStr);
+                    } catch (e) {}
+
+                    if (hasRenderedCache) {
+                        showToast("已同步云端最新资源");
+                    }
+                }
 
                 state.statusKey = "synced";
                 statusText.textContent = "已同步最新数据";
                 statusDot.className = "status-dot";
                 return true;
             } catch (error) {
+                if (timeoutId) clearTimeout(timeoutId);
                 console.error("加载 modules.json 失败:", error);
                 state.isInitialLoading = false; 
                 
