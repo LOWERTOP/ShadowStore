@@ -842,7 +842,7 @@
         background-color: var(--bg-surface);
       }
     }
-    .card-header, .module-description, .module-preview-wrap, .card-bottom {
+    .card-header, .module-description, .card-bottom {
       position: relative;
       z-index: 1;
     }
@@ -951,27 +951,6 @@
       word-break: break-word;
       white-space: pre-line;
       flex: 1 1 auto;
-    }
-    /* 配色卡片预览大图 */
-    .module-preview-wrap {
-      margin-top: 14px;
-      width: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      cursor: pointer;
-    }
-    .module-preview-img {
-      width: 100%;
-      height: auto;
-      max-height: 220px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .module-preview-wrap:hover .module-preview-img {
-      transform: scale(1.02);
     }
     .card-bottom {
       display: flex;
@@ -1507,6 +1486,80 @@
       visibility: visible;
       transform: translate3d(0, -50%, 0);
     }
+
+    /* 配色大图弹窗灯箱样式 */
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 99999999;
+      background: rgba(0, 0, 0, 0.76);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s ease;
+      padding: 24px;
+      cursor: zoom-out;
+      touch-action: none;
+    }
+    .image-lightbox.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lightbox-content {
+      position: relative;
+      max-width: min(92vw, 440px);
+      max-height: 84vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: scale(0.92);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+    }
+    .image-lightbox.show .lightbox-content {
+      transform: scale(1);
+    }
+    .lightbox-img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: var(--bg-surface);
+    }
+    .lightbox-close-btn {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(30, 30, 30, 0.88);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      z-index: 10;
+    }
+    .lightbox-close-btn:hover {
+      transform: scale(1.08);
+      background: rgba(50, 50, 50, 0.95);
+    }
+    .lightbox-close-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
     @media (hover: none), (pointer: coarse), (max-width: 860px) {
       .modules {
         grid-template-columns: 1fr;
@@ -1628,7 +1681,7 @@
       <div class="header-top">
         <div class="brand-wrapper">
           <h1 class="title">
-            <a href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener">
+            <a href="https://shadowstore.dpdns.org/" target="_blank" rel="noopener">
               <span class="title-shadow">Shadow</span><span class="title-store">/Store</span>
             </a>
             <span id="tagPillBadge" class="tag-pill-badge">社区资源</span>
@@ -1636,7 +1689,7 @@
         </div>
         <div class="theme-controls">
           <button id="themeToggle" class="theme-toggle immersive-icon" aria-label="切换主题模式"></button>
-          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
+          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://shadowstore.dpdns.org/" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
             <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
@@ -1722,6 +1775,19 @@
     <div id="alphabetPopupBubble" class="alphabet-popup-bubble glass-element">#</div>
   </div>
 
+  <!-- 配色大图弹窗灯箱 -->
+  <div id="imageLightbox" class="image-lightbox" aria-hidden="true" role="dialog">
+    <div class="lightbox-content">
+      <button id="lightboxCloseBtn" class="lightbox-close-btn" type="button" aria-label="关闭预览">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <polyline points="6 6 18 18"></polyline>
+        </svg>
+      </button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="效果预览" loading="eager">
+    </div>
+  </div>
+
   <div id="toast" class="toast glass-element">已复制资源链接</div>
 
   <script>
@@ -1734,7 +1800,7 @@
       });
     }
 
-    const CACHE_VERSION = "202609191200";
+    const CACHE_VERSION = "202609191600";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1917,12 +1983,10 @@
     const tabItems = document.querySelectorAll(".tab-item");
     const tabIndicator = document.getElementById("tabIndicator");
     const tabBarEl = document.getElementById("tabBar");
-    const tabBarWrapperEl = document.getElementById("tabBarWrapper");
     const controlBarEl = document.getElementById("controlBar");
     const searchBoxInner = document.getElementById('searchBoxInner');
     const modulesContainer = document.getElementById("modules");
     const searchInput = document.getElementById("search");
-    const searchShortcut = document.querySelector(".search-shortcut");
     const standaloneListBtn = document.getElementById("standaloneListBtn");
     const searchClearBtn = document.getElementById("searchClearBtn");
     const searchSubmitBtn = document.getElementById("searchSubmitBtn");
@@ -1931,7 +1995,6 @@
     const countText = document.getElementById("countText");
     const toast = document.getElementById("toast");
     const sentinel = document.getElementById("sentinel");
-    const noticeTrack = document.getElementById("placeholderTrack");
     const pageContainer = document.getElementById("pageContainer");
     const pullRefreshIndicator = document.getElementById("pullRefreshIndicator");
     const ptrIcon = document.getElementById("ptrIcon");
@@ -1940,6 +2003,11 @@
     const alphabetScrollArea = document.getElementById("alphabetScrollArea");
     const alphabetFastIndex = document.getElementById("alphabetFastIndex");
     const alphabetPopupBubble = document.getElementById("alphabetPopupBubble");
+
+    // 弹窗灯箱 DOM 节点
+    const imageLightbox = document.getElementById("imageLightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCloseBtn = document.getElementById("lightboxCloseBtn");
 
     const state = {
       allModules: [],
@@ -1986,7 +2054,8 @@
     }
 
     function checkScrollLock() {
-      document.documentElement.classList.toggle("no-scroll", state.isListView);
+      const isLightboxOpen = imageLightbox && imageLightbox.classList.contains("show");
+      document.documentElement.classList.toggle("no-scroll", state.isListView || isLightboxOpen);
     }
 
     function escapeHTML(value) {
@@ -2102,8 +2171,8 @@
           sourceURL,
           rawURL,
           installURL,
-          preInstallURL: safeInstallURL(m.preInstallURL || ""),
-          secondaryBtnText: m.secondaryBtnText || "",
+          preInstallURL: category === "color" ? "" : safeInstallURL(m.preInstallURL || ""),
+          secondaryBtnText: category === "color" ? "" : (m.secondaryBtnText || ""),
           isDubious: false,
           isRepoCard: Boolean(m.isRepoCard),
           primaryBtnText: m.primaryBtnText || "",
@@ -2685,7 +2754,7 @@
         ignoreNextClick = false;
         return;
       }
-      if (e.target.closest("#alphabetViewContainer, #controlBar, #standaloneListBtn, #toast, #pullRefreshIndicator")) {
+      if (e.target.closest("#alphabetViewContainer, #controlBar, #standaloneListBtn, #toast, #pullRefreshIndicator, #imageLightbox")) {
         return;
       }
       setListViewMode(false);
@@ -2799,12 +2868,17 @@
         `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>` : 
         `<span class="source-link source-link-static">${escapeHTML(module.sourceName)}</span>`;
 
+      // 次级按钮：配色卡片渲染为“查看效果”按钮（杜绝出现 iOS 18 按钮）
       let secondaryBtnHTML = "";
-      if (module.preInstallURL) {
+      if (module.category === "color") {
+        if (module.previewImg) {
+          secondaryBtnHTML = `<button type="button" class="button button-secondary view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" aria-label="查看效果 ${escapeHTML(module.name)}">查看效果</button>`;
+        }
+      } else if (module.preInstallURL) {
         const preText = module.secondaryBtnText || "安装前置";
         secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
       } else if (module.rawURL) {
-        secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
+        secondaryBtnHTML = `<button type="button" class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
       }
 
       let defaultPrimaryText = "安装模块";
@@ -2819,13 +2893,6 @@
 
       const descriptionText = module.description ? escapeHTML(module.description) : "暂无描述";
 
-      // 预览图逻辑
-      const previewHTML = module.previewImg ? `
-        <a class="module-preview-wrap" href="${escapeHTML(module.previewImg)}" target="_blank" rel="noopener" title="点击查看高清预览图">
-          <img class="module-preview-img" src="${escapeHTML(module.previewImg)}" alt="配色预览图" loading="lazy" decoding="async">
-        </a>
-      ` : "";
-
       card.innerHTML = `
         <div class="card-header">
           ${iconHTML}
@@ -2839,7 +2906,6 @@
           </div>
         </div>
         <div class="module-description">${descriptionText}</div>
-        ${previewHTML}
         <div class="card-bottom">
           <div class="action-buttons">
             ${secondaryBtnHTML}
@@ -3055,7 +3121,6 @@
       filterModules();
     }
 
-    // 快捷键绑定与主题切换
     function updateThemeIcon(theme) {
       if (theme === "dark") {
         themeToggleBtn.innerHTML = SUN_ICON;
@@ -3089,11 +3154,56 @@
       }
     });
 
+    // 弹窗灯箱控制逻辑
+    function openLightbox(url) {
+      if (!url) return;
+      lightboxImg.src = url;
+      imageLightbox.classList.add("show");
+      imageLightbox.setAttribute("aria-hidden", "false");
+      checkScrollLock();
+    }
+
+    function closeLightbox() {
+      imageLightbox.classList.remove("show");
+      imageLightbox.setAttribute("aria-hidden", "true");
+      checkScrollLock();
+      setTimeout(() => {
+        if (!imageLightbox.classList.contains("show")) {
+          lightboxImg.src = "";
+        }
+      }, 280);
+    }
+
+    // 点击“查看效果”按钮打开灯箱
+    modulesContainer.addEventListener("click", (e) => {
+      const viewBtn = e.target.closest(".view-preview-btn");
+      if (viewBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const imgUrl = viewBtn.getAttribute("data-preview");
+        openLightbox(imgUrl);
+      }
+    });
+
+    // 点击遮罩背景或关闭按钮退出
+    imageLightbox.addEventListener("click", (e) => {
+      if (e.target === imageLightbox || e.target.closest("#lightboxCloseBtn")) {
+        closeLightbox();
+      }
+    });
+
+    // 按 Esc 键退出
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && imageLightbox.classList.contains("show")) {
+        closeLightbox();
+      }
+    });
+
     // 旋转式下拉刷新逻辑
     let touchStartY = 0;
     let isPulling = false;
     window.addEventListener("touchstart", (e) => {
-      if (window.scrollY === 0 && !state.isListView) {
+      if (window.scrollY === 0 && !state.isListView && !imageLightbox.classList.contains("show")) {
         touchStartY = e.touches[0].clientY;
         isPulling = true;
       }
