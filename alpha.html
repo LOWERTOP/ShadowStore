@@ -1890,7 +1890,7 @@
       errorStatic: "在线资源同步失败，已展示核心入口"
     };
 
-    // 搜索 Web Worker：按标签页分类检索
+    // 搜索 Web Worker：严格限定在当前标签分类 activeTab 下搜索
     const workerScript = `
       let searchDataset = [];
       self.onmessage = function(e) {
@@ -1936,6 +1936,7 @@
     const pinyinCharCache = new Map();
     const iconSvgCache = new Map();
 
+    // 修复 1：同步清理旧版本 rules 缓存，避免 localStorage 残留
     function cleanOldCaches() {
       try {
         const currentKey = CONFIG.CACHE_KEY;
@@ -2012,21 +2013,6 @@
         sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First",
         rawURL: "https://github.com/LOWERTOP/Shadowrocket-First",
         installURL: "https://github.com/LOWERTOP/Shadowrocket-First",
-        isDubious: false,
-        isRepoCard: true
-      },
-      {
-        category: "more",
-        name: "分流规则仓库",
-        description: "涵盖常见应用分流、流媒体分流等全面的代理软件规则集合集，支持细粒度规则与定期更新。\n注意：添加规则时请着重查看相应规则的配置建议。",
-        primaryBtnText: "访问仓库",
-        icon: "https://github.com/blackmatrix7.png?size=64",
-        author: { name: "blackmatrix7", url: "https://github.com/blackmatrix7", username: "blackmatrix7" },
-        authorAvatar: "https://github.com/blackmatrix7.png?size=64",
-        sourceName: "ios_rule_script",
-        sourceURL: "https://github.com/blackmatrix7/ios_rule_script",
-        rawURL: "https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket",
-        installURL: "https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket",
         isDubious: false,
         isRepoCard: true
       }
@@ -2248,7 +2234,7 @@
       });
     }
 
-    // 格式化 rules.json：图标统一走原有模块的动态生成逻辑
+    // 格式化 rules.json：图标为空时自动走现有的动态拟态首字生成机制
     function normalizeRules(data) {
       if (!Array.isArray(data)) return [];
       return data.map(r => {
@@ -2265,7 +2251,7 @@
           name: title,
           category: "rule",
           description: suggestion ? `配置建议：\n${suggestion}` : "配置建议：单独使用。",
-          icon: r.icon || "", // 空值由 createIOSAppIcon 动态生成拟态图标
+          icon: r.icon || "",
           author: {
             name: "blackmatrix7",
             url: "https://github.com/blackmatrix7",
@@ -2534,7 +2520,7 @@
       }, 140);
     }
 
-    // 资源列表：仅展示当前分类的列表项
+    // 资源列表：仅展示当前标签分类下的列表项
     function renderAlphabetList() {
       if (!alphabetScrollArea || !alphabetFastIndex) return;
       if (alphabetImgObserver) alphabetImgObserver.disconnect();
@@ -2970,7 +2956,7 @@
 
       let actionButtonsHTML = "";
 
-      // 规则分类：标准药丸渐变主按钮（button-primary）
+      // 规则分类：标准药丸渐变按钮样式（button-primary），保持与其他卡片完全一致
       if (module.category === "rule") {
         if (Array.isArray(module.buttons)) {
           actionButtonsHTML = module.buttons.map(btn => `
@@ -3721,7 +3707,12 @@
       throw lastError || new Error("所有数据源均请求失败或校验未通过");
     }
 
-    // 读取 rules.json 分流规则列表，带容灾回退
+    // 修复 2：为 rules.json 增加数据集完整性校验（确保条数合理且格式正常）
+    function validateRulesDataset(data) {
+      if (!Array.isArray(data) || data.length < 50) return false;
+      return data.some(item => item && (item.title || item.name));
+    }
+
     async function fetchRulesData() {
       const urls = [CONFIG.RULES_JSON_URL, ...CONFIG.RULES_FALLBACK_URLS];
       for (const url of urls) {
@@ -3729,7 +3720,7 @@
           const res = await fetchWithTimeout(url, { cache: "no-cache" });
           if (res.ok) {
             const list = await res.json();
-            if (Array.isArray(list) && list.length > 0) return list;
+            if (validateRulesDataset(list)) return list;
           }
         } catch (e) {
           console.warn(`读取 rules.json 失败 [${url}]:`, e);
@@ -3807,10 +3798,15 @@
           state.isInitialLoading = false;
           filterModules();
           setSearchState(true);
+          
+          // 修复 4：增加 localStorage 写入配额溢出安全保护
           try {
             localStorage.setItem(CONFIG.CACHE_KEY, freshStr);
             localStorage.setItem(CONFIG.RULES_CACHE_KEY, freshRulesStr);
-          } catch (e) {}
+          } catch (storageErr) {
+            console.warn("本地存储配额不足或受限:", storageErr);
+          }
+
           if (hasRenderedCache) {
             showToast("已同步云端最新资源");
           }
