@@ -1,0 +1,35 @@
+name: Sync Rules
+
+on:
+  schedule:
+    # 每天 UTC 21:00 执行，即北京时间 (UTC+8) 每日早上 05:00
+    - cron: '0 21 * * *'
+  workflow_dispatch: # 支持手动运行
+
+concurrency:
+  group: sync-rules
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js 环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 执行生成规则脚本
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-rules.js
+
+      - name: 提交并推送最新数据
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/rules.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): 自动同步分流规则索引 [skip ci]" && git push)
