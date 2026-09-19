@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析、精确 7 级梯队排序
+ * 严格来源熔断、原子化写盘、作者/头像解析
  */
 const fs = require("fs");
 const path = require("path");
@@ -295,10 +295,14 @@ function getMatchedIcon(name) {
   return "";
 }
 
+/**
+ * 解析 README.md，同时记录行内的出现先后顺序 index
+ */
 function parseRepositoryModules(markdown) {
   if (!markdown || markdown === "404: Not Found") return [];
   const result = [];
   let currentHeading = "";
+  let orderIndex = 0;
   const lines = markdown.split(/\r?\n/);
   for (const rawLine of lines) {
     const line = rawLine.trim();
@@ -314,7 +318,11 @@ function parseRepositoryModules(markdown) {
     while ((match = rawRegex.exec(line)) !== null) {
       let rawURL = normalizeRawURL(match[1].replace(/[),\]"'<>]+$/g, ""));
       if (!rawURL || !/\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(rawURL)) continue;
-      result.push({ name: getModuleNameFromURL(rawURL) || currentHeading || "未命名模块", rawURL });
+      result.push({
+        name: getModuleNameFromURL(rawURL) || currentHeading || "未命名模块",
+        rawURL,
+        readmeIndex: orderIndex++ // 记录在 README 中的绝对先后顺序
+      });
     }
   }
   const seen = new Set();
@@ -404,20 +412,18 @@ function resolveModuleIcon(metadata, rawURL) {
 }
 
 /**
- * 精确 7 级梯队优先级计算：
- * 1~3: 三大核心置顶 (ScriptHub, Sub-Store, BoxJs)
- * 10: 我的仓库原生自制文件 (LOWERTOP 自身维护，不含 /PR/)
- * 20: 我仓库中收录的 PR 社区贡献文件 (/PR/ 路径)
- * 30: 仓库中收录的其他来源文件 (README 中推荐引用的外部第三方文件)
- * 40: fmz200 仓库的资源
- * 50: zirawell 仓库的资源
- * 9999: 垫底的失效/存疑资源
+ * 优先级判断：
+ * 1~3: 三大神级置顶
+ * 10: 本人 README 来源（包含自制、PR、推荐收录）
+ * 40: fmz200
+ * 50: zirawell
+ * 9999: 失效/存疑
  */
 function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
 
-  // 1. 垫底的失效/存疑资源
+  // 失效/存疑直接垫底
   if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
     return 9999;
   }
@@ -425,33 +431,24 @@ function getPinnedRank(item) {
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
   const isLowerTopRepo = rawURL.includes("lowertop/shadowrocket-first") || rawURL.includes("lowertop");
 
-  // 属于 LOWERTOP 仓库本身的文件
+  // 三大核心置顶
   if (isLowerTopRepo) {
-    // 2. 三大核心置顶
     if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
     if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
     if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
+  }
 
-    // 3. 我仓库中收录的 PR 社区贡献文件 (/PR/ 路径)
-    if (rawURL.includes("/pr/")) {
-      return 20;
-    }
-
-    // 4. 我的仓库原生自制文件
+  // 来源于你仓库 README 的所有资源（包含自制、PR、推荐收录），排在第二大梯队
+  if (item.fromMyRepo) {
     return 10;
   }
 
-  // 5. 仓库中收录的其他来源文件 (来自本仓 README 解析，但 rawURL 实际指向外部链接)
-  if (item.fromMyRepo) {
-    return 30;
-  }
-
-  // 6. fmz200 仓库的资源
+  // fmz200 仓库资源
   if (item.fromFMZ || rawURL.includes("fmz200")) {
     return 40;
   }
 
-  // 7. zirawell 仓库的资源
+  // zirawell 仓库资源
   if (item.fromZirawell || rawURL.includes("zirawell")) {
     return 50;
   }
@@ -459,14 +456,26 @@ function getPinnedRank(item) {
   return 60;
 }
 
+/**
+ * 核心排序：
+ * 1. 梯队不同，按梯队前后排；
+ * 2. 如果同属于你 README 来源（Rank 10），严格按照 README 的物理顺序排序（不再打乱拼音）；
+ * 3. 其他外部仓库，保持拼音/字母排序。
+ */
 function sortPinnedModules(list) {
   if (!Array.isArray(list)) return [];
   return [...list].sort((a, b) => {
     const rankDiff = getPinnedRank(a) - getPinnedRank(b);
-    // 梯队不同，严格按梯队高低排列
     if (rankDiff !== 0) return rankDiff;
 
-    // 同一梯队内部，按中文拼音/英文自然顺序排列
+    // 关键：如果你 README 来源的模块，严格遵循读取时的先后顺序
+    if (a.fromMyRepo && b.fromMyRepo) {
+      const idxA = a.readmeIndex !== undefined ? a.readmeIndex : 99999;
+      const idxB = b.readmeIndex !== undefined ? b.readmeIndex : 99999;
+      return idxA - idxB;
+    }
+
+    // 其余第三方仓库内部，按中文拼音/英文自然顺序排列
     return a.name.localeCompare(b.name, "zh-Hans-CN");
   });
 }
@@ -480,6 +489,7 @@ async function fetchModule(item) {
   const fromMyRepo = item.fromMyRepo || false;
   const fromFMZ = item.fromFMZ || false;
   const fromZirawell = item.fromZirawell || false;
+  const readmeIndex = item.readmeIndex !== undefined ? item.readmeIndex : 99999;
 
   try {
     const rawText = await fetchRawText(item.rawURL, true);
@@ -505,6 +515,7 @@ async function fetchModule(item) {
       fromMyRepo,
       fromFMZ,
       fromZirawell,
+      readmeIndex,
       _searchKeywords: [metadata.name, description, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
     };
   } catch (error) {
@@ -525,6 +536,7 @@ async function fetchModule(item) {
       fromMyRepo,
       fromFMZ,
       fromZirawell,
+      readmeIndex,
       _searchKeywords: [resolvedName, fallbackDesc, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
     };
   }
