@@ -57,6 +57,7 @@ const APP_ALIASES = {
   "网易云": ["netease", "cloudmusic"],
   "百度": ["baidu"],
   "高德": ["amap", "gaode"],
+  "高德地图": ["amap", "gaode"],
   "腾讯": ["tencent"],
   "美团": ["meituan"],
   "拼多多": ["pdd", "pinduoduo"],
@@ -69,8 +70,7 @@ const APP_ALIASES = {
   "豆瓣": ["douban"],
   "贴吧": ["tieba"],
   "夸克": ["quark"],
-  "12306": ["12306"],
-  "高德地图": ["amap"]
+  "12306": ["12306"]
 };
 
 const FLAG_CODES = new Set([
@@ -522,7 +522,7 @@ function parseGitHubRawURL(rawURL) {
         owner: parts[0],
         repo: parts[1],
         fullName: `${parts[0]}/${parts[1]}`,
-        url: `https://github.com/${parts[0]}/${parts[1]}`
+        url: `[ShadowStore](https://github.com/LOWERTOP/ShadowStore)`
       };
     }
   } catch {}
@@ -547,14 +547,14 @@ function getAuthorFromURL(rawURL, githubInfo) {
       const prAuthor = prMatch[1].trim();
       return {
         name: prAuthor,
-        url: `https://github.com/${encodeURIComponent(prAuthor)}`,
+        url: `[LOWERTOP](https://github.com/LOWERTOP)`,
         username: prAuthor
       };
     }
   } catch (e) {}
   if (githubInfo) return {
     name: githubInfo.owner,
-    url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
+    url: `[LOWERTOP](https://github.com/LOWERTOP)`,
     username: githubInfo.owner
   };
   return { name: "作者信息识别失败", url: "", username: "" };
@@ -719,7 +719,7 @@ function validateOutputData(data) {
 }
 
 /**
- * 自动提取 Shadowrocket 配色方案
+ * 自动提取 Shadowrocket 配色方案（过滤“原创配色”并清空任何前置/次级按钮）
  */
 async function fetchColorThemes(markdownText) {
   console.log("🎨 开始解析 Shadowrocket 配色方案...");
@@ -736,6 +736,12 @@ async function fetchColorThemes(markdownText) {
   while ((match = regex.exec(parseScope)) !== null) {
     const rawKey = match[1].trim();
     const cleanKey = rawKey.replace(/[\[\]]/g, "").trim();
+
+    // 过滤掉第一个“原创配色”卡片
+    if (cleanKey.includes("原创配色")) {
+      continue;
+    }
+
     const previewImg = match[2].trim();
     const scheme = match[3].trim();
 
@@ -753,16 +759,18 @@ async function fetchColorThemes(markdownText) {
       },
       authorAvatar: "https://github.com/LOWERTOP.png?size=64",
       sourceName: "Shadowrocket-First",
-      sourceURL: "url?id=84#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
+      sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
       description: "Shadowrocket 原创精选配色方案，建议搭配对应底色模式使用。",
       primaryBtnText: "安装配色",
+      preInstallURL: "", // 彻底杜绝 iOS 18 按钮
+      secondaryBtnText: "",
       isDubious: false,
       fromMyRepo: true,
       _searchKeywords: [cleanKey, "配色", "LOWERTOP", "Shadowrocket-First"].join(" ").toLowerCase()
     });
   }
 
-  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案`);
+  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已过滤原创配色）`);
   return colorItems;
 }
 
