@@ -1,255 +1,777 @@
 /**
- * scripts/build-modules.js
- * ShadowStore 资源自动化同步与构建脚本
- * 整合社区模块全量爬取与 LOWERTOP/Shadowrocket-First 配色方案自动化提取
+ * ShadowStore 数据聚合构建引擎
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配
  */
+const fs = require("fs");
+const path = require("path");
 
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-const http = require('http');
+const CONFIG = {
+  REPO_README_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/README.md",
+  REPO_README_BACKUP: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/README.md",
+  FMZ_TREE_API: "https://api.github.com/repos/fmz200/wool_scripts/git/trees/main?recursive=1",
+  ZIRAWELL_README_URL: "https://raw.githubusercontent.com/zirawell/R-Store/main/README.md",
+  ZIRAWELL_TREE_API: "https://api.github.com/repos/zirawell/R-Store/git/trees/main?recursive=1",
+  ICONS_JSON_URL: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/icons-all.json",
+  LUESTR_TREE_API: "https://api.github.com/repos/luestr/IconResource/git/trees/main?recursive=1",
+  CONCURRENCY: 12,
+  MAX_FAILURE_RATIO: 0.25
+};
 
-const OUTPUT_FILE = path.join(__dirname, 'modules.json');
-const SHADOWROCKET_FIRST_README = 'https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/README.md';
+const APP_ALIASES = {
+  "Plugin2Rocket": ["Shadowrocket"], "一汽大众": ["fawvw"], "上汽大众": ["csvw"], "流媒体": ["netflix"],
+  "影视": ["netflix"], "大师兄": ["netflix"], "苹果": ["apple"], "apple": ["apple"], "谷歌": ["google"],
+  "微软": ["microsoft"], "油管": ["youtube"], "youtube": ["youtube"], "电报": ["telegram"],
+  "推特": ["twitter", "x"], "奈飞": ["netflix"], "网飞": ["netflix"], "迪士尼": ["disney"],
+  "cmcc": ["中国移动"], "小米": ["xiaomi", "mi"], "米家": ["xiaomi", "mihome", "mi"], "call": ["googlevoice"],
+  "ali": ["alibaba"], "阿里": ["alibaba"], "阿里系": ["alibaba"], "京东": ["jd", "jingdong"],
+  "哔哩哔哩": ["bilibili", "b站", "bili"], "b站": ["bilibili"], "bili": ["bilibili"], "微信": ["weixin", "wechat"],
+  "微博": ["weibo"], "知乎": ["zhihu"], "script": ["script-hub"], "小红书": ["xhs", "xiaohongshu", "rednot", "redbook"],
+  "rednot": ["xhs", "xiaohongshu", "rednot", "redbook"], "抖音": ["douyin", "tiktok"], "快手": ["kuaishou"],
+  "网易云": ["netease", "cloudmusic"], "百度": ["baidu"], "高德": ["amap", "gaode"], "腾讯": ["tencent"],
+  "美团": ["meituan"], "拼多多": ["pdd", "pinduoduo"], "闲鱼": ["xianyu"], "咸鱼": ["xianyu"], "饿了么": ["eleme"],
+  "爱奇艺": ["iqiyi"], "优酷": ["youku"], "淘宝": ["taobao"], "豆瓣": ["douban"], "贴吧": ["tieba"],
+  "夸克": ["quark"], "12306": ["12306"], "高德地图": ["amap"]
+};
 
-// 社区模块数据源配置清单
-const SOURCES = [
-  {
-    name: 'Shadowrocket-First',
-    url: 'https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/README.md',
-    type: 'readme_modules'
-  },
-  {
-    name: 'blackmatrix7',
-    url: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/Shadowrocket/README.md',
-    type: 'blackmatrix7_modules'
-  },
-  {
-    name: 'mieqq',
-    url: 'https://raw.githubusercontent.com/mieqq/mieqq/master/README.md',
-    type: 'mieqq_modules'
-  },
-  {
-    name: 'chavyleung',
-    url: 'https://raw.githubusercontent.com/chavyleung/scripts/master/README.md',
-    type: 'chavy_modules'
-  }
-];
+const FLAG_CODES = new Set([
+  "cn", "us", "hk", "tw", "jp", "kr", "sg", "uk", "gb", "de", "fr", "ca", "ru", "au",
+  "mo", "vn", "th", "ph", "my", "in", "id", "br", "cl", "ar", "mx", "nl", "se", "no",
+  "fi", "ch", "at", "it", "es", "pt", "tr", "ua", "za", "nz", "ie", "pl", "ro", "cz",
+  "hu", "gr", "bg", "hr", "sk", "il", "china", "taiwan", "hongkong", "japan", "korea",
+  "singapore", "usa", "united_states", "united_kingdom", "germany", "france", "russia", "australia"
+]);
 
-/**
- * 封装通用 HTTP/HTTPS GET 请求（支持自动重定向与超时控制）
- */
-function fetchText(targetUrl, maxRedirects = 5) {
-  return new Promise((resolve, reject) => {
-    if (maxRedirects <= 0) return reject(new Error(`重定向次数过多: ${targetUrl}`));
-    const client = targetUrl.startsWith('https:') ? https : http;
+let remoteIconsMap = {};
+const stats = { totalAttempted: 0, failedCount: 0 };
+const sourceHealth = { local: false, fmz: false, zirawell: false };
 
-    const req = client.get(targetUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      },
-      timeout: 15000
-    }, (res) => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        let redirectUrl = res.headers.location;
-        if (!redirectUrl.startsWith('http')) {
-          redirectUrl = new URL(redirectUrl, targetUrl).href;
-        }
-        return fetchText(redirectUrl, maxRedirects - 1).then(resolve).catch(reject);
-      }
-      if (res.statusCode !== 200) {
-        return reject(new Error(`HTTP ${res.statusCode}:${targetUrl}`));
-      }
-      let rawData = '';
-      res.setEncoding('utf8');
-      res.on('data', chunk => { rawData += chunk; });
-      res.on('end', () => resolve(rawData));
-    });
-
-    req.on('timeout', () => {
-      req.destroy();
-      reject(new Error(`请求超时: ${targetUrl}`));
-    });
-    req.on('error', reject);
-  });
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * 从 Shadowrocket-First 的 README.md 中自动化提取配色方案
- */
-async function fetchColorThemes() {
-  console.log('>>> [1/2] 正在抓取并解析 Shadowrocket 配色列表...');
-  try {
-    const markdown = await fetchText(SHADOWROCKET_FIRST_README);
-    const colorItems = [];
+function cleanText(value) {
+  return String(value ?? "").replace(/\\n/g, " ").replace(/\\r/g, "").replace(/\\t/g, " ").replace(/\s+/g, " ").trim();
+}
 
-    // 定位到配色小节
-    const colorSectionIdx = markdown.indexOf('## Shadowrocket 配色文件');
-    const parseScope = colorSectionIdx !== -1 ? markdown.slice(colorSectionIdx) : markdown;
+function isFlagKey(key, url = "") {
+  if (!key && !url) return false;
+  const k = (key || "").toLowerCase().trim();
+  const u = (url || "").toLowerCase().trim();
+  if (FLAG_CODES.has(k)) return true;
+  const flagKeywords = ["flag", "flags", "国旗", "node", "节点", "country", "countries", "region", "regions", "geoip"];
+  if (flagKeywords.some(w => k.includes(w) || u.includes(w))) return true;
+  if (/\/(?:flags?|countries|regions|country)\//i.test(u)) return true;
+  if (/[_\-/](?:cn|us|hk|tw|jp|kr|sg|gb|uk|de|fr|ru|au|mo|ca)\.(?:png|jpg|jpeg|svg|webp)/i.test(u)) return true;
+  return false;
+}
 
-    // 按每个配色小块（### [Shadowrocket xxx] 或 ### Shadowrocket xxx）分割
-    const blocks = parseScope.split(/(?=###\s*\[?Shadowrocket)/gi);
+function isInvalidOr404(text) {
+  if (!text) return false;
+  const t = String(text);
+  return /404\s*:\s*Not\s*Found/i.test(t) || /404\s+Not\s+Found/i.test(t) || /Cannot\s+GET/i.test(t) || /(?:已失效|此模块已失效|资源已失效|链接已失效|文件已删除|文件不存在|404\s*失效)/i.test(t);
+}
 
-    for (const block of blocks) {
-      // 提取配色名称
-      const titleMatch = block.match(/###\s*\[?Shadowrocket\s+([^\]\n]+)\]?/i);
-      if (!titleMatch) continue;
-
-      const rawKey = titleMatch[1].trim();
-      const cleanKey = rawKey.replace(/[\(\)（）\[\]]/g, '').trim();
-
-      // 提取预览图链接
-      const imgMatch = block.match(/!\[.*?\]\((https?:\/\/[^\s\)]+)\)/);
-      const previewImg = imgMatch ? imgMatch[1].trim() : '';
-
-      // 提取 shadowrocket://color? 安装协议
-      const schemeMatch = block.match(/shadowrocket\s*:\s*\/\/\s*color\?[^\n\r\)\`\"\s]+/i);
-      if (!schemeMatch) continue;
-
-      const scheme = schemeMatch[0].replace(/\s+/g, '');
-
-      // 提取描述文本
-      const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
-      let desc = '';
-      for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
-        if (!line.startsWith('#') && !line.startsWith('[!') && !line.startsWith('!') && !line.startsWith('shadowrocket://') && !line.startsWith('```')) {
-          desc = line;
-          break;
-        }
-      }
-
-      colorItems.push({
-        id: `color_${cleanKey.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
-        name: `${cleanKey} 配色`,
-        category: 'color',
-        description: desc ? `${desc}\n建议搭配小火箭对应底色模式使用。` : 'Shadowrocket 原创精选配色方案，一键导入调色。',
-        previewImg: previewImg,
-        icon: '[https://github.com/LOWERTOP.png?size=64](https://github.com/LOWERTOP.png?size=64)',
-        author: {
-          name: 'LOWERTOP',
-          url: '[https://github.com/LOWERTOP](https://github.com/LOWERTOP)',
-          username: 'LOWERTOP'
-        },
-        authorAvatar: '[https://github.com/LOWERTOP.png?size=64](https://github.com/LOWERTOP.png?size=64)',
-        sourceName: 'Shadowrocket-First',
-        sourceURL: '[https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6](https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6)',
-        rawURL: scheme,
-        installURL: scheme,
-        primaryBtnText: '安装配色',
-        isRepoCard: false
-      });
+function normalizeRawURL(url) {
+  if (!url) return "";
+  let value = url.trim().replace(/^<|>$/g, "").replace(/&amp;/g, "&");
+  value = value.replace(/\\([#_~`*])/g, "$1");
+  if (value.includes("url=")) {
+    const match = value.match(/[?&]url=([^&]+)/i) || value.match(/url=([^&]+)/i);
+    if (match) {
+      try { value = decodeURIComponent(match[1]); } catch(e) {}
     }
-
-    console.log(`>>> 成功提取 ${colorItems.length} 个配色方案`);
-    return colorItems;
-  } catch (err) {
-    console.error('抓取配色方案遇到异常:', err.message);
-    return [];
+  }
+  if (value.includes("install?module=")) {
+    const match = value.match(/install\?module=([^&]+)/i);
+    if (match) {
+      try { value = decodeURIComponent(match[1]); } catch(e) {}
+    }
+  }
+  value = value.replace(/#/g, "%23").replace(/\s+/g, "%20");
+  try {
+    const parsed = new URL(value);
+    if (parsed.hostname === "raw.githubusercontent.com") return parsed.href;
+    if (parsed.hostname === "github.com") {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      const rawIndex = parts.indexOf("raw") !== -1 ? parts.indexOf("raw") : parts.indexOf("blob");
+      if (parts.length >= 4 && rawIndex === 2) {
+        return `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts[3]}/${parts.slice(4).join("/")}${parsed.search}`;
+      }
+    }
+    return parsed.href;
+  } catch {
+    return value;
   }
 }
 
-/**
- * 解析并生成社区模块
- */
-async function fetchCommunityModules() {
-  console.log('>>> [2/2] 正在抓取全网社区模块数据...');
-  const modules = [];
+function getModuleNameFromURL(rawURL) {
+  if (!rawURL) return "";
+  try {
+    const cleanURL = String(rawURL).split(/[?#]/)[0];
+    const parts = cleanURL.split("/").filter(Boolean);
+    const last = parts.pop() || "";
+    return decodeURIComponent(last).replace(/\.(?:sgmodule|srmodule|module)$/i, "").trim();
+  } catch {
+    return "";
+  }
+}
 
-  // 1. 优先读取原有 modules.json 保证基底模块数据完整性
-  if (fs.existsSync(OUTPUT_FILE)) {
+function resolveFallbackName(fallbackName, rawURL) {
+  if (fallbackName && fallbackName !== "未命名模块" && fallbackName.trim()) {
+    return fallbackName.trim();
+  }
+  return getModuleNameFromURL(rawURL) || "未命名模块";
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const headers = { ...options.headers };
+  if (process.env.GITHUB_TOKEN && url.includes("api.github.com")) {
+    headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    headers["User-Agent"] = "ShadowStore-Builder";
+  }
+  try {
+    return await fetch(url, { ...options, headers, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchRawText(url, isPartial = true) {
+  const retries = 2;
+  for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const localData = JSON.parse(fs.readFileSync(OUTPUT_FILE, 'utf-8'));
-      if (Array.isArray(localData)) {
-        // 排除旧的 color 项，保留全部历史同步的模块
-        for (const item of localData) {
-          if (item.category !== 'color') {
-            modules.push(item);
-          }
-        }
-        console.log(`>>> 成功加载历史基底模块: ${modules.length} 项`);
+      if (isPartial) {
+        try {
+          const response = await fetchWithTimeout(url, { headers: { Range: "bytes=0-2047" } }, 5000);
+          if (response.status === 404) return "404: Not Found";
+          if (response.status === 206 || response.status === 200) return await response.text();
+        } catch (e) {}
       }
-    } catch (e) {
-      console.warn('读取本地基底 modules.json 失败:', e.message);
+      const fallbackRes = await fetchWithTimeout(url, {}, 8000);
+      if (fallbackRes.status === 404) return "404: Not Found";
+      if (fallbackRes.ok) return await fallbackRes.text();
+      throw new Error(`HTTP ${fallbackRes.status}`);
+    } catch (err) {
+      if (attempt === retries) throw err;
+      const delay = 500 * Math.pow(2, attempt);
+      console.warn(`⚠️ 获取失败，${delay}ms 后重试 (${attempt + 1}/${retries}): ${url}`);
+      await wait(delay);
     }
   }
+  throw new Error(`无法获取资源: ${url}`);
+}
 
-  // 2. 抓取 Shadowrocket-First 最新模块进行实时合并
-  try {
-    const srReadme = await fetchText('[https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/README.md](https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/README.md)');
-    const moduleSectionIdx = srReadme.indexOf('## Shadowrocket 模块');
-    if (moduleSectionIdx !== -1) {
-      const scope = srReadme.slice(moduleSectionIdx, srReadme.indexOf('## Shadowrocket 配色文件') !== -1 ? srReadme.indexOf('## Shadowrocket 配色文件') : undefined);
-      const modBlocks = scope.split(/(?=###\s*\[?🆃🅾🅿🅼🅾🅳🆂|###\s*\[?🅷🅾🅽🅶🅶🆄🅾|###\s*\[?🅲🅻🅴🅰🅽🅴🆁|###\s*\[?🆁🅴🆂🅸🅽🅿🆁|###\s*\[?🅲🅼🅲🅲🅸🆃🆅|###\s*\[?🅴🅼🅱🆈🅺🅸🆃|###\s*\[?🆆🅸🅵🅸🆅🅾🅲|###\s*\[?🅸🅷🅴🅻🅿🅴🆁|###\s*\[?🆅🅿🅽🆂🅺🅸🅿)/g);        for (const block of modBlocks) {         const titleMatch = block.match(/###\s*([^\n\r]+)/);         if (!titleMatch) continue;         const name = titleMatch[1].replace(/[\[\]]/g, '').trim();
+async function fetchFMZModules() {
+  console.log("📦 正在获取 FMZ 目录树...");
+  const res = await fetchWithTimeout(CONFIG.FMZ_TREE_API, {}, 15000);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  if (data?.truncated) throw new Error("FMZ 目录树被 GitHub 截断 (truncated: true)");
+  if (!Array.isArray(data?.tree)) throw new Error("FMZ Tree API 数据结构异常");
 
-        const sgmoduleMatch = block.match(/(https?:\/\/[^\s\)]+\.sgmodule)/i);
-        const rawURL = sgmoduleMatch ? sgmoduleMatch[1].trim() : '';
+  const modules = data.tree
+    .filter(item => item.type === "blob" && (item.path || "").startsWith("Shadowrocket/module/") && /\.(?:sgmodule|srmodule|module)$/i.test(item.path))
+    .map(item => {
+      const fileName = item.path.split("/").pop().replace(/\.(?:sgmodule|srmodule|module)$/i, "");
+      const rawURL = normalizeRawURL(`https://raw.githubusercontent.com/fmz200/wool_scripts/main/${item.path}`);
+      return { name: fileName, rawURL, fromFMZ: true };
+    });
 
-        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
-        let desc = '';
-        for (let i = 1; i < lines.length; i++) {
-          if (!lines[i].startsWith('#') && !lines[i].startsWith('http') && !lines[i].startsWith('[!')) {
-            desc = lines[i];
-            break;
-          }
-        }
-
-        if (name && rawURL) {
-          const id = `mod_first_${encodeURIComponent(name)}`;
-          const existingIdx = modules.findIndex(m => m.name === name || m.rawURL === rawURL);
-          const itemData = {
-            id,
-            name,
-            category: 'module',
-            description: desc,
-            icon: '[https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/Shadowrocket.png](https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/Shadowrocket.png)',
-            author: { name: 'LOWERTOP', url: '[https://github.com/LOWERTOP](https://github.com/LOWERTOP)', username: 'LOWERTOP' },
-            authorAvatar: '[https://github.com/LOWERTOP.png?size=64](https://github.com/LOWERTOP.png?size=64)',
-            sourceName: 'Shadowrocket-First',
-            sourceURL: '[https://github.com/LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)',
-            rawURL,
-            installURL: `shadowrocket://install?url=${encodeURIComponent(rawURL)}`,
-            primaryBtnText: '安装模块',
-            isRepoCard: false
-          };
-
-          if (existingIdx !== -1) {
-            modules[existingIdx] = Object.assign(modules[existingIdx], itemData);
-          } else {
-            modules.unshift(itemData);
-          }
-        }
-      }
-    }
-  } catch (err) {
-    console.warn('同步 Shadowrocket-First 最新模块失败，继续沿用现有数据:', err.message);
-  }
-
+  if (!modules.length) throw new Error("FMZ 目录树获取成功，但未解析到模块");
+  console.log(`✅ FMZ 获取 ${modules.length} 个模块`);
   return modules;
 }
 
-/**
- * 主构建入口
- */
-async function main() {
+async function fetchZirawellModules() {
+  console.log("📦 正在获取 Zirawell 模块...");
+  const modules = [];
   try {
-    const modules = await fetchCommunityModules();
-    const colors = await fetchColorThemes();
+    const readme = await fetchRawText(CONFIG.ZIRAWELL_README_URL, false);
+    parseRepositoryModules(readme).forEach(m => modules.push({ ...m, fromZirawell: true }));
+  } catch (e) {
+    console.warn("⚠️ Zirawell README 解析跳过:", e.message);
+  }
 
-    // 合并模块与配色
-    const allResources = [...modules, ...colors];
+  const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 15000);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  if (data?.truncated) throw new Error("Zirawell 目录树被 GitHub 截断 (truncated: true)");
+  if (!Array.isArray(data?.tree)) throw new Error("Zirawell Tree API 数据结构异常");
 
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allResources, null, 2), 'utf-8');
-    console.log(`\n========================================`);
-    console.log(`>>> 构建成功！共计整合 ${allResources.length} 项资源`);
-    console.log(`    - 社区模块: ${modules.length} 项`);
-    console.log(`    - 配色方案: ${colors.length} 项`);
-    console.log(`    - 输出目标: ${OUTPUT_FILE}`);
-    console.log(`========================================\n`);
-  } catch (err) {
-    console.error('构建失败:', err);
-    process.exit(1);
+  data.tree.forEach(item => {
+    if (item.type === "blob" && (item.path || "").startsWith("Rule/Surge/") && /\.(?:sgmodule|srmodule|module)$/i.test(item.path)) {
+      const fileName = item.path.split("/").pop().replace(/\.(?:sgmodule|srmodule|module)$/i, "");
+      const rawURL = normalizeRawURL(`https://raw.githubusercontent.com/zirawell/R-Store/main/${item.path}`);
+      modules.push({ name: fileName, rawURL, fromZirawell: true });
+    }
+  });
+
+  if (!modules.length) throw new Error("Zirawell 获取成功，但未解析到模块");
+  console.log(`✅ Zirawell 获取 ${modules.length} 个模块`);
+  return modules;
+}
+
+async function loadLuestrIcons() {
+  try {
+    const res = await fetchWithTimeout(CONFIG.LUESTR_TREE_API, {}, 8000);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tree)) {
+        for (const item of data.tree) {
+          const pathName = item.path || "";
+          if (item.type === "blob" && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
+            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
+            const url = `https://raw.githubusercontent.com/luestr/IconResource/main/${pathName}`;
+            if (!isFlagKey(fileName, url)) {
+              const cleanName = fileName.trim().toLowerCase();
+              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
+                remoteIconsMap[cleanName] = url;
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ IconResource 图标库拉取跳过:", e.message);
   }
 }
 
-main();
+async function loadZirawellIcons() {
+  try {
+    const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 8000);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tree)) {
+        for (const item of data.tree) {
+          const pathName = item.path || "";
+          if (item.type === "blob" && /^Res\/Icon\//i.test(pathName) && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
+            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
+            const url = `https://raw.githubusercontent.com/zirawell/R-Store/main/${pathName}`;
+            if (!isFlagKey(fileName, url)) {
+              const cleanName = fileName.trim().toLowerCase();
+              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
+                remoteIconsMap[cleanName] = url;
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ Zirawell 图标库拉取跳过:", e.message);
+  }
+}
+
+async function loadRemoteIcons() {
+  remoteIconsMap = {};
+  try {
+    const res = await fetchWithTimeout(CONFIG.ICONS_JSON_URL, {}, 8000);
+    if (res.ok) {
+      const data = await res.json();
+      const extractUrl = (item) => {
+        if (typeof item === 'string') return item;
+        if (typeof item === 'object' && item !== null) {
+          return item.icon || item.url || item.src || item.img || item.path || item.link || "";
+        }
+        return "";
+      };
+      const extractName = (item) => {
+        if (typeof item === 'object' && item !== null) {
+          return item.name || item.title || item.label || item.id || item.app || "";
+        }
+        return "";
+      };
+      const addMap = (name, url) => {
+        if (name && typeof name === 'string' && url && typeof url === 'string' && url.length > 5) {
+          if (isFlagKey(name, url)) return;
+          const cleanName = name.trim().toLowerCase();
+          if (cleanName.length < 2) return;
+          remoteIconsMap[cleanName] = url.trim();
+          const baseName = cleanName.replace(/[_-]?\d+$/, "").trim();
+          if (baseName && baseName.length >= 2 && !remoteIconsMap[baseName]) {
+            remoteIconsMap[baseName] = url.trim();
+          }
+        }
+      };
+
+      if (Array.isArray(data)) {
+        data.forEach(item => addMap(extractName(item), extractUrl(item)));
+      } else if (data && typeof data === 'object') {
+        const list = data.icons || data.data || data.list;
+        if (Array.isArray(list)) {
+          list.forEach(item => addMap(extractName(item), extractUrl(item)));
+        } else {
+          Object.entries(data).forEach(([k, v]) => addMap(k, extractUrl(v)));
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ FMZ 图标加载跳过:", e.message);
+  }
+
+  await Promise.all([
+    loadLuestrIcons(),
+    loadZirawellIcons()
+  ]);
+}
+
+function findIconInMap(key) {
+  if (!key) return "";
+  const lowerKey = key.toLowerCase().trim();
+  if (remoteIconsMap[lowerKey] && !isFlagKey(lowerKey, remoteIconsMap[lowerKey])) return remoteIconsMap[lowerKey];
+  const baseKey = lowerKey.replace(/[_-]?\d+$/, "").trim();
+  if (baseKey && remoteIconsMap[baseKey] && !isFlagKey(baseKey, remoteIconsMap[baseKey])) return remoteIconsMap[baseKey];
+
+  for (const [iconKey, iconUrl] of Object.entries(remoteIconsMap)) {
+    if (isFlagKey(iconKey, iconUrl)) continue;
+    const cleanIconKey = iconKey.replace(/[_-]?\d+$/, "").trim();
+    if (cleanIconKey === lowerKey || (baseKey && cleanIconKey === baseKey)) {
+      return iconUrl;
+    }
+  }
+  return "";
+}
+
+function getMatchedIcon(name) {
+  if (!name) return "";
+  const lowerName = name.trim().toLowerCase();
+  if (!lowerName) return "";
+
+  if (lowerName.includes("youtube") || lowerName.includes("油管") || lowerName.includes("ytb")) {
+    const ytIcon = findIconInMap("youtube");
+    if (ytIcon) return ytIcon;
+  }
+  if (lowerName.includes("小米") || lowerName.includes("米家") || lowerName.includes("xiaomi") || lowerName.includes("mihome")) {
+    const miIcon = findIconInMap("xiaomi") || findIconInMap("mihome") || findIconInMap("mi");
+    if (miIcon) return miIcon;
+  }
+
+  let matched = findIconInMap(lowerName);
+  if (matched) return matched;
+
+  const cleanName = lowerName
+    .replace(/(去广告|净化|移除|破解|签到|脚本|模块|解锁|自动|净化版|修复|增强|vip|pro|lite|hd|edge|plus|v\d+)/g, "")
+    .replace(/[-_.\s]/g, "")
+    .trim();
+
+  if (cleanName && cleanName.length >= 2) {
+    matched = findIconInMap(cleanName);
+    if (matched) return matched;
+  }
+
+  for (const [cnKeyword, enKeys] of Object.entries(APP_ALIASES)) {
+    if (lowerName.includes(cnKeyword.toLowerCase())) {
+      for (const key of enKeys) {
+        matched = findIconInMap(key);
+        if (matched) return matched;
+      }
+    }
+  }
+
+  for (const [iconName, iconUrl] of Object.entries(remoteIconsMap)) {
+    if (!iconName || iconName.length < 3 || isFlagKey(iconName, iconUrl)) continue;
+    const baseIconName = iconName.replace(/[_-]?\d+$/, "").trim();
+    if (baseIconName.length < 3 || isFlagKey(baseIconName, iconUrl)) continue;
+    if (lowerName.includes(iconName) || lowerName.includes(baseIconName)) {
+      return iconUrl;
+    }
+  }
+  return "";
+}
+
+function resolveIconURL(icon, rawURL) {
+  if (!icon) return "";
+  icon = icon.trim();
+  if (isFlagKey("", icon)) return "";
+  if (icon.startsWith("data:")) return icon;
+  if (/^https?:\/\//i.test(icon)) return normalizeRawURL(icon);
+  try {
+    const safeIcon = icon.replace(/#/g, "%23").replace(/\s+/g, "%20");
+    return new URL(safeIcon, rawURL).href;
+  } catch {
+    return "";
+  }
+}
+
+function extractIconKeyFromPath(iconStr) {
+  if (!iconStr) return "";
+  try {
+    const clean = iconStr.split(/[?#]/)[0].trim();
+    const fileName = clean.split("/").pop() || "";
+    return fileName.replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "").trim().toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function resolveModuleIcon(metadata, rawURL) {
+  let rawIcon = metadata.icon ? metadata.icon.trim() : "";
+  if (rawIcon) {
+    const key = extractIconKeyFromPath(rawIcon);
+    if (key) {
+      const matchedVerifiedIcon = findIconInMap(key);
+      if (matchedVerifiedIcon) return matchedVerifiedIcon;
+    }
+    let fixedIcon = rawIcon;
+    if (fixedIcon.includes("zirawell/R-Store")) {
+      fixedIcon = fixedIcon
+        .replace("/master/", "/main/")
+        .replace("/Rule/Res/Icon/", "/Res/Icon/")
+        .replace("/Icon/", "/Res/Icon/");
+    }
+    const resolved = resolveIconURL(fixedIcon, rawURL);
+    if (resolved && !resolved.includes("/Rule/Res/Icon/")) {
+      return resolved;
+    }
+  }
+
+  if (metadata.declaredName) {
+    const matched = getMatchedIcon(metadata.declaredName);
+    if (matched) return matched;
+  }
+  const fileName = getModuleNameFromURL(rawURL);
+  if (fileName) {
+    const matched = getMatchedIcon(fileName);
+    if (matched) return matched;
+  }
+  if (metadata.name) {
+    const matched = getMatchedIcon(metadata.name);
+    if (matched) return matched;
+  }
+  return "";
+}
+
+/**
+ * 解析 README.md，同时记录行内的出现先后顺序 index
+ */
+function parseRepositoryModules(markdown) {
+  if (!markdown || markdown === "404: Not Found") return [];
+  const result = [];
+  let currentHeading = "";
+  let orderIndex = 0;
+  const lines = markdown.split(/\r?\n/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const headingMatch = line.match(/^(?:#{1,6}|\*|-|\+)\s*(?:\[([^\]]+)\]|`([^`]+)`|([^\n(#*]+))/);
+    if (headingMatch) {
+      const rawTitle = (headingMatch[1] || headingMatch[2] || headingMatch[3] || "").trim();
+      const cleanTitle = cleanText(rawTitle.replace(/[*`_#]/g, "").replace(/^[🚀📁📦\s]+/, ""));
+      if (cleanTitle && cleanTitle.length >= 2) currentHeading = cleanTitle;
+    }
+    const rawRegex = /(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)(?:[^\s)\]"'<>]*)?)/ig;
+    let match;
+    while ((match = rawRegex.exec(line)) !== null) {
+      let rawURL = normalizeRawURL(match[1].replace(/[),\]"'<>]+$/g, ""));
+      if (!rawURL || !/\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(rawURL)) continue;
+      result.push({
+        name: getModuleNameFromURL(rawURL) || currentHeading || "未命名模块",
+        rawURL,
+        readmeIndex: orderIndex++
+      });
+    }
+  }
+  const seen = new Set();
+  return result.filter(item => {
+    const key = item.rawURL.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function parseGitHubRawURL(rawURL) {
+  try {
+    const url = new URL(rawURL);
+    if (url.hostname === "raw.githubusercontent.com" || url.hostname === "github.com") {
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (parts.length >= 2) return { owner: parts[0], repo: parts[1], fullName: `${parts[0]}/${parts[1]}`, url: `https://github.com/${parts[0]}/${parts[1]}` };
+    }
+  } catch {}
+  return null;
+}
+
+function getSourceRepoInfo(rawURL, githubInfo) {
+  if (githubInfo) return { name: githubInfo.repo, url: githubInfo.url };
+  try {
+    const url = new URL(rawURL);
+    return { name: url.hostname, url: url.origin };
+  } catch {
+    return { name: "开源仓库", url: "#" };
+  }
+}
+
+function getAuthorFromURL(rawURL, githubInfo) {
+  if (!rawURL) return { name: "作者信息识别失败", url: "", username: "" };
+  try {
+    const prMatch = decodeURIComponent(rawURL).match(/\/PR\/([^/?#]+)\//i);
+    if (prMatch && prMatch[1] && !/\.(?:sgmodule|srmodule|module)$/i.test(prMatch[1].trim())) {
+      const prAuthor = prMatch[1].trim();
+      return { name: prAuthor, url: `https://github.com/${encodeURIComponent(prAuthor)}`, username: prAuthor };
+    }
+  } catch (e) {}
+
+  if (githubInfo) return { name: githubInfo.owner, url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`, username: githubInfo.owner };
+  return { name: "作者信息识别失败", url: "", username: "" };
+}
+
+function parseModuleMetadata(text, fallbackName, rawURL = "") {
+  const metadata = {};
+  const lines = text.split(/\r?\n/);
+  for (let i = 0; i < Math.min(lines.length, 100); i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    if (line.startsWith("#!")) {
+      const match = line.match(/^#!\s*([a-zA-Z0-9_-]+)\s*=\s*(.*)$/i);
+      if (match) metadata[match[1].trim().toLowerCase()] = cleanText(match[2]);
+      continue;
+    }
+    const commentMatch = line.match(/^(?:#|\/\/)\s*@?(?:name|规则名称|模块名称)\s*[:=]\s*(.+)$/i);
+    if (commentMatch && !metadata.name) metadata.name = cleanText(commentMatch[1]);
+  }
+  const declaredName = metadata.name || "";
+  const resolvedName = declaredName || resolveFallbackName(fallbackName, rawURL);
+  return { name: resolvedName, declaredName, description: metadata.desc || "", icon: metadata.icon || "" };
+}
+
+function generateDescription(metadata, rawText) {
+  if (metadata.description) return metadata.description;
+  const lines = rawText.split(/\r?\n/);
+  const comments = [];
+  for (let i = 0; i < Math.min(lines.length, 40); i++) {
+    let line = lines[i].trim();
+    if (!line || line.startsWith("#!") || line.startsWith("//")) continue;
+    if (line.startsWith("#")) {
+      line = line.replace(/^#+\s*/, "").trim();
+      if (line && !/^[-=*]+$/.test(line) && line.length >= 4) comments.push(line);
+    }
+  }
+  return comments.length ? comments.slice(0, 2).join(" ") : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
+}
+
+/**
+ * 全局置顶与梯队判断：
+ * 1~3: 三大神级置顶（移除域名限制，全局优先捕获）
+ * 10: 本人 README 来源（按文档自然出现顺序排列）
+ * 40: fmz200
+ * 50: zirawell
+ * 9999: 失效/存疑
+ */
+function getPinnedRank(item) {
+  if (!item) return 9999;
+  const rawURL = (item.rawURL || "").toLowerCase();
+
+  // 垫底的失效/存疑资源
+  if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
+    return 9999;
+  }
+
+  const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
+
+  // 三大神级置顶（不受限于必须是 lowertop 仓库，只要命中关键词一律置顶）
+  if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
+  if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
+  if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
+
+  // 来源于你仓库 README 的所有资源，排在第二大梯队
+  if (item.fromMyRepo) {
+    return 10;
+  }
+
+  // fmz200 仓库资源
+  if (item.fromFMZ || rawURL.includes("fmz200")) {
+    return 40;
+  }
+
+  // zirawell 仓库资源
+  if (item.fromZirawell || rawURL.includes("zirawell")) {
+    return 50;
+  }
+
+  return 60;
+}
+
+function sortPinnedModules(list) {
+  if (!Array.isArray(list)) return [];
+  return [...list].sort((a, b) => {
+    const rankDiff = getPinnedRank(a) - getPinnedRank(b);
+    if (rankDiff !== 0) return rankDiff;
+
+    // 如果属于你 README 来源的模块，严格遵循读取时的先后顺序
+    if (a.fromMyRepo && b.fromMyRepo) {
+      const idxA = a.readmeIndex !== undefined ? a.readmeIndex : 99999;
+      const idxB = b.readmeIndex !== undefined ? b.readmeIndex : 99999;
+      return idxA - idxB;
+    }
+
+    // 其余第三方仓库内部，按中文拼音/英文自然顺序排列
+    return a.name.localeCompare(b.name, "zh-Hans-CN");
+  });
+}
+
+async function fetchModule(item) {
+  stats.totalAttempted++;
+  const githubInfo = parseGitHubRawURL(item.rawURL);
+  const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
+  const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
+  const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
+  const fromMyRepo = item.fromMyRepo || false;
+  const fromFMZ = item.fromFMZ || false;
+  const fromZirawell = item.fromZirawell || false;
+  const readmeIndex = item.readmeIndex !== undefined ? item.readmeIndex : 99999;
+
+  try {
+    const rawText = await fetchRawText(item.rawURL, true);
+    if (!rawText || rawText === "404: Not Found") throw new Error("404 Not Found");
+    const metadata = parseModuleMetadata(rawText, item.name, item.rawURL);
+    const description = generateDescription(metadata, rawText);
+    if (description && description.includes("已合并至")) return null;
+    const icon = resolveModuleIcon(metadata, item.rawURL);
+    const isDubious = isInvalidOr404(rawText) || isInvalidOr404(description);
+    if (isDubious) stats.failedCount++;
+
+    return {
+      name: metadata.name,
+      rawURL: item.rawURL,
+      description,
+      author: urlAuthor,
+      authorAvatar: avatarUrl,
+      icon,
+      sourceName: sourceInfo.name,
+      sourceURL: sourceInfo.url,
+      installURL: `shadowrocket://install?module=${encodeURIComponent(item.rawURL)}`,
+      isDubious,
+      fromMyRepo,
+      fromFMZ,
+      fromZirawell,
+      readmeIndex,
+      _searchKeywords: [metadata.name, description, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
+    };
+  } catch (error) {
+    stats.failedCount++;
+    const resolvedName = resolveFallbackName(item.name, item.rawURL);
+    const fallbackDesc = `${resolvedName || "该模块"} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
+    return {
+      name: resolvedName,
+      rawURL: item.rawURL,
+      description: fallbackDesc,
+      author: urlAuthor,
+      authorAvatar: avatarUrl,
+      icon: getMatchedIcon(resolvedName) || "",
+      sourceName: sourceInfo.name,
+      sourceURL: sourceInfo.url,
+      installURL: `shadowrocket://install?module=${encodeURIComponent(item.rawURL)}`,
+      isDubious: true,
+      fromMyRepo,
+      fromFMZ,
+      fromZirawell,
+      readmeIndex,
+      _searchKeywords: [resolvedName, fallbackDesc, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
+    };
+  }
+}
+
+async function mapWithConcurrency(items, concurrency, handler) {
+  const results = new Array(items.length);
+  let index = 0;
+  async function worker() {
+    while (true) {
+      const current = index++;
+      if (current >= items.length) return;
+      results[current] = await handler(items[current]);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => worker()));
+  return results;
+}
+
+function validateOutputData(data) {
+  if (!Array.isArray(data) || !data.length) throw new Error("❌ 最终数据为空或不是数组");
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    if (!item?.name || !item?.rawURL?.startsWith("http") || !item?.installURL) {
+      throw new Error(`❌ 第 ${i + 1} 条模块缺少关键字段 (name/rawURL/installURL)`);
+    }
+  }
+}
+
+async function main() {
+  console.log("⏳ 等待 60 秒上游缓存同步与网络就绪...");
+  await wait(60000); // 延时 1 分钟再启动构建
+
+  console.log("🚀 ShadowStore 聚合构建引擎启动...\n");
+  const outputPath = path.resolve(__dirname, "modules.json");
+  const tempPath = `${outputPath}.tmp`;
+
+  let repoMarkdown = "";
+  try {
+    repoMarkdown = await fetchRawText(CONFIG.REPO_README_URL, false);
+    if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) throw new Error("主 README 无效");
+  } catch (e) {
+    try {
+      repoMarkdown = await fetchRawText(CONFIG.REPO_README_BACKUP, false);
+      if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) throw new Error("备用 README 无效");
+    } catch (e2) {
+      throw new Error("❌ 来源熔断：本仓库 README 获取失败，拒绝发布！");
+    }
+  }
+
+  const localModules = parseRepositoryModules(repoMarkdown).map(m => ({ ...m, fromMyRepo: true }));
+  if (!localModules.length) throw new Error("❌ 来源熔断：本仓库未解析到任何有效模块！");
+  sourceHealth.local = true;
+
+  const fmzModules = await fetchFMZModules();
+  sourceHealth.fmz = true;
+
+  const zirawellModules = await fetchZirawellModules();
+  sourceHealth.zirawell = true;
+
+  await loadRemoteIcons();
+
+  const seenURLs = new Set();
+  const sourceModules = [...localModules, ...fmzModules, ...zirawellModules].filter(item => {
+    if (!item?.rawURL) return false;
+    const k = item.rawURL.toLowerCase();
+    if (seenURLs.has(k)) return false;
+    seenURLs.add(k);
+    return true;
+  });
+
+  console.log(`📦 去重后共 ${sourceModules.length} 个独立模块，开始抓取元数据...`);
+  stats.totalAttempted = 0;
+  stats.failedCount = 0;
+
+  const result = await mapWithConcurrency(sourceModules, CONFIG.CONCURRENCY, fetchModule);
+  const failureRatio = stats.totalAttempted > 0 ? stats.failedCount / stats.totalAttempted : 0;
+
+  console.log(`📊 抓取总数: ${stats.totalAttempted} | 失败: ${stats.failedCount} | 失败率: ${(failureRatio * 100).toFixed(2)}%`);
+  if (failureRatio > CONFIG.MAX_FAILURE_RATIO) {
+    throw new Error(`❌ 数据熔断：失败率 ${(failureRatio * 100).toFixed(2)}% 超出安全阈值，中止发布！`);
+  }
+
+  const sortedResult = sortPinnedModules(result.filter(Boolean));
+  validateOutputData(sortedResult);
+
+  fs.writeFileSync(tempPath, JSON.stringify(sortedResult, null, 2), "utf-8");
+  const verifyData = JSON.parse(fs.readFileSync(tempPath, "utf-8"));
+  validateOutputData(verifyData);
+  if (verifyData.length !== sortedResult.length) {
+    if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
+    throw new Error("❌ 临时文件校验不一致！");
+  }
+
+  fs.renameSync(tempPath, outputPath);
+  console.log(`\n🎉 ShadowStore 同步完成！共输出 ${sortedResult.length} 个模块至 modules.json\n`);
+}
+
+main().catch(err => {
+  console.error("\n❌ ShadowStore 构建失败:", err.message);
+  const tempPath = path.resolve(__dirname, "modules.json.tmp");
+  if (fs.existsSync(tempPath)) {
+    try { fs.unlinkSync(tempPath); } catch (e) {}
+  }
+  process.exit(1);
+});
