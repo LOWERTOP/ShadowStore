@@ -57,7 +57,6 @@ const APP_ALIASES = {
   "网易云": ["netease", "cloudmusic"],
   "百度": ["baidu"],
   "高德": ["amap", "gaode"],
-  "高德地图": ["amap", "gaode"],
   "腾讯": ["tencent"],
   "美团": ["meituan"],
   "拼多多": ["pdd", "pinduoduo"],
@@ -70,7 +69,8 @@ const APP_ALIASES = {
   "豆瓣": ["douban"],
   "贴吧": ["tieba"],
   "夸克": ["quark"],
-  "12306": ["12306"]
+  "12306": ["12306"],
+  "高德地图": ["amap"]
 };
 
 const FLAG_CODES = new Set([
@@ -522,7 +522,7 @@ function parseGitHubRawURL(rawURL) {
         owner: parts[0],
         repo: parts[1],
         fullName: `${parts[0]}/${parts[1]}`,
-        url: `[ShadowStore](https://github.com/LOWERTOP/ShadowStore)`
+        url: `https://github.com/${parts[0]}/${parts[1]}`
       };
     }
   } catch {}
@@ -547,14 +547,14 @@ function getAuthorFromURL(rawURL, githubInfo) {
       const prAuthor = prMatch[1].trim();
       return {
         name: prAuthor,
-        url: `[LOWERTOP](https://github.com/LOWERTOP)`,
+        url: `https://github.com/${encodeURIComponent(prAuthor)}`,
         username: prAuthor
       };
     }
   } catch (e) {}
   if (githubInfo) return {
     name: githubInfo.owner,
-    url: `[LOWERTOP](https://github.com/LOWERTOP)`,
+    url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
     username: githubInfo.owner
   };
   return { name: "作者信息识别失败", url: "", username: "" };
@@ -719,7 +719,11 @@ function validateOutputData(data) {
 }
 
 /**
- * 自动提取 Shadowrocket 配色方案（过滤“原创配色”并清空任何前置/次级按钮）
+ * 自动提取 Shadowrocket 配色方案
+ * 1. 采用副标题“中文名 色调模式”（如：原子灰 暗底色）作为卡片名称
+ * 2. 提取“点击查看效果截图”后的真实图片直链作为效果预览图
+ * 3. 严格选用“iOS 26 及以上”的 shadowrocket://color? 安装协议
+ * 4. 彻底排除“原创配色”说明小节与 iOS 18 按钮
  */
 async function fetchColorThemes(markdownText) {
   console.log("🎨 开始解析 Shadowrocket 配色方案...");
@@ -729,48 +733,85 @@ async function fetchColorThemes(markdownText) {
   const colorSectionIdx = markdownText.indexOf("## Shadowrocket 配色文件");
   const parseScope = colorSectionIdx !== -1 ? markdownText.slice(colorSectionIdx) : markdownText;
 
-  // 正则匹配包含 shadowrocket://color? 的配色单元
-  const regex = /###\s*\[?Shadowrocket\s+([^\]\n]+)\]?[\s\S]*?!\[.*?\]\((https?:\/\/[^\s\)]+)\)[\s\S]*?(shadowrocket:\/\/color\?[^\s\n\)\`\"]+)/gi;
+  // 按每个配色小节（以 ### 开头）切分
+  const sections = parseScope.split(/(?=###\s+)/g);
 
-  let match;
-  while ((match = regex.exec(parseScope)) !== null) {
-    const rawKey = match[1].trim();
-    const cleanKey = rawKey.replace(/[\[\]]/g, "").trim();
-
-    // 过滤掉第一个“原创配色”卡片
-    if (cleanKey.includes("原创配色")) {
+  for (const sec of sections) {
+    // 过滤非配色小节或“原创配色”说明卡片
+    if (!sec.includes("Shadowrocket") || sec.includes("Shadowrocket 原创配色")) {
       continue;
     }
 
-    const previewImg = match[2].trim();
-    const scheme = match[3].trim();
+    // 1. 提取中文名称与底色模式（如：原子灰 暗底色）
+    const lines = sec.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    let displayName = "";
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      if (
+        line &&
+        !line.startsWith("#") &&
+        !line.startsWith("[!") &&
+        !line.startsWith("!") &&
+        !line.startsWith("<") &&
+        !line.startsWith("shadowrocket://")
+      ) {
+        // 匹配类似 "原子灰 暗底色" / "香鱼色 亮底色"
+        displayName = line.replace(/[*`_]/g, "").trim();
+        break;
+      }
+    }
 
-    colorItems.push({
-      name: `${cleanKey} 配色`,
-      rawURL: scheme,
-      installURL: scheme,
-      category: "color",
-      previewImg: previewImg,
-      icon: "https://github.com/LOWERTOP.png?size=64",
-      author: {
-        name: "LOWERTOP",
-        url: "https://github.com/LOWERTOP",
-        username: "LOWERTOP"
-      },
-      authorAvatar: "https://github.com/LOWERTOP.png?size=64",
-      sourceName: "Shadowrocket-First",
-      sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
-      description: "Shadowrocket 原创精选配色方案，建议搭配对应底色模式使用。",
-      primaryBtnText: "安装配色",
-      preInstallURL: "", // 彻底杜绝 iOS 18 按钮
-      secondaryBtnText: "",
-      isDubious: false,
-      fromMyRepo: true,
-      _searchKeywords: [cleanKey, "配色", "LOWERTOP", "Shadowrocket-First"].join(" ").toLowerCase()
-    });
+    // 2. 提取“点击查看效果截图”之后的真实图片地址
+    let previewImg = "";
+    const previewMatch = sec.match(/点击查看效果截图[\s\S]*?!\[.*?\]\((https?:\/\/[^\s\)]+)\)/i);
+    if (previewMatch) {
+      previewImg = previewMatch[1].trim();
+    } else {
+      const fallbackImg = sec.match(/!\[.*?\]\((https?:\/\/[^\s\)]+)\)/);
+      if (fallbackImg) previewImg = fallbackImg[1].trim();
+    }
+
+    // 3. 提取“iOS 26 及以上”对应的小火箭安装协议
+    let installScheme = "";
+    const ios26Match = sec.match(/iOS\s*26\s*及以上[\s\S]*?(shadowrocket\s*:\s*\/\/\s*color\?[^\r\n\`]+)/i);
+    if (ios26Match) {
+      // 彻底去除多余的空格
+      installScheme = ios26Match[1].replace(/\s+/g, "");
+    } else {
+      const allSchemes = Array.from(sec.matchAll(/shadowrocket\s*:\s*\/\/\s*color\?[^\r\n\`\s]+/gi));
+      if (allSchemes.length > 0) {
+        installScheme = allSchemes[allSchemes.length - 1][0].replace(/\s+/g, "");
+      }
+    }
+
+    if (displayName && installScheme) {
+      colorItems.push({
+        name: displayName,
+        rawURL: installScheme,
+        installURL: installScheme,
+        category: "color",
+        previewImg: previewImg,
+        icon: "https://github.com/LOWERTOP.png?size=64",
+        author: {
+          name: "LOWERTOP",
+          url: "https://github.com/LOWERTOP",
+          username: "LOWERTOP"
+        },
+        authorAvatar: "https://github.com/LOWERTOP.png?size=64",
+        sourceName: "Shadowrocket-First",
+        sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
+        description: "Shadowrocket 原创精选配色方案，支持一键载入至客户端，建议搭配相应底色模式使用。",
+        primaryBtnText: "安装配色",
+        preInstallURL: "", // 彻底杜绝 iOS 18 按钮
+        secondaryBtnText: "",
+        isDubious: false,
+        fromMyRepo: true,
+        _searchKeywords: [displayName, "配色", "LOWERTOP", "Shadowrocket-First"].join(" ").toLowerCase()
+      });
+    }
   }
 
-  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已过滤原创配色）`);
+  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已采用实际名称、截图与 iOS 26 协议）`);
   return colorItems;
 }
 
