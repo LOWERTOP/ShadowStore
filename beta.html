@@ -3132,7 +3132,6 @@ themeToggleBtn.addEventListener("click", () => {
     try { localStorage.setItem("sr_theme_override", nextMode); } catch (e) { } updateThemeUI(); showToast(toastText);
 });
 updateThemeUI();
-try { const cleanUrl = new URL(window.location.href); if (cleanUrl.searchParams.has("_refresh")) { cleanUrl.searchParams.delete("_refresh"); window.history.replaceState({}, document.title, cleanUrl.href); } } catch (e) { }
 
 let touchStartX = 0, touchStartY = 0, isPulling = false, isPullLocked = false, pullRafId = null; let hasPulledContainer = false; const MIN_DRAG_DEADZONE = 20; const PULL_TRIGGER_DIFF = 110;
 async function triggerForceReload() {
@@ -3218,11 +3217,15 @@ async function fetchModulesData(forceRefresh = false) {
 }
 
 let modulesLoadPromise = null;
+let isCurrentLoadForce = false;
 
 function loadModules(forceRefresh = false) {
-    if (modulesLoadPromise) {
+    // 若当前正在执行的任务本身就是强制刷新，或者新任务无需强制刷新，直接复用 Promise
+    if (modulesLoadPromise && (!forceRefresh || isCurrentLoadForce)) {
         return modulesLoadPromise;
     }
+
+    isCurrentLoadForce = Boolean(forceRefresh);
 
     modulesLoadPromise = (async () => {
         state.isDataLoading = true;
@@ -3231,6 +3234,7 @@ function loadModules(forceRefresh = false) {
         try { cachedData = localStorage.getItem(CONFIG.CACHE_KEY); } catch (e) {}
         let hasRenderedCache = false;
 
+        // 仅在非强制刷新模式下读取缓存作为首屏
         if (!forceRefresh && cachedData) {
             try {
                 const parsed = JSON.parse(cachedData);
@@ -3241,7 +3245,6 @@ function loadModules(forceRefresh = false) {
                         updateAllModules([...staticItems, ...normalized]);
                         state.isAlphabetRendered = false; 
                         state.isInitialLoading = false; 
-                        // 修正点：保持 isDataLoading = true，禁止提前终止
                         filterModules(); 
                         setSearchState(true); 
                         hasRenderedCache = true;
@@ -3303,13 +3306,14 @@ function loadModules(forceRefresh = false) {
 
     return modulesLoadPromise.finally(() => {
         modulesLoadPromise = null;
+        isCurrentLoadForce = false;
     });
 }
 
 window.addEventListener('online', () => {
     if (state.statusKey === "errorCache" || state.statusKey === "errorStatic") {
         showToast("网络连接已恢复，正在尝试同步最新数据...");
-        loadModules();
+        loadModules(false);
     }
 });
 
@@ -3319,7 +3323,19 @@ scheduleLayoutUpdate();
 updateTabIndicator(false);
 updateSearchLayer();
 cleanOldCaches();
-loadModules();
+
+// 检测是否为下拉刷新跳转（包含 _refresh 参数）
+const isForceRefreshFromUrl = new URLSearchParams(window.location.search).has("_refresh");
+loadModules(isForceRefreshFromUrl);
+
+// 提取完毕后清理 URL 中的参数
+try {
+    const cleanUrl = new URL(window.location.href);
+    if (cleanUrl.searchParams.has("_refresh")) {
+        cleanUrl.searchParams.delete("_refresh");
+        window.history.replaceState({}, document.title, cleanUrl.href);
+    }
+} catch (e) {}
 </script>
 </body>
 </html>
