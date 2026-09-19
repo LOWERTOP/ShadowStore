@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析
+ * 严格来源熔断、原子化写盘、作者/头像解析、精确 7 级梯队排序
  */
 const fs = require("fs");
 const path = require("path");
@@ -404,45 +404,69 @@ function resolveModuleIcon(metadata, rawURL) {
 }
 
 /**
- * 分梯队优先级计算：
+ * 精确 7 级梯队优先级计算：
  * 1~3: 三大核心置顶 (ScriptHub, Sub-Store, BoxJs)
- * 10: 本人仓库 (LOWERTOP) 的其余模块
- * 20: fmz200 仓库的模块
- * 30: zirawell 仓库的模块
- * 50: 其他兜底
- * 9999: 失效域名
+ * 10: 我的仓库原生自制文件 (LOWERTOP 自身维护，不含 /PR/)
+ * 20: 我仓库中收录的 PR 社区贡献文件 (/PR/ 路径)
+ * 30: 仓库中收录的其他来源文件 (README 中推荐引用的外部第三方文件)
+ * 40: fmz200 仓库的资源
+ * 50: zirawell 仓库的资源
+ * 9999: 垫底的失效/存疑资源
  */
 function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
-  if (rawURL.includes("ddgksf2013.top")) return 9999;
+
+  // 1. 垫底的失效/存疑资源
+  if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
+    return 9999;
+  }
 
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
-  const isFromMyRepo = Boolean(item.fromMyRepo || rawURL.includes("lowertop"));
+  const isLowerTopRepo = rawURL.includes("lowertop/shadowrocket-first") || rawURL.includes("lowertop");
 
-  if (isFromMyRepo) {
+  // 属于 LOWERTOP 仓库本身的文件
+  if (isLowerTopRepo) {
+    // 2. 三大核心置顶
     if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
     if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
     if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
+
+    // 3. 我仓库中收录的 PR 社区贡献文件 (/PR/ 路径)
+    if (rawURL.includes("/pr/")) {
+      return 20;
+    }
+
+    // 4. 我的仓库原生自制文件
     return 10;
   }
 
-  if (item.fromFMZ || rawURL.includes("fmz200")) {
-    return 20;
-  }
-
-  if (item.fromZirawell || rawURL.includes("zirawell")) {
+  // 5. 仓库中收录的其他来源文件 (来自本仓 README 解析，但 rawURL 实际指向外部链接)
+  if (item.fromMyRepo) {
     return 30;
   }
 
-  return 50;
+  // 6. fmz200 仓库的资源
+  if (item.fromFMZ || rawURL.includes("fmz200")) {
+    return 40;
+  }
+
+  // 7. zirawell 仓库的资源
+  if (item.fromZirawell || rawURL.includes("zirawell")) {
+    return 50;
+  }
+
+  return 60;
 }
 
 function sortPinnedModules(list) {
   if (!Array.isArray(list)) return [];
   return [...list].sort((a, b) => {
     const rankDiff = getPinnedRank(a) - getPinnedRank(b);
+    // 梯队不同，严格按梯队高低排列
     if (rankDiff !== 0) return rankDiff;
+
+    // 同一梯队内部，按中文拼音/英文自然顺序排列
     return a.name.localeCompare(b.name, "zh-Hans-CN");
   });
 }
