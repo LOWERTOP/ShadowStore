@@ -14,8 +14,8 @@
   <meta property="og:site_name" content="ShadowStore">
   <meta property="og:title" content="ShadowStore">
   <meta property="og:description" content="Shadowrocket 开源社区资源聚合检索平台">
-  <meta property="og:url" content="https://shadowstore.dpdns.org/">
-  <meta property="og:image" content="https://lowertop.github.io/Shadowrocket-First/img/ShadowStoreSocialPreview1280x640.png">
+  <meta property="og:url" content="https://shadowstore.dpdns.org">
+  <meta property="og:image" content="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStoreSocialPreview1280x640.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="640">
@@ -23,7 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ShadowStore">
   <meta name="twitter:description" content="Shadowrocket 开源社区资源聚合检索平台">
-  <meta name="twitter:image" content="https://lowertop.github.io/Shadowrocket-First/img/ShadowStoreSocialPreview1280x640.png">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStoreSocialPreview1280x640.png">
   <script>
     (function() {
       let theme = "light";
@@ -1681,7 +1681,7 @@
       <div class="header-top">
         <div class="brand-wrapper">
           <h1 class="title">
-            <a href="https://shadowstore.dpdns.org/" target="_blank" rel="noopener">
+            <a href="https://shadowstore.dpdns.org" target="_blank" rel="noopener">
               <span class="title-shadow">Shadow</span><span class="title-store">/Store</span>
             </a>
             <span id="tagPillBadge" class="tag-pill-badge">社区资源</span>
@@ -1689,7 +1689,7 @@
         </div>
         <div class="theme-controls">
           <button id="themeToggle" class="theme-toggle immersive-icon" aria-label="切换主题模式"></button>
-          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://shadowstore.dpdns.org/" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
+          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://shadowstore.dpdns.org" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
             <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
@@ -1800,7 +1800,7 @@
       });
     }
 
-    const CACHE_VERSION = "202609191600";
+    const CACHE_VERSION = "202609191700";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1921,9 +1921,9 @@
         author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
         authorAvatar: "https://github.com/LOWERTOP.png?size=64",
         sourceName: "Shadowrocket",
-        sourceURL: "https://github.com/LOWERTOP/Shadowrocket",
-        rawURL: "https://github.com/LOWERTOP/Shadowrocket",
-        installURL: "https://github.com/LOWERTOP/Shadowrocket",
+        sourceURL: "https://lowertop.github.io/Shadowrocket",
+        rawURL: "https://lowertop.github.io/Shadowrocket",
+        installURL: "https://lowertop.github.io/Shadowrocket",
         isDubious: false,
         isRepoCard: true
       },
@@ -1936,9 +1936,9 @@
         author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
         authorAvatar: "https://github.com/LOWERTOP.png?size=64",
         sourceName: "Shadowrocket",
-        sourceURL: "https://github.com/LOWERTOP/Shadowrocket",
-        rawURL: "https://lowertop.github.io/Shadowrocket/lazy_group.conf",
-        installURL: "shadowrocket://config/add/https://lowertop.github.io/Shadowrocket/lazy_group.conf",
+        sourceURL: "https://lowertop.github.io/Shadowrocket",
+        rawURL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Shadowrocket.conf",
+        installURL: "shadowrocket://config/add/https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Shadowrocket.conf",
         isDubious: false,
         isRepoCard: false
       },
@@ -2860,15 +2860,21 @@
       const isRepo = Boolean(module.isRepoCard);
       const directOpenURL = module.rawURL || module.sourceURL || "";
 
-      let iconHTML = directOpenURL ? 
-        `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>` :
-        `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
+      // 配色卡片左侧图标点击也可以直接查看效果截图
+      let iconHTML = "";
+      if (module.category === "color" && module.previewImg) {
+        iconHTML = `<button type="button" class="module-icon view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" style="border:none;padding:0;background:none;outline:none;" title="查看效果图" aria-label="查看效果图"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async"></button>`;
+      } else if (directOpenURL) {
+        iconHTML = `<a class="module-icon" href="${escapeHTML(directOpenURL)}" target="_blank" rel="noopener noreferrer" title="在新窗口打开资源直链" aria-label="在新窗口打开资源直链"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></a>`;
+      } else {
+        iconHTML = `<div class="module-icon" style="cursor: default;"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async" referrerpolicy="no-referrer"></div>`;
+      }
 
       const sourceLinkHTML = module.sourceURL ? 
         `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>` : 
         `<span class="source-link source-link-static">${escapeHTML(module.sourceName)}</span>`;
 
-      // 次级按钮：配色卡片渲染为“查看效果”按钮（杜绝出现 iOS 18 按钮）
+      // 次级按钮：配色卡片渲染为“查看效果”按钮
       let secondaryBtnHTML = "";
       if (module.category === "color") {
         if (module.previewImg) {
