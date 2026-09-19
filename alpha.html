@@ -1747,11 +1747,11 @@
       <nav id="tabBarWrapper" class="tab-bar-wrapper" aria-label="资源分类导航">
         <div id="tabBar" class="tab-bar glass-element" role="tablist">
           <div id="tabIndicator" class="tab-indicator"></div>
-          <button class="tab-item active" role="tab" aria-selected="true" data-tab="module">模块资源</button>
-          <button class="tab-item" role="tab" aria-selected="false" data-tab="rule">规则文件</button>
-          <button class="tab-item" role="tab" aria-selected="false" data-tab="color">配色文件</button>
-          <button class="tab-item" role="tab" aria-selected="false" data-tab="manual_config">手册配置</button>
-          <button class="tab-item" role="tab" aria-selected="false" data-tab="more">更多资源</button>
+          <button class="tab-item active" role="tab" aria-selected="true" data-tab="module">模块</button>
+          <button class="tab-item" role="tab" aria-selected="false" data-tab="rule">规则</button>
+          <button class="tab-item" role="tab" aria-selected="false" data-tab="color">配色</button>
+          <button class="tab-item" role="tab" aria-selected="false" data-tab="manual_config">教程</button>
+          <button class="tab-item" role="tab" aria-selected="false" data-tab="more">更多</button>
         </div>
       </nav>
 
@@ -1890,6 +1890,7 @@
       errorStatic: "在线资源同步失败，已展示核心入口"
     };
 
+    // 搜索 Web Worker：按标签页分类检索
     const workerScript = `
       let searchDataset = [];
       self.onmessage = function(e) {
@@ -1898,11 +1899,12 @@
           searchDataset = data;
         } else if (type === 'SEARCH') {
           const kw = (keyword || '').trim().toLowerCase();
+          const currentTabDataset = searchDataset.filter(m => (m.category || 'module') === activeTab);
           let res = [];
           if (kw) {
-            res = searchDataset.filter(m => m._searchText && m._searchText.includes(kw));
+            res = currentTabDataset.filter(m => m._searchText && m._searchText.includes(kw));
           } else {
-            res = searchDataset.filter(m => (m.category || 'module') === activeTab);
+            res = currentTabDataset;
           }
           self.postMessage({ type: 'SEARCH_RESULT', results: res, keyword, requestId });
         }
@@ -2246,7 +2248,7 @@
       });
     }
 
-    // 格式化 rules.json 中的分流规则数据
+    // 格式化 rules.json：图标统一走原有模块的动态生成逻辑
     function normalizeRules(data) {
       if (!Array.isArray(data)) return [];
       return data.map(r => {
@@ -2263,6 +2265,7 @@
           name: title,
           category: "rule",
           description: suggestion ? `配置建议：\n${suggestion}` : "配置建议：单独使用。",
+          icon: r.icon || "", // 空值由 createIOSAppIcon 动态生成拟态图标
           author: {
             name: "blackmatrix7",
             url: "https://github.com/blackmatrix7",
@@ -2531,8 +2534,9 @@
       }, 140);
     }
 
+    // 资源列表：仅展示当前分类的列表项
     function renderAlphabetList() {
-      if (!alphabetScrollArea || !alphabetFastIndex || state.isAlphabetRendered) return;
+      if (!alphabetScrollArea || !alphabetFastIndex) return;
       if (alphabetImgObserver) alphabetImgObserver.disconnect();
       alphabetScrollArea.replaceChildren();
       alphabetFastIndex.replaceChildren();
@@ -2543,14 +2547,23 @@
       const alphabetAll = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
       alphabetAll.forEach(char => groups[char] = []);
 
-      for (let i = 0; i < state.allModules.length; i++) {
-        const item = state.allModules[i];
+      const currentTabItems = state.allModules.filter(m => (m.category || 'module') === state.activeTab);
+
+      for (let i = 0; i < currentTabItems.length; i++) {
+        const item = currentTabItems[i];
         const letter = item._initialLetter || "#";
         if (groups[letter]) { groups[letter].push(item); } else { groups["#"].push(item); }
       }
 
       const listFragment = document.createDocumentFragment();
       const indexFragment = document.createDocumentFragment();
+
+      if (currentTabItems.length === 0) {
+        const emptyEl = document.createElement("div");
+        emptyEl.style.cssText = "text-align: center; padding: 40px 0; color: var(--text-tertiary); font-size: 14px;";
+        emptyEl.textContent = `当前分类暂无资源`;
+        alphabetScrollArea.appendChild(emptyEl);
+      }
 
       for (let i = 0; i < alphabetAll.length; i++) {
         const letter = alphabetAll[i];
@@ -2587,11 +2600,7 @@
 
             const fallbackIcon = createIOSAppIcon(mod.name);
             const hasRemoteIcon = Boolean(mod.icon);
-            let catName = "模块";
-            if (mod.category === "color") catName = "配色";
-            else if (mod.category === "rule") catName = "规则";
-            else if (mod.category === "manual_config") catName = "手册";
-            else if (mod.category === "more") catName = "仓库";
+            let catName = TAB_NAMES[mod.category] || "模块";
 
             row.innerHTML = `<div class="alphabet-item-icon"><img src="${escapeHTML(fallbackIcon)}" ${hasRemoteIcon ? `data-src="${escapeHTML(mod.icon)}"` : ''} data-fallback="${escapeHTML(fallbackIcon)}" alt="" decoding="async"></div><span class="alphabet-item-name">${escapeHTML(mod.name)}</span><span class="alphabet-item-type">${escapeHTML(catName)}</span>`;
             const imgEl = row.querySelector("img");
@@ -2764,7 +2773,7 @@
         checkScrollLock();
         document.body.classList.add("is-list-view");
         updateStandaloneButtonState();
-        if (!state.isAlphabetRendered) { renderAlphabetList(); }
+        renderAlphabetList();
         updateAlphabetPosition();
         listViewTransitionTimer = setTimeout(() => {
           if (state.isListView) {
@@ -2959,29 +2968,32 @@
 
       const sourceLinkHTML = module.sourceURL ? `<a class="source-link" href="${escapeHTML(module.sourceURL)}" target="_blank" rel="noopener" title="${escapeHTML(module.sourceName)}">${escapeHTML(module.sourceName)}</a>` : `<span class="source-link source-link-static">${escapeHTML(module.sourceName)}</span>`;
 
-      let secondaryBtnHTML = "";
-      let installBtnHTML = "";
+      let actionButtonsHTML = "";
 
+      // 规则分类：标准药丸渐变主按钮（button-primary）
       if (module.category === "rule") {
         if (Array.isArray(module.buttons)) {
-          secondaryBtnHTML = module.buttons.map(btn => `
-            <button class="button button-secondary copy-btn" data-url="${escapeHTML(btn.url)}" aria-label="${escapeHTML(btn.label)}">
+          actionButtonsHTML = module.buttons.map(btn => `
+            <button class="button button-primary copy-btn" data-url="${escapeHTML(btn.url)}" aria-label="${escapeHTML(btn.label)}">
               ${escapeHTML(btn.label)}
             </button>
           `).join('');
         }
-      } else if (module.category === "color") {
-        if (module.previewImg) {
-          secondaryBtnHTML = `<button type="button" class="button button-secondary view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" aria-label="查看效果 ${escapeHTML(module.name)}">查看效果</button>`;
-        }
-      } else if (module.preInstallURL) {
-        const preText = module.secondaryBtnText || "安装前置";
-        secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
-      } else if (module.rawURL) {
-        secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
-      }
+      } else {
+        let secondaryBtnHTML = "";
+        let installBtnHTML = "";
 
-      if (module.category !== "rule") {
+        if (module.category === "color") {
+          if (module.previewImg) {
+            secondaryBtnHTML = `<button type="button" class="button button-secondary view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" aria-label="查看效果 ${escapeHTML(module.name)}">查看效果</button>`;
+          }
+        } else if (module.preInstallURL) {
+          const preText = module.secondaryBtnText || "安装前置";
+          secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
+        } else if (module.rawURL) {
+          secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
+        }
+
         let defaultPrimaryText = "安装模块";
         if (module.category === "color") defaultPrimaryText = "安装配色";
         else if (module.category === "manual_config") defaultPrimaryText = "安装配置";
@@ -2989,10 +3001,12 @@
         const primaryText = module.primaryBtnText || defaultPrimaryText;
         const primaryTarget = isRepo ? `target="_blank" rel="noopener"` : "";
         installBtnHTML = module.installURL ? `<a class="button button-primary" href="${escapeHTML(module.installURL)}" ${primaryTarget} aria-label="${escapeHTML(primaryText)} ${escapeHTML(module.name)}">${escapeHTML(primaryText)}</a>` : "";
+
+        actionButtonsHTML = `${secondaryBtnHTML}${installBtnHTML}`;
       }
 
       const descriptionText = module.description ? escapeHTML(module.description) : "暂无描述";
-      card.innerHTML = `<div class="card-header">${iconHTML}<div class="card-main"><h2 class="module-name">${escapeHTML(module.name)}</h2><div class="module-meta">${authorHTML}<span class="meta-separator">/</span>${sourceLinkHTML}</div></div></div><div class="module-description">${descriptionText}</div><div class="card-bottom"><div class="action-buttons">${secondaryBtnHTML}${installBtnHTML}</div></div>`;
+      card.innerHTML = `<div class="card-header">${iconHTML}<div class="card-main"><h2 class="module-name">${escapeHTML(module.name)}</h2><div class="module-meta">${authorHTML}<span class="meta-separator">/</span>${sourceLinkHTML}</div></div></div><div class="module-description">${descriptionText}</div><div class="card-bottom"><div class="action-buttons">${actionButtonsHTML}</div></div>`;
       return card;
     }
 
@@ -3054,13 +3068,14 @@
         if (e.data.type === 'SEARCH_RESULT') {
           const { results, keyword, requestId } = e.data;
           if (requestId === currentSearchRequestId) {
-            const currentLabel = keyword ? TAB_NAMES.more : (TAB_NAMES[state.activeTab] || TAB_NAMES.more);
+            const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
             renderFilteredList(results, currentLabel);
           }
         }
       };
     }
 
+    // 主线程搜索：严格限定在当前活跃标签页分类内检索
     function filterModules() {
       if (state.isInitialLoading) {
         renderFilteredList([]);
@@ -3078,15 +3093,15 @@
           requestId: currentSearchRequestId
         });
       } else {
+        const currentCategoryList = state.allModules.filter(m => (m.category || "module") === state.activeTab);
         let result = [];
         if (keyword) {
-          result = state.allModules.filter(m => m._searchText && m._searchText.includes(keyword));
-          renderFilteredList(result, TAB_NAMES.more);
+          result = currentCategoryList.filter(m => m._searchText && m._searchText.includes(keyword));
         } else {
-          result = state.allModules.filter(m => (m.category || "module") === state.activeTab);
-          const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
-          renderFilteredList(result, currentLabel);
+          result = currentCategoryList;
         }
+        const currentLabel = TAB_NAMES[state.activeTab] || TAB_NAMES.more;
+        renderFilteredList(result, currentLabel);
       }
     }
 
@@ -3124,6 +3139,13 @@
       document.body.classList.remove("has-search-text");
       updateStandaloneButtonState();
       state.activeTab = targetTab;
+
+      // 切换 Tab 时重置字母表状态并重新生成
+      state.isAlphabetRendered = false;
+      if (state.isListView) {
+        renderAlphabetList();
+      }
+
       tabItems.forEach(t => {
         const isActive = t.getAttribute("data-tab") === targetTab;
         t.classList.toggle("active", isActive);
