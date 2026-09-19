@@ -474,9 +474,6 @@ function resolveModuleIcon(metadata, rawURL) {
   return "";
 }
 
-/**
- * 解析 README.md，同时记录行内的出现先后顺序 index
- */
 function parseRepositoryModules(markdown) {
   if (!markdown || markdown === "404: Not Found") return [];
   const result = [];
@@ -522,7 +519,7 @@ function parseGitHubRawURL(rawURL) {
         owner: parts[0],
         repo: parts[1],
         fullName: `${parts[0]}/${parts[1]}`,
-        url: `https://github.com/${parts[0]}/${parts[1]}`
+        url: `[ShadowStore](https://github.com/LOWERTOP/ShadowStore)`
       };
     }
   } catch {}
@@ -547,14 +544,14 @@ function getAuthorFromURL(rawURL, githubInfo) {
       const prAuthor = prMatch[1].trim();
       return {
         name: prAuthor,
-        url: `https://github.com/${encodeURIComponent(prAuthor)}`,
+        url: `[LOWERTOP](https://github.com/LOWERTOP)`,
         username: prAuthor
       };
     }
   } catch (e) {}
   if (githubInfo) return {
     name: githubInfo.owner,
-    url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
+    url: `[LOWERTOP](https://github.com/LOWERTOP)`,
     username: githubInfo.owner
   };
   return { name: "作者信息识别失败", url: "", username: "" };
@@ -599,9 +596,6 @@ function generateDescription(metadata, rawText) {
   return comments.length ? comments.slice(0, 2).join(" ") : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
 }
 
-/**
- * 全局置顶与梯队判断
- */
 function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
@@ -637,7 +631,7 @@ async function fetchModule(item) {
   const githubInfo = parseGitHubRawURL(item.rawURL);
   const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
   const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
-  const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
+  const avatarUrl = urlAuthor.username ? `[LOWERTOP](https://github.com/LOWERTOP).png?size=64` : "";
   const fromMyRepo = item.fromMyRepo || false;
   const fromFMZ = item.fromFMZ || false;
   const fromZirawell = item.fromZirawell || false;
@@ -720,10 +714,10 @@ function validateOutputData(data) {
 
 /**
  * 自动提取 Shadowrocket 配色方案
- * 1. 采用副标题“中文名 色调模式”（如：原子灰 暗底色）作为卡片名称
- * 2. 提取“点击查看效果截图”后的真实图片直链作为效果预览图
- * 3. 严格选用“iOS 26 及以上”的 shadowrocket://color? 安装协议
- * 4. 彻底排除“原创配色”说明小节与 iOS 18 按钮
+ * 1. 过滤“原创配色”及“请使用相应内容替换”等教程小节
+ * 2. 彻底清洗 HTML 标签（如 >、<sup>）提取纯净的“中文名 色调模式”
+ * 3. 提取 <details> 中的真实 <img src="..." /> 高清截图
+ * 4. 选用 iOS 26 协议，杜绝任何额外安装前置按钮
  */
 async function fetchColorThemes(markdownText) {
   console.log("🎨 开始解析 Shadowrocket 配色方案...");
@@ -733,49 +727,69 @@ async function fetchColorThemes(markdownText) {
   const colorSectionIdx = markdownText.indexOf("## Shadowrocket 配色文件");
   const parseScope = colorSectionIdx !== -1 ? markdownText.slice(colorSectionIdx) : markdownText;
 
-  // 按每个配色小节（以 ### 开头）切分
+  // 按小节（### 开头）切分
   const sections = parseScope.split(/(?=###\s+)/g);
 
   for (const sec of sections) {
-    // 过滤非配色小节或“原创配色”说明卡片
-    if (!sec.includes("Shadowrocket") || sec.includes("Shadowrocket 原创配色")) {
+    // 排除非小火箭配色小节、开篇说明卡片以及模板教程小节
+    if (
+      !sec.includes("Shadowrocket") ||
+      sec.includes("Shadowrocket 原创配色") ||
+      sec.includes("请使用相应内容替换") ||
+      sec.includes("自定义配色") ||
+      sec.includes("配色教程")
+    ) {
       continue;
     }
 
-    // 1. 提取中文名称与底色模式（如：原子灰 暗底色）
+    // 1. 精确提取中文名称（清洗 >、<sup>、HTML 与 Markdown 标签）
     const lines = sec.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     let displayName = "";
+
     for (let i = 1; i < lines.length; i++) {
-      const line = lines[i];
+      let line = lines[i];
       if (
         line &&
         !line.startsWith("#") &&
         !line.startsWith("[!") &&
         !line.startsWith("!") &&
-        !line.startsWith("<") &&
-        !line.startsWith("shadowrocket://")
+        !line.startsWith("shadowrocket://") &&
+        !line.startsWith("<details") &&
+        !line.startsWith("<summary") &&
+        !line.startsWith("<p")
       ) {
-        // 匹配类似 "原子灰 暗底色" / "香鱼色 亮底色"
-        displayName = line.replace(/[*`_]/g, "").trim();
-        break;
+        // 去除引用符 >
+        line = line.replace(/^>+\s*/, "");
+        // 优先提取 <sup>...</sup> 里的内容
+        const supMatch = line.match(/<sup>([^<]+)<\/sup>/i);
+        if (supMatch) {
+          displayName = supMatch[1].trim();
+        } else {
+          // 清除所有 HTML 标签及 markdown 字符
+          displayName = line.replace(/<[^>]+>/g, "").replace(/[*`_#~]/g, "").trim();
+        }
+        if (displayName && (displayName.includes("亮底色") || displayName.includes("暗底色") || displayName.length >= 2)) {
+          break;
+        }
       }
     }
 
-    // 2. 提取“点击查看效果截图”之后的真实图片地址
+    // 2. 提取“点击查看效果截图”后的真实图片直链（支持 <img src="..." /> 与 ![]()）
     let previewImg = "";
-    const previewMatch = sec.match(/点击查看效果截图[\s\S]*?!\[.*?\]\((https?:\/\/[^\s\)]+)\)/i);
-    if (previewMatch) {
-      previewImg = previewMatch[1].trim();
+    // 优先匹配 details 区块内的 img 标签
+    const imgTagMatch = sec.match(/<img[^>]+src=["'](https?:\/\/[^"'\s>]+)["']/i);
+    if (imgTagMatch) {
+      previewImg = imgTagMatch[1].trim();
     } else {
-      const fallbackImg = sec.match(/!\[.*?\]\((https?:\/\/[^\s\)]+)\)/);
-      if (fallbackImg) previewImg = fallbackImg[1].trim();
+      // 容错：匹配 Markdown 图片语法
+      const mdImgMatch = sec.match(/!\[.*?\]\((https?:\/\/[^\s\)]+)\)/i);
+      if (mdImgMatch) previewImg = mdImgMatch[1].trim();
     }
 
     // 3. 提取“iOS 26 及以上”对应的小火箭安装协议
     let installScheme = "";
     const ios26Match = sec.match(/iOS\s*26\s*及以上[\s\S]*?(shadowrocket\s*:\s*\/\/\s*color\?[^\r\n\`]+)/i);
     if (ios26Match) {
-      // 彻底去除多余的空格
       installScheme = ios26Match[1].replace(/\s+/g, "");
     } else {
       const allSchemes = Array.from(sec.matchAll(/shadowrocket\s*:\s*\/\/\s*color\?[^\r\n\`\s]+/gi));
@@ -784,25 +798,25 @@ async function fetchColorThemes(markdownText) {
       }
     }
 
-    if (displayName && installScheme) {
+    if (displayName && installScheme && !displayName.includes("替换代码")) {
       colorItems.push({
         name: displayName,
         rawURL: installScheme,
         installURL: installScheme,
         category: "color",
         previewImg: previewImg,
-        icon: "https://github.com/LOWERTOP.png?size=64",
+        icon: "[LOWERTOP](https://github.com/LOWERTOP).png?size=64",
         author: {
           name: "LOWERTOP",
-          url: "https://github.com/LOWERTOP",
+          url: "[LOWERTOP](https://github.com/LOWERTOP)",
           username: "LOWERTOP"
         },
-        authorAvatar: "https://github.com/LOWERTOP.png?size=64",
+        authorAvatar: "[LOWERTOP](https://github.com/LOWERTOP).png?size=64",
         sourceName: "Shadowrocket-First",
-        sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
+        sourceURL: "[Shadowrocket 配色文件](https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6)",
         description: "Shadowrocket 原创精选配色方案，支持一键载入至客户端，建议搭配相应底色模式使用。",
         primaryBtnText: "安装配色",
-        preInstallURL: "", // 彻底杜绝 iOS 18 按钮
+        preInstallURL: "",
         secondaryBtnText: "",
         isDubious: false,
         fromMyRepo: true,
@@ -811,7 +825,7 @@ async function fetchColorThemes(markdownText) {
     }
   }
 
-  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已采用实际名称、截图与 iOS 26 协议）`);
+  console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已修复名称、过滤教程、提取真实截图与 iOS 26 协议）`);
   return colorItems;
 }
 
