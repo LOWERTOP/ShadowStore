@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配
  */
 const fs = require("fs");
 const path = require("path");
@@ -213,49 +213,108 @@ async function fetchZirawellModules() {
   return modules;
 }
 
+async function loadLuestrIcons() {
+  try {
+    const res = await fetchWithTimeout(CONFIG.LUESTR_TREE_API, {}, 8000);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tree)) {
+        for (const item of data.tree) {
+          const pathName = item.path || "";
+          if (item.type === "blob" && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
+            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
+            const url = `https://raw.githubusercontent.com/luestr/IconResource/main/${pathName}`;
+            if (!isFlagKey(fileName, url)) {
+              const cleanName = fileName.trim().toLowerCase();
+              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
+                remoteIconsMap[cleanName] = url;
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ IconResource 图标库拉取跳过:", e.message);
+  }
+}
+
+async function loadZirawellIcons() {
+  try {
+    const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 8000);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tree)) {
+        for (const item of data.tree) {
+          const pathName = item.path || "";
+          if (item.type === "blob" && /^Res\/Icon\//i.test(pathName) && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
+            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
+            const url = `https://raw.githubusercontent.com/zirawell/R-Store/main/${pathName}`;
+            if (!isFlagKey(fileName, url)) {
+              const cleanName = fileName.trim().toLowerCase();
+              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
+                remoteIconsMap[cleanName] = url;
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("⚠️ Zirawell 图标库拉取跳过:", e.message);
+  }
+}
+
 async function loadRemoteIcons() {
   remoteIconsMap = {};
   try {
     const res = await fetchWithTimeout(CONFIG.ICONS_JSON_URL, {}, 8000);
     if (res.ok) {
       const data = await res.json();
+      const extractUrl = (item) => {
+        if (typeof item === 'string') return item;
+        if (typeof item === 'object' && item !== null) {
+          return item.icon || item.url || item.src || item.img || item.path || item.link || "";
+        }
+        return "";
+      };
+      const extractName = (item) => {
+        if (typeof item === 'object' && item !== null) {
+          return item.name || item.title || item.label || item.id || item.app || "";
+        }
+        return "";
+      };
       const addMap = (name, url) => {
-        if (name && url && typeof name === "string" && typeof url === "string" && url.length > 5 && !isFlagKey(name, url)) {
+        if (name && typeof name === 'string' && url && typeof url === 'string' && url.length > 5) {
+          if (isFlagKey(name, url)) return;
           const cleanName = name.trim().toLowerCase();
-          if (cleanName.length >= 2) remoteIconsMap[cleanName] = url.trim();
+          if (cleanName.length < 2) return;
+          remoteIconsMap[cleanName] = url.trim();
+          const baseName = cleanName.replace(/[_-]?\d+$/, "").trim();
+          if (baseName && baseName.length >= 2 && !remoteIconsMap[baseName]) {
+            remoteIconsMap[baseName] = url.trim();
+          }
         }
       };
+
       if (Array.isArray(data)) {
-        data.forEach(i => addMap(i.name || i.title || i.filename, i.icon || i.url || i.iconURL));
-      } else if (data && typeof data === "object") {
-        Object.entries(data).forEach(([k, v]) => addMap(k, typeof v === "string" ? v : (v.icon || v.url)));
+        data.forEach(item => addMap(extractName(item), extractUrl(item)));
+      } else if (data && typeof data === 'object') {
+        const list = data.icons || data.data || data.list;
+        if (Array.isArray(list)) {
+          list.forEach(item => addMap(extractName(item), extractUrl(item)));
+        } else {
+          Object.entries(data).forEach(([k, v]) => addMap(k, extractUrl(v)));
+        }
       }
     }
   } catch (e) {
     console.warn("⚠️ FMZ 图标加载跳过:", e.message);
   }
 
-  const loadTreeIcons = async (url, prefix, rawBase) => {
-    try {
-      const res = await fetchWithTimeout(url, {}, 8000);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data?.tree)) {
-          data.tree.forEach(item => {
-            if (item.type === "blob" && item.path && (!prefix || item.path.startsWith(prefix)) && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(item.path)) {
-              const fileName = path.basename(item.path, path.extname(item.path)).toLowerCase().trim();
-              const fullUrl = `${rawBase}/${item.path}`;
-              if (!isFlagKey(fileName, fullUrl) && fileName.length >= 2) remoteIconsMap[fileName] = fullUrl;
-            }
-          });
-        }
-      }
-    } catch (e) {}
-  };
-
   await Promise.all([
-    loadTreeIcons(CONFIG.LUESTR_TREE_API, "", "https://raw.githubusercontent.com/luestr/IconResource/main"),
-    loadTreeIcons(CONFIG.ZIRAWELL_TREE_API, "Res/Icon/", "https://raw.githubusercontent.com/zirawell/R-Store/main")
+    loadLuestrIcons(),
+    loadZirawellIcons()
   ]);
 }
 
@@ -265,12 +324,31 @@ function findIconInMap(key) {
   if (remoteIconsMap[lowerKey] && !isFlagKey(lowerKey, remoteIconsMap[lowerKey])) return remoteIconsMap[lowerKey];
   const baseKey = lowerKey.replace(/[_-]?\d+$/, "").trim();
   if (baseKey && remoteIconsMap[baseKey] && !isFlagKey(baseKey, remoteIconsMap[baseKey])) return remoteIconsMap[baseKey];
+
+  for (const [iconKey, iconUrl] of Object.entries(remoteIconsMap)) {
+    if (isFlagKey(iconKey, iconUrl)) continue;
+    const cleanIconKey = iconKey.replace(/[_-]?\d+$/, "").trim();
+    if (cleanIconKey === lowerKey || (baseKey && cleanIconKey === baseKey)) {
+      return iconUrl;
+    }
+  }
   return "";
 }
 
 function getMatchedIcon(name) {
   if (!name) return "";
   const lowerName = name.trim().toLowerCase();
+  if (!lowerName) return "";
+
+  if (lowerName.includes("youtube") || lowerName.includes("油管") || lowerName.includes("ytb")) {
+    const ytIcon = findIconInMap("youtube");
+    if (ytIcon) return ytIcon;
+  }
+  if (lowerName.includes("小米") || lowerName.includes("米家") || lowerName.includes("xiaomi") || lowerName.includes("mihome")) {
+    const miIcon = findIconInMap("xiaomi") || findIconInMap("mihome") || findIconInMap("mi");
+    if (miIcon) return miIcon;
+  }
+
   let matched = findIconInMap(lowerName);
   if (matched) return matched;
 
@@ -291,6 +369,77 @@ function getMatchedIcon(name) {
         if (matched) return matched;
       }
     }
+  }
+
+  for (const [iconName, iconUrl] of Object.entries(remoteIconsMap)) {
+    if (!iconName || iconName.length < 3 || isFlagKey(iconName, iconUrl)) continue;
+    const baseIconName = iconName.replace(/[_-]?\d+$/, "").trim();
+    if (baseIconName.length < 3 || isFlagKey(baseIconName, iconUrl)) continue;
+    if (lowerName.includes(iconName) || lowerName.includes(baseIconName)) {
+      return iconUrl;
+    }
+  }
+  return "";
+}
+
+function resolveIconURL(icon, rawURL) {
+  if (!icon) return "";
+  icon = icon.trim();
+  if (isFlagKey("", icon)) return "";
+  if (icon.startsWith("data:")) return icon;
+  if (/^https?:\/\//i.test(icon)) return normalizeRawURL(icon);
+  try {
+    const safeIcon = icon.replace(/#/g, "%23").replace(/\s+/g, "%20");
+    return new URL(safeIcon, rawURL).href;
+  } catch {
+    return "";
+  }
+}
+
+function extractIconKeyFromPath(iconStr) {
+  if (!iconStr) return "";
+  try {
+    const clean = iconStr.split(/[?#]/)[0].trim();
+    const fileName = clean.split("/").pop() || "";
+    return fileName.replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "").trim().toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function resolveModuleIcon(metadata, rawURL) {
+  let rawIcon = metadata.icon ? metadata.icon.trim() : "";
+  if (rawIcon) {
+    const key = extractIconKeyFromPath(rawIcon);
+    if (key) {
+      const matchedVerifiedIcon = findIconInMap(key);
+      if (matchedVerifiedIcon) return matchedVerifiedIcon;
+    }
+    let fixedIcon = rawIcon;
+    if (fixedIcon.includes("zirawell/R-Store")) {
+      fixedIcon = fixedIcon
+        .replace("/master/", "/main/")
+        .replace("/Rule/Res/Icon/", "/Res/Icon/")
+        .replace("/Icon/", "/Res/Icon/");
+    }
+    const resolved = resolveIconURL(fixedIcon, rawURL);
+    if (resolved && !resolved.includes("/Rule/Res/Icon/")) {
+      return resolved;
+    }
+  }
+
+  if (metadata.declaredName) {
+    const matched = getMatchedIcon(metadata.declaredName);
+    if (matched) return matched;
+  }
+  const fileName = getModuleNameFromURL(rawURL);
+  if (fileName) {
+    const matched = getMatchedIcon(fileName);
+    if (matched) return matched;
+  }
+  if (metadata.name) {
+    const matched = getMatchedIcon(metadata.name);
+    if (matched) return matched;
   }
   return "";
 }
@@ -321,7 +470,7 @@ function parseRepositoryModules(markdown) {
       result.push({
         name: getModuleNameFromURL(rawURL) || currentHeading || "未命名模块",
         rawURL,
-        readmeIndex: orderIndex++ // 记录在 README 中的绝对先后顺序
+        readmeIndex: orderIndex++
       });
     }
   }
@@ -383,8 +532,9 @@ function parseModuleMetadata(text, fallbackName, rawURL = "") {
     const commentMatch = line.match(/^(?:#|\/\/)\s*@?(?:name|规则名称|模块名称)\s*[:=]\s*(.+)$/i);
     if (commentMatch && !metadata.name) metadata.name = cleanText(commentMatch[1]);
   }
-  const resolvedName = metadata.name || resolveFallbackName(fallbackName, rawURL);
-  return { name: resolvedName, description: metadata.desc || "", icon: metadata.icon || "" };
+  const declaredName = metadata.name || "";
+  const resolvedName = declaredName || resolveFallbackName(fallbackName, rawURL);
+  return { name: resolvedName, declaredName, description: metadata.desc || "", icon: metadata.icon || "" };
 }
 
 function generateDescription(metadata, rawText) {
@@ -402,19 +552,10 @@ function generateDescription(metadata, rawText) {
   return comments.length ? comments.slice(0, 2).join(" ") : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
 }
 
-function resolveModuleIcon(metadata, rawURL) {
-  if (metadata.icon) {
-    const key = path.basename(metadata.icon.split(/[?#]/)[0], path.extname(metadata.icon)).toLowerCase().trim();
-    if (key && findIconInMap(key)) return findIconInMap(key);
-    if (/^https?:\/\//i.test(metadata.icon)) return normalizeRawURL(metadata.icon);
-  }
-  return getMatchedIcon(metadata.name) || "";
-}
-
 /**
- * 优先级判断：
- * 1~3: 三大神级置顶
- * 10: 本人 README 来源（包含自制、PR、推荐收录）
+ * 全局置顶与梯队判断：
+ * 1~3: 三大神级置顶（移除域名限制，全局优先捕获）
+ * 10: 本人 README 来源（按文档自然出现顺序排列）
  * 40: fmz200
  * 50: zirawell
  * 9999: 失效/存疑
@@ -423,22 +564,19 @@ function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
 
-  // 失效/存疑直接垫底
+  // 垫底的失效/存疑资源
   if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
     return 9999;
   }
 
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
-  const isLowerTopRepo = rawURL.includes("lowertop/shadowrocket-first") || rawURL.includes("lowertop");
 
-  // 三大核心置顶
-  if (isLowerTopRepo) {
-    if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
-    if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
-    if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
-  }
+  // 三大神级置顶（不受限于必须是 lowertop 仓库，只要命中关键词一律置顶）
+  if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
+  if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
+  if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
 
-  // 来源于你仓库 README 的所有资源（包含自制、PR、推荐收录），排在第二大梯队
+  // 来源于你仓库 README 的所有资源，排在第二大梯队
   if (item.fromMyRepo) {
     return 10;
   }
@@ -456,19 +594,13 @@ function getPinnedRank(item) {
   return 60;
 }
 
-/**
- * 核心排序：
- * 1. 梯队不同，按梯队前后排；
- * 2. 如果同属于你 README 来源（Rank 10），严格按照 README 的物理顺序排序（不再打乱拼音）；
- * 3. 其他外部仓库，保持拼音/字母排序。
- */
 function sortPinnedModules(list) {
   if (!Array.isArray(list)) return [];
   return [...list].sort((a, b) => {
     const rankDiff = getPinnedRank(a) - getPinnedRank(b);
     if (rankDiff !== 0) return rankDiff;
 
-    // 关键：如果你 README 来源的模块，严格遵循读取时的先后顺序
+    // 如果属于你 README 来源的模块，严格遵循读取时的先后顺序
     if (a.fromMyRepo && b.fromMyRepo) {
       const idxA = a.readmeIndex !== undefined ? a.readmeIndex : 99999;
       const idxB = b.readmeIndex !== undefined ? b.readmeIndex : 99999;
