@@ -2,13 +2,16 @@ name: Sync Rules
 
 on:
   schedule:
-    # 每天 UTC 21:00 执行，即北京时间 (UTC+8) 每日早上 05:00
+    # 每天 UTC 21:00 自动触发，即北京时间 (UTC+8) 每日早上 05:00
     - cron: '0 21 * * *'
-  workflow_dispatch: # 支持手动运行
+  workflow_dispatch: # 支持在 Actions 界面手动触发
 
 concurrency:
   group: sync-rules
   cancel-in-progress: true
+
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -22,7 +25,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: 执行生成规则脚本
+      # 借鉴模块同步机制：检出后延时等待 1 分钟，平滑避开 GitHub API 突发速率限制
+      - name: 缓冲延时 (等待 1 分钟)
+        run: sleep 60
+
+      - name: 执行规则生成脚本
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/sync-rules.js
@@ -32,4 +39,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add scripts/rules.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): 自动同步分流规则索引 [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(rules): 自动同步 blackmatrix7 规则库 [skip ci]" && git push)
