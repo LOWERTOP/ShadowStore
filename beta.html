@@ -1849,7 +1849,7 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
 <script>
-// 1. 强制清理历史遗留的幽灵 Service Worker (解决极偶然拦截请求的 Bug)
+// 1. 强制清理历史遗留的幽灵 Service Worker
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
@@ -1868,8 +1868,8 @@ const CONFIG = {
     PAGE_SIZE: 16,
     CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`,
     FETCH_TIMEOUT: 8000,
-    FETCH_RETRIES: 1, // 减少重试次数，避免网络堵塞时用户死等
-    RETRY_DELAY: 500  // 缩短重试延迟
+    FETCH_RETRIES: 1,
+    RETRY_DELAY: 500
 };
 
 const STATUS_MESSAGES = {
@@ -1882,7 +1882,6 @@ const STATUS_MESSAGES = {
     errorStatic: "在线资源同步失败，已展示核心入口"
 };
 
-// 2. 内联 Web Worker 增加 requestId 防止竞态
 const workerScript = `
     let searchDataset = [];
     self.onmessage = function(e) {
@@ -1903,11 +1902,14 @@ const workerScript = `
 `;
 
 let searchWorker = null;
-let currentSearchRequestId = 0; // 全局搜索请求标识
+let currentSearchRequestId = 0;
 
 try {
     const workerBlob = new Blob([workerScript], { type: 'application/javascript' });
-    searchWorker = new Worker(URL.createObjectURL(workerBlob));
+    const workerUrl = URL.createObjectURL(workerBlob);
+    searchWorker = new Worker(workerUrl);
+    // 实例化后立即销毁 Blob URL 引用，释放内存
+    URL.revokeObjectURL(workerUrl);
 } catch (e) {
     console.warn("Worker 初始化降级至主线程处理");
 }
@@ -1924,6 +1926,22 @@ const pinyinCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl
 const defaultZhCollator = (typeof Intl !== "undefined" && Intl.Collator) ? new Intl.Collator("zh-Hans-CN") : null;
 const pinyinCharCache = new Map();
 const iconSvgCache = new Map();
+
+function cleanOldCaches() {
+    try {
+        const currentKey = CONFIG.CACHE_KEY;
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith("sr_modules_data_") && key !== currentKey) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+    } catch (e) {
+        console.warn("清理旧版本资源缓存失败:", e);
+    }
+}
 
 function clearSiteDataCache() {
     try {
@@ -2703,7 +2721,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: "300px" });
 observer.observe(sentinel);
 
-// 3. 接收 Worker 时校验 requestId 防止高延迟下纯文本状态乱跳
 if (searchWorker) {
     searchWorker.onmessage = function(e) {
         if (e.data.type === 'SEARCH_RESULT') {
@@ -2722,7 +2739,7 @@ function filterModules() {
     document.body.classList.toggle("has-search-text", keyword.length > 0);
     updateStandaloneButtonState();
     if (searchWorker) {
-        currentSearchRequestId++; // 发送时自增
+        currentSearchRequestId++;
         searchWorker.postMessage({ type: 'SEARCH', keyword: keyword, activeTab: state.activeTab, requestId: currentSearchRequestId });
     } else {
         let result = [];
@@ -2898,18 +2915,6 @@ window.addEventListener('touchend', (e) => {
 }, { passive: true });
 window.addEventListener('touchcancel', resetPullState, { passive: true });
 
-function cleanOldCaches() {
-    try {
-        const currentKey = CONFIG.CACHE_KEY;
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith("sr_modules_data_") && key !== currentKey) { keysToRemove.push(key); }
-        }
-        keysToRemove.forEach(key => localStorage.removeItem(key));
-    } catch (e) { console.warn("清理旧版本资源缓存失败:", e); }
-}
-
 function updateAllModules(list) {
     state.allModules = list;
     moduleDataMap.clear();
@@ -2937,7 +2942,6 @@ async function fetchModulesData(forceRefresh = false) {
         for (let attempt = 0; attempt <= CONFIG.FETCH_RETRIES; attempt++) {
             try {
                 const requestUrl = forceRefresh ? `${url}${url.includes("?") ? "&" : "?"}_t=${Date.now()}` : url;
-                // 4. 强制使用 no-cache ，防止网络 SWR 读到 Disk Cache，确保拿到服务器最新版本
                 const response = await fetchWithTimeout(requestUrl, {
                     cache: forceRefresh ? "no-store" : "no-cache",
                     headers: { "Accept": "application/json" }
@@ -3012,6 +3016,14 @@ async function loadModules(forceRefresh = false) {
         state.isDataLoading = false; checkScrollLock();
     }
 }
+
+// 监听网络连接恢复（适合代理节点瞬断或重连后无感修复）
+window.addEventListener('online', () => {
+    if (state.statusKey === "errorCache" || state.statusKey === "errorStatic") {
+        showToast("网络连接已恢复，正在尝试同步最新数据...");
+        loadModules();
+    }
+});
 
 updateAllModules(normalizeStaticResources());
 filterModules();
