@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 融合严格来源熔断、原子化写盘、作者/头像解析、核心模块置顶排序
+ * 严格来源熔断、原子化写盘、作者/头像解析
  */
 const fs = require("fs");
 const path = require("path");
@@ -403,18 +403,39 @@ function resolveModuleIcon(metadata, rawURL) {
   return getMatchedIcon(metadata.name) || "";
 }
 
+/**
+ * 分梯队优先级计算：
+ * 1~3: 三大核心置顶 (ScriptHub, Sub-Store, BoxJs)
+ * 10: 本人仓库 (LOWERTOP) 的其余模块
+ * 20: fmz200 仓库的模块
+ * 30: zirawell 仓库的模块
+ * 50: 其他兜底
+ * 9999: 失效域名
+ */
 function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
   if (rawURL.includes("ddgksf2013.top")) return 9999;
+
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
   const isFromMyRepo = Boolean(item.fromMyRepo || rawURL.includes("lowertop"));
+
   if (isFromMyRepo) {
     if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
     if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
     if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
+    return 10;
   }
-  return 9999;
+
+  if (item.fromFMZ || rawURL.includes("fmz200")) {
+    return 20;
+  }
+
+  if (item.fromZirawell || rawURL.includes("zirawell")) {
+    return 30;
+  }
+
+  return 50;
 }
 
 function sortPinnedModules(list) {
@@ -433,6 +454,8 @@ async function fetchModule(item) {
   const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
   const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
   const fromMyRepo = item.fromMyRepo || false;
+  const fromFMZ = item.fromFMZ || false;
+  const fromZirawell = item.fromZirawell || false;
 
   try {
     const rawText = await fetchRawText(item.rawURL, true);
@@ -456,6 +479,8 @@ async function fetchModule(item) {
       installURL: `shadowrocket://install?module=${encodeURIComponent(item.rawURL)}`,
       isDubious,
       fromMyRepo,
+      fromFMZ,
+      fromZirawell,
       _searchKeywords: [metadata.name, description, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
     };
   } catch (error) {
@@ -474,6 +499,8 @@ async function fetchModule(item) {
       installURL: `shadowrocket://install?module=${encodeURIComponent(item.rawURL)}`,
       isDubious: true,
       fromMyRepo,
+      fromFMZ,
+      fromZirawell,
       _searchKeywords: [resolvedName, fallbackDesc, urlAuthor.name, sourceInfo.name].join(" ").toLowerCase()
     };
   }
