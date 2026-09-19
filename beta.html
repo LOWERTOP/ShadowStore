@@ -1849,14 +1849,19 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
     <script>
-        const CACHE_VERSION = "202609151530"; 
+        const CACHE_VERSION = "202609171645"; 
         
         const CONFIG = {
-            DATA_JSON_URL: "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/scripts/modules.json", 
-            PAGE_SIZE: 16, 
-            CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`, 
+            DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
+            DATA_FALLBACK_URLS: [
+                "https://cdn.jsdelivr.net/gh/LOWERTOP/ShadowStore@main/scripts/modules.json"
+            ],
+            PAGE_SIZE: 16,
+            CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`,
             CACHE_MAX_AGE: 6 * 60 * 60 * 1000,
-            FETCH_TIMEOUT: 8000
+            FETCH_TIMEOUT: 8000,
+            FETCH_RETRIES: 2,
+            RETRY_DELAY: 700
         };
 
         const STATUS_MESSAGES = {
@@ -1869,29 +1874,10 @@
             errorStatic: "在线资源同步失败，已展示核心入口"
         };
 
-        // 轻量 Service Worker 缓存静态资源
-        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-            window.addEventListener('load', () => {
-                const swContent = `
-                    const SW_CACHE = 'shadowstore-v1';
-                    self.addEventListener('install', e => self.skipWaiting());
-                    self.addEventListener('activate', e => clients.claim());
-                    self.addEventListener('fetch', e => {
-                        if (e.request.destination === 'image' || e.request.url.includes('/img/')) {
-                            e.respondWith(
-                                caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-                                    const clone = res.clone();
-                                    caches.open(SW_CACHE).then(c => c.put(e.request, clone));
-                                    return res;
-                                }))
-                            );
-                        }
-                    });
-                `;
-                const blob = new Blob([swContent], { type: 'application/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-            });
-        }
+        // 数据缓存采用 localStorage + SWR。
+        // 旧版这里使用 Blob URL 注册 Service Worker，在部分浏览器环境中并不可靠，
+        // 且无法覆盖 modules.json 的核心数据请求，因此移除该实现，避免产生“看似启用、实际未生效”的缓存层。
+        // 页面在 HTTPS 部署环境和本地 file:// 打开时均可正常工作。
 
         // 内联 Web Worker 检索模块
         const workerScript = `
@@ -3808,15 +3794,24 @@
 
         function cleanOldCaches() {
             try {
+                const currentKey = CONFIG.CACHE_KEY;
                 const keysToRemove = [];
+
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i);
-                    if (key && key.startsWith("sr_modules_data_")) {
+                    if (
+                        key &&
+                        key.startsWith("sr_modules_data_") &&
+                        key !== currentKey
+                    ) {
                         keysToRemove.push(key);
                     }
                 }
-                keysToRemove.forEach(k => localStorage.removeItem(k));
-            } catch (e) {}
+
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+            } catch (e) {
+                console.warn("清理旧版本资源缓存失败:", e);
+            }
         }
 
         function updateAllModules(list) {
@@ -3830,6 +3825,77 @@
             }
             state.isAlphabetRendered = false;
             scheduleAlphabetPrebuild();
+        }
+
+        async function fetchWithTimeout(url, options = {}) {
+            const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+            const timeoutId = controller
+                ? setTimeout(() => controller.abort(), CONFIG.FETCH_TIMEOUT)
+                : null;
+
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller ? controller.signal : options.signal
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                return response;
+            } finally {
+                if (timeoutId) clearTimeout(timeoutId);
+            }
+        }
+
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function fetchModulesData(forceRefresh = false) {
+            const urls = [
+                CONFIG.DATA_JSON_URL,
+                ...CONFIG.DATA_FALLBACK_URLS
+            ];
+
+            let lastError = null;
+
+            for (const url of urls) {
+                for (let attempt = 0; attempt <= CONFIG.FETCH_RETRIES; attempt++) {
+                    try {
+                        const requestUrl = forceRefresh
+                            ? `${url}${url.includes("?") ? "&" : "?"}_t=${Date.now()}`
+                            : url;
+
+                        const response = await fetchWithTimeout(requestUrl, {
+                            cache: forceRefresh ? "no-store" : "default",
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        });
+
+                        const data = await response.json();
+                        if (!Array.isArray(data) || !data.length) {
+                            throw new Error("资源列表为空");
+                        }
+
+                        return data;
+                    } catch (error) {
+                        lastError = error;
+                        console.warn(
+                            `modules.json 请求失败 [${url}]，第 ${attempt + 1}/${CONFIG.FETCH_RETRIES + 1} 次:`,
+                            error
+                        );
+
+                        if (attempt < CONFIG.FETCH_RETRIES) {
+                            await wait(CONFIG.RETRY_DELAY * (attempt + 1));
+                        }
+                    }
+                }
+            }
+
+            throw lastError || new Error("所有数据源均请求失败");
         }
 
         // Stale-While-Revalidate (SWR) 数据加载机制
@@ -3877,21 +3943,8 @@
             }
 
             // 2. SWR - 后台验证并同步最新云端数据 (Revalidate)
-            const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
-            const timeoutId = controller ? setTimeout(() => controller.abort(), CONFIG.FETCH_TIMEOUT) : null;
-
             try {
-                const fetchUrl = forceRefresh ? `${CONFIG.DATA_JSON_URL}?_t=${Date.now()}` : CONFIG.DATA_JSON_URL;
-                const response = await fetch(fetchUrl, { 
-                    cache: forceRefresh ? "no-store" : "default",
-                    signal: controller ? controller.signal : undefined
-                });
-                if (timeoutId) clearTimeout(timeoutId);
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                const data = await response.json();
-                if (!Array.isArray(data) || !data.length) throw new Error("资源列表为空");
+                const data = await fetchModulesData(forceRefresh);
 
                 const freshStr = JSON.stringify(data);
                 const isDataChanged = freshStr !== cachedData;
@@ -3923,7 +3976,6 @@
                 statusDot.className = "status-dot";
                 return true;
             } catch (error) {
-                if (timeoutId) clearTimeout(timeoutId);
                 console.error("加载 modules.json 失败:", error);
                 state.isInitialLoading = false; 
                 
