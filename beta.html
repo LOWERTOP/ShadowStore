@@ -3167,7 +3167,6 @@ async function triggerForceReload() {
     state.isPullRefreshing = true; 
     ptrIcon.classList.remove("rotate"); 
     ptrText.textContent = "正在强制刷新本站..."; 
-    clearLocalDataCache();
     const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)'; pageContainer.style.transition = reboundBezier; pageContainer.style.top = '0'; pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`; pullRefreshIndicator.style.opacity = '0'; pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)'; ptrIcon.classList.remove("rotate"); pageContainer.style.willChange = "auto"; hasPulledContainer = false;
     const reloadUrl = buildForceReloadUrl(); setTimeout(() => { window.location.replace(reloadUrl); }, 180);
 }
@@ -3276,29 +3275,28 @@ async function loadModules(forceRefresh = false) {
     let hasRenderedCache = false;
     let baselineCachedCount = 0;
 
-    // 非强制刷新模式下优先读取本地缓存，提供毫秒级冷启动
-    if (!forceRefresh && cachedData) {
-        try {
-            const parsed = JSON.parse(cachedData);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-                baselineCachedCount = parsed.length;
-                state.rawNetworkData = parsed;
-                const normalized = normalizeModules(parsed);
-                if (normalized.length > 0) {
-                    updateAllModules([...staticItems, ...normalized]);
-                    state.isAlphabetRendered = false; 
-                    state.isInitialLoading = false; 
-                    filterModules(); 
-                    setSearchState(true); 
-                    hasRenderedCache = true;
-                    state.statusKey = "ready"; 
-                    statusText.textContent = "已就绪"; 
-                    statusDot.className = "status-dot";
-                }
+// 无论是常规还是强制刷新，只要有缓存都先秒开渲染，避免白屏或断网裸奔
+if (cachedData) {
+    try {
+        const parsed = JSON.parse(cachedData);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+            baselineCachedCount = parsed.length;
+            state.rawNetworkData = parsed;
+            const normalized = normalizeModules(parsed);
+            if (normalized.length > 0) {
+                updateAllModules([...staticItems, ...normalized]);
+                state.isAlphabetRendered = false; 
+                state.isInitialLoading = false; 
+                filterModules(); 
+                setSearchState(true); 
+                hasRenderedCache = true;
+                state.statusKey = forceRefresh ? "checking" : "ready"; 
+                statusText.textContent = forceRefresh ? "正在后台同步最新数据..." : "已就绪"; 
+                statusDot.className = forceRefresh ? "status-dot loading" : "status-dot";
             }
-        } catch (e) { hasRenderedCache = false; }
-    }
-
+        }
+    } catch (e) { hasRenderedCache = false; }
+}
     if (!hasRenderedCache && state.allModules.length === 0) {
         state.statusKey = "fetchingStatic"; 
         statusText.textContent = "正在拉取最新静态资源索引..."; 
