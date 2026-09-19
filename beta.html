@@ -1967,15 +1967,18 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
 <script>
-// 1. 一次性迁移清理历史遗留的 Service Worker，不影响未来的 PWA 特性
+// 1. 精准清理历史遗留的 Service Worker（限定站点 scope 避免连带注销）
 (function cleanLegacyServiceWorkerOnce() {
     if ('serviceWorker' in navigator) {
-        const CLEANUP_KEY = "sr_legacy_sw_cleaned_v1";
+        const CLEANUP_KEY = "sr_legacy_sw_cleaned_v2";
         try {
             if (!localStorage.getItem(CLEANUP_KEY)) {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    const currentOrigin = window.location.origin;
                     for (let registration of registrations) {
-                        registration.unregister();
+                        if (registration.scope.startsWith(currentOrigin)) {
+                            registration.unregister();
+                        }
                     }
                     localStorage.setItem(CLEANUP_KEY, "true");
                 }).catch(() => {});
@@ -1987,14 +1990,17 @@
 const CACHE_VERSION = "202609191800";
 const CONFIG = {
     DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
+    // 增加直接 RAW 源，形成 “主站 -> GitHub Raw -> jsDelivr” 三级独立容灾链路
     DATA_FALLBACK_URLS: [
+        "https://raw.githubusercontent.com/LOWERTOP/ShadowStore/main/scripts/modules.json",
         "https://cdn.jsdelivr.net/gh/LOWERTOP/ShadowStore@main/scripts/modules.json"
     ],
     PAGE_SIZE: 16,
     CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`,
     FETCH_TIMEOUT: 8000,
     FETCH_RETRIES: 1,
-    RETRY_DELAY: 500
+    RETRY_DELAY: 500,
+    MIN_REASONABLE_RESOURCES: 100 // 数据集完整性下限基线
 };
 
 const STATUS_MESSAGES = {
@@ -2067,7 +2073,8 @@ function cleanOldCaches() {
     }
 }
 
-function clearSiteDataCache() {
+// 仅清理本站保存在本地的资源数据缓存
+function clearLocalDataCache() {
     try {
         const keysToRemove = [];
         for (let i = 0; i < localStorage.length; i++) {
@@ -2078,7 +2085,7 @@ function clearSiteDataCache() {
         }
         keysToRemove.forEach(key => localStorage.removeItem(key));
     } catch (e) {
-        console.warn("清理本站资源缓存失败:", e);
+        console.warn("清理本地资源缓存失败:", e);
     }
 }
 
@@ -2269,17 +2276,38 @@ function extractInitialLetter(name) {
     return "#";
 }
 
+function generateStableId(category, name, rawURL, sourceURL) {
+    const baseKey = (rawURL || sourceURL || name || "").trim().toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < baseKey.length; i++) {
+        hash = (hash << 5) - hash + baseKey.charCodeAt(i);
+        hash |= 0;
+    }
+    return `mod_${category}_${Math.abs(hash).toString(36)}_${encodeURIComponent(name || '').slice(0, 16)}`;
+}
+
 function normalizeStaticResources() {
-    return STATIC_RESOURCES_DATA.filter(item => !item.isDubious).map((item, idx) => {
+    return STATIC_RESOURCES_DATA.filter(item => !item.isDubious).map((item) => {
         const authorName = item.author?.name || "";
         const searchTokens = [item.name, item.description, authorName, item.sourceName, item.category].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
         return {
-            id: `static_${item.category}_${idx}`, name: item.name, category: item.category || "more",
-            description: item.description, previewImg: safeURL(item.previewImg), icon: safeURL(item.icon),
+            id: `static_${item.category}_${encodeURIComponent(item.name)}`, 
+            name: item.name, 
+            category: item.category || "more",
+            description: item.description, 
+            previewImg: safeURL(item.previewImg), 
+            icon: safeURL(item.icon),
             author: { name: authorName, url: safeURL(item.author?.url), username: item.author?.username || "" },
-            authorAvatar: safeURL(item.authorAvatar), sourceName: item.sourceName, sourceURL: safeURL(item.sourceURL),
-            rawURL: safeURL(item.rawURL), installURL: safeInstallURL(item.installURL), isDubious: false, isRepoCard: item.isRepoCard,
-            primaryBtnText: item.primaryBtnText, _searchText: searchTokens, _initialLetter: extractInitialLetter(item.name)
+            authorAvatar: safeURL(item.authorAvatar), 
+            sourceName: item.sourceName, 
+            sourceURL: safeURL(item.sourceURL),
+            rawURL: safeURL(item.rawURL), 
+            installURL: safeInstallURL(item.installURL), 
+            isDubious: false, 
+            isRepoCard: item.isRepoCard,
+            primaryBtnText: item.primaryBtnText, 
+            _searchText: searchTokens, 
+            _initialLetter: extractInitialLetter(item.name)
         };
     });
 }
@@ -2291,7 +2319,7 @@ function normalizeModules(data) {
         const desc = String(item.description || "").trim();
         if (desc.includes("模块信息获取失败") || desc.includes("获取失败")) return false;
         return true;
-    }).map((m, idx) => {
+    }).map((m) => {
         const rawURL = safeURL(m.rawURL || m.url || "");
         const authorName = m.author?.name || m.author?.username || "";
         const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${encodeURIComponent(m.author.username)}` : ""));
@@ -2319,7 +2347,7 @@ function normalizeModules(data) {
         const searchTokens = [m.name, m.description, authorName, m.author?.username, sourceName, category, m._searchKeywords].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
 
         return {
-            id: `mod_${category}_${idx}_${encodeURIComponent(m.name || '')}`, 
+            id: m.id ? String(m.id) : generateStableId(category, m.name, rawURL, sourceURL),
             name: m.name || "未命名模块", 
             category: category,
             description: m.description || "", 
@@ -3135,7 +3163,11 @@ updateThemeUI();
 
 let touchStartX = 0, touchStartY = 0, isPulling = false, isPullLocked = false, pullRafId = null; let hasPulledContainer = false; const MIN_DRAG_DEADZONE = 20; const PULL_TRIGGER_DIFF = 110;
 async function triggerForceReload() {
-    if (state.isPullRefreshing || state.isDataLoading) return; state.isPullRefreshing = true; ptrIcon.classList.remove("rotate"); ptrText.textContent = "正在强制刷新本站..."; clearSiteDataCache();
+    if (state.isPullRefreshing || state.isDataLoading) return; 
+    state.isPullRefreshing = true; 
+    ptrIcon.classList.remove("rotate"); 
+    ptrText.textContent = "正在强制刷新本站..."; 
+    clearLocalDataCache();
     const reboundBezier = 'top 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)'; pageContainer.style.transition = reboundBezier; pageContainer.style.top = '0'; pullRefreshIndicator.style.transition = `${reboundBezier}, opacity 0.25s ease`; pullRefreshIndicator.style.opacity = '0'; pullRefreshIndicator.style.transform = 'translate3d(-50%, -60px, 0)'; ptrIcon.classList.remove("rotate"); pageContainer.style.willChange = "auto"; hasPulledContainer = false;
     const reloadUrl = buildForceReloadUrl(); setTimeout(() => { window.location.replace(reloadUrl); }, 180);
 }
@@ -3192,7 +3224,21 @@ async function fetchWithTimeout(url, options = {}) {
 
 function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-async function fetchModulesData(forceRefresh = false) {
+// 验证远端拉取到的数据是否完整合理（防止拉到不完整截断包）
+function validateModulesDataset(data, referenceCount = 0) {
+    if (!Array.isArray(data) || !data.length) return false;
+    if (referenceCount > CONFIG.MIN_REASONABLE_RESOURCES) {
+        if (data.length < Math.floor(referenceCount * 0.5)) {
+            console.warn(`数据源异常：拉取条数(${data.length})远低于本地基准(${referenceCount})，判定为不完整残缺数据`);
+            return false;
+        }
+    }
+    const sample = data.slice(0, Math.min(data.length, 10));
+    const validSample = sample.filter(item => item && typeof item === 'object' && (item.name || item.title));
+    return validSample.length >= Math.ceil(sample.length * 0.7);
+}
+
+async function fetchModulesData(forceRefresh = false, baseReferenceCount = 0) {
     const urls = [CONFIG.DATA_JSON_URL, ...CONFIG.DATA_FALLBACK_URLS];
     let lastError = null;
     for (const url of urls) {
@@ -3204,7 +3250,9 @@ async function fetchModulesData(forceRefresh = false) {
                     headers: { "Accept": "application/json" }
                 });
                 const data = await response.json();
-                if (!Array.isArray(data) || !data.length) { throw new Error("资源列表为空"); }
+                if (!validateModulesDataset(data, baseReferenceCount)) {
+                    throw new Error(`数据校验未通过，来源: ${url}`);
+                }
                 return data;
             } catch (error) {
                 lastError = error;
@@ -3213,101 +3261,97 @@ async function fetchModulesData(forceRefresh = false) {
             }
         }
     }
-    throw lastError || new Error("所有数据源均请求失败");
+    throw lastError || new Error("所有数据源均请求失败或校验未通过");
 }
 
-let modulesLoadPromise = null;
-let isCurrentLoadForce = false;
+// 基于 Generation / RequestID 序列号的并发控制锁，彻底消除并发竞态覆写
+let loadSequence = 0;
 
-function loadModules(forceRefresh = false) {
-    // 若当前正在执行的任务本身就是强制刷新，或者新任务无需强制刷新，直接复用 Promise
-    if (modulesLoadPromise && (!forceRefresh || isCurrentLoadForce)) {
-        return modulesLoadPromise;
+async function loadModules(forceRefresh = false) {
+    const currentSeq = ++loadSequence;
+    state.isDataLoading = true;
+    let cachedData = null;
+    const staticItems = normalizeStaticResources();
+    try { cachedData = localStorage.getItem(CONFIG.CACHE_KEY); } catch (e) {}
+    let hasRenderedCache = false;
+    let baselineCachedCount = 0;
+
+    // 非强制刷新模式下优先读取本地缓存，提供毫秒级冷启动
+    if (!forceRefresh && cachedData) {
+        try {
+            const parsed = JSON.parse(cachedData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                baselineCachedCount = parsed.length;
+                state.rawNetworkData = parsed;
+                const normalized = normalizeModules(parsed);
+                if (normalized.length > 0) {
+                    updateAllModules([...staticItems, ...normalized]);
+                    state.isAlphabetRendered = false; 
+                    state.isInitialLoading = false; 
+                    filterModules(); 
+                    setSearchState(true); 
+                    hasRenderedCache = true;
+                    state.statusKey = "ready"; 
+                    statusText.textContent = "已就绪"; 
+                    statusDot.className = "status-dot";
+                }
+            }
+        } catch (e) { hasRenderedCache = false; }
     }
 
-    isCurrentLoadForce = Boolean(forceRefresh);
+    if (!hasRenderedCache && state.allModules.length === 0) {
+        state.statusKey = "fetchingStatic"; 
+        statusText.textContent = "正在拉取最新静态资源索引..."; 
+        statusDot.className = "status-dot loading";
+    }
 
-    modulesLoadPromise = (async () => {
-        state.isDataLoading = true;
-        let cachedData = null;
-        const staticItems = normalizeStaticResources();
-        try { cachedData = localStorage.getItem(CONFIG.CACHE_KEY); } catch (e) {}
-        let hasRenderedCache = false;
+    try {
+        const data = await fetchModulesData(forceRefresh, baselineCachedCount);
+        
+        // 核心保护：如果已有更新的请求在执行，丢弃过时返回
+        if (currentSeq !== loadSequence) return false;
 
-        // 仅在非强制刷新模式下读取缓存作为首屏
-        if (!forceRefresh && cachedData) {
-            try {
-                const parsed = JSON.parse(cachedData);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    state.rawNetworkData = parsed;
-                    const normalized = normalizeModules(parsed);
-                    if (normalized.length > 0) {
-                        updateAllModules([...staticItems, ...normalized]);
-                        state.isAlphabetRendered = false; 
-                        state.isInitialLoading = false; 
-                        filterModules(); 
-                        setSearchState(true); 
-                        hasRenderedCache = true;
-                        state.statusKey = "ready"; 
-                        statusText.textContent = "已就绪"; 
-                        statusDot.className = "status-dot";
-                    }
-                }
-            } catch (e) { hasRenderedCache = false; }
-        }
-
-        if (!hasRenderedCache && state.allModules.length === 0) {
-            state.statusKey = "fetchingStatic"; 
-            statusText.textContent = "正在拉取最新静态资源索引..."; 
-            statusDot.className = "status-dot loading";
-        }
-
-        try {
-            const data = await fetchModulesData(forceRefresh);
-            const freshStr = JSON.stringify(data);
-            const isDataChanged = freshStr !== cachedData;
-            if (isDataChanged || !hasRenderedCache) {
-                state.rawNetworkData = data;
-                const normalized = normalizeModules(data);
-                if (!normalized.length) throw new Error("未解析到有效资源数据");
-                updateAllModules([...staticItems, ...normalized]);
-                state.isAlphabetRendered = false; 
-                state.isInitialLoading = false;
-                filterModules(); 
-                setSearchState(true);
-                try { localStorage.setItem(CONFIG.CACHE_KEY, freshStr); } catch (e) {}
-                if (hasRenderedCache) { showToast("已同步云端最新资源"); }
-            }
-            state.statusKey = "synced"; 
-            statusText.textContent = "已同步最新数据"; 
-            statusDot.className = "status-dot";
-            return true;
-        } catch (error) {
-            console.error("加载 modules.json 失败:", error);
+        const freshStr = JSON.stringify(data);
+        const isDataChanged = freshStr !== cachedData;
+        if (isDataChanged || !hasRenderedCache) {
+            state.rawNetworkData = data;
+            const normalized = normalizeModules(data);
+            if (!normalized.length) throw new Error("未解析到有效资源数据");
+            updateAllModules([...staticItems, ...normalized]);
+            state.isAlphabetRendered = false; 
             state.isInitialLoading = false;
-            if (hasRenderedCache || state.allModules.length > staticItems.length) {
-                state.statusKey = "errorCache"; 
-                statusText.textContent = "在线同步异常，当前展示缓存数据"; 
-                statusDot.className = "status-dot error";
-            } else {
-                updateAllModules(staticItems); 
-                filterModules(); 
-                setSearchState(true);
-                state.statusKey = "errorStatic"; 
-                statusText.textContent = "在线资源同步失败，已展示核心入口"; 
-                statusDot.className = "status-dot error";
-            }
-            return false;
-        } finally {
+            filterModules(); 
+            setSearchState(true);
+            try { localStorage.setItem(CONFIG.CACHE_KEY, freshStr); } catch (e) {}
+            if (hasRenderedCache) { showToast("已同步云端最新资源"); }
+        }
+        state.statusKey = "synced"; 
+        statusText.textContent = "已同步最新数据"; 
+        statusDot.className = "status-dot";
+        return true;
+    } catch (error) {
+        if (currentSeq !== loadSequence) return false;
+        console.error("加载 modules.json 失败:", error);
+        state.isInitialLoading = false;
+        if (hasRenderedCache || state.allModules.length > staticItems.length) {
+            state.statusKey = "errorCache"; 
+            statusText.textContent = "在线同步异常，当前展示缓存数据"; 
+            statusDot.className = "status-dot error";
+        } else {
+            updateAllModules(staticItems); 
+            filterModules(); 
+            setSearchState(true);
+            state.statusKey = "errorStatic"; 
+            statusText.textContent = "在线资源同步失败，已展示核心入口"; 
+            statusDot.className = "status-dot error";
+        }
+        return false;
+    } finally {
+        if (currentSeq === loadSequence) {
             state.isDataLoading = false; 
             checkScrollLock();
         }
-    })();
-
-    return modulesLoadPromise.finally(() => {
-        modulesLoadPromise = null;
-        isCurrentLoadForce = false;
-    });
+    }
 }
 
 window.addEventListener('online', () => {
@@ -3317,6 +3361,7 @@ window.addEventListener('online', () => {
     }
 });
 
+// 初始化静态内置骨架
 updateAllModules(normalizeStaticResources());
 filterModules();
 scheduleLayoutUpdate();
@@ -3328,7 +3373,7 @@ cleanOldCaches();
 const isForceRefreshFromUrl = new URLSearchParams(window.location.search).has("_refresh");
 loadModules(isForceRefreshFromUrl);
 
-// 提取完毕后清理 URL 中的参数
+// 提取完毕后清理 URL 中的参数，保持地址栏干净
 try {
     const cleanUrl = new URL(window.location.href);
     if (cleanUrl.searchParams.has("_refresh")) {
