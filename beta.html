@@ -1819,6 +1819,13 @@
             .search-shortcut { display: none; }
         }
 
+        @media (max-width: 480px) {
+            .lightbox-close-btn {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
         @media (max-width: 420px) {
             .card-bottom { flex-direction: column; align-items: stretch; gap: 12px; }
             .action-buttons { width: 100%; justify-content: flex-end; }
@@ -1899,7 +1906,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                     <button id="searchSubmitBtn" class="search-submit-btn" type="button" aria-label="执行搜索" title="执行搜索">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="4.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
                     </button>
                 </div>
 
@@ -1960,15 +1967,22 @@
     <div id="toast" class="toast glass-element">已复制资源链接</div>
 
 <script>
-// 1. 强制清理历史遗留的幽灵 Service Worker
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for (let registration of registrations) {
-            registration.unregister();
-            console.log("已清理历史遗留的 Service Worker");
-        }
-    });
-}
+// 1. 一次性迁移清理历史遗留的 Service Worker，不影响未来的 PWA 特性
+(function cleanLegacyServiceWorkerOnce() {
+    if ('serviceWorker' in navigator) {
+        const CLEANUP_KEY = "sr_legacy_sw_cleaned_v1";
+        try {
+            if (!localStorage.getItem(CLEANUP_KEY)) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister();
+                    }
+                    localStorage.setItem(CLEANUP_KEY, "true");
+                }).catch(() => {});
+            }
+        } catch (e) {}
+    }
+})();
 
 const CACHE_VERSION = "202609191800";
 const CONFIG = {
@@ -2074,7 +2088,6 @@ function buildForceReloadUrl() {
     return url.href;
 }
 
-// 标签页映射结构调整
 const TAB_NAMES = { 
     module: "模块", 
     color: "配色", 
@@ -2438,10 +2451,6 @@ function getControlBarStickyScrollTop() {
 
 function floatSearchToTarget(smooth = false) {
     const targetTop = getControlBarStickyScrollTop();
-    const minHeight = window.innerHeight + targetTop + 100;
-    if (document.body.scrollHeight < minHeight) {
-        document.body.style.minHeight = `${minHeight}px`;
-    }
     window.scrollTo({ top: targetTop, behavior: smooth ? "smooth" : "auto" });
 }
 
@@ -2640,7 +2649,7 @@ function renderAlphabetList() {
     alphabetFastIndex.appendChild(indexFragment);
     alphabetScrollArea.appendChild(listFragment);
     state.isAlphabetRendered = true;
-    fastIndexChars = []; fastIndexCharHeight = 0;
+    fastIndexChars = [];
     prepareFastIndexGeometry();
     updateAlphabetPosition();
 }
@@ -2667,23 +2676,22 @@ function scrollToAlphabetLetter(letter) {
     if (targetEl && alphabetScrollArea) { alphabetScrollArea.scrollTop = targetEl.offsetTop; }
 }
 
-let isTouchingIndex = false, fastIndexChars = [], fastIndexCharHeight = 0, fastIndexTop = 0, fastIndexHeight = 0, activeFastIndexChar = null;
+let isTouchingIndex = false, fastIndexChars = [], activeFastIndexChar = null;
 function prepareFastIndexGeometry() {
     if (!alphabetFastIndex) return false;
     fastIndexChars = Array.from(alphabetFastIndex.querySelectorAll(".alphabet-fast-char"));
-    if (!fastIndexChars.length) return false;
-    const firstRect = fastIndexChars[0].getBoundingClientRect();
-    const indexRect = alphabetFastIndex.getBoundingClientRect();
-    fastIndexTop = firstRect.top; fastIndexHeight = indexRect.height;
-    fastIndexCharHeight = firstRect.height || (fastIndexHeight / fastIndexChars.length);
-    return fastIndexCharHeight > 0 && fastIndexHeight > 0;
+    return fastIndexChars.length > 0;
 }
 
 let fastIndexRaf = 0, pendingFastIndexY = 0;
 function renderFastIndexSelection(clientY) {
     if (!alphabetFastIndex) return;
-    if (!fastIndexChars.length || !fastIndexCharHeight) { if (!prepareFastIndexGeometry()) return; }
-    let index = Math.floor((clientY - fastIndexTop) / fastIndexCharHeight);
+    if (!fastIndexChars.length) { if (!prepareFastIndexGeometry()) return; }
+    const indexRect = alphabetFastIndex.getBoundingClientRect();
+    if (indexRect.height <= 0) return;
+    
+    const charHeight = indexRect.height / fastIndexChars.length;
+    let index = Math.floor((clientY - indexRect.top) / charHeight);
     index = Math.max(0, Math.min(index, fastIndexChars.length - 1));
     const charEl = fastIndexChars[index];
     if (!charEl || charEl.classList.contains("disabled")) return;
@@ -2694,7 +2702,6 @@ function renderFastIndexSelection(clientY) {
     charEl.classList.add("active");
     activeFastIndexChar = charEl;
     if (alphabetPopupBubble) {
-        const indexRect = alphabetFastIndex.getBoundingClientRect();
         const containerRect = alphabetViewContainer.getBoundingClientRect();
         let relativeY = clientY - containerRect.top;
         const bubbleHalfH = 24;
@@ -2743,7 +2750,7 @@ function updateAlphabetPosition() {
     alphabetViewContainer.style.bottom = `${bottomPos}px`;
     alphabetViewContainer.style.left = `${btnRect.left}px`;
     alphabetViewContainer.style.width = `${Math.max(0, containerRect.right - btnRect.left)}px`;
-    fastIndexChars = []; fastIndexCharHeight = 0; fastIndexHeight = 0;
+    fastIndexChars = [];
 }
 
 let listViewTransitionTimer = null;
@@ -2868,8 +2875,14 @@ searchBoxInner.addEventListener("click", (e) => {
     if (document.activeElement !== searchInput) { searchInput.focus(); }
 });
 
-searchInput.addEventListener("focus", () => { document.body.classList.add("has-search-focus"); floatSearchToTarget(false); setTimeout(() => { floatSearchToTarget(false); }, 80); });
-searchInput.addEventListener("blur", () => { document.body.classList.remove("has-search-focus"); });
+searchInput.addEventListener("focus", () => { 
+    document.body.classList.add("has-search-focus"); 
+    floatSearchToTarget(false); 
+});
+searchInput.addEventListener("blur", () => { 
+    document.body.classList.remove("has-search-focus");
+    document.body.style.minHeight = "";
+});
 
 function renderAuthor(module) {
     const author = module.author || {};
@@ -3204,62 +3217,93 @@ async function fetchModulesData(forceRefresh = false) {
     throw lastError || new Error("所有数据源均请求失败");
 }
 
-async function loadModules(forceRefresh = false) {
-    state.isDataLoading = true;
-    let cachedData = null;
-    const staticItems = normalizeStaticResources();
-    try { cachedData = localStorage.getItem(CONFIG.CACHE_KEY); } catch (e) {}
-    let hasRenderedCache = false;
+let modulesLoadPromise = null;
 
-    if (!forceRefresh && cachedData) {
-        try {
-            const parsed = JSON.parse(cachedData);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-                state.rawNetworkData = parsed;
-                const normalized = normalizeModules(parsed);
-                if (normalized.length > 0) {
-                    updateAllModules([...staticItems, ...normalized]);
-                    state.isAlphabetRendered = false; state.isInitialLoading = false; state.isDataLoading = false;
-                    filterModules(); setSearchState(true); hasRenderedCache = true;
-                    state.statusKey = "ready"; statusText.textContent = "已就绪"; statusDot.className = "status-dot";
+function loadModules(forceRefresh = false) {
+    if (modulesLoadPromise) {
+        return modulesLoadPromise;
+    }
+
+    modulesLoadPromise = (async () => {
+        state.isDataLoading = true;
+        let cachedData = null;
+        const staticItems = normalizeStaticResources();
+        try { cachedData = localStorage.getItem(CONFIG.CACHE_KEY); } catch (e) {}
+        let hasRenderedCache = false;
+
+        if (!forceRefresh && cachedData) {
+            try {
+                const parsed = JSON.parse(cachedData);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    state.rawNetworkData = parsed;
+                    const normalized = normalizeModules(parsed);
+                    if (normalized.length > 0) {
+                        updateAllModules([...staticItems, ...normalized]);
+                        state.isAlphabetRendered = false; 
+                        state.isInitialLoading = false; 
+                        // 修正点：保持 isDataLoading = true，禁止提前终止
+                        filterModules(); 
+                        setSearchState(true); 
+                        hasRenderedCache = true;
+                        state.statusKey = "ready"; 
+                        statusText.textContent = "已就绪"; 
+                        statusDot.className = "status-dot";
+                    }
                 }
+            } catch (e) { hasRenderedCache = false; }
+        }
+
+        if (!hasRenderedCache && state.allModules.length === 0) {
+            state.statusKey = "fetchingStatic"; 
+            statusText.textContent = "正在拉取最新静态资源索引..."; 
+            statusDot.className = "status-dot loading";
+        }
+
+        try {
+            const data = await fetchModulesData(forceRefresh);
+            const freshStr = JSON.stringify(data);
+            const isDataChanged = freshStr !== cachedData;
+            if (isDataChanged || !hasRenderedCache) {
+                state.rawNetworkData = data;
+                const normalized = normalizeModules(data);
+                if (!normalized.length) throw new Error("未解析到有效资源数据");
+                updateAllModules([...staticItems, ...normalized]);
+                state.isAlphabetRendered = false; 
+                state.isInitialLoading = false;
+                filterModules(); 
+                setSearchState(true);
+                try { localStorage.setItem(CONFIG.CACHE_KEY, freshStr); } catch (e) {}
+                if (hasRenderedCache) { showToast("已同步云端最新资源"); }
             }
-        } catch (e) { hasRenderedCache = false; }
-    }
-
-    if (!hasRenderedCache && state.allModules.length === 0) {
-        state.statusKey = "fetchingStatic"; statusText.textContent = "正在拉取最新静态资源索引..."; statusDot.className = "status-dot loading";
-    }
-
-    try {
-        const data = await fetchModulesData(forceRefresh);
-        const freshStr = JSON.stringify(data);
-        const isDataChanged = freshStr !== cachedData;
-        if (isDataChanged || !hasRenderedCache) {
-            state.rawNetworkData = data;
-            const normalized = normalizeModules(data);
-            if (!normalized.length) throw new Error("未解析到有效资源数据");
-            updateAllModules([...staticItems, ...normalized]);
-            state.isAlphabetRendered = false; state.isInitialLoading = false; state.isDataLoading = false;
-            filterModules(); setSearchState(true);
-            try { localStorage.setItem(CONFIG.CACHE_KEY, freshStr); } catch (e) {}
-            if (hasRenderedCache) { showToast("已同步云端最新资源"); }
+            state.statusKey = "synced"; 
+            statusText.textContent = "已同步最新数据"; 
+            statusDot.className = "status-dot";
+            return true;
+        } catch (error) {
+            console.error("加载 modules.json 失败:", error);
+            state.isInitialLoading = false;
+            if (hasRenderedCache || state.allModules.length > staticItems.length) {
+                state.statusKey = "errorCache"; 
+                statusText.textContent = "在线同步异常，当前展示缓存数据"; 
+                statusDot.className = "status-dot error";
+            } else {
+                updateAllModules(staticItems); 
+                filterModules(); 
+                setSearchState(true);
+                state.statusKey = "errorStatic"; 
+                statusText.textContent = "在线资源同步失败，已展示核心入口"; 
+                statusDot.className = "status-dot error";
+            }
+            return false;
+        } finally {
+            state.isDataLoading = false; 
+            checkScrollLock();
         }
-        state.statusKey = "synced"; statusText.textContent = "已同步最新数据"; statusDot.className = "status-dot";
-        return true;
-    } catch (error) {
-        console.error("加载 modules.json 失败:", error);
-        state.isInitialLoading = false;
-        if (hasRenderedCache || state.allModules.length > staticItems.length) {
-            state.statusKey = "errorCache"; statusText.textContent = "在线同步异常，当前展示缓存数据"; statusDot.className = "status-dot error";
-        } else {
-            updateAllModules(staticItems); filterModules(); setSearchState(true);
-            state.statusKey = "errorStatic"; statusText.textContent = "在线资源同步失败，已展示核心入口"; statusDot.className = "status-dot error";
-        }
-        return false;
-    } finally {
-        state.isDataLoading = false; checkScrollLock();
-    }
+    })();
+
+    return modulesLoadPromise.finally(() => {
+        modulesLoadPromise = null;
+    });
 }
 
 window.addEventListener('online', () => {
