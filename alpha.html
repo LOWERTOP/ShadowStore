@@ -3829,136 +3829,368 @@ async function fetchRulesData(cachedRules = []) {
 }
 
     let loadSequence = 0;
-    async function loadModules(forceRefresh = false) {
-      const currentSeq = ++loadSequence;
-      state.isDataLoading = true;
-      let cachedData = null;
-      let cachedRules = null;
-      const staticItems = normalizeStaticResources();
+async function loadModules(forceRefresh = false) {
+  const currentSeq = ++loadSequence;
+  state.isDataLoading = true;
 
+  let cachedData = null;
+  let cachedRules = null;
+  const staticItems = normalizeStaticResources();
+
+  // 读取本地缓存
+  try {
+    cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
+    cachedRules = localStorage.getItem(CONFIG.RULES_CACHE_KEY);
+  } catch (e) {
+    console.warn("读取本地缓存失败:", e);
+  }
+
+  let hasRenderedCache = false;
+  let baselineCachedCount = 0;
+
+  // ------------------------------------------------------------
+  // 1. 优先立即渲染已有缓存
+  // ------------------------------------------------------------
+  let parsedCachedModules = [];
+  let parsedCachedRules = [];
+
+  if (cachedData) {
+    try {
+      const parsed = JSON.parse(cachedData);
+
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        parsedCachedModules = parsed;
+        baselineCachedCount = parsed.length;
+      }
+    } catch (e) {
+      console.warn("读取本地模块缓存失败:", e);
+    }
+  }
+
+  if (cachedRules) {
+    try {
+      const parsed = JSON.parse(cachedRules);
+
+      if (Array.isArray(parsed)) {
+        parsedCachedRules = parsed;
+      }
+    } catch (e) {
+      console.warn("读取本地规则缓存失败:", e);
+    }
+  }
+
+  if (parsedCachedModules.length > 0) {
+    try {
+      state.rawNetworkData = parsedCachedModules;
+
+      const normalized = normalizeModules(parsedCachedModules);
+      const normalizedCachedRules = normalizeRules(parsedCachedRules);
+
+      if (normalized.length > 0) {
+        updateAllModules([
+          ...staticItems,
+          ...normalized,
+          ...normalizedCachedRules
+        ]);
+
+        state.isAlphabetRendered = false;
+        state.isInitialLoading = false;
+
+        filterModules();
+        setSearchState(true);
+
+        hasRenderedCache = true;
+
+        state.statusKey = forceRefresh ? "checking" : "ready";
+        statusText.textContent = forceRefresh
+          ? "正在后台同步最新数据..."
+          : "已就绪";
+
+        statusDot.className = forceRefresh
+          ? "status-dot loading"
+          : "status-dot";
+      }
+    } catch (e) {
+      console.warn("渲染本地模块缓存失败:", e);
+      hasRenderedCache = false;
+    }
+  }
+
+  // 没有可用缓存时，先显示静态入口
+  if (!hasRenderedCache && state.allModules.length === 0) {
+    updateAllModules(staticItems);
+    filterModules();
+    setSearchState(true);
+
+    state.statusKey = "fetchingStatic";
+    statusText.textContent = "正在拉取最新静态资源索引...";
+    statusDot.className = "status-dot loading";
+  }
+
+  try {
+    // ------------------------------------------------------------
+    // 2. 并行请求 modules / rules，但允许其中一个独立失败
+    // ------------------------------------------------------------
+    const [modulesResult, rulesResult] = await Promise.allSettled([
+      fetchModulesData(
+        forceRefresh,
+        baselineCachedCount
+      ),
+
+      fetchRulesData(
+        parsedCachedRules
+      )
+    ]);
+
+    // ------------------------------------------------------------
+    // 3. 判断 modules 请求结果
+    // ------------------------------------------------------------
+    let freshModules = null;
+    let modulesSyncOK = false;
+
+    if (modulesResult.status === "fulfilled") {
+      freshModules = modulesResult.value;
+
+      if (Array.isArray(freshModules) && freshModules.length > 0) {
+        modulesSyncOK = true;
+      }
+    } else {
+      console.warn(
+        "modules.json 同步失败，本次继续保留已有模块数据:",
+        modulesResult.reason
+      );
+    }
+
+    // ------------------------------------------------------------
+    // 4. 判断 rules 请求结果
+    //
+    // fetchRulesData() 本身已经具备：
+    // 在线失败 → 返回本地 rules 缓存
+    // ------------------------------------------------------------
+    let freshRules = null;
+    let rulesSyncOK = false;
+
+    if (rulesResult.status === "fulfilled") {
+      freshRules = rulesResult.value;
+
+      if (Array.isArray(freshRules)) {
+        rulesSyncOK = true;
+      }
+    } else {
+      console.warn(
+        "rules.json 同步失败，本次继续保留已有规则数据:",
+        rulesResult.reason
+      );
+    }
+
+    // ------------------------------------------------------------
+    // 5. 如果当前加载序号已经过期，直接放弃本次结果
+    // ------------------------------------------------------------
+    if (currentSeq !== loadSequence) {
+      return false;
+    }
+
+    // ------------------------------------------------------------
+    // 6. 如果 modules 失败，则继续使用原来的 modules 缓存
+    //    绝对不能让 null / [] 覆盖正常缓存
+    // ------------------------------------------------------------
+    let finalModules;
+
+    if (modulesSyncOK) {
+      finalModules = freshModules;
+    } else if (parsedCachedModules.length > 0) {
+      finalModules = parsedCachedModules;
+    } else {
+      finalModules = [];
+    }
+
+    // ------------------------------------------------------------
+    // 7. 如果 rules 失败，则继续使用原来的 rules 缓存
+    // ------------------------------------------------------------
+    let finalRules;
+
+    if (rulesSyncOK) {
+      finalRules = freshRules;
+    } else if (parsedCachedRules.length > 0) {
+      finalRules = parsedCachedRules;
+    } else {
+      finalRules = [];
+    }
+
+    // ------------------------------------------------------------
+    // 8. 规范化最终数据
+    // ------------------------------------------------------------
+    const normalizedModules = normalizeModules(finalModules);
+    const normalizedRules = normalizeRules(finalRules);
+
+    // ------------------------------------------------------------
+    // 9. 两套在线数据都失败，并且没有任何缓存
+    //    仍然允许静态资源正常工作
+    // ------------------------------------------------------------
+    if (
+      !normalizedModules.length &&
+      !normalizedRules.length &&
+      !staticItems.length
+    ) {
+      throw new Error("未解析到任何有效资源数据");
+    }
+
+    // ------------------------------------------------------------
+    // 10. 判断实际数据是否发生变化
+    //
+    // 这里分别判断 modules / rules，避免某一项失败时
+    // 用 null 参与 JSON.stringify 比较。
+    // ------------------------------------------------------------
+    const freshModulesStr = JSON.stringify(finalModules);
+    const freshRulesStr = JSON.stringify(finalRules);
+
+    const modulesChanged =
+      modulesSyncOK &&
+      freshModulesStr !== cachedData;
+
+    const rulesChanged =
+      rulesSyncOK &&
+      freshRulesStr !== cachedRules;
+
+    const hasNewData =
+      modulesChanged ||
+      rulesChanged;
+
+    // ------------------------------------------------------------
+    // 11. 只有需要更新时才重新构建整个资源列表
+    //     如果本地已经渲染缓存，即使本次没有变化也无需重复渲染
+    // ------------------------------------------------------------
+    if (hasNewData || !hasRenderedCache) {
+      if (modulesSyncOK) {
+        state.rawNetworkData = finalModules;
+      } else if (parsedCachedModules.length > 0) {
+        state.rawNetworkData = parsedCachedModules;
+      }
+
+      updateAllModules([
+        ...staticItems,
+        ...normalizedModules,
+        ...normalizedRules
+      ]);
+
+      state.isAlphabetRendered = false;
+      state.isInitialLoading = false;
+
+      filterModules();
+      setSearchState(true);
+
+      // ----------------------------------------------------------
+      // 12. 分别写入缓存
+      //
+      // modules 只有真正成功同步时才写入
+      // rules 只有真正成功取得有效数据时才写入
+      //
+      // 防止某一个数据源失败时覆盖掉原有缓存
+      // ----------------------------------------------------------
       try {
-        cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
-        cachedRules = localStorage.getItem(CONFIG.RULES_CACHE_KEY);
-      } catch (e) {}
+        if (modulesSyncOK) {
+          localStorage.setItem(
+            CONFIG.CACHE_KEY,
+            freshModulesStr
+          );
+        }
 
-      let hasRenderedCache = false;
-      let baselineCachedCount = 0;
+        if (rulesSyncOK) {
+          localStorage.setItem(
+            CONFIG.RULES_CACHE_KEY,
+            freshRulesStr
+          );
+        }
+      } catch (storageErr) {
+        console.warn(
+          "本地存储配额不足或受限:",
+          storageErr
+        );
+      }
 
-      if (cachedData) {
-        try {
-          const parsed = JSON.parse(cachedData);
-          const parsedRules = cachedRules ? JSON.parse(cachedRules) : [];
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            baselineCachedCount = parsed.length;
-            state.rawNetworkData = parsed;
-            const normalized = normalizeModules(parsed);
-            const normalizedCachedRules = normalizeRules(parsedRules);
-            if (normalized.length > 0) {
-              updateAllModules([...staticItems, ...normalized, ...normalizedCachedRules]);
-              state.isAlphabetRendered = false;
-              state.isInitialLoading = false;
-              filterModules();
-              setSearchState(true);
-              hasRenderedCache = true;
-              state.statusKey = forceRefresh ? "checking" : "ready";
-              statusText.textContent = forceRefresh ? "正在后台同步最新数据..." : "已就绪";
-              statusDot.className = forceRefresh ? "status-dot loading" : "status-dot";
-            }
-          }
-        } catch (e) {
-          hasRenderedCache = false;
+      // 已经有缓存的情况下，且确实取得了新数据
+      if (hasRenderedCache && hasNewData) {
+        if (modulesSyncOK && rulesSyncOK) {
+          showToast("已同步云端最新资源");
+        } else if (modulesSyncOK) {
+          showToast("模块资源已更新，规则资源暂保留缓存");
+        } else if (rulesSyncOK) {
+          showToast("规则资源已更新，模块资源暂保留缓存");
         }
       }
-
-      if (!hasRenderedCache && state.allModules.length === 0) {
-        state.statusKey = "fetchingStatic";
-        statusText.textContent = "正在拉取最新静态资源索引...";
-        statusDot.className = "status-dot loading";
-      }
-
-      try {
-let parsedCachedRules = [];
-
-if (cachedRules) {
-  try {
-    const parsed = JSON.parse(cachedRules);
-
-    if (Array.isArray(parsed)) {
-      parsedCachedRules = parsed;
     }
-  } catch (e) {
-    console.warn(
-      "读取本地规则缓存失败:",
-      e
+
+    // ------------------------------------------------------------
+    // 13. 最终同步状态
+    // ------------------------------------------------------------
+    if (modulesSyncOK && rulesSyncOK) {
+      state.statusKey = "synced";
+      statusText.textContent = "已同步最新数据";
+      statusDot.className = "status-dot";
+    } else if (modulesSyncOK || rulesSyncOK) {
+      state.statusKey = "synced";
+      statusText.textContent = "部分资源已同步，其他资源使用缓存";
+      statusDot.className = "status-dot";
+    } else if (hasRenderedCache) {
+      state.statusKey = "errorCache";
+      statusText.textContent = "在线同步异常，当前展示缓存数据";
+      statusDot.className = "status-dot error";
+    } else {
+      state.statusKey = "errorStatic";
+      statusText.textContent = "在线资源同步失败，已展示核心入口";
+      statusDot.className = "status-dot error";
+    }
+
+    return true;
+
+  } catch (error) {
+    // ------------------------------------------------------------
+    // 14. 防止过期请求覆盖最新请求
+    // ------------------------------------------------------------
+    if (currentSeq !== loadSequence) {
+      return false;
+    }
+
+    console.error(
+      "加载资源数据失败:",
+      error
     );
+
+    state.isInitialLoading = false;
+
+    // ------------------------------------------------------------
+    // 15. 最终兜底
+    // ------------------------------------------------------------
+    if (
+      hasRenderedCache ||
+      state.allModules.length > staticItems.length
+    ) {
+      state.statusKey = "errorCache";
+      statusText.textContent = "在线同步异常，当前展示缓存数据";
+      statusDot.className = "status-dot error";
+    } else {
+      updateAllModules(staticItems);
+      filterModules();
+      setSearchState(true);
+
+      state.statusKey = "errorStatic";
+      statusText.textContent = "在线资源同步失败，已展示核心入口";
+      statusDot.className = "status-dot error";
+    }
+
+    return false;
+
+  } finally {
+    // ------------------------------------------------------------
+    // 16. 只有当前最新请求才能解除 loading 状态
+    // ------------------------------------------------------------
+    if (currentSeq === loadSequence) {
+      state.isDataLoading = false;
+      checkScrollLock();
+    }
   }
 }
-
-const [data, rulesData] = await Promise.all([
-  fetchModulesData(
-    forceRefresh,
-    baselineCachedCount
-  ),
-  fetchRulesData(parsedCachedRules)
-]);
-
-        if (currentSeq !== loadSequence) return false;
-        const freshStr = JSON.stringify(data);
-        const freshRulesStr = JSON.stringify(rulesData);
-        const isDataChanged = freshStr !== cachedData || freshRulesStr !== cachedRules;
-
-        if (isDataChanged || !hasRenderedCache) {
-          state.rawNetworkData = data;
-          const normalized = normalizeModules(data);
-          const normalizedRules = normalizeRules(rulesData);
-          if (!normalized.length && !normalizedRules.length) throw new Error("未解析到有效资源数据");
-          updateAllModules([...staticItems, ...normalized, ...normalizedRules]);
-          state.isAlphabetRendered = false;
-          state.isInitialLoading = false;
-          filterModules();
-          setSearchState(true);
-          
-          // 修复 4：增加 localStorage 写入配额溢出安全保护
-          try {
-            localStorage.setItem(CONFIG.CACHE_KEY, freshStr);
-            localStorage.setItem(CONFIG.RULES_CACHE_KEY, freshRulesStr);
-          } catch (storageErr) {
-            console.warn("本地存储配额不足或受限:", storageErr);
-          }
-
-          if (hasRenderedCache) {
-            showToast("已同步云端最新资源");
-          }
-        }
-        state.statusKey = "synced";
-        statusText.textContent = "已同步最新数据";
-        statusDot.className = "status-dot";
-        return true;
-      } catch (error) {
-        if (currentSeq !== loadSequence) return false;
-        console.error("加载资源数据失败:", error);
-        state.isInitialLoading = false;
-        if (hasRenderedCache || state.allModules.length > staticItems.length) {
-          state.statusKey = "errorCache";
-          statusText.textContent = "在线同步异常，当前展示缓存数据";
-          statusDot.className = "status-dot error";
-        } else {
-          updateAllModules(staticItems);
-          filterModules();
-          setSearchState(true);
-          state.statusKey = "errorStatic";
-          statusText.textContent = "在线资源同步失败，已展示核心入口";
-          statusDot.className = "status-dot error";
-        }
-        return false;
-      } finally {
-        if (currentSeq === loadSequence) {
-          state.isDataLoading = false;
-          checkScrollLock();
-        }
-      }
-    }
-
+    
 window.addEventListener('online', () => {
   // 已经有同步任务在执行时，不重复发起请求
   if (state.isDataLoading) return;
