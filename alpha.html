@@ -3959,12 +3959,15 @@ const [data, rulesData] = await Promise.all([
       }
     }
 
-    window.addEventListener('online', () => {
-      if (state.statusKey === "errorCache" || state.statusKey === "errorStatic") {
-        showToast("网络连接已恢复，正在尝试同步最新数据...");
-        loadModules(false);
-      }
-    });
+window.addEventListener('online', () => {
+  // 已经有同步任务在执行时，不重复发起请求
+  if (state.isDataLoading) return;
+
+  if (state.statusKey === "errorCache" || state.statusKey === "errorStatic") {
+    showToast("网络连接已恢复，正在尝试同步最新数据...");
+    loadModules(false);
+  }
+});
 
     // 初始化内置骨架
     updateAllModules(normalizeStaticResources());
