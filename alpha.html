@@ -2122,7 +2122,6 @@
     let modulesFadeTimer = null;
     let alphabetImgObserver = null;
 
-    // 字母列表观察器：扩充 rootMargin 至 360px，实现防白块平滑过渡
     function getAlphabetImgObserver() {
       if (!alphabetImgObserver && ('IntersectionObserver' in window)) {
         alphabetImgObserver = new IntersectionObserver((entries, observer) => {
@@ -2281,7 +2280,6 @@
       });
     }
 
-    // 格式化 rules.json
     function normalizeRules(data) {
       if (!Array.isArray(data)) return [];
       return data.map(r => {
@@ -2567,7 +2565,6 @@
       }, 140);
     }
 
-    // 资源列表：仅展示当前标签分类下的列表项
     function renderAlphabetList() {
       if (!alphabetScrollArea || !alphabetFastIndex) return;
       if (alphabetImgObserver) alphabetImgObserver.disconnect();
@@ -2674,7 +2671,6 @@
         renderAlphabetList();
         state.isAlphabetPrebuilding = false;
 
-        // 字母表构建后，优先静默预热前 36 个需要网络加载的图标至缓存
         const listImages = [];
         const alphabetCurrentItems = state.allModules.filter(m => (m.category || 'module') === state.activeTab);
         for (let i = 0; i < Math.min(alphabetCurrentItems.length, 36); i++) {
@@ -3000,7 +2996,7 @@
       const isRepo = Boolean(module.isRepoCard);
       const directOpenURL = module.rawURL || module.sourceURL || "";
 
-      // 前 4 个卡片使用 high 优先级，其余卡片 lazy 异步解码
+      // 前 4 个卡片使用 fetchpriority="high"，其余卡片使用 loading="lazy" 异步解码
       const priorityAttr = renderIndex < 4 ? 'fetchpriority="high"' : 'loading="lazy"';
 
       let iconHTML = "";
@@ -3715,7 +3711,6 @@
       state.isAlphabetRendered = false;
       scheduleAlphabetPrebuild();
 
-      // 空闲时期静默预热前 24 个模块与作者头像
       const topImages = [];
       list.slice(0, 24).forEach(item => {
         if (item.icon) topImages.push(item.icon);
@@ -3781,12 +3776,18 @@
       throw lastError || new Error("所有数据源均请求失败或校验未通过");
     }
 
-    // 严谨校验 rules.json 数据集结构
+    // 优化：采用“头部 + 中部 + 尾部”分段抽样，防止截断的残缺 JSON 通过校验
     function validateRulesDataset(data) {
       if (!Array.isArray(data) || data.length < 50) return false;
 
-      const sample = data.slice(0, Math.min(data.length, 25));
-      const validSample = sample.filter(item => {
+      const len = data.length;
+      const headSample = data.slice(0, 10);
+      const midStart = Math.floor((len - 10) / 2);
+      const midSample = data.slice(midStart, midStart + 10);
+      const tailSample = data.slice(len - 10);
+
+      const sampled = [...headSample, ...midSample, ...tailSample];
+      const validSample = sampled.filter(item => {
         if (!item || typeof item !== "object") return false;
         const hasId = typeof item.id === "string" && item.id.trim().length > 0;
         const hasNameOrTitle = (typeof item.name === "string" && item.name.trim().length > 0) ||
@@ -3795,28 +3796,38 @@
         return hasId && hasNameOrTitle && hasButtons;
       });
 
-      return validSample.length >= Math.ceil(sample.length * 0.8);
+      return validSample.length >= Math.ceil(sampled.length * 0.85);
     }
 
-    async function fetchRulesData(cachedRules = []) {
+    // 优化：支持 forceRefresh 击穿 URL 缓存，并加入与 modules 完全一致的 retry 重试机制
+    async function fetchRulesData(cachedRules = [], forceRefresh = false) {
       const urls = [
         CONFIG.RULES_JSON_URL,
         ...CONFIG.RULES_FALLBACK_URLS
       ];
 
       for (const url of urls) {
-        try {
-          const res = await fetchWithTimeout(url, { cache: "no-cache" });
-          const list = await res.json();
-          if (validateRulesDataset(list)) {
-            return {
-              data: list,
-              source: "network"
-            };
+        for (let attempt = 0; attempt <= CONFIG.FETCH_RETRIES; attempt++) {
+          try {
+            const requestUrl = forceRefresh ? `${url}${url.includes("?") ? "&" : "?"}_t=${Date.now()}` : url;
+            const res = await fetchWithTimeout(requestUrl, {
+              cache: forceRefresh ? "no-store" : "no-cache",
+              headers: { "Accept": "application/json" }
+            });
+            const list = await res.json();
+            if (validateRulesDataset(list)) {
+              return {
+                data: list,
+                source: "network"
+              };
+            }
+            console.warn(`rules.json 数据校验未通过 [${url}]`);
+          } catch (e) {
+            console.warn(`读取 rules.json 失败 [${url}]，第 ${attempt + 1}/${CONFIG.FETCH_RETRIES + 1} 次:`, e);
+            if (attempt < CONFIG.FETCH_RETRIES) {
+              await wait(CONFIG.RETRY_DELAY * (attempt + 1));
+            }
           }
-          console.warn(`rules.json 数据校验未通过 [${url}]`);
-        } catch (e) {
-          console.warn(`读取 rules.json 失败 [${url}]:`, e);
         }
       }
 
@@ -3924,10 +3935,10 @@
       }
 
       try {
-        // 模块和规则独立同步，互不阻塞
+        // 模块和规则独立同步，forceRefresh 同步传递给 rules
         const [modulesResult, rulesResult] = await Promise.allSettled([
           fetchModulesData(forceRefresh, baselineCachedCount),
-          fetchRulesData(parsedCachedRules)
+          fetchRulesData(parsedCachedRules, forceRefresh)
         ]);
 
         // 模块同步结果判断
