@@ -204,7 +204,7 @@ async function fetchRawText(url, isPartial = true) {
     } catch (err) {
       if (attempt === retries) throw err;
       const delay = 500 * Math.pow(2, attempt);
-      console.warn(`⚠️ 获取失败，${delay}ms 后重试 (${attempt + 1}/${retries}):${url}`);
+      console.warn(`⚠️ 获取失败，${delay}ms 后重试 (${attempt + 1}/${retries}): ${url}`);
       await wait(delay);
     }
   }
@@ -519,7 +519,7 @@ function parseGitHubRawURL(rawURL) {
         owner: parts[0],
         repo: parts[1],
         fullName: `${parts[0]}/${parts[1]}`,
-        url: `[ShadowStore](https://github.com/LOWERTOP/ShadowStore)`
+        url: `https://github.com/${parts[0]}/${parts[1]}`
       };
     }
   } catch {}
@@ -544,14 +544,14 @@ function getAuthorFromURL(rawURL, githubInfo) {
       const prAuthor = prMatch[1].trim();
       return {
         name: prAuthor,
-        url: `[LOWERTOP](https://github.com/LOWERTOP)`,
+        url: `https://github.com/${encodeURIComponent(prAuthor)}`,
         username: prAuthor
       };
     }
   } catch (e) {}
   if (githubInfo) return {
     name: githubInfo.owner,
-    url: `[LOWERTOP](https://github.com/LOWERTOP)`,
+    url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
     username: githubInfo.owner
   };
   return { name: "作者信息识别失败", url: "", username: "" };
@@ -631,7 +631,7 @@ async function fetchModule(item) {
   const githubInfo = parseGitHubRawURL(item.rawURL);
   const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
   const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
-  const avatarUrl = urlAuthor.username ? `[LOWERTOP](https://github.com/LOWERTOP).png?size=64` : "";
+  const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
   const fromMyRepo = item.fromMyRepo || false;
   const fromFMZ = item.fromFMZ || false;
   const fromZirawell = item.fromZirawell || false;
@@ -805,15 +805,15 @@ async function fetchColorThemes(markdownText) {
         installURL: installScheme,
         category: "color",
         previewImg: previewImg,
-        icon: "[LOWERTOP](https://github.com/LOWERTOP).png?size=64",
+        icon: previewImg || "https://github.com/LOWERTOP.png?size=64",
         author: {
           name: "LOWERTOP",
-          url: "[LOWERTOP](https://github.com/LOWERTOP)",
+          url: "https://github.com/LOWERTOP",
           username: "LOWERTOP"
         },
-        authorAvatar: "[LOWERTOP](https://github.com/LOWERTOP).png?size=64",
+        authorAvatar: "https://github.com/LOWERTOP.png?size=64",
         sourceName: "Shadowrocket-First",
-        sourceURL: "[Shadowrocket 配色文件](https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6)",
+        sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First#shadowrocket-%E9%85%8D%E8%89%B2%E6%96%87%E4%BB%B6",
         description: "Shadowrocket 原创精选配色方案，支持一键载入至客户端，建议搭配相应底色模式使用。",
         primaryBtnText: "安装配色",
         preInstallURL: "",
