@@ -567,6 +567,9 @@ function validateOutputData(data) {
 }
 
 async function main() {
+  console.log("⏳ 等待 60 秒上游缓存同步与网络就绪...");
+  await wait(60000); // 延时 1 分钟再启动构建
+
   console.log("🚀 ShadowStore 聚合构建引擎启动...\n");
   const outputPath = path.resolve(__dirname, "modules.json");
   const tempPath = `${outputPath}.tmp`;
