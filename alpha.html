@@ -3669,7 +3669,7 @@
     function validateModulesDataset(data, referenceCount = 0) {
       if (!Array.isArray(data) || !data.length) return false;
       if (referenceCount > CONFIG.MIN_REASONABLE_RESOURCES) {
-        if (data.length < Math.floor(referenceCount * 0.5)) {
+        if (data.length < Math.floor(referenceCount * 0.7)) {
           console.warn(`数据源异常：拉取条数(${data.length})远低于本地基准(${referenceCount})，判定为不完整残缺数据`);
           return false;
         }
@@ -3708,26 +3708,125 @@
     }
 
     // 修复 2：为 rules.json 增加数据集完整性校验（确保条数合理且格式正常）
-    function validateRulesDataset(data) {
-      if (!Array.isArray(data) || data.length < 50) return false;
-      return data.some(item => item && (item.title || item.name));
+function validateRulesDataset(data) {
+  if (!Array.isArray(data) || data.length < 50) {
+    return false;
+  }
+
+  const validItems = data.filter(item => {
+    if (!item || typeof item !== "object") {
+      return false;
     }
 
-    async function fetchRulesData() {
-      const urls = [CONFIG.RULES_JSON_URL, ...CONFIG.RULES_FALLBACK_URLS];
-      for (const url of urls) {
-        try {
-          const res = await fetchWithTimeout(url, { cache: "no-cache" });
-          if (res.ok) {
-            const list = await res.json();
-            if (validateRulesDataset(list)) return list;
-          }
-        } catch (e) {
-          console.warn(`读取 rules.json 失败 [${url}]:`, e);
-        }
-      }
-      return [];
+    if (
+      typeof item.id !== "string" ||
+      !item.id.trim()
+    ) {
+      return false;
     }
+
+    if (
+      typeof item.name !== "string" ||
+      !item.name.trim()
+    ) {
+      return false;
+    }
+
+    if (item.category !== "rule") {
+      return false;
+    }
+
+    if (
+      typeof item.sourceURL !== "string" ||
+      !item.sourceURL.startsWith("https://")
+    ) {
+      return false;
+    }
+
+    if (
+      !Array.isArray(item.buttons) ||
+      item.buttons.length === 0
+    ) {
+      return false;
+    }
+
+    const hasValidButton = item.buttons.some(button =>
+      button &&
+      typeof button === "object" &&
+      typeof button.url === "string" &&
+      /^https?:\/\//i.test(button.url)
+    );
+
+    if (!hasValidButton) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // 至少 90% 的条目必须符合预期结构。
+  return (
+    validItems.length >=
+    Math.ceil(data.length * 0.9)
+  );
+}
+
+async function fetchRulesData(cachedRules = []) {
+  const urls = [
+    CONFIG.RULES_JSON_URL,
+    ...CONFIG.RULES_FALLBACK_URLS
+  ];
+
+  for (const url of urls) {
+    try {
+      const res = await fetchWithTimeout(
+        url,
+        { cache: "no-cache" }
+      );
+
+      if (!res.ok) {
+        throw new Error(
+          `HTTP ${res.status}`
+        );
+      }
+
+      const list = await res.json();
+
+      if (validateRulesDataset(list)) {
+        return list;
+      }
+
+      console.warn(
+        `rules.json 数据校验未通过 [${url}]`
+      );
+    } catch (e) {
+      console.warn(
+        `读取 rules.json 失败 [${url}]:`,
+        e
+      );
+    }
+  }
+
+  // 所有在线规则源均失败时：
+  // 保留已有规则缓存，而不是返回 []。
+  if (
+    Array.isArray(cachedRules) &&
+    cachedRules.length > 0
+  ) {
+    console.warn(
+      `所有规则数据源均失败，继续使用本地缓存规则（${cachedRules.length} 项）`
+    );
+
+    return cachedRules;
+  }
+
+  // 首次访问且没有任何缓存时才允许返回空数组。
+  console.warn(
+    "所有规则数据源均失败，且没有可用的本地规则缓存"
+  );
+
+  return [];
+}
 
     let loadSequence = 0;
     async function loadModules(forceRefresh = false) {
@@ -3778,10 +3877,30 @@
       }
 
       try {
-        const [data, rulesData] = await Promise.all([
-          fetchModulesData(forceRefresh, baselineCachedCount),
-          fetchRulesData()
-        ]);
+let parsedCachedRules = [];
+
+if (cachedRules) {
+  try {
+    const parsed = JSON.parse(cachedRules);
+
+    if (Array.isArray(parsed)) {
+      parsedCachedRules = parsed;
+    }
+  } catch (e) {
+    console.warn(
+      "读取本地规则缓存失败:",
+      e
+    );
+  }
+}
+
+const [data, rulesData] = await Promise.all([
+  fetchModulesData(
+    forceRefresh,
+    baselineCachedCount
+  ),
+  fetchRulesData(parsedCachedRules)
+]);
 
         if (currentSeq !== loadSequence) return false;
         const freshStr = JSON.stringify(data);
