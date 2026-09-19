@@ -83,6 +83,9 @@
       --bottom-offset: max(16px, calc(env(safe-area-inset-bottom) - 14px));
       --safe-pad-bottom: max(104px, calc(env(safe-area-inset-bottom) + 70px));
       --toast-bottom: max(93px, calc(env(safe-area-inset-bottom) + 59px));
+      --lightbox-bg: rgba(255, 255, 255, 0.82);
+      --lightbox-border: rgba(0, 0, 0, 0.08);
+      --lightbox-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
     }
     [data-theme="dark"] {
       --bg-page-solid: #14161a;
@@ -110,6 +113,9 @@
       --accent-mint-soft: rgba(139, 183, 196, 0.2);
       --accent-orange: #c4a991;
       --accent-orange-soft: rgba(196, 169, 145, 0.2);
+      --lightbox-bg: rgba(0, 0, 0, 0.78);
+      --lightbox-border: rgba(255, 255, 255, 0.14);
+      --lightbox-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
     }
     html.theme-transitioning, html.theme-transitioning *, html.theme-transitioning *::before, html.theme-transitioning *::after {
       transition: none !important;
@@ -1487,14 +1493,14 @@
       transform: translate3d(0, -50%, 0);
     }
 
-    /* 配色大图弹窗灯箱样式 */
+    /* 配色大图弹窗灯箱样式（浅色模式白底遮罩，深色模式黑底遮罩） */
     .image-lightbox {
       position: fixed;
       inset: 0;
       z-index: 99999999;
-      background: rgba(0, 0, 0, 0.76);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: var(--lightbox-bg);
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px) saturate(130%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1529,35 +1535,53 @@
       max-height: 80vh;
       object-fit: contain;
       border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: var(--lightbox-shadow);
+      border: 1px solid var(--lightbox-border);
       background: var(--bg-surface);
     }
+    /* 关闭按钮：与取消资源列表按钮样式完全一致 */
     .lightbox-close-btn {
       position: absolute;
-      top: -16px;
-      right: -16px;
-      width: 36px;
-      height: 36px;
+      top: -18px;
+      right: -18px;
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
       border-radius: 50%;
-      border: none;
-      background: rgba(30, 30, 30, 0.88);
-      color: #ffffff;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      color: var(--text-secondary);
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease, background-color 0.2s ease;
+      box-shadow: var(--shadow-glass-ui);
+      border-top-color: var(--glass-border-t);
+      border-left-color: var(--glass-border-l);
+      border-right-color: var(--glass-border-r);
+      border-bottom-color: var(--glass-border-b);
+      transition: color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+      padding: 0;
       z-index: 10;
     }
-    .lightbox-close-btn:hover {
-      transform: scale(1.08);
-      background: rgba(50, 50, 50, 0.95);
+    [data-theme="dark"] .lightbox-close-btn {
+      border: 1px solid var(--border-subtle);
     }
     .lightbox-close-btn svg {
+      display: block;
       width: 18px;
       height: 18px;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+    .lightbox-close-btn:hover, .lightbox-close-btn:active, .lightbox-close-btn:focus-visible {
+      color: #06b6d4;
+      box-shadow: var(--shadow-glass-ui) !important;
+      transform: scale(1.05);
+    }
+    [data-theme="dark"] .lightbox-close-btn:hover, [data-theme="dark"] .lightbox-close-btn:active, [data-theme="dark"] .lightbox-close-btn:focus-visible {
+      color: #22d3ee;
+      box-shadow: var(--shadow-glass-ui) !important;
+      background-color: var(--bg-surface) !important;
     }
 
     @media (hover: none), (pointer: coarse), (max-width: 860px) {
@@ -1681,7 +1705,7 @@
       <div class="header-top">
         <div class="brand-wrapper">
           <h1 class="title">
-            <a href="https://shadowstore.dpdns.org" target="_blank" rel="noopener">
+            <a href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener">
               <span class="title-shadow">Shadow</span><span class="title-store">/Store</span>
             </a>
             <span id="tagPillBadge" class="tag-pill-badge">社区资源</span>
@@ -1689,7 +1713,7 @@
         </div>
         <div class="theme-controls">
           <button id="themeToggle" class="theme-toggle immersive-icon" aria-label="切换主题模式"></button>
-          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://shadowstore.dpdns.org" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
+          <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
             <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
@@ -1778,10 +1802,10 @@
   <!-- 配色大图弹窗灯箱 -->
   <div id="imageLightbox" class="image-lightbox" aria-hidden="true" role="dialog">
     <div class="lightbox-content">
-      <button id="lightboxCloseBtn" class="lightbox-close-btn" type="button" aria-label="关闭预览">
+      <button id="lightboxCloseBtn" class="lightbox-close-btn glass-element" type="button" aria-label="关闭预览" title="关闭预览">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
-          <polyline points="6 6 18 18"></polyline>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
       <img id="lightboxImg" class="lightbox-img" src="" alt="效果预览" loading="eager">
@@ -1800,7 +1824,7 @@
       });
     }
 
-    const CACHE_VERSION = "202609191700";
+    const CACHE_VERSION = "202609191800";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -2004,7 +2028,7 @@
     const alphabetFastIndex = document.getElementById("alphabetFastIndex");
     const alphabetPopupBubble = document.getElementById("alphabetPopupBubble");
 
-    // 弹窗灯箱 DOM 节点
+    // 弹窗灯箱控制节点
     const imageLightbox = document.getElementById("imageLightbox");
     const lightboxImg = document.getElementById("lightboxImg");
     const lightboxCloseBtn = document.getElementById("lightboxCloseBtn");
@@ -2139,6 +2163,7 @@
         const authorName = m.author?.name || m.author?.username || "";
         const authorURL = safeURL(m.author?.url || (m.author?.username ? `https://github.com/${encodeURIComponent(m.author.username)}` : ""));
         const authorAvatar = safeURL(m.authorAvatar || m.author?.avatar || "");
+        const previewImg = safeURL(m.previewImg || "");
         const sourceName = m.sourceName || "开源仓库";
         const sourceURL = safeURL(m.sourceURL || "");
         const customInstall = safeInstallURL(m.installURL || "");
@@ -2157,16 +2182,22 @@
           }
         }
 
+        const iconURL = safeURL(m.icon || (category === "color" ? previewImg : ""));
         const searchTokens = [m.name, m.description, authorName, m.author?.username, sourceName, category, m._searchKeywords].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
+
         return {
           id: `mod_${category}_${idx}_${encodeURIComponent(m.name || '')}`,
           name: m.name || "未命名模块",
           category: category,
           description: m.description || "",
-          previewImg: safeURL(m.previewImg || ""),
-          icon: safeURL(m.icon || ""),
-          author: { name: authorName, url: authorURL, username: m.author?.username || "" },
-          authorAvatar,
+          previewImg: previewImg,
+          icon: iconURL,
+          author: { 
+            name: authorName || (category === "color" ? "LOWERTOP" : "作者未知"), 
+            url: authorURL || (category === "color" ? "https://github.com/LOWERTOP" : ""), 
+            username: m.author?.username || "" 
+          },
+          authorAvatar: authorAvatar || (category === "color" ? "https://github.com/LOWERTOP.png?size=64" : ""),
           sourceName,
           sourceURL,
           rawURL,
@@ -2860,7 +2891,7 @@
       const isRepo = Boolean(module.isRepoCard);
       const directOpenURL = module.rawURL || module.sourceURL || "";
 
-      // 配色卡片左侧图标点击也可以直接查看效果截图
+      // 配色卡片左侧图标点击同样支持弹窗预览效果图
       let iconHTML = "";
       if (module.category === "color" && module.previewImg) {
         iconHTML = `<button type="button" class="module-icon view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" style="border:none;padding:0;background:none;outline:none;" title="查看效果图" aria-label="查看效果图"><img src="${escapeHTML(icon)}" data-fallback="${escapeHTML(fallbackIcon)}" alt="${escapeHTML(module.name)}" decoding="async"></button>`;
@@ -3180,7 +3211,7 @@
       }, 280);
     }
 
-    // 点击“查看效果”按钮打开灯箱
+    // 点击“查看效果”按钮或配色图标打开灯箱
     modulesContainer.addEventListener("click", (e) => {
       const viewBtn = e.target.closest(".view-preview-btn");
       if (viewBtn) {
