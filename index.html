@@ -2073,7 +2073,6 @@ function cleanOldCaches() {
     }
 }
 
-// 仅清理本站保存在本地的资源数据缓存
 function clearLocalDataCache() {
     try {
         const keysToRemove = [];
@@ -2787,10 +2786,18 @@ function setListViewMode(enable) {
     clearTimeout(listViewTransitionTimer);
     if (enable) {
         state.isListView = true;
+        
+        // 核心修复：给页面临时补足滚动高度，确保短内容页面（手册配置、更多资源、空搜索）也能顺利将标题栏向上推移吸顶
+        const targetTop = getControlBarStickyScrollTop();
+        const minHeight = window.innerHeight + targetTop + 60;
+        if (document.body.scrollHeight < minHeight) {
+            document.body.style.minHeight = `${minHeight}px`;
+        }
+        window.scrollTo({ top: targetTop, behavior: "auto" });
+
         checkScrollLock();
         document.body.classList.add("is-list-view");
         updateStandaloneButtonState();
-        floatSearchToTarget(false);
         if (!state.isAlphabetRendered) { renderAlphabetList(); }
         updateAlphabetPosition();
         listViewTransitionTimer = setTimeout(() => { if (state.isListView) { alphabetViewContainer.classList.add("is-visible"); } }, 40);
@@ -2909,7 +2916,9 @@ searchInput.addEventListener("focus", () => {
 });
 searchInput.addEventListener("blur", () => { 
     document.body.classList.remove("has-search-focus");
-    document.body.style.minHeight = "";
+    if (!state.isListView) {
+        document.body.style.minHeight = "";
+    }
 });
 
 function renderAuthor(module) {
@@ -3275,28 +3284,28 @@ async function loadModules(forceRefresh = false) {
     let hasRenderedCache = false;
     let baselineCachedCount = 0;
 
-// 无论是常规还是强制刷新，只要有缓存都先秒开渲染，避免白屏或断网裸奔
-if (cachedData) {
-    try {
-        const parsed = JSON.parse(cachedData);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-            baselineCachedCount = parsed.length;
-            state.rawNetworkData = parsed;
-            const normalized = normalizeModules(parsed);
-            if (normalized.length > 0) {
-                updateAllModules([...staticItems, ...normalized]);
-                state.isAlphabetRendered = false; 
-                state.isInitialLoading = false; 
-                filterModules(); 
-                setSearchState(true); 
-                hasRenderedCache = true;
-                state.statusKey = forceRefresh ? "checking" : "ready"; 
-                statusText.textContent = forceRefresh ? "正在后台同步最新数据..." : "已就绪"; 
-                statusDot.className = forceRefresh ? "status-dot loading" : "status-dot";
+    // 无论是常规还是强制刷新，只要有缓存都先秒开渲染，避免白屏或断网裸奔
+    if (cachedData) {
+        try {
+            const parsed = JSON.parse(cachedData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                baselineCachedCount = parsed.length;
+                state.rawNetworkData = parsed;
+                const normalized = normalizeModules(parsed);
+                if (normalized.length > 0) {
+                    updateAllModules([...staticItems, ...normalized]);
+                    state.isAlphabetRendered = false; 
+                    state.isInitialLoading = false; 
+                    filterModules(); 
+                    setSearchState(true); 
+                    hasRenderedCache = true;
+                    state.statusKey = forceRefresh ? "checking" : "ready"; 
+                    statusText.textContent = forceRefresh ? "正在后台同步最新数据..." : "已就绪"; 
+                    statusDot.className = forceRefresh ? "status-dot loading" : "status-dot";
+                }
             }
-        }
-    } catch (e) { hasRenderedCache = false; }
-}
+        } catch (e) { hasRenderedCache = false; }
+    }
     if (!hasRenderedCache && state.allModules.length === 0) {
         state.statusKey = "fetchingStatic"; 
         statusText.textContent = "正在拉取最新静态资源索引..."; 
