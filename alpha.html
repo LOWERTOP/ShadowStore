@@ -1864,7 +1864,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609200800";
+    const CACHE_VERSION = "202609201200";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1944,9 +1944,6 @@
     const pinyinCharCache = new Map();
     const iconSvgCache = new Map();
 
-    // ==========================================
-    // 全局低优先级图片预读取池（Preload Pool）
-    // ==========================================
     const preheatedUrls = new Set();
 
     function preloadImageBatch(urls, concurrency = 4) {
@@ -2016,6 +2013,7 @@
     const STATIC_RESOURCES_DATA = [
       // 1. 配置标签页
       {
+        id: "static_config_lazy",
         category: "config",
         name: "懒人配置",
         description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。",
@@ -2032,6 +2030,7 @@
       },
       // 2. 更多标签页 - 第 1 项：使用手册
       {
+        id: "more_manual",
         category: "more",
         name: "使用手册",
         description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
@@ -2048,6 +2047,7 @@
       },
       // 3. 更多标签页 - 第 2 项：Shadowrocket-First 仓库
       {
+        id: "more_repo_first",
         category: "more",
         name: "配色与配置仓库",
         description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
@@ -2202,7 +2202,7 @@
         const authorName = item.author?.name || "";
         const searchTokens = [item.name, item.description, authorName, item.sourceName, item.category].filter(Boolean).join(" ").normalize("NFKC").toLowerCase();
         return {
-          id: `static_${item.category}_${encodeURIComponent(item.name)}`,
+          id: item.id || `static_${item.category}_${encodeURIComponent(item.name)}`,
           name: item.name,
           category: item.category || "more",
           description: item.description,
@@ -2318,6 +2318,32 @@
           _initialLetter: extractInitialLetter(title)
         };
       });
+    }
+
+    /**
+     * 智能合并数据集（严格根据 id 和 name+category 键值去重，杜绝重复出现）
+     */
+    function mergeDatasetsWithoutDuplicates(...lists) {
+      const merged = [];
+      const seenIds = new Set();
+      const seenNameCategory = new Set();
+
+      for (const list of lists) {
+        if (!Array.isArray(list)) continue;
+        for (const item of list) {
+          if (!item) continue;
+          const idKey = item.id ? String(item.id).trim().toLowerCase() : "";
+          const nameCatKey = `${(item.category || "module").toLowerCase()}__${(item.name || "").trim().toLowerCase()}`;
+
+          if (idKey && seenIds.has(idKey)) continue;
+          if (seenNameCategory.has(nameCatKey)) continue;
+
+          if (idKey) seenIds.add(idKey);
+          seenNameCategory.add(nameCatKey);
+          merged.push(item);
+        }
+      }
+      return merged;
     }
 
     function showToast(text) {
@@ -2999,7 +3025,6 @@
       const isRepo = Boolean(module.isRepoCard);
       const directOpenURL = module.rawURL || module.sourceURL || "";
 
-      // 前 4 个卡片使用 fetchpriority="high"，其余卡片使用 loading="lazy" 异步解码
       const priorityAttr = renderIndex < 4 ? 'fetchpriority="high"' : 'loading="lazy"';
 
       let iconHTML = "";
@@ -3188,7 +3213,6 @@
         renderAlphabetList();
       }
 
-      // 预热目标分类首屏图片
       const targetItems = state.allModules.filter(m => (m.category || "module") === targetTab);
       const tabPreviewImages = [];
       targetItems.slice(0, 16).forEach(m => {
@@ -3865,7 +3889,6 @@
         console.warn("读取本地缓存失败:", e);
       }
 
-      // 解析模块与规则缓存
       let parsedCachedModules = [];
       let baselineCachedCount = 0;
       if (cachedData) {
@@ -3892,7 +3915,6 @@
         }
       }
 
-      // 优先立即渲染模块与已有规则缓存
       let hasRenderedCache = false;
       if (parsedCachedModules.length > 0) {
         try {
@@ -3901,11 +3923,8 @@
           const normalizedCachedRules = normalizeRules(parsedCachedRules);
 
           if (normalized.length > 0) {
-            updateAllModules([
-              ...staticItems,
-              ...normalized,
-              ...normalizedCachedRules
-            ]);
+            // 使用严格去重合并，防止重复
+            updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalized, normalizedCachedRules));
 
             state.isAlphabetRendered = false;
             state.isInitialLoading = false;
@@ -3924,7 +3943,6 @@
         }
       }
 
-      // 没有缓存时，先显示静态资源
       if (!hasRenderedCache && state.allModules.length === 0) {
         updateAllModules(staticItems);
         filterModules();
@@ -3936,13 +3954,11 @@
       }
 
       try {
-        // 模块和规则独立同步，forceRefresh 同步传递给 rules
         const [modulesResult, rulesResult] = await Promise.allSettled([
           fetchModulesData(forceRefresh, baselineCachedCount),
           fetchRulesData(parsedCachedRules, forceRefresh)
         ]);
 
-        // 模块同步结果判断
         let freshModules = [];
         let modulesSyncOK = false;
         if (modulesResult.status === "fulfilled") {
@@ -3954,7 +3970,6 @@
           console.warn("modules.json 同步失败，本次继续保留已有模块数据:", modulesResult.reason);
         }
 
-        // 规则同步结果判断
         let freshRules = [];
         let rulesSyncOK = false;
         let rulesFromCache = false;
@@ -3973,7 +3988,6 @@
           console.warn("rules.json 同步失败，本次继续保留已有规则数据:", rulesResult.reason);
         }
 
-        // 防止过期请求覆盖最新结果
         if (currentSeq !== loadSequence) {
           return false;
         }
@@ -4017,11 +4031,8 @@
             state.rawNetworkData = parsedCachedModules;
           }
 
-          updateAllModules([
-            ...staticItems,
-            ...normalizedModules,
-            ...normalizedRules
-          ]);
+          // 核心修复：严密去重合并，无论云端 modules.json 是否已包含 staticItems，都能保证只出现 1 个
+          updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalizedModules, normalizedRules));
 
           state.isAlphabetRendered = false;
           state.isInitialLoading = false;
@@ -4103,7 +4114,6 @@
       }
     }
 
-    // 网络恢复自动重试：包含 partial 状态
     window.addEventListener("online", () => {
       if (state.isDataLoading) return;
 
@@ -4117,7 +4127,6 @@
       }
     });
 
-    // 初始化内置骨架与应用运行
     updateAllModules(normalizeStaticResources());
     filterModules();
     scheduleLayoutUpdate();
