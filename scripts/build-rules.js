@@ -72,9 +72,13 @@ async function parseRule(readmePath) {
   const text = await res.text();
   const dirName = readmePath.split('/')[2];
 
-  // 1. 提取规则标题
+  // 1. 提取规则标题并彻底去除 Emoji 及首尾残留符号
   const titleMatch = text.match(/#\s*(.+)/);
-  const title = titleMatch ? titleMatch[1].trim() : dirName;
+  let rawTitle = titleMatch ? titleMatch[1].trim() : dirName;
+  const title = rawTitle
+    .replace(/\p{Extended_Pictographic}/gu, '') // 去除 Unicode Emoji 图标
+    .replace(/^[\s\-_—·|/:：]+|[\s\-_—·|/:：]+$/g, '') // 清除首尾因去除表情残留的连字符、标点与空格
+    .trim() || dirName; // 如果清理后为空则回退使用目录名
 
   // 2. 提取配置建议
   const configMatch = text.match(/###\s*配置建议([\s\S]*?)(?=###|$)/);
