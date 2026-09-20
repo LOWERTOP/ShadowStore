@@ -1496,7 +1496,6 @@
       visibility: visible;
       transform: translate3d(0, -50%, 0);
     }
-    /* 配色大图预览灯箱 */
     .image-lightbox {
       position: fixed;
       inset: 0;
@@ -1733,7 +1732,7 @@
             <a href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener">
               <span class="title-shadow">Shadow</span><span class="title-store">/Store</span>
             </a>
-            <span id="tagPillBadge" class="tag-pill-badge">社区资源</span>
+            <span id="tagPillBadge" class="tag-pill-badge">资源中心</span>
           </h1>
         </div>
         <div class="theme-controls">
@@ -1863,7 +1862,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609201400";
+    const CACHE_VERSION = "202609201500";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -2283,27 +2282,15 @@
       });
     }
 
-    function mergeDatasetsWithoutDuplicates(...lists) {
-      const merged = [];
-      const seenIds = new Set();
-      const seenNameCategory = new Set();
-
-      for (const list of lists) {
-        if (!Array.isArray(list)) continue;
-        for (const item of list) {
-          if (!item) continue;
-          const idKey = item.id ? String(item.id).trim().toLowerCase() : "";
-          const nameCatKey = `${(item.category \vert{}\vert{} "module").toLowerCase()}__${(item.name || "").trim().toLowerCase()}`;
-
-          if (idKey && seenIds.has(idKey)) continue;
-          if (seenNameCategory.has(nameCatKey)) continue;
-
-          if (idKey) seenIds.add(idKey);
-          seenNameCategory.add(nameCatKey);
-          merged.push(item);
-        }
-      }
-      return merged;
+    // 智能去重合并：只在针对特定前置静态资源（如手册、懒人配置）时排除重复项，绝不误伤云端模块
+    function mergeDatasetsSafely(staticList, modulesList, rulesList) {
+      const staticUrls = new Set(staticList.map(s => (s.rawURL || s.sourceURL || "").toLowerCase()).filter(Boolean));
+      // 过滤掉 modules 中与静态固定项目完全相同的项即可，其它全量放行
+      const filteredModules = modulesList.filter(m => {
+        const u = (m.rawURL || m.sourceURL || "").toLowerCase();
+        return !u || !staticUrls.has(u);
+      });
+      return [...staticList, ...filteredModules, ...rulesList];
     }
 
     function showToast(text) {
@@ -3250,7 +3237,7 @@
     function updateIndicatorDirectly(left, width, scaleX = 1, scaleY = 1) {
       tabIndicator.style.transition = 'none';
       tabIndicator.style.width = `${width}px`;
-      tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX},${scaleY})`;
+      tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX}, ${scaleY})`;
     }
 
     function handleDragAtClientX(clientX) {
@@ -3387,7 +3374,6 @@
     searchInput.addEventListener("input", () => {
       state.focusedModuleId = null;
       document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-      debouncedFilterModules();
     });
 
     searchInput.addEventListener("keydown", (e) => {
@@ -3882,7 +3868,7 @@
           const normalizedCachedRules = normalizeRules(parsedCachedRules);
 
           if (normalized.length > 0) {
-            updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalized, normalizedCachedRules));
+            updateAllModules(mergeDatasetsSafely(staticItems, normalized, normalizedCachedRules));
 
             state.isAlphabetRendered = false;
             state.isInitialLoading = false;
@@ -3989,7 +3975,7 @@
             state.rawNetworkData = parsedCachedModules;
           }
 
-          updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalizedModules, normalizedRules));
+          updateAllModules(mergeDatasetsSafely(staticItems, normalizedModules, normalizedRules));
 
           state.isAlphabetRendered = false;
           state.isInitialLoading = false;
