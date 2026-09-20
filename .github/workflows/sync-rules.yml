@@ -5,7 +5,13 @@ on:
     # 每天 UTC 21:00 自动触发，即北京时间 (UTC+8) 每日早上 05:00
     - cron: '0 21 * * *'
   workflow_dispatch: # 支持在 Actions 界面手动触发
-
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/sync-rules.js'
+      - '.github/workflows/sync-rules.yml'
+      
 concurrency:
   group: sync-rules
   cancel-in-progress: true
