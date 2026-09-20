@@ -14,7 +14,7 @@ on:
 
 # 防止多个自动化同时构建并提交 modules.json
 concurrency:
-  group: shadowstore-sync-modules
+  group: shadowstore-data-sync
   cancel-in-progress: false
 
 jobs:
