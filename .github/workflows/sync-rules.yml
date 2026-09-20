@@ -36,5 +36,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add scripts/rules.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(rules): 自动同步规则与数据 [skip ci]" && git push)
