@@ -2927,6 +2927,16 @@
       });
     }
 
+    // 统一步骤：有内容时执行搜索，无内容时清空还原并退出键盘
+    function commitOrCancelSearch() {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        performSearch();
+      } else {
+        cancelSearch();
+      }
+    }
+
     searchClearBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       cancelSearch();
@@ -3401,22 +3411,15 @@
 
     window.addEventListener('touchmove', (e) => {
       if (document.activeElement === searchInput) {
-        // 在搜索激活期间直接拦截禁用默认滑动效果
         if (e.cancelable) e.preventDefault();
 
         if (e.touches && e.touches.length > 0) {
           const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
           const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
 
-          // 检测到手指划动位移，直接执行业务分流
           if (diffY > 10 || diffX > 10) {
             isPulling = false;
-            const query = searchInput.value.trim();
-            if (query.length > 0) {
-              performSearch();
-            } else {
-              cancelSearch();
-            }
+            commitOrCancelSearch();
           }
         }
       }
@@ -3426,14 +3429,18 @@
     window.addEventListener('wheel', (e) => {
       if (document.activeElement === searchInput) {
         if (e.cancelable) e.preventDefault();
-        const query = searchInput.value.trim();
-        if (query.length > 0) {
-          performSearch();
-        } else {
-          cancelSearch();
-        }
+        commitOrCancelSearch();
       }
     }, { passive: false });
+
+    // 点击搜索框外部：合并相同的业务逻辑（有字则搜，无字则清空取消）
+    document.addEventListener('pointerdown', (e) => {
+      if (document.activeElement === searchInput) {
+        if (!e.target.closest('#searchBoxInner, #standaloneListBtn')) {
+          commitOrCancelSearch();
+        }
+      }
+    }, { passive: true });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput) {
