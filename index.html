@@ -171,6 +171,10 @@
       text-rendering: optimizeLegibility;
       transition: color 0.4s ease;
     }
+    body.has-search-focus {
+      touch-action: none !important;
+      overscroll-behavior: none !important;
+    }
     button, input { font: inherit; }
     a { color: inherit; text-decoration: none; }
     .container {
@@ -1264,8 +1268,8 @@
       padding-bottom: 24px;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 1) 24px, rgba(0, 1) calc(100% - 24px), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 1) 24px, rgba(0, 1) calc(100% - 24px), transparent 100%);
     }
     .alphabet-scroll-area::-webkit-scrollbar {
       display: none;
@@ -2282,10 +2286,8 @@
       });
     }
 
-    // 智能去重合并：只在针对特定前置静态资源（如手册、懒人配置）时排除重复项，绝不误伤云端模块
     function mergeDatasetsSafely(staticList, modulesList, rulesList) {
       const staticUrls = new Set(staticList.map(s => (s.rawURL || s.sourceURL || "").toLowerCase()).filter(Boolean));
-      // 过滤掉 modules 中与静态固定项目完全相同的项即可，其它全量放行
       const filteredModules = modulesList.filter(m => {
         const u = (m.rawURL || m.sourceURL || "").toLowerCase();
         return !u || !staticUrls.has(u);
@@ -2515,6 +2517,7 @@
       setListViewMode(false);
       searchInput.value = mod.name;
       updateStandaloneButtonState();
+      currentSearchRequestId++;
       if (state.activeTab !== mod.category) {
         state.activeTab = mod.category;
         tabItems.forEach(t => {
@@ -2887,6 +2890,7 @@
       }
     });
 
+    // 核心搜索执行逻辑（仅在主动触发时执行）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2902,8 +2906,8 @@
       });
     }
 
-    searchClearBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
+    // 取消搜索并还原列表
+    function cancelSearch() {
       state.focusedModuleId = null;
       searchInput.value = "";
       if (!state.isListView) {
@@ -2916,11 +2920,27 @@
         });
       }
       updateStandaloneButtonState();
+      searchInput.blur();
       floatSearchToTarget(false);
       requestAnimationFrame(() => {
         floatSearchToTarget(false);
         updateSearchLayer();
       });
+    }
+
+    // 统一步骤：有内容时执行搜索，无内容时清空还原并退出键盘
+    function commitOrCancelSearch() {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        performSearch();
+      } else {
+        cancelSearch();
+      }
+    }
+
+    searchClearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cancelSearch();
     });
 
     if (searchSubmitBtn) {
@@ -2937,16 +2957,27 @@
       }
     });
 
+    // 激活搜索功能：添加锁定样式，严格禁止屏幕滚动
     searchInput.addEventListener("focus", () => {
       document.body.classList.add("has-search-focus");
+      document.documentElement.classList.add("no-scroll");
       floatSearchToTarget(false);
     });
 
+    // 恢复轻量级输入监听：仅控制清空按钮的显隐，不触发任何搜索或 DOM 渲染，绝不跳顶
+    searchInput.addEventListener("input", () => {
+      state.focusedModuleId = null;
+      document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
+    });
+
+    // 退出搜索状态：恢复屏幕滑动功能
     searchInput.addEventListener("blur", () => {
       document.body.classList.remove("has-search-focus");
+      document.documentElement.classList.remove("no-scroll");
       if (!state.isListView) {
         document.body.style.minHeight = "";
       }
+      checkScrollLock();
     });
 
     function renderAuthor(module) {
@@ -3097,7 +3128,6 @@
         return;
       }
       const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
-      document.body.classList.toggle("has-search-text", keyword.length > 0);
       updateStandaloneButtonState();
       if (searchWorker) {
         currentSearchRequestId++;
@@ -3120,15 +3150,6 @@
       }
     }
 
-    function debounce(fn, delay = 200) {
-      let timer = null;
-      return function(...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-      };
-    }
-    const debouncedFilterModules = debounce(filterModules, 180);
-
     function switchWithFade(renderCallback) {
       clearTimeout(modulesFadeTimer);
       modulesContainer.classList.add("fade-out");
@@ -3139,6 +3160,9 @@
     }
 
     function switchToTab(targetTab) {
+      // Tab 切换时立即使之前的 Worker 搜索结果失效
+      currentSearchRequestId++;
+      
       if (state.isListView) {
         setListViewMode(false);
         if (standaloneListBtn) standaloneListBtn.blur();
@@ -3371,18 +3395,56 @@
       }, { passive: true });
     }
 
-    searchInput.addEventListener("input", () => {
-      state.focusedModuleId = null;
-      document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-      debouncedFilterModules();
-    });
-
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
         performSearch();
       }
     });
+
+    // 激活搜索时检测滑动并执行：有内容则搜索，无内容则取消搜索；忽略滑动并阻断默认滚动
+    let inputTouchStartY = 0;
+    let inputTouchStartX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        inputTouchStartY = e.touches[0].clientY;
+        inputTouchStartX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (document.activeElement === searchInput) {
+        if (e.cancelable) e.preventDefault();
+
+        if (e.touches && e.touches.length > 0) {
+          const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
+          const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
+
+          if (diffY > 10 || diffX > 10) {
+            isPulling = false;
+            commitOrCancelSearch();
+          }
+        }
+      }
+    }, { passive: false });
+
+    // PC 端滚轮同等处理
+    window.addEventListener('wheel', (e) => {
+      if (document.activeElement === searchInput) {
+        if (e.cancelable) e.preventDefault();
+        commitOrCancelSearch();
+      }
+    }, { passive: false });
+
+    // 点击搜索框外部：合并相同的业务逻辑（有字则搜，无字则清空取消）
+    document.addEventListener('pointerdown', (e) => {
+      if (document.activeElement === searchInput) {
+        if (!e.target.closest('#searchBoxInner, #standaloneListBtn')) {
+          commitOrCancelSearch();
+        }
+      }
+    }, { passive: true });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput) {
@@ -3398,14 +3460,7 @@
           closeLightbox();
           return;
         }
-        state.focusedModuleId = null;
-        searchInput.value = "";
-        searchInput.blur();
-        document.body.classList.remove("has-search-text", "has-search-focus");
-        setListViewMode(false);
-        if (standaloneListBtn) standaloneListBtn.blur();
-        switchWithFade(() => { filterModules(); });
-        updateStandaloneButtonState();
+        cancelSearch();
       }
     });
 
