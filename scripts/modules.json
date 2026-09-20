@@ -33196,16 +33196,16 @@
       "username": "QingRex"
     },
     "authorAvatar": "https://github.com/QingRex.png?size=64",
-    "sourceName": "surge.qingr.moe",
-    "sourceURL": "https://surge.qingr.moe",
+    "sourceName": "模块资源仓库",
+    "sourceURL": "https://github.com/QingRex/LoonKissSurge",
     "rawURL": "https://surge.qingr.moe",
     "installURL": "https://surge.qingr.moe",
     "primaryBtnText": "访问链接",
-    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fgithub.com%2FQingRex%2FLoonKissSurge",
-    "secondaryBtnText": "安装模块",
+    "preInstallURL": "",
+    "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 surge.qingr.moe ling keqing 更多资源"
+    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 模块资源仓库 ling keqing 更多资源"
   },
   {
     "id": "more_auto_4_Kelee",
