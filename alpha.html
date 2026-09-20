@@ -2415,6 +2415,9 @@
     }
 
     function scheduleScrollUpdate() {
+      if (searchInput === document.activeElement && searchInput.value.length > 0 && !liveSearchRendering && !liveSearchRestoring) {
+        liveSearchScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      }
       if (scrollRaf) return;
       scrollRaf = requestAnimationFrame(() => {
         scrollRaf = 0;
@@ -3047,6 +3050,26 @@
       checkScrollLock();
     }
 
+    let liveSearchScrollY = 0;
+    let liveSearchRendering = false;
+    let liveSearchRestoring = false;
+
+    function preserveLiveSearchScroll() {
+      return searchInput === document.activeElement && searchInput.value.length > 0;
+    }
+
+    function restoreLiveSearchScroll() {
+      const targetY = Math.max(0, liveSearchScrollY);
+      liveSearchRestoring = true;
+      window.scrollTo({ top: targetY, behavior: "auto" });
+      requestAnimationFrame(() => {
+        if (Math.abs((window.scrollY || document.documentElement.scrollTop || 0) - targetY) > 1) {
+          window.scrollTo({ top: targetY, behavior: "auto" });
+        }
+        liveSearchRestoring = false;
+      });
+    }
+
     function renderFilteredList(list, customLabel = null) {
       if (state.isInitialLoading) {
         sentinel.style.display = "none";
@@ -3056,6 +3079,7 @@
         checkScrollLock();
         return;
       }
+      liveSearchRendering = true;
       state.filteredModules = list;
       state.currentlyRendered = 0;
       modulesContainer.innerHTML = "";
@@ -3066,10 +3090,22 @@
         countText.textContent = `0 个${currentLabel}`;
         scheduleLayoutUpdate();
         checkScrollLock();
+        if (preserveLiveSearchScroll()) {
+          liveSearchRendering = false;
+          restoreLiveSearchScroll();
+        } else {
+          liveSearchRendering = false;
+        }
         return;
       }
       countText.textContent = `${state.filteredModules.length} 个${currentLabel}`;
       appendNextBatch();
+      if (preserveLiveSearchScroll()) {
+        liveSearchRendering = false;
+        restoreLiveSearchScroll();
+      } else {
+        liveSearchRendering = false;
+      }
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -3374,6 +3410,10 @@
     searchInput.addEventListener("input", () => {
       state.focusedModuleId = null;
       document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
+      if (searchInput.value.length > 0) {
+        liveSearchScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      }
+      debouncedFilterModules();
     });
 
     searchInput.addEventListener("keydown", (e) => {
