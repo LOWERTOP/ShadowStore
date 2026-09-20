@@ -171,7 +171,6 @@
       text-rendering: optimizeLegibility;
       transition: color 0.4s ease;
     }
-    /* 激活搜索时严格锁定滚动与回弹 */
     body.has-search-focus {
       touch-action: none !important;
       overscroll-behavior: none !important;
@@ -1269,8 +1268,8 @@
       padding-bottom: 24px;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 1) 24px, rgba(0, 0, 1) calc(100% - 24px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 1) 24px, rgba(0, 1) calc(100% - 24px), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 1) 24px, rgba(0, 1) calc(100% - 24px), transparent 100%);
     }
     .alphabet-scroll-area::-webkit-scrollbar {
       display: none;
@@ -2952,6 +2951,12 @@
       document.body.classList.add("has-search-focus");
       document.documentElement.classList.add("no-scroll");
       floatSearchToTarget(false);
+    });
+
+    // 恢复轻量级输入监听：仅控制清空按钮的显隐，不触发任何搜索或 DOM 渲染，绝不跳顶
+    searchInput.addEventListener("input", () => {
+      state.focusedModuleId = null;
+      document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
     });
 
     // 退出搜索状态：恢复屏幕滑动功能
