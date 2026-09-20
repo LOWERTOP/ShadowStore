@@ -33051,13 +33051,13 @@
     "_searchKeywords": "iab0x00 iab0x00 创建并维护的小火箭原生模块仓库，包含 youtube、滴滴出行、酷安、小红书等相关模块 proxyrules iab0x00 更多资源"
   },
   {
-    "id": "more_auto_1_%E5%A5%B6%E6%80%",
+    "id": "more_auto_1_fmz200",
     "category": "more",
-    "name": "奶思",
-    "description": "奶思 维护的仓库，包含数百款独立模块",
+    "name": "fmz200",
+    "description": "fmz200 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块",
     "icon": "https://github.com/fmz200.png?size=64",
     "author": {
-      "name": "奶思",
+      "name": "fmz200",
       "url": "https://github.com/fmz200",
       "username": "fmz200"
     },
@@ -33071,7 +33071,7 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "奶思 奶思 维护的仓库，包含数百款独立模块 wool_scripts 奶思 更多资源"
+    "_searchKeywords": "fmz200 fmz200 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 wool_scripts fmz200 更多资源"
   },
   {
     "id": "more_auto_2_zirawell",
@@ -33097,13 +33097,13 @@
     "_searchKeywords": "zirawell zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 r-store zirawell 更多资源"
   },
   {
-    "id": "more_auto_3_KeQing",
+    "id": "more_auto_3_QingRex",
     "category": "more",
-    "name": "KeQing",
-    "description": "Ling KeQing 维护的资源丰富的 模块资源仓库，多数可直接使用",
+    "name": "QingRex",
+    "description": "QingRex 维护的资源丰富的 模块资源仓库，多数可直接使用",
     "icon": "https://github.com/QingRex.png?size=64",
     "author": {
-      "name": "Ling KeQing",
+      "name": "QingRex",
       "url": "https://github.com/QingRex",
       "username": "QingRex"
     },
@@ -33117,16 +33117,16 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 loonkisssurge ling keqing 更多资源"
+    "_searchKeywords": "qingrex qingrex 维护的资源丰富的 模块资源仓库，多数可直接使用 loonkisssurge qingrex 更多资源"
   },
   {
     "id": "more_auto_4_Kelee",
     "category": "more",
     "name": "Kelee",
-    "description": "可莉 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
+    "description": "Kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
     "icon": "https://github.com/luestr.png?size=64",
     "author": {
-      "name": "可莉",
+      "name": "Kelee",
       "url": "https://github.com/luestr",
       "username": "luestr"
     },
@@ -33140,16 +33140,16 @@
     "secondaryBtnText": "安装模块",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "kelee 可莉 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one 可莉 更多资源"
+    "_searchKeywords": "kelee kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one kelee 更多资源"
   },
   {
     "id": "more_auto_5_Cuttlefish",
     "category": "more",
     "name": "Cuttlefish",
-    "description": "Cuttlefish 墨鱼 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块",
+    "description": "Cuttlefish 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块",
     "icon": "https://github.com/ddgksf2013.png?size=64",
     "author": {
-      "name": "Cuttlefish 墨鱼",
+      "name": "Cuttlefish",
       "url": "https://github.com/ddgksf2013/ddgksf2013",
       "username": "ddgksf2013"
     },
@@ -33163,6 +33163,6 @@
     "secondaryBtnText": "安装模块",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "cuttlefish cuttlefish 墨鱼 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块 ddgksf2013.top cuttlefish 墨鱼 更多资源"
+    "_searchKeywords": "cuttlefish cuttlefish 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块 ddgksf2013.top cuttlefish 更多资源"
   }
 ]
