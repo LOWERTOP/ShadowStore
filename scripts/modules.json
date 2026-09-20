@@ -33119,7 +33119,7 @@
     "id": "more_auto_0_iab0x00",
     "category": "more",
     "name": "iab0x00",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
+    "description": "iab0x00 创建并维护的小火箭原生模块仓库，包含 YouTube、滴滴出行、酷安、小红书等相关模块",
     "icon": "https://github.com/iab0x00.png?size=64",
     "author": {
       "name": "iab0x00",
@@ -33136,16 +33136,16 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "iab0x00  proxyrules iab0x00 更多资源"
+    "_searchKeywords": "iab0x00 iab0x00 创建并维护的小火箭原生模块仓库，包含 youtube、滴滴出行、酷安、小红书等相关模块 proxyrules iab0x00 更多资源"
   },
   {
     "id": "more_auto_1_%E5%A5%B6%E6%80%",
     "category": "more",
     "name": "奶思",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
+    "description": "奶思 维护的仓库，包含数百款独立模块",
     "icon": "https://github.com/fmz200.png?size=64",
     "author": {
-      "name": "fmz200",
+      "name": "奶思",
       "url": "https://github.com/fmz200",
       "username": "fmz200"
     },
@@ -33159,13 +33159,13 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "奶思  wool_scripts fmz200 更多资源"
+    "_searchKeywords": "奶思 奶思 维护的仓库，包含数百款独立模块 wool_scripts 奶思 更多资源"
   },
   {
     "id": "more_auto_2_zirawell",
     "category": "more",
     "name": "zirawell",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
+    "description": "zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块",
     "icon": "https://github.com/zirawell.png?size=64",
     "author": {
       "name": "zirawell",
@@ -33182,75 +33182,75 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "zirawell  r-store zirawell 更多资源"
+    "_searchKeywords": "zirawell zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 r-store zirawell 更多资源"
   },
   {
     "id": "more_auto_3_KeQing",
     "category": "more",
     "name": "KeQing",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
-    "icon": "",
+    "description": "Ling KeQing 维护的资源丰富的 模块资源仓库，多数可直接使用",
+    "icon": "https://github.com/QingRex.png?size=64",
     "author": {
-      "name": "KeQing",
-      "url": "https://surge.qingr.moe",
-      "username": ""
+      "name": "Ling KeQing",
+      "url": "https://github.com/QingRex",
+      "username": "QingRex"
     },
-    "authorAvatar": "",
+    "authorAvatar": "https://github.com/QingRex.png?size=64",
     "sourceName": "surge.qingr.moe",
     "sourceURL": "https://surge.qingr.moe",
     "rawURL": "https://surge.qingr.moe",
     "installURL": "https://surge.qingr.moe",
     "primaryBtnText": "访问链接",
-    "preInstallURL": "",
-    "secondaryBtnText": "",
+    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fgithub.com%2FQingRex%2FLoonKissSurge",
+    "secondaryBtnText": "安装模块",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "keqing  surge.qingr.moe keqing 更多资源"
+    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 surge.qingr.moe ling keqing 更多资源"
   },
   {
     "id": "more_auto_4_Kelee",
     "category": "more",
     "name": "Kelee",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
-    "icon": "",
+    "description": "可莉 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
+    "icon": "https://github.com/luestr.png?size=64",
     "author": {
-      "name": "Kelee",
-      "url": "https://hub.kelee.one/",
-      "username": ""
+      "name": "可莉",
+      "url": "https://github.com/luestr",
+      "username": "luestr"
     },
-    "authorAvatar": "",
+    "authorAvatar": "https://github.com/luestr.png?size=64",
     "sourceName": "hub.kelee.one",
     "sourceURL": "https://hub.kelee.one/",
     "rawURL": "https://hub.kelee.one/",
     "installURL": "https://hub.kelee.one/",
     "primaryBtnText": "访问链接",
-    "preInstallURL": "",
-    "secondaryBtnText": "",
+    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FPlugin2Rocket.srmodule",
+    "secondaryBtnText": "安装模块",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "kelee  hub.kelee.one kelee 更多资源"
+    "_searchKeywords": "kelee 可莉 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one 可莉 更多资源"
   },
   {
     "id": "more_auto_5_Cuttlefish",
     "category": "more",
     "name": "Cuttlefish",
-    "description": "Shadowrocket 开源社区精选扩展资源。",
-    "icon": "",
+    "description": "Cuttlefish 墨鱼 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块",
+    "icon": "https://github.com/ddgksf2013.png?size=64",
     "author": {
-      "name": "Cuttlefish",
-      "url": "https://ddgksf2013.top/",
-      "username": ""
+      "name": "Cuttlefish 墨鱼",
+      "url": "https://github.com/ddgksf2013/ddgksf2013",
+      "username": "ddgksf2013"
     },
-    "authorAvatar": "",
+    "authorAvatar": "https://github.com/ddgksf2013.png?size=64",
     "sourceName": "ddgksf2013.top",
     "sourceURL": "https://ddgksf2013.top/",
     "rawURL": "https://ddgksf2013.top/",
     "installURL": "https://ddgksf2013.top/",
     "primaryBtnText": "访问链接",
-    "preInstallURL": "",
-    "secondaryBtnText": "",
+    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fddgksf2013.top%2Fmodule%2FScriptHub.Rocket.sgmodule",
+    "secondaryBtnText": "安装模块",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "cuttlefish  ddgksf2013.top cuttlefish 更多资源"
+    "_searchKeywords": "cuttlefish cuttlefish 墨鱼 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块 ddgksf2013.top cuttlefish 墨鱼 更多资源"
   }
 ]
