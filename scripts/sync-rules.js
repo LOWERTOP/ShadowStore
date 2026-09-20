@@ -29,9 +29,17 @@ async function parseRule(relPath) {
         const text = await res.text();
         const nameMatch = text.match(/^#\s+[^\w\s]*\s*(.+)$/m);
         const title = nameMatch ? nameMatch[1].trim() : dirName;
+        
         const configMatch = text.match(/###\s*配置建议([\s\S]*?)(?=###|$)/);
         const suggestionRaw = configMatch ? configMatch[1].trim() : '';
-        const cleanSuggestion = suggestionRaw.replace(/^[-*]\s*/gm, '').trim();
+        
+        // 💡 核心修改：按行过滤掉所有带 _Resolve.list 的配置提示，同时保留其他如 .list 或 _Domain.list 的提示
+        const cleanSuggestion = suggestionRaw
+            .split(/\r?\n/)
+            .map(line => line.replace(/^[-*]\s*/, '').trim())
+            .filter(line => line.length > 0 && !line.includes('_Resolve.list'))
+            .join('\n');
+
         const isCombined = /共同使用/.test(suggestionRaw) && /_Domain\.list/.test(suggestionRaw);
         
         const masterLinkMatch = text.match(/\*MASTER分支\s*\(每日更新\)\*[\s\r\n]+(?:\[([^\]]+)\]\(([^)]+)\)|(https?:\/\/[^\s\r\n]+))/);
