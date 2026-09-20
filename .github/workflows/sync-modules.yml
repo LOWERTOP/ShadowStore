@@ -1,4 +1,4 @@
-name: Sync Modules & Build JSON
+name: Sync Modules
 
 on:
   schedule:
