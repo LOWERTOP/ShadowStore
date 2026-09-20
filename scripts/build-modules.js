@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自适应提取
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自适应提取与依赖模块支持
  */
 const fs = require("fs");
 const path = require("path");
@@ -204,7 +204,7 @@ async function fetchRawText(url, isPartial = true) {
     } catch (err) {
       if (attempt === retries) throw err;
       const delay = 500 * Math.pow(2, attempt);
-      console.warn(`⚠️ 获取失败，${delay}ms 后重试 (${attempt + 1}/${retries}): ${url}`);
+      console.warn(`⚠️ 获取失败，${delay}ms 后重试 (${attempt + 1}/${retries}):${url}`);
       await wait(delay);
     }
   }
@@ -817,14 +817,14 @@ async function fetchColorThemes(markdownText) {
 
 /**
  * 自动识别并提取 README.md 里的“更多资源”小节
- * 增强兼容：支持 ## 与 ### 标题，支持各类 emoji 和格式匹配
+ * 1. 彻底过滤 shields.io 徽标和 [![ 嵌套卡片
+ * 2. 自动嗅探提取依赖的模块直链，支持卡片呈现“安装模块”
  */
 function parseMoreResourcesFromReadme(markdownText) {
   console.log("📑 开始解析 README.md 中的“更多资源”小节...");
   const moreItems = [];
   if (!markdownText) return moreItems;
 
-  // 匹配 # 更多资源（涵盖 2-4 级标题、前后可能有 emoji、标签等）
   const sectionMatch = markdownText.match(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源[\s\S]*?(?=\n#{1,3}\s+|$)/i);
   if (!sectionMatch) {
     console.warn("⚠️ 未找到匹配 '更多资源' 的章节");
@@ -834,23 +834,36 @@ function parseMoreResourcesFromReadme(markdownText) {
   const sectionContent = sectionMatch[0];
   const lines = sectionContent.split(/\r?\n/);
 
-  for (const rawLine of lines) {
-    const line = rawLine.trim();
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i].trim();
     if (!line || line.startsWith("#")) continue;
 
-    // 匹配 Markdown 链接：[标题](URL) 后续跟着描述，或者 - [标题](URL)
-    const linkMatch = line.match(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)(.*)/i);
+    // 清洗 Markdown 引用前导符
+    line = line.replace(/^>+\s*/, "");
+
+    // 核心过滤：如果整行是图片徽标 [![ 或包含 shields.io，直接跳过，防止生成脏卡片
+    if (line.startsWith("[![") || line.startsWith("![") || line.includes("img.shields.io")) {
+      continue;
+    }
+
+    // 匹配常规 Markdown 链接：[标题](URL) 后续描述
+    const linkMatch = line.match(/^[-*+]?\s*\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)(.*)/i);
     if (linkMatch) {
       let name = linkMatch[1].trim().replace(/^[*_`]+|[*_`]+$/g, "");
       let url = linkMatch[2].trim();
       let extraDesc = (linkMatch[3] || "").trim();
 
-      // 过滤掉本身就是主仓库或手册的链接
-      if (url.includes("LOWERTOP/Shadowrocket-First") || url.includes("lowertop.github.io/Shadowrocket")) {
+      // 再次过滤：如果是徽标、图片直链或指向主仓库/使用手册，直接跳过
+      if (
+        url.includes("shields.io") ||
+        /\.(?:png|jpg|jpeg|svg|gif|webp)$/i.test(url) ||
+        url.includes("LOWERTOP/Shadowrocket-First") ||
+        url.includes("lowertop.github.io/Shadowrocket")
+      ) {
         continue;
       }
 
-      // 清理描述文本中的前导冒号、破折号及多余符号
+      // 清洗描述
       let description = extraDesc
         .replace(/^[:：\-—~|]+/, "")
         .replace(/^[*\s_`]+|[*\s_`]+$/g, "")
@@ -858,6 +871,20 @@ function parseMoreResourcesFromReadme(markdownText) {
 
       if (!description) {
         description = "开源社区推荐精选资源";
+      }
+
+      // 嗅探该行及后续 2 行内是否存在依赖模块直链（例如 .sgmodule、.srmodule 或 shadowrocket://）
+      let detectedModuleURL = "";
+      const textToScan = [line, lines[i + 1] || "", lines[i + 2] || ""].join(" ");
+      const moduleMatch = textToScan.match(/(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)|shadowrocket:\/\/install\?[^\s)\]"'<>]+)/i);
+
+      if (moduleMatch) {
+        const rawModuleLink = moduleMatch[1].trim();
+        if (rawModuleLink.startsWith("shadowrocket://")) {
+          detectedModuleURL = rawModuleLink;
+        } else {
+          detectedModuleURL = `shadowrocket://install?module=${encodeURIComponent(rawModuleLink)}`;
+        }
       }
 
       let sourceName = "外部资源";
@@ -890,6 +917,9 @@ function parseMoreResourcesFromReadme(markdownText) {
         rawURL: url,
         installURL: url,
         primaryBtnText: "访问链接",
+        // 关键扩展：如果存在依赖模块，注入 preInstallURL 并把次按钮文字标为“安装模块”
+        preInstallURL: detectedModuleURL,
+        secondaryBtnText: detectedModuleURL ? "安装模块" : "",
         isRepoCard: true,
         isDubious: false,
         _searchKeywords: [name, description, sourceName, ownerName, "更多资源"].join(" ").toLowerCase()
@@ -897,7 +927,7 @@ function parseMoreResourcesFromReadme(markdownText) {
     }
   }
 
-  console.log(`✅ 成功解析出 ${moreItems.length} 个“更多资源”条目`);
+  console.log(`✅ 成功解析出 ${moreItems.length} 个“更多资源”条目 (含 ${moreItems.filter(m => m.preInstallURL).length} 个带依赖模块)`);
   return moreItems;
 }
 
