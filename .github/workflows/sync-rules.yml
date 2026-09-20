@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - 'scripts/sync-rules.js'
+      - 'scripts/build-rules.js'
 
 concurrency:
   group: shadowstore-data-sync
@@ -30,7 +30,7 @@ jobs:
           node-version: '22'
 
       - name: Run Rules Synchronization Script
-        run: node scripts/sync-rules.js
+        run: node scripts/build-rules.js
 
       - name: Commit and Push Changes
         run: |
