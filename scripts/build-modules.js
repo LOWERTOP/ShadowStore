@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自动解析
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自适应提取
  */
 const fs = require("fs");
 const path = require("path");
@@ -817,29 +817,48 @@ async function fetchColorThemes(markdownText) {
 
 /**
  * 自动识别并提取 README.md 里的“更多资源”小节
+ * 增强兼容：支持 ## 与 ### 标题，支持各类 emoji 和格式匹配
  */
 function parseMoreResourcesFromReadme(markdownText) {
   console.log("📑 开始解析 README.md 中的“更多资源”小节...");
   const moreItems = [];
   if (!markdownText) return moreItems;
 
-  const sectionMatch = markdownText.match(/##\s*更多资源([\s\S]*?)(?=\n##\s*|$)/i);
+  // 匹配 # 更多资源（涵盖 2-4 级标题、前后可能有 emoji、标签等）
+  const sectionMatch = markdownText.match(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源[\s\S]*?(?=\n#{1,3}\s+|$)/i);
   if (!sectionMatch) {
-    console.warn("⚠️ 未找到 '## 更多资源' 章节");
+    console.warn("⚠️ 未找到匹配 '更多资源' 的章节");
     return moreItems;
   }
 
-  const lines = sectionMatch[1].split(/\r?\n/);
-  const itemRegex = /^\s*[-*+]\s*\[([^\]]+)\]\(([^)]+)\)(?:\s*[:：\-—]\s*(.*))?$/;
+  const sectionContent = sectionMatch[0];
+  const lines = sectionContent.split(/\r?\n/);
 
   for (const rawLine of lines) {
     const line = rawLine.trim();
-    if (!line) continue;
-    const match = line.match(itemRegex);
-    if (match) {
-      const name = match[1].trim();
-      const url = match[2].trim();
-      const description = (match[3] || "开源精选推荐资源").trim();
+    if (!line || line.startsWith("#")) continue;
+
+    // 匹配 Markdown 链接：[标题](URL) 后续跟着描述，或者 - [标题](URL)
+    const linkMatch = line.match(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)(.*)/i);
+    if (linkMatch) {
+      let name = linkMatch[1].trim().replace(/^[*_`]+|[*_`]+$/g, "");
+      let url = linkMatch[2].trim();
+      let extraDesc = (linkMatch[3] || "").trim();
+
+      // 过滤掉本身就是主仓库或手册的链接
+      if (url.includes("LOWERTOP/Shadowrocket-First") || url.includes("lowertop.github.io/Shadowrocket")) {
+        continue;
+      }
+
+      // 清理描述文本中的前导冒号、破折号及多余符号
+      let description = extraDesc
+        .replace(/^[:：\-—~|]+/, "")
+        .replace(/^[*\s_`]+|[*\s_`]+$/g, "")
+        .trim();
+
+      if (!description) {
+        description = "开源社区推荐精选资源";
+      }
 
       let sourceName = "外部资源";
       let ownerName = "";
@@ -991,7 +1010,7 @@ async function main() {
   // 1. 抓取配色方案
   const colorItems = await fetchColorThemes(repoMarkdown);
 
-  // 2. 组装更多标签页资源：手册排第 1，仓库排第 2，后续跟随 README 中的更多资源条目
+  // 2. 组装“更多”分类：手册第 1，仓库第 2，随后跟随 README 提取出的所有外部资源
   const topMoreCards = getTopMoreCards();
   const autoMoreItems = parseMoreResourcesFromReadme(repoMarkdown);
   const allMoreItems = [...topMoreCards, ...autoMoreItems];
