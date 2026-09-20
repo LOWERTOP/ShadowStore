@@ -1,120 +1,185 @@
-import fs from 'fs';
-import path from 'path';
+/**
+ * ShadowStore 规则集自动化构建引擎
+ * 增强特性：Git Trees truncated 熔断、从 README 真实提取直链杜绝硬编码幽灵链接、配置建议提取与原子写盘
+ */
+const fs = require('fs');
+const path = require('path');
 
 const REPO_OWNER = 'blackmatrix7';
 const REPO_NAME = 'ios_rule_script';
-const TARGET_PATH = 'rule/Shadowrocket';
-const RAW_PREFIX = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${TARGET_PATH}`;
+const RAW_PREFIX = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/rule/Shadowrocket`;
 
-async function fetchAllReadmePaths() {
-    const treeUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/master?recursive=1`;
-    const headers = process.env.GITHUB_TOKEN ? { Authorization: `token ${process.env.GITHUB_TOKEN}` } : {};
-    const res = await fetch(treeUrl, { headers });
-    if (!res.ok) {
-        throw new Error(`Git Trees API 请求失败: ${res.status} ${res.statusText}`);
+const BATCH_SIZE = 15;
+const MAX_RETRIES = 2;
+
+async function fetchWithRetry(url, options = {}, retries = MAX_RETRIES) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const headers = { ...options.headers };
+      if (process.env.GITHUB_TOKEN && url.includes('api.github.com')) {
+        headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+        headers['User-Agent'] = 'ShadowStore-Rules-Builder';
+      }
+      const res = await fetch(url, { ...options, headers });
+      if (res.ok) return res;
+      if (res.status === 404) return res;
+    } catch (e) {
+      if (i === retries) throw e;
+      await new Promise(r => setTimeout(r, 600 * Math.pow(2, i)));
     }
-    const data = await res.json();
-    return data.tree
-        .filter(item => item.path.startsWith(`${TARGET_PATH}/`) && item.path.endsWith('/README.md'))
-        .map(item => item.path);
+  }
+  return null;
 }
 
-async function parseRule(relPath) {
-    const parts = relPath.split('/');
-    const dirName = parts[2];
-    const readmeUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${relPath}`;
-    try {
-        const res = await fetch(readmeUrl);
-        if (!res.ok) return null;
-        const text = await res.text();
-        const nameMatch = text.match(/^#\s+[^\w\s]*\s*(.+)$/m);
-        const title = nameMatch ? nameMatch[1].trim() : dirName;
-        
-        const configMatch = text.match(/###\s*配置建议([\s\S]*?)(?=###|$)/);
-        const suggestionRaw = configMatch ? configMatch[1].trim() : '';
-        
-        // 💡 核心修改：按行过滤掉所有带 _Resolve.list 的配置提示，同时保留其他如 .list 或 _Domain.list 的提示
-        const cleanSuggestion = suggestionRaw
-            .split(/\r?\n/)
-            .map(line => line.replace(/^[-*]\s*/, '').trim())
-            .filter(line => line.length > 0 && !line.includes('_Resolve.list'))
-            .join('\n');
+/**
+ * 获取规则目录树
+ * 核心优化：增加针对 GitHub Git Trees API 的 truncated 校验
+ */
+async function getRulePaths() {
+  const treeUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/master?recursive=1`;
+  const res = await fetchWithRetry(treeUrl);
+  if (!res || !res.ok) throw new Error(`无法获取目录树: HTTP ${res?.status}`);
 
-        const isCombined = /共同使用/.test(suggestionRaw) && /_Domain\.list/.test(suggestionRaw);
-        
-        const masterLinkMatch = text.match(/\*MASTER分支\s*\(每日更新\)\*[\s\r\n]+(?:\[([^\]]+)\]\(([^)]+)\)|(https?:\/\/[^\s\r\n]+))/);
-        let mainUrl = '';
-        if (masterLinkMatch) {
-            mainUrl = masterLinkMatch[2] || masterLinkMatch[3] || masterLinkMatch[1];
-        } else {
-            mainUrl = `${RAW_PREFIX}/${dirName}/${dirName}.list`;
-        }
+  const data = await res.json();
 
-        const buttons = [{ label: '复制规则集', url: mainUrl.trim() }];
-        if (isCombined) {
-            buttons.push({ label: '复制域名集', url: `${RAW_PREFIX}/${dirName}/${dirName}_Domain.list` });
-        }
-        return { id: dirName, title, suggestion: cleanSuggestion, isCombined, buttons };
-    } catch (err) {
-        console.error(`解析异常 [${dirName}]:`, err.message);
-        return null;
-    }
+  // 关键改进 ①：截断校验，绝不使用不完整的残缺目录树
+  if (data?.truncated) {
+    throw new Error('❌ 来源熔断：Git Trees API 返回 truncated: true，目录树被截断，拒绝生成规则数据！');
+  }
+
+  if (!Array.isArray(data?.tree)) {
+    throw new Error('❌ 来源熔断：Git Trees API 返回的数据结构异常！');
+  }
+
+  return data.tree
+    .filter(item =>
+      item.type === 'blob' &&
+      item.path.startsWith('rule/Shadowrocket/') &&
+      item.path.endsWith('/README.md')
+    )
+    .map(item => item.path);
+}
+
+/**
+ * 解析单个规则的 README
+ * 核心优化：从 README 内真实提取 .list 与 _Domain.list 的直链，不再盲猜拼接
+ */
+async function parseRule(readmePath) {
+  const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${readmePath}`;
+  const res = await fetchWithRetry(rawUrl);
+  if (!res || !res.ok) return null;
+
+  const text = await res.text();
+  const dirName = readmePath.split('/')[2];
+
+  // 1. 提取规则标题
+  const titleMatch = text.match(/#\s*(.+)/);
+  const title = titleMatch ? titleMatch[1].trim() : dirName;
+
+  // 2. 提取配置建议
+  const configMatch = text.match(/###\s*配置建议([\s\S]*?)(?=###|$)/);
+  let suggestion = '';
+  let suggestionRaw = '';
+
+  if (configMatch) {
+    suggestionRaw = configMatch[1];
+    suggestion = suggestionRaw
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0 && !line.includes('_Resolve.list'))
+      .join('\n');
+  }
+
+  // 3. 关键改进 ②：从 README 提取真实的直链，避免硬编码推导导致幽灵链接
+  const buttons = [];
+
+  // 提取主规则直链（.list）
+  const mainListRegex = new RegExp(`(https?:\\/\\/[^\\s)\\]"'<>]+\\/${dirName}\\.list)`, 'i');
+  const mainListMatch = text.match(mainListRegex);
+  const mainRuleUrl = mainListMatch ? mainListMatch[1].trim() : `${RAW_PREFIX}/${dirName}/${dirName}.list`;
+
+  buttons.push({
+    label: '复制规则集',
+    url: mainRuleUrl
+  });
+
+  // 提取域名集直链（_Domain.list）
+  const isCombined = /共同使用/.test(suggestionRaw) && /_Domain\.list/.test(suggestionRaw);
+  if (isCombined) {
+    const domainListRegex = new RegExp(`(https?:\\/\\/[^\\s)\\]"'<>]+\\/${dirName}_Domain\\.list)`, 'i');
+    const domainListMatch = text.match(domainListRegex);
+    const domainRuleUrl = domainListMatch ? domainListMatch[1].trim() : `${RAW_PREFIX}/${dirName}/${dirName}_Domain.list`;
+
+    buttons.push({
+      label: '复制域名集',
+      url: domainRuleUrl
+    });
+  }
+
+  // 4. 提取图标
+  const iconMatch = text.match(/!\[.*?\]\((https?:\/\/.*?\.(?:png\vert{}jpg\vert{}jpeg\vert{}svg\vert{}webp).*?)\)/i);
+  let icon = iconMatch ? iconMatch[1].trim() : '';
+
+  return {
+    id: dirName,
+    title,
+    suggestion,
+    icon,
+    isCombined,
+    buttons
+  };
 }
 
 async function main() {
-    console.log('检索规则目录列表中...');
-    const paths = await fetchAllReadmePaths();
-    console.log(`检索到 ${paths.length} 个规则目录`);
+  console.log('🚀 开始获取 Blackmatrix7 规则列表...');
+  const paths = await getRulePaths();
+  console.log(`📦 共发现 ${paths.length} 个规则 README，开始批量解析...`);
 
-    const results = [];
-    const BATCH_SIZE = 15;
-    for (let i = 0; i < paths.length; i += BATCH_SIZE) {
-        const batch = paths.slice(i, i + BATCH_SIZE);
-        const batchData = await Promise.all(batch.map(p => parseRule(p)));
-        results.push(...batchData.filter(Boolean));
-        console.log(`已处理: ${Math.min(i + BATCH_SIZE, paths.length)} / ${paths.length}`);
+  const results = [];
+  for (let i = 0; i < paths.length; i += BATCH_SIZE) {
+    const batch = paths.slice(i, i + BATCH_SIZE);
+    const batchData = await Promise.all(batch.map(p => parseRule(p)));
+    results.push(...batchData.filter(Boolean));
+    process.stdout.write(`\r⏳ 进度: ${Math.min(i + BATCH_SIZE, paths.length)} / ${paths.length}`);
+  }
+  console.log('\n✅ 规则详情解析完成！');
+
+  const outputPath = path.resolve(__dirname, 'rules.json');
+  const tempPath = `${outputPath}.tmp`;
+
+  // 质量与数量熔断检查
+  if (results.length < 50) {
+    throw new Error(`❌ 数量熔断：提取的规则总数 (${results.length}) 严重偏低，拒绝写入！`);
+  }
+
+  if (fs.existsSync(outputPath)) {
+    try {
+      const oldData = JSON.parse(fs.readFileSync(outputPath, 'utf-8'));
+      if (Array.isArray(oldData) && results.length < oldData.length * 0.7) {
+        throw new Error(`❌ 波动熔断：本次解析数量 (${results.length}) 远低于旧数据基准 (${oldData.length})！`);
+      }
+    } catch (e) {
+      if (e.message.includes('波动熔断')) throw e;
     }
+  }
 
-    const newRulesCount = results.length;
-    const outputPath = path.resolve('scripts/rules.json');
-    const tempPath = outputPath + '.tmp';
+  // 原子化写盘
+  fs.writeFileSync(tempPath, JSON.stringify(results, null, 2), 'utf-8');
+  const verify = JSON.parse(fs.readFileSync(tempPath, 'utf-8'));
+  if (verify.length !== results.length) {
+    if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
+    throw new Error('❌ 校验失败：临时文件数据条目不一致！');
+  }
 
-    // 1. 读取旧数据用于熔断对比
-    let oldRulesCount = 0;
-    if (fs.existsSync(outputPath)) {
-        try {
-            const oldData = JSON.parse(fs.readFileSync(outputPath, 'utf-8'));
-            oldRulesCount = Array.isArray(oldData) ? oldData.length : 0;
-        } catch (e) {
-            console.warn('⚠️ 读取旧规则文件解析失败，跳过历史对比。');
-        }
-    }
-
-    // 2. 🛡️ 数量熔断机制（防止上游规则异常导致批量清空）
-    const MIN_ABSOLUTE_LIMIT = 50;
-    if (newRulesCount < MIN_ABSOLUTE_LIMIT) {
-        console.error(`❌ [熔断警报] 有效规则数 (${newRulesCount}) 低于硬底线 (${MIN_ABSOLUTE_LIMIT})，中止写入！`);
-        process.exit(1);
-    }
-    if (oldRulesCount > 0 && newRulesCount < oldRulesCount * 0.7) {
-        console.error(`❌ [熔断警报] 规则数较上次剧烈下降！上次: ${oldRulesCount}, 本次: ${newRulesCount}（低于 70% 阈值），中止写入！`);
-        process.exit(1);
-    }
-
-    // 3. 📝 原子写盘机制（防止写文件时中断导致文件损坏）
-    const fileContent = JSON.stringify(results, null, 2);
-    fs.writeFileSync(tempPath, fileContent, 'utf-8');
-
-    // 二次校验临时文件能否正常解析
-    const parsedCheck = JSON.parse(fs.readFileSync(tempPath, 'utf-8'));
-    if (!parsedCheck || parsedCheck.length === 0) {
-        console.error('❌ 原子写入校验失败：生成的数据解析为空！');
-        process.exit(1);
-    }
-
-    // 瞬间替换正式文件
-    fs.renameSync(tempPath, outputPath);
-    console.log(`✅ 生成完毕！已原子写入 ${outputPath}，有效规则数: ${newRulesCount}`);
+  fs.renameSync(tempPath, outputPath);
+  console.log(`🎉 rules.json 构建成功！共输出 ${results.length} 条规则。\n`);
 }
 
-main();
+main().catch(err => {
+  console.error('\n❌ rules 构建失败:', err.message);
+  const tempPath = path.resolve(__dirname, 'rules.json.tmp');
+  if (fs.existsSync(tempPath)) {
+    try { fs.unlinkSync(tempPath); } catch (e) {}
+  }
+  process.exit(1);
+});
