@@ -28,13 +28,6 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '22'
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          if [ -f package.json ]; then
-            npm ci
-          fi
 
       - name: Run Rules Synchronization Script
         run: node scripts/sync-rules.js
