@@ -1844,7 +1844,6 @@
   <div id="toast" class="toast glass-element">已复制资源链接</div>
 
   <script>
-    // 1. 清理历史 Service Worker
     (function cleanLegacyServiceWorkerOnce() {
       if ('serviceWorker' in navigator) {
         const CLEANUP_KEY = "sr_legacy_sw_cleaned_v2";
@@ -1864,7 +1863,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609201200";
+    const CACHE_VERSION = "202609201400";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1898,7 +1897,6 @@
       errorStatic: "在线资源同步失败，已展示核心入口"
     };
 
-    // 搜索 Web Worker：严格限定在当前标签分类 activeTab 下搜索
     const workerScript = `
       let searchDataset = [];
       self.onmessage = function(e) {
@@ -2011,7 +2009,6 @@
     };
 
     const STATIC_RESOURCES_DATA = [
-      // 1. 配置标签页
       {
         id: "static_config_lazy",
         category: "config",
@@ -2027,40 +2024,6 @@
         installURL: "shadowrocket://config/add/https://lowertop.github.io/Shadowrocket/lazy_group.conf",
         isDubious: false,
         isRepoCard: false
-      },
-      // 2. 更多标签页 - 第 1 项：使用手册
-      {
-        id: "more_manual",
-        category: "more",
-        name: "使用手册",
-        description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
-        primaryBtnText: "查阅手册",
-        icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
-        author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
-        authorAvatar: "https://github.com/LOWERTOP.png?size=64",
-        sourceName: "Shadowrocket",
-        sourceURL: "https://github.com/LOWERTOP/Shadowrocket",
-        rawURL: "https://github.com/LOWERTOP/Shadowrocket",
-        installURL: "https://github.com/LOWERTOP/Shadowrocket",
-        isDubious: false,
-        isRepoCard: true
-      },
-      // 3. 更多标签页 - 第 2 项：Shadowrocket-First 仓库
-      {
-        id: "more_repo_first",
-        category: "more",
-        name: "配色与配置仓库",
-        description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
-        primaryBtnText: "访问仓库",
-        icon: "https://avatars.githubusercontent.com/u/16624731?v=4",
-        author: { name: "LOWERTOP", url: "https://github.com/LOWERTOP", username: "LOWERTOP" },
-        authorAvatar: "https://github.com/LOWERTOP.png?size=64",
-        sourceName: "Shadowrocket-First",
-        sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First",
-        rawURL: "https://github.com/LOWERTOP/Shadowrocket-First",
-        installURL: "https://github.com/LOWERTOP/Shadowrocket-First",
-        isDubious: false,
-        isRepoCard: true
       }
     ];
 
@@ -2204,7 +2167,7 @@
         return {
           id: item.id || `static_${item.category}_${encodeURIComponent(item.name)}`,
           name: item.name,
-          category: item.category || "more",
+          category: item.category || "config",
           description: item.description,
           previewImg: safeURL(item.previewImg),
           icon: safeURL(item.icon),
@@ -2247,7 +2210,7 @@
           const c = String(m.category).toLowerCase();
           if (c === "color" || c.includes("配色")) category = "color";
           else if (c === "rule" || c.includes("规则")) category = "rule";
-          else if (c === "config" || c.includes("manual") || c.includes("配置")) category = "config";
+          else if (c === "config" || c.includes("配置")) category = "config";
           else if (c.includes("more") || c.includes("更多") || c.includes("工具")) category = "more";
         }
 
@@ -2320,9 +2283,6 @@
       });
     }
 
-    /**
-     * 智能合并数据集（严格根据 id 和 name+category 键值去重，杜绝重复出现）
-     */
     function mergeDatasetsWithoutDuplicates(...lists) {
       const merged = [];
       const seenIds = new Set();
@@ -2333,7 +2293,7 @@
         for (const item of list) {
           if (!item) continue;
           const idKey = item.id ? String(item.id).trim().toLowerCase() : "";
-          const nameCatKey = `${(item.category || "module").toLowerCase()}__${(item.name || "").trim().toLowerCase()}`;
+          const nameCatKey = `${(item.category \vert{}\vert{} "module").toLowerCase()}__${(item.name || "").trim().toLowerCase()}`;
 
           if (idKey && seenIds.has(idKey)) continue;
           if (seenNameCategory.has(nameCatKey)) continue;
@@ -3290,7 +3250,7 @@
     function updateIndicatorDirectly(left, width, scaleX = 1, scaleY = 1) {
       tabIndicator.style.transition = 'none';
       tabIndicator.style.width = `${width}px`;
-      tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX}, ${scaleY})`;
+      tabIndicator.style.transform = `translate3d(${left}px, 0, 0) scale(${scaleX},${scaleY})`;
     }
 
     function handleDragAtClientX(clientX) {
@@ -3881,7 +3841,6 @@
       let cachedRules = null;
       const staticItems = normalizeStaticResources();
 
-      // 读取本地缓存
       try {
         cachedData = localStorage.getItem(CONFIG.CACHE_KEY);
         cachedRules = localStorage.getItem(CONFIG.RULES_CACHE_KEY);
@@ -3923,7 +3882,6 @@
           const normalizedCachedRules = normalizeRules(parsedCachedRules);
 
           if (normalized.length > 0) {
-            // 使用严格去重合并，防止重复
             updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalized, normalizedCachedRules));
 
             state.isAlphabetRendered = false;
@@ -4031,7 +3989,6 @@
             state.rawNetworkData = parsedCachedModules;
           }
 
-          // 核心修复：严密去重合并，无论云端 modules.json 是否已包含 staticItems，都能保证只出现 1 个
           updateAllModules(mergeDatasetsWithoutDuplicates(staticItems, normalizedModules, normalizedRules));
 
           state.isAlphabetRendered = false;
