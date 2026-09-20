@@ -542,7 +542,7 @@
   {
     "id": "AdobeActivation",
     "title": "AdobeActivation",
-    "suggestion": "AdobeActivation.list 单独使用。\nAdobeActivation_Resolve.list 单独使用。",
+    "suggestion": "AdobeActivation.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -554,7 +554,7 @@
   {
     "id": "Advertising",
     "title": "去广告",
-    "suggestion": "Advertising.list、Advertising_Domain.list 共同使用。\nAdvertising_Resolve.list、Advertising_Domain.list 共同使用。",
+    "suggestion": "Advertising.list、Advertising_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -570,7 +570,7 @@
   {
     "id": "AdvertisingLite",
     "title": "去广告精简版",
-    "suggestion": "AdvertisingLite.list、AdvertisingLite_Domain.list 共同使用。\nAdvertisingLite_Resolve.list、AdvertisingLite_Domain.list 共同使用。",
+    "suggestion": "AdvertisingLite.list、AdvertisingLite_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -598,7 +598,7 @@
   {
     "id": "AdvertisingTest",
     "title": "去广告测试版",
-    "suggestion": "AdvertisingTest.list、AdvertisingTest_Domain.list 共同使用。\nAdvertisingTest_Resolve.list、AdvertisingTest_Domain.list 共同使用。",
+    "suggestion": "AdvertisingTest.list、AdvertisingTest_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -722,7 +722,7 @@
   {
     "id": "Alibaba",
     "title": "阿里巴巴",
-    "suggestion": "Alibaba.list、Alibaba_Domain.list 共同使用。\nAlibaba_Resolve.list、Alibaba_Domain.list 共同使用。",
+    "suggestion": "Alibaba.list、Alibaba_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -750,7 +750,7 @@
   {
     "id": "Amazon",
     "title": "Amazon",
-    "suggestion": "Amazon.list 单独使用。\nAmazon_Resolve.list 单独使用。",
+    "suggestion": "Amazon.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -774,7 +774,7 @@
   {
     "id": "AmazonIP",
     "title": "AmazonIP",
-    "suggestion": "AmazonIP.list 单独使用。\nAmazonIP_Resolve.list 单独使用。",
+    "suggestion": "AmazonIP.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -978,7 +978,7 @@
   {
     "id": "Apple",
     "title": "Apple",
-    "suggestion": "Apple.list、Apple_Domain.list 共同使用。\nApple_Resolve.list、Apple_Domain.list 共同使用。",
+    "suggestion": "Apple.list、Apple_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -1150,7 +1150,7 @@
   {
     "id": "AsianMedia",
     "title": "AsianMedia",
-    "suggestion": "AsianMedia.list 单独使用。\nAsianMedia_Resolve.list 单独使用。",
+    "suggestion": "AsianMedia.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1390,7 +1390,7 @@
   {
     "id": "BiliBili",
     "title": "BiliBili",
-    "suggestion": "BiliBili.list 单独使用。\nBiliBili_Resolve.list 单独使用。",
+    "suggestion": "BiliBili.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1438,7 +1438,7 @@
   {
     "id": "Blizzard",
     "title": "暴雪娱乐",
-    "suggestion": "Blizzard.list 单独使用。\nBlizzard_Resolve.list 单独使用。",
+    "suggestion": "Blizzard.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1450,7 +1450,7 @@
   {
     "id": "BlockHttpDNS",
     "title": "BlockHttpDNS",
-    "suggestion": "BlockHttpDNS.list 单独使用。\nBlockHttpDNS_Resolve.list 单独使用。",
+    "suggestion": "BlockHttpDNS.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1546,7 +1546,7 @@
   {
     "id": "ByteDance",
     "title": "字节跳动",
-    "suggestion": "ByteDance.list 单独使用。\nByteDance_Resolve.list 单独使用。",
+    "suggestion": "ByteDance.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1834,7 +1834,7 @@
   {
     "id": "China",
     "title": "China",
-    "suggestion": "China.list、China_Domain.list 共同使用。\nChina_Resolve.list、China_Domain.list 共同使用。",
+    "suggestion": "China.list、China_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -1850,7 +1850,7 @@
   {
     "id": "ChinaDNS",
     "title": "ChinaDNS",
-    "suggestion": "ChinaDNS.list 单独使用。\nChinaDNS_Resolve.list 单独使用。",
+    "suggestion": "ChinaDNS.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1862,7 +1862,7 @@
   {
     "id": "ChinaIPs",
     "title": "ChinaIPsTest",
-    "suggestion": "ChinaIPsTest.list 单独使用。\nChinaIPsTest_Resolve.list 单独使用。",
+    "suggestion": "ChinaIPsTest.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1874,7 +1874,7 @@
   {
     "id": "ChinaIPs",
     "title": "ChinaIPs",
-    "suggestion": "ChinaIPs.list 单独使用。\nChinaIPs_Resolve.list 单独使用。",
+    "suggestion": "ChinaIPs.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1886,7 +1886,7 @@
   {
     "id": "ChinaIPsBGP",
     "title": "ChinaIPsBGP",
-    "suggestion": "ChinaIPsBGP.list 单独使用。\nChinaIPsBGP_Resolve.list 单独使用。",
+    "suggestion": "ChinaIPsBGP.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1898,7 +1898,7 @@
   {
     "id": "ChinaMax",
     "title": "国内网站/IP合集",
-    "suggestion": "ChinaMax.list、ChinaMax_Domain.list 共同使用。\nChinaMax_Resolve.list、ChinaMax_Domain.list 共同使用。",
+    "suggestion": "ChinaMax.list、ChinaMax_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -1930,7 +1930,7 @@
   {
     "id": "ChinaMaxNoMedia",
     "title": "ChinaMaxNoMedia",
-    "suggestion": "ChinaMaxNoMedia.list、ChinaMaxNoMedia_Domain.list 共同使用。\nChinaMaxNoMedia_Resolve.list、ChinaMaxNoMedia_Domain.list 共同使用。",
+    "suggestion": "ChinaMaxNoMedia.list、ChinaMaxNoMedia_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -1946,7 +1946,7 @@
   {
     "id": "ChinaMedia",
     "title": "ChinaMedia",
-    "suggestion": "ChinaMedia.list 单独使用。\nChinaMedia_Resolve.list 单独使用。",
+    "suggestion": "ChinaMedia.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1958,7 +1958,7 @@
   {
     "id": "ChinaMobile",
     "title": "中国移动",
-    "suggestion": "ChinaMobile.list 单独使用。\nChinaMobile_Resolve.list 单独使用。",
+    "suggestion": "ChinaMobile.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -1982,7 +1982,7 @@
   {
     "id": "ChinaNoMedia",
     "title": "ChinaNoMedia",
-    "suggestion": "ChinaNoMedia.list、ChinaNoMedia_Domain.list 共同使用。\nChinaNoMedia_Resolve.list、ChinaNoMedia_Domain.list 共同使用。",
+    "suggestion": "ChinaNoMedia.list、ChinaNoMedia_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -2010,7 +2010,7 @@
   {
     "id": "ChinaTest",
     "title": "ChinaTest",
-    "suggestion": "ChinaTest.list、ChinaTest_Domain.list 共同使用。\nChinaTest_Resolve.list、ChinaTest_Domain.list 共同使用。",
+    "suggestion": "ChinaTest.list、ChinaTest_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -2026,7 +2026,7 @@
   {
     "id": "ChinaUnicom",
     "title": "中国联通",
-    "suggestion": "ChinaUnicom.list 单独使用。\nChinaUnicom_Resolve.list 单独使用。",
+    "suggestion": "ChinaUnicom.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2122,7 +2122,7 @@
   {
     "id": "Cloud",
     "title": "360云计算",
-    "suggestion": "360Cloud.list 单独使用。\n360Cloud_Resolve.list 单独使用。",
+    "suggestion": "360Cloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2134,7 +2134,7 @@
   {
     "id": "Cloud",
     "title": "AkamaiCloud",
-    "suggestion": "AkamaiCloud.list 单独使用。\nAkamaiCloud_Resolve.list 单独使用。",
+    "suggestion": "AkamaiCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2146,7 +2146,7 @@
   {
     "id": "Cloud",
     "title": "AmazonCloud",
-    "suggestion": "AmazonCloud.list 单独使用。\nAmazonCloud_Resolve.list 单独使用。",
+    "suggestion": "AmazonCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2158,7 +2158,7 @@
   {
     "id": "Cloud",
     "title": "百度云计算",
-    "suggestion": "BaiduCloud.list 单独使用。\nBaiduCloud_Resolve.list 单独使用。",
+    "suggestion": "BaiduCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2170,7 +2170,7 @@
   {
     "id": "Cloud",
     "title": "国内云计算",
-    "suggestion": "CloudCN.list 单独使用。\nCloudCN_Resolve.list 单独使用。",
+    "suggestion": "CloudCN.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2182,7 +2182,7 @@
   {
     "id": "Cloud",
     "title": "全球云计算",
-    "suggestion": "CloudGlobal.list 单独使用。\nCloudGlobal_Resolve.list 单独使用。",
+    "suggestion": "CloudGlobal.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2194,7 +2194,7 @@
   {
     "id": "Cloud",
     "title": "HiNet",
-    "suggestion": "HiNet.list 单独使用。\nHiNet_Resolve.list 单独使用。",
+    "suggestion": "HiNet.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2206,7 +2206,7 @@
   {
     "id": "Cloud",
     "title": "华为云计算",
-    "suggestion": "HuaweiCloud.list 单独使用。\nHuaweiCloud_Resolve.list 单独使用。",
+    "suggestion": "HuaweiCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2218,7 +2218,7 @@
   {
     "id": "Cloud",
     "title": "京东云计算",
-    "suggestion": "JingDongCloud.list 单独使用。\nJingDongCloud_Resolve.list 单独使用。",
+    "suggestion": "JingDongCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2230,7 +2230,7 @@
   {
     "id": "Cloud",
     "title": "金山云计算",
-    "suggestion": "KingsoftCloud.list 单独使用。\nKingsoftCloud_Resolve.list 单独使用。",
+    "suggestion": "KingsoftCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2242,7 +2242,7 @@
   {
     "id": "Cloud",
     "title": "网易云计算",
-    "suggestion": "NeteaseCloud.list 单独使用。\nNeteaseCloud_Resolve.list 单独使用。",
+    "suggestion": "NeteaseCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2254,7 +2254,7 @@
   {
     "id": "Cloud",
     "title": "腾讯云计算",
-    "suggestion": "TencentCloud.list 单独使用。\nTencentCloud_Resolve.list 单独使用。",
+    "suggestion": "TencentCloud.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2266,7 +2266,7 @@
   {
     "id": "Cloudflare",
     "title": "Cloudflare",
-    "suggestion": "Cloudflare.list 单独使用。\nCloudflare_Resolve.list 单独使用。",
+    "suggestion": "Cloudflare.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2302,7 +2302,7 @@
   {
     "id": "ClubhouseIP",
     "title": "ClubhouseIP",
-    "suggestion": "ClubhouseIP.list 单独使用。\nClubhouseIP_Resolve.list 单独使用。",
+    "suggestion": "ClubhouseIP.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2374,7 +2374,7 @@
   {
     "id": "Copilot",
     "title": "Copilot",
-    "suggestion": "Copilot.list 单独使用。\nCopilot_Resolve.list 单独使用。",
+    "suggestion": "Copilot.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2434,7 +2434,7 @@
   {
     "id": "DMM",
     "title": "DMM",
-    "suggestion": "DMM.list 单独使用。\nDMM_Resolve.list 单独使用。",
+    "suggestion": "DMM.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2446,7 +2446,7 @@
   {
     "id": "DNS",
     "title": "DNS",
-    "suggestion": "DNS.list 单独使用。\nDNS_Resolve.list 单独使用。",
+    "suggestion": "DNS.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2626,7 +2626,7 @@
   {
     "id": "DiabloIII",
     "title": "DiabloIII",
-    "suggestion": "DiabloIII.list 单独使用。\nDiabloIII_Resolve.list 单独使用。",
+    "suggestion": "DiabloIII.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -2950,7 +2950,7 @@
   {
     "id": "EHGallery",
     "title": "EHGallery",
-    "suggestion": "EHGallery.list 单独使用。\nEHGallery_Resolve.list 单独使用。",
+    "suggestion": "EHGallery.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3118,7 +3118,7 @@
   {
     "id": "Facebook",
     "title": "Facebook",
-    "suggestion": "Facebook.list 单独使用。\nFacebook_Resolve.list 单独使用。",
+    "suggestion": "Facebook.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3346,7 +3346,7 @@
   {
     "id": "Game",
     "title": "胜利女神",
-    "suggestion": "Nikke.list 单独使用。\nNikke_Resolve.list 单独使用。",
+    "suggestion": "Nikke.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3358,7 +3358,7 @@
   {
     "id": "Game",
     "title": "游戏",
-    "suggestion": "Game.list 单独使用。\nGame_Resolve.list 单独使用。",
+    "suggestion": "Game.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3514,7 +3514,7 @@
   {
     "id": "Global",
     "title": "Global",
-    "suggestion": "Global.list、Global_Domain.list 共同使用。\nGlobal_Resolve.list、Global_Domain.list 共同使用。",
+    "suggestion": "Global.list、Global_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -3530,7 +3530,7 @@
   {
     "id": "GlobalMedia",
     "title": "GlobalMedia",
-    "suggestion": "GlobalMedia.list、GlobalMedia_Domain.list 共同使用。\nGlobalMedia_Resolve.list、GlobalMedia_Domain.list 共同使用。",
+    "suggestion": "GlobalMedia.list、GlobalMedia_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -3582,7 +3582,7 @@
   {
     "id": "Google",
     "title": "Google",
-    "suggestion": "Google.list 单独使用。\nGoogle_Resolve.list 单独使用。",
+    "suggestion": "Google.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3618,7 +3618,7 @@
   {
     "id": "GoogleFCM",
     "title": "谷歌推送",
-    "suggestion": "GoogleFCM.list 单独使用。\nGoogleFCM_Resolve.list 单独使用。",
+    "suggestion": "GoogleFCM.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3870,7 +3870,7 @@
   {
     "id": "Hearthstone",
     "title": "Hearthstone",
-    "suggestion": "Hearthstone.list 单独使用。\nHearthstone_Resolve.list 单独使用。",
+    "suggestion": "Hearthstone.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3882,7 +3882,7 @@
   {
     "id": "HeroesoftheStorm",
     "title": "HeroesoftheStorm",
-    "suggestion": "HeroesoftheStorm.list 单独使用。\nHeroesoftheStorm_Resolve.list 单独使用。",
+    "suggestion": "HeroesoftheStorm.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -3918,7 +3918,7 @@
   {
     "id": "Hijacking",
     "title": "反劫持",
-    "suggestion": "Hijacking.list 单独使用。\nHijacking_Resolve.list 单独使用。",
+    "suggestion": "Hijacking.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4146,7 +4146,7 @@
   {
     "id": "IPTVMainland",
     "title": "IPTV大陆",
-    "suggestion": "IPTVMainland.list 单独使用。\nIPTVMainland_Resolve.list 单独使用。",
+    "suggestion": "IPTVMainland.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4158,7 +4158,7 @@
   {
     "id": "IPTVOther",
     "title": "IPTV其他",
-    "suggestion": "IPTVOther.list、IPTVOther_Domain.list 共同使用。\nIPTVOther_Resolve.list、IPTVOther_Domain.list 共同使用。",
+    "suggestion": "IPTVOther.list、IPTVOther_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -4246,7 +4246,7 @@
   {
     "id": "JOOX",
     "title": "JOOX",
-    "suggestion": "JOOX.list 单独使用。\nJOOX_Resolve.list 单独使用。",
+    "suggestion": "JOOX.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4426,7 +4426,7 @@
   {
     "id": "KakaoTalk",
     "title": "KakaoTalk",
-    "suggestion": "KakaoTalk.list 单独使用。\nKakaoTalk_Resolve.list 单独使用。",
+    "suggestion": "KakaoTalk.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4546,7 +4546,7 @@
   {
     "id": "KuangShi",
     "title": "旷视",
-    "suggestion": "KuangShi.list 单独使用。\nKuangShi_Resolve.list 单独使用。",
+    "suggestion": "KuangShi.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4558,7 +4558,7 @@
   {
     "id": "KugouKuwo",
     "title": "酷狗/酷我",
-    "suggestion": "KugouKuwo.list 单独使用。\nKugouKuwo_Resolve.list 单独使用。",
+    "suggestion": "KugouKuwo.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4570,7 +4570,7 @@
   {
     "id": "LG",
     "title": "LG",
-    "suggestion": "LG.list 单独使用。\nLG_Resolve.list 单独使用。",
+    "suggestion": "LG.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4582,7 +4582,7 @@
   {
     "id": "Lan",
     "title": "本地局域网地址",
-    "suggestion": "Lan.list 单独使用。\nLan_Resolve.list 单独使用。",
+    "suggestion": "Lan.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4702,7 +4702,7 @@
   {
     "id": "Line",
     "title": "Line",
-    "suggestion": "Line.list 单独使用。\nLine_Resolve.list 单独使用。",
+    "suggestion": "Line.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -4822,7 +4822,7 @@
   {
     "id": "MEGA",
     "title": "MEGA",
-    "suggestion": "MEGA.list 单独使用。\nMEGA_Resolve.list 单独使用。",
+    "suggestion": "MEGA.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5206,7 +5206,7 @@
   {
     "id": "NaSDDNS",
     "title": "NaSDDNS",
-    "suggestion": "NaSDDNS.list 单独使用。\nNaSDDNS_Resolve.list 单独使用。",
+    "suggestion": "NaSDDNS.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5218,7 +5218,7 @@
   {
     "id": "Naver",
     "title": "Naver",
-    "suggestion": "Naver.list 单独使用。\nNaver_Resolve.list 单独使用。",
+    "suggestion": "Naver.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5242,7 +5242,7 @@
   {
     "id": "NetEase",
     "title": "网易",
-    "suggestion": "NetEase.list 单独使用。\nNetEase_Resolve.list 单独使用。",
+    "suggestion": "NetEase.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5254,7 +5254,7 @@
   {
     "id": "NetEaseMusic",
     "title": "网易云音乐",
-    "suggestion": "NetEaseMusic.list 单独使用。\nNetEaseMusic_Resolve.list 单独使用。",
+    "suggestion": "NetEaseMusic.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5266,7 +5266,7 @@
   {
     "id": "Netflix",
     "title": "Netflix",
-    "suggestion": "Netflix.list 单独使用。\nNetflix_Resolve.list 单独使用。",
+    "suggestion": "Netflix.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5314,7 +5314,7 @@
   {
     "id": "Nintendo",
     "title": "Nintendo",
-    "suggestion": "Nintendo.list 单独使用。\nNintendo_Resolve.list 单独使用。",
+    "suggestion": "Nintendo.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5458,7 +5458,7 @@
   {
     "id": "OpenAI",
     "title": "OpenAI",
-    "suggestion": "OpenAI.list 单独使用。\nOpenAI_Resolve.list 单独使用。",
+    "suggestion": "OpenAI.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5470,7 +5470,7 @@
   {
     "id": "Opera",
     "title": "Opera",
-    "suggestion": "Opera.list 单独使用。\nOpera_Resolve.list 单独使用。",
+    "suggestion": "Opera.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5542,7 +5542,7 @@
   {
     "id": "Overwatch",
     "title": "Overwatch",
-    "suggestion": "Overwatch.list 单独使用。\nOverwatch_Resolve.list 单独使用。",
+    "suggestion": "Overwatch.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5806,7 +5806,7 @@
   {
     "id": "PotatoChat",
     "title": "PotatoChat",
-    "suggestion": "PotatoChat.list 单独使用。\nPotatoChat_Resolve.list 单独使用。",
+    "suggestion": "PotatoChat.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5830,7 +5830,7 @@
   {
     "id": "Privacy",
     "title": "隐私保护",
-    "suggestion": "Privacy.list、Privacy_Domain.list 共同使用。\nPrivacy_Resolve.list、Privacy_Domain.list 共同使用。",
+    "suggestion": "Privacy.list、Privacy_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -5846,7 +5846,7 @@
   {
     "id": "PrivateTracker",
     "title": "PT下载",
-    "suggestion": "PrivateTracker.list 单独使用。\nPrivateTracker_Resolve.list 单独使用。",
+    "suggestion": "PrivateTracker.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5870,7 +5870,7 @@
   {
     "id": "Proxy",
     "title": "Proxy",
-    "suggestion": "Proxy.list、Proxy_Domain.list 共同使用。\nProxy_Resolve.list、Proxy_Domain.list 共同使用。",
+    "suggestion": "Proxy.list、Proxy_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -5886,7 +5886,7 @@
   {
     "id": "ProxyLite",
     "title": "ProxyLite",
-    "suggestion": "ProxyLite.list 单独使用。\nProxyLite_Resolve.list 单独使用。",
+    "suggestion": "ProxyLite.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -5958,7 +5958,7 @@
   {
     "id": "Qobuz",
     "title": "Qobuz",
-    "suggestion": "Qobuz.list 单独使用。\nQobuz_Resolve.list 单独使用。",
+    "suggestion": "Qobuz.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6162,7 +6162,7 @@
   {
     "id": "STUN",
     "title": "STUN",
-    "suggestion": "STUN.list 单独使用。\nSTUN_Resolve.list 单独使用。",
+    "suggestion": "STUN.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6510,7 +6510,7 @@
   {
     "id": "Spotify",
     "title": "Spotify",
-    "suggestion": "Spotify.list 单独使用。\nSpotify_Resolve.list 单独使用。",
+    "suggestion": "Spotify.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6534,7 +6534,7 @@
   {
     "id": "StarCraftII",
     "title": "StarCraftII",
-    "suggestion": "StarCraftII.list 单独使用。\nStarCraftII_Resolve.list 单独使用。",
+    "suggestion": "StarCraftII.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6630,7 +6630,7 @@
   {
     "id": "Supercell",
     "title": "Supercell",
-    "suggestion": "Supercell.list 单独使用。\nSupercell_Resolve.list 单独使用。",
+    "suggestion": "Supercell.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6762,7 +6762,7 @@
   {
     "id": "TeamViewer",
     "title": "TeamViewer",
-    "suggestion": "TeamViewer.list 单独使用。\nTeamViewer_Resolve.list 单独使用。",
+    "suggestion": "TeamViewer.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6798,7 +6798,7 @@
   {
     "id": "Telegram",
     "title": "Telegram",
-    "suggestion": "Telegram.list 单独使用。\nTelegram_Resolve.list 单独使用。",
+    "suggestion": "Telegram.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6810,7 +6810,7 @@
   {
     "id": "TelegramNL",
     "title": "TelegramNL",
-    "suggestion": "TelegramNL.list 单独使用。\nTelegramNL_Resolve.list 单独使用。",
+    "suggestion": "TelegramNL.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6822,7 +6822,7 @@
   {
     "id": "TelegramSG",
     "title": "TelegramSG",
-    "suggestion": "TelegramSG.list 单独使用。\nTelegramSG_Resolve.list 单独使用。",
+    "suggestion": "TelegramSG.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6834,7 +6834,7 @@
   {
     "id": "TelegramUS",
     "title": "TelegramUS",
-    "suggestion": "TelegramUS.list 单独使用。\nTelegramUS_Resolve.list 单独使用。",
+    "suggestion": "TelegramUS.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -6846,7 +6846,7 @@
   {
     "id": "Tencent",
     "title": "腾讯",
-    "suggestion": "Tencent.list、Tencent_Domain.list 共同使用。\nTencent_Resolve.list、Tencent_Domain.list 共同使用。",
+    "suggestion": "Tencent.list、Tencent_Domain.list 共同使用。",
     "isCombined": true,
     "buttons": [
       {
@@ -6862,7 +6862,7 @@
   {
     "id": "TencentVideo",
     "title": "腾讯视频",
-    "suggestion": "TencentVideo.list 单独使用。\nTencentVideo_Resolve.list 单独使用。",
+    "suggestion": "TencentVideo.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7054,7 +7054,7 @@
   {
     "id": "Twitch",
     "title": "Twitch",
-    "suggestion": "Twitch.list 单独使用。\nTwitch_Resolve.list 单独使用。",
+    "suggestion": "Twitch.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7066,7 +7066,7 @@
   {
     "id": "Twitter",
     "title": "Twitter",
-    "suggestion": "Twitter.list 单独使用。\nTwitter_Resolve.list 单独使用。",
+    "suggestion": "Twitter.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7486,7 +7486,7 @@
   {
     "id": "WeChat",
     "title": "微信",
-    "suggestion": "WeChat.list 单独使用。\nWeChat_Resolve.list 单独使用。",
+    "suggestion": "WeChat.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7498,7 +7498,7 @@
   {
     "id": "WeTV",
     "title": "WeTV",
-    "suggestion": "WeTV.list 单独使用。\nWeTV_Resolve.list 单独使用。",
+    "suggestion": "WeTV.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7570,7 +7570,7 @@
   {
     "id": "Whatsapp",
     "title": "Whatsapp",
-    "suggestion": "Whatsapp.list 单独使用。\nWhatsapp_Resolve.list 单独使用。",
+    "suggestion": "Whatsapp.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7654,7 +7654,7 @@
   {
     "id": "WorldofWarcraft",
     "title": "WorldofWarcraft",
-    "suggestion": "WorldofWarcraft.list 单独使用。\nWorldofWarcraft_Resolve.list 单独使用。",
+    "suggestion": "WorldofWarcraft.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7738,7 +7738,7 @@
   {
     "id": "XiaoMi",
     "title": "小米",
-    "suggestion": "XiaoMi.list 单独使用。\nXiaoMi_Resolve.list 单独使用。",
+    "suggestion": "XiaoMi.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7834,7 +7834,7 @@
   {
     "id": "Yandex",
     "title": "Yandex",
-    "suggestion": "Yandex.list 单独使用。\nYandex_Resolve.list 单独使用。",
+    "suggestion": "Yandex.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7894,7 +7894,7 @@
   {
     "id": "YouTube",
     "title": "YouTube",
-    "suggestion": "YouTube.list 单独使用。\nYouTube_Resolve.list 单独使用。",
+    "suggestion": "YouTube.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -7930,7 +7930,7 @@
   {
     "id": "Youku",
     "title": "优酷",
-    "suggestion": "Youku.list 单独使用。\nYouku_Resolve.list 单独使用。",
+    "suggestion": "Youku.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -8062,7 +8062,7 @@
   {
     "id": "Zhihu",
     "title": "知乎",
-    "suggestion": "Zhihu.list 单独使用。\nZhihu_Resolve.list 单独使用。",
+    "suggestion": "Zhihu.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -8074,7 +8074,7 @@
   {
     "id": "ZhihuAds",
     "title": "知乎广告拦截",
-    "suggestion": "ZhihuAds.list 单独使用。\nZhihuAds_Resolve.list 单独使用。",
+    "suggestion": "ZhihuAds.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -8230,7 +8230,7 @@
   {
     "id": "iQIYI",
     "title": "爱奇艺",
-    "suggestion": "iQIYI.list 单独使用。\niQIYI_Resolve.list 单独使用。",
+    "suggestion": "iQIYI.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
@@ -8242,7 +8242,7 @@
   {
     "id": "iQIYIIntl",
     "title": "iQIYIIntl",
-    "suggestion": "iQIYIIntl.list 单独使用。\niQIYIIntl_Resolve.list 单独使用。",
+    "suggestion": "iQIYIIntl.list 单独使用。",
     "isCombined": false,
     "buttons": [
       {
