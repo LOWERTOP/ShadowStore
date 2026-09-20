@@ -3383,33 +3383,42 @@
       }
     });
 
-    // 监听输入时的滑动手势：精准防抖、豁免输入框内微调光标与列表模式，退出软键盘并自然滚动
+    // 监听输入时的滑动手势：防御性排查、拼音输入豁免、组件排除及平滑退出键盘
     let inputTouchStartY = 0;
     let inputTouchStartX = 0;
-    let touchStartsInsideSearch = false;
+    let touchStartsInsideInteractive = false;
+    let isComposing = false;
+
+    searchInput.addEventListener('compositionstart', () => { isComposing = true; });
+    searchInput.addEventListener('compositionend', () => { isComposing = false; });
 
     window.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
         inputTouchStartY = e.touches[0].clientY;
         inputTouchStartX = e.touches[0].clientX;
-        touchStartsInsideSearch = Boolean(e.target.closest('#searchBoxInner'));
+        touchStartsInsideInteractive = Boolean(e.target.closest('#searchBoxInner, .tab-bar-wrapper'));
       }
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (state.isListView || touchStartsInsideSearch) return;
+      if (state.isListView || isComposing || touchStartsInsideInteractive) return;
 
       if (document.activeElement === searchInput && e.touches && e.touches.length > 0) {
         const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
         const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
 
-        // 判定用户发生有效翻页滑动
         if (diffY > 14 || diffX > 14) {
-          isPulling = false; // 避免误触顶端下拉刷新
-          searchInput.blur(); // blur 自带的监听器会自动触发过滤并收起键盘，不重复计算
+          isPulling = false; // 阻断误触下拉刷新
+          searchInput.blur(); // 退出键盘并触发自带的 blur 事件自动平滑过滤，避免跳顶
         }
       }
     }, { passive: true });
+
+    const resetTouchInteractiveState = () => {
+      touchStartsInsideInteractive = false;
+    };
+    window.addEventListener('touchend', resetTouchInteractiveState, { passive: true });
+    window.addEventListener('touchcancel', resetTouchInteractiveState, { passive: true });
 
     window.addEventListener('wheel', () => {
       if (document.activeElement === searchInput) {
