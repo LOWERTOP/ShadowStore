@@ -1,7 +1,7 @@
 /**
  * ShadowStore 数据聚合构建引擎
  * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、
- * “文字行在上、徽章行在下”精准成对解析、Markdown 纯净化与小火箭一键安装支持
+ * 描述行精准提取作者/仓库/模块安装、徽章行映射访问链接、超链接纯净化
  */
 const fs = require("fs");
 const path = require("path");
@@ -835,8 +835,8 @@ async function fetchColorThemes(markdownText) {
 /**
  * 自动识别并提取 README.md 里的“更多资源”小节
  * 结构：
- * 第 1 行 (描述行): > [作者名](作者GitHub) 维护的描述内容...，安装 [模块名](依赖模块直链) ...
- * 第 2 行 (徽章行): > [![社区资源 xxx](badge_url)](目标访问地址 "点击查看")
+ * 前一行：> [作者名](作者GitHub) 维护的描述内容...，安装 [模块名](依赖模块直链) ...
+ * 后一行：> [![社区资源 xxx](badge_url)](目标资源访问地址 "点击查看")
  */
 function parseMoreResourcesFromReadme(markdownText) {
   console.log("📑 开始解析 README.md 中的“更多资源”小节...");
@@ -852,7 +852,7 @@ function parseMoreResourcesFromReadme(markdownText) {
   const sectionContent = sectionMatch[0];
   const lines = sectionContent.split(/\r?\n/);
 
-  // 匹配徽章嵌套链接格式：[![alt](badge_img)](target_url)
+  // 匹配徽章格式：[![alt](badge_img)](target_url)
   const badgeRegex = /\[!\[([^\]]*)\]\((https?:\/\/[^\s\)]+)\)\]\((https?:\/\/[^\s\)]+?)(?:\s+["'][^"']*["'])?\)/i;
 
   for (let i = 0; i < lines.length; i++) {
@@ -864,27 +864,27 @@ function parseMoreResourcesFromReadme(markdownText) {
     if (bMatch) {
       const badgeAlt = bMatch[1].trim();
       const badgeImg = bMatch[2].trim();
-      const targetURL = bMatch[3].trim(); // 徽章链接的目标项目/网站地址
+      const resourceURL = bMatch[3].trim(); // 下一行徽章内的目标网址 -> 映射到卡片的访问链接按钮
 
       // 忽略自身仓库和手册
       if (
-        targetURL.includes("LOWERTOP/Shadowrocket-First") ||
-        targetURL.includes("lowertop.github.io/Shadowrocket")
+        resourceURL.includes("LOWERTOP/Shadowrocket-First") ||
+        resourceURL.includes("lowertop.github.io/Shadowrocket")
       ) {
         continue;
       }
 
-      // 从徽章中获取默认项目标识名（例如 message=KeQing / message=Kelee / message=Cuttlefish）
+      // 从徽章中获取资源显示名（如 message=KeQing / message=Kelee / message=Cuttlefish / message=iab0x00）
       let badgeMessage = "";
       try {
         const badgeUrlObj = new URL(badgeImg);
         badgeMessage = badgeUrlObj.searchParams.get("message") || "";
       } catch (e) {}
 
-      // 【核心调整】：向上追溯描述行（你的 Markdown 中，文字描述行严格位于徽章的上一行或上两行）
+      // 【核心】：精确获取前一行描述文字（跳过空行和引用符）
       let descRawLine = "";
       for (let prev = i - 1; prev >= Math.max(0, i - 4); prev--) {
-        const pLine = lines[prev].trim();
+        const pLine = lines[prev].trim().replace(/^>+\s*/, "");
         if (pLine && !pLine.startsWith("#") && !pLine.includes("[![")) {
           descRawLine = pLine;
           break;
@@ -894,37 +894,64 @@ function parseMoreResourcesFromReadme(markdownText) {
       let detectedAuthorName = "";
       let detectedAuthorURL = "";
       let detectedAuthorUsername = "";
+      let detectedRepoName = "";
+      let detectedRepoURL = "";
       let detectedModuleURL = "";
       let descText = "";
 
       if (descRawLine) {
-        // 1. 从上一行描述开头的 [作者名](作者GitHub) 提取作者信息
-        const authorMatch = descRawLine.match(/\[([^\]]+)\]\((https?:\/\/github\.com\/([a-zA-Z0-9_-]+)(?:\/[a-zA-Z0-9_-]+)?)\)/i);
-        if (authorMatch) {
-          detectedAuthorName = authorMatch[1].trim();
-          detectedAuthorUsername = authorMatch[3].trim();
-          detectedAuthorURL = `https://github.com/${detectedAuthorUsername}`;
-        }
+        // 1. 从前一行文字中提取所有超链接 [文字](URL)
+        const allLinks = Array.from(descRawLine.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/gi));
 
-        // 2. 嗅探该行中的依赖模块直链（例如 .sgmodule / .srmodule）
-        const moduleMatch = descRawLine.match(/(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)|shadowrocket:\/\/install\?[^\s)\]"'<>]+)/i);
-        if (moduleMatch) {
-          const rawModuleLink = moduleMatch[1].trim();
-          if (rawModuleLink.startsWith("shadowrocket://")) {
-            detectedModuleURL = rawModuleLink;
-          } else {
-            detectedModuleURL = `shadowrocket://install?module=${encodeURIComponent(rawModuleLink)}`;
+        if (allLinks.length > 0) {
+          // 规则 1：前一行的首个链接必为作者信息！如 [Ling KeQing](https://github.com/QingRex)
+          const firstLink = allLinks[0];
+          detectedAuthorName = firstLink[1].trim();
+          detectedAuthorURL = firstLink[2].trim();
+
+          try {
+            const u = new URL(detectedAuthorURL);
+            if (u.hostname.includes("github.com")) {
+              const parts = u.pathname.split("/").filter(Boolean);
+              detectedAuthorUsername = parts[0] || "";
+            }
+          } catch (e) {}
+
+          // 规则 2：遍历后续链接，分别嗅探“模块安装直链”与“次级仓库链接”
+          for (let k = 1; k < allLinks.length; k++) {
+            const linkText = allLinks[k][1].trim();
+            const linkHref = allLinks[k][2].trim();
+
+            // 嗅探模块信息（.sgmodule / .srmodule / shadowrocket://）
+            if (
+              /\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(linkHref) ||
+              linkHref.startsWith("shadowrocket://") ||
+              linkText.includes("模块") ||
+              linkText.includes("转换器")
+            ) {
+              if (!detectedModuleURL) {
+                if (linkHref.startsWith("shadowrocket://")) {
+                  detectedModuleURL = linkHref;
+                } else {
+                  detectedModuleURL = `shadowrocket://install?module=${encodeURIComponent(linkHref)}`;
+                }
+              }
+            } else if (linkHref.includes("github.com") && !detectedRepoURL) {
+              // 嗅探源仓库信息（如 [模块资源仓库](https://github.com/QingRex/LoonKissSurge)）
+              detectedRepoName = linkText;
+              detectedRepoURL = linkHref;
+            }
           }
         }
 
-        // 3. 将上一行描述中的 Markdown 超链接纯净化为文字
+        // 纯净化前一行的描述文字（去除所有 Markdown 超链接标签，仅保留纯文本）
         descText = cleanMarkdownText(descRawLine);
       }
 
-      // 如果文字中未能成功嗅探到作者，从徽章的目标 URL 兜底提取 GitHub 用户名
+      // 如果前一行未显式提供 GitHub 用户名，则尝试从徽章的访问链接兜底
       if (!detectedAuthorUsername) {
         try {
-          const parsed = new URL(targetURL);
+          const parsed = new URL(resourceURL);
           if (parsed.hostname.includes("github.com")) {
             const parts = parsed.pathname.split("/").filter(Boolean);
             if (parts[0]) {
@@ -937,42 +964,45 @@ function parseMoreResourcesFromReadme(markdownText) {
       }
 
       const finalAuthorName = detectedAuthorName || badgeMessage || "开源作者";
-      const finalAuthorURL = detectedAuthorURL || targetURL;
+      const finalAuthorURL = detectedAuthorURL || resourceURL;
       const finalItemName = badgeMessage || finalAuthorName;
 
-      // 核心：精准通过作者 GitHub 用户名生成真实头像，并赋给卡片大图标
+      // 提取作者 GitHub 真实头像，作为卡片大图标与作者头像
       const authorAvatar = detectedAuthorUsername ? `https://github.com/${encodeURIComponent(detectedAuthorUsername)}.png?size=64` : "";
 
-      let sourceName = "外部资源";
-      try {
-        const u = new URL(targetURL);
-        if (u.hostname.includes("github.com")) {
-          const parts = u.pathname.split("/").filter(Boolean);
-          sourceName = parts[1] || parts[0] || "GitHub";
-        } else {
-          sourceName = u.hostname;
-        }
-      } catch (e) {}
+      // 源名称：优先显示前一行解析出的仓库名，其次显示域名/平台名
+      let sourceName = detectedRepoName || "外部资源";
+      if (!detectedRepoName) {
+        try {
+          const u = new URL(resourceURL);
+          if (u.hostname.includes("github.com")) {
+            const parts = u.pathname.split("/").filter(Boolean);
+            sourceName = parts[1] || parts[0] || "GitHub";
+          } else {
+            sourceName = u.hostname;
+          }
+        } catch (e) {}
+      }
 
       moreItems.push({
         id: `more_auto_${moreItems.length}_${encodeURIComponent(finalItemName).slice(0, 16)}`,
         category: "more",
         name: finalItemName,
         description: descText || "Shadowrocket 开源社区精选扩展资源。",
-        icon: authorAvatar, // 卡片左侧大图标使用作者 GitHub 头像
+        icon: authorAvatar, // 作者 GitHub 头像
         author: {
-          name: finalAuthorName, // 描述里对应的作者名（如 Ling KeQing、可莉、Cuttlefish 墨鱼）
-          url: finalAuthorURL,   // 描述里对应的作者个人主页
+          name: finalAuthorName, // 前一行提取的作者名（如 Ling KeQing、可莉、Cuttlefish 墨鱼、iab0x00）
+          url: finalAuthorURL,   // 前一行提取的作者主页
           username: detectedAuthorUsername
         },
         authorAvatar: authorAvatar,
         sourceName: sourceName,
-        sourceURL: targetURL,
-        rawURL: targetURL,
-        installURL: targetURL, // 主按钮“访问链接”使用下一行徽章包裹的目标地址
+        sourceURL: detectedRepoURL || resourceURL, // 优先关联前一行提取的仓库，其次为徽章地址
+        rawURL: resourceURL,
+        installURL: resourceURL, // 【关键】：徽章地址映射到卡片的“访问链接”按钮
         primaryBtnText: "访问链接",
-        preInstallURL: detectedModuleURL, // 若文字中含有模块直链，提供一键安装参数
-        secondaryBtnText: detectedModuleURL ? "安装模块" : "", // 将复制链接替换为“安装模块”
+        preInstallURL: detectedModuleURL, // 【关键】：前一行包含的模块安装信息
+        secondaryBtnText: detectedModuleURL ? "安装模块" : "", // 【关键】：映射到复制链接按钮上，显示为“安装模块”
         isRepoCard: true,
         isDubious: false,
         _searchKeywords: [finalItemName, descText, sourceName, finalAuthorName, "更多资源"].join(" ").toLowerCase()
@@ -980,7 +1010,7 @@ function parseMoreResourcesFromReadme(markdownText) {
     }
   }
 
-  console.log(`✅ 成功从描述与徽章关联解析出 ${moreItems.length} 个“更多资源”条目 (含 ${moreItems.filter(m => m.preInstallURL).length} 个带依赖模块)`);
+  console.log(`✅ 成功成对解析出 ${moreItems.length} 个“更多资源”条目 (含 ${moreItems.filter(m => m.preInstallURL).length} 个带依赖模块安装)`);
   return moreItems;
 }
 
