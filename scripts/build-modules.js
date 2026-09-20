@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自适应提取与依赖模块支持
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、徽章外链识别、作者头像映射与依赖模块支持
  */
 const fs = require("fs");
 const path = require("path");
@@ -817,8 +817,9 @@ async function fetchColorThemes(markdownText) {
 
 /**
  * 自动识别并提取 README.md 里的“更多资源”小节
- * 1. 彻底过滤 shields.io 徽标和 [![ 嵌套卡片
- * 2. 自动嗅探提取依赖的模块直链，支持卡片呈现“安装模块”
+ * 1. 精确提取 [![徽标]](跳转目标URL) 外层包裹的实际资源链接作为卡片主跳转
+ * 2. 提取作者信息并将卡片大图标 (icon) 直接映射为对应作者的 GitHub 头像
+ * 3. 自动嗅探紧随其后的依赖模块链接，在次要按钮处展示“安装模块”
  */
 function parseMoreResourcesFromReadme(markdownText) {
   console.log("📑 开始解析 README.md 中的“更多资源”小节...");
@@ -834,63 +835,77 @@ function parseMoreResourcesFromReadme(markdownText) {
   const sectionContent = sectionMatch[0];
   const lines = sectionContent.split(/\r?\n/);
 
+  // 匹配徽章嵌套链接格式：> [![alt](badge_img)](target_url "title") 或 [![alt](badge_img)](target_url)
+  const badgeRegex = /\[!\[([^\]]*)\]\((https?:\/\/[^\s\)]+)\)\]\((https?:\/\/[^\s\)]+?)(?:\s+["'][^"']*["'])?\)/i;
+
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i].trim();
     if (!line || line.startsWith("#")) continue;
 
-    // 清洗 Markdown 引用前导符
-    line = line.replace(/^>+\s*/, "");
+    const bMatch = line.match(badgeRegex);
 
-    // 核心过滤：如果整行是图片徽标 [![ 或包含 shields.io，直接跳过，防止生成脏卡片
-    if (line.startsWith("[![") || line.startsWith("![") || line.includes("img.shields.io")) {
-      continue;
-    }
+    if (bMatch) {
+      const badgeAlt = bMatch[1].trim();
+      const badgeImg = bMatch[2].trim();
+      const targetURL = bMatch[3].trim(); // 徽章真实指向的目标项目/仓库地址
 
-    // 匹配常规 Markdown 链接：[标题](URL) 后续描述
-    const linkMatch = line.match(/^[-*+]?\s*\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)(.*)/i);
-    if (linkMatch) {
-      let name = linkMatch[1].trim().replace(/^[*_`]+|[*_`]+$/g, "");
-      let url = linkMatch[2].trim();
-      let extraDesc = (linkMatch[3] || "").trim();
-
-      // 再次过滤：如果是徽标、图片直链或指向主仓库/使用手册，直接跳过
+      // 忽略自身仓库和手册
       if (
-        url.includes("shields.io") ||
-        /\.(?:png|jpg|jpeg|svg|gif|webp)$/i.test(url) ||
-        url.includes("LOWERTOP/Shadowrocket-First") ||
-        url.includes("lowertop.github.io/Shadowrocket")
+        targetURL.includes("LOWERTOP/Shadowrocket-First") ||
+        targetURL.includes("lowertop.github.io/Shadowrocket")
       ) {
         continue;
       }
 
-      // 清洗描述
-      let description = extraDesc
-        .replace(/^[:：\-—~|]+/, "")
-        .replace(/^[*\s_`]+|[*\s_`]+$/g, "")
-        .trim();
+      // 智能识别名称与作者：优先从 Shields 徽标的 message 参数提取，其次从 Alt 提取
+      let itemName = "";
+      try {
+        const badgeUrlObj = new URL(badgeImg);
+        itemName = badgeUrlObj.searchParams.get("message") || "";
+      } catch (e) {}
 
-      if (!description) {
-        description = "开源社区推荐精选资源";
+      if (!itemName) {
+        itemName = badgeAlt.replace(/^[🚀📁📦\s]+/, "").replace(/^(?:社区资源|推荐资源|精选资源)\s*/, "").trim();
+      }
+      if (!itemName) {
+        itemName = "精选社区资源";
       }
 
-      // 嗅探该行及后续 2 行内是否存在依赖模块直链（例如 .sgmodule、.srmodule 或 shadowrocket://）
+      // 嗅探该项下接下来的几行，提取说明文字以及是否存在依赖模块直链
+      let description = "";
       let detectedModuleURL = "";
-      const textToScan = [line, lines[i + 1] || "", lines[i + 2] || ""].join(" ");
-      const moduleMatch = textToScan.match(/(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)|shadowrocket:\/\/install\?[^\s)\]"'<>]+)/i);
 
-      if (moduleMatch) {
-        const rawModuleLink = moduleMatch[1].trim();
-        if (rawModuleLink.startsWith("shadowrocket://")) {
-          detectedModuleURL = rawModuleLink;
-        } else {
-          detectedModuleURL = `shadowrocket://install?module=${encodeURIComponent(rawModuleLink)}`;
+      for (let j = i + 1; j < Math.min(lines.length, i + 6); j++) {
+        const nextLine = lines[j].trim();
+        // 遇到下一个徽章或新标题时停止向下探测
+        if (!nextLine || nextLine.startsWith("#") || nextLine.includes("[![")) break;
+
+        // 嗅探模块直链
+        const moduleMatch = nextLine.match(/(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)|shadowrocket:\/\/install\?[^\s)\]"'<>]+)/i);
+        if (moduleMatch && !detectedModuleURL) {
+          const rawModuleLink = moduleMatch[1].trim();
+          if (rawModuleLink.startsWith("shadowrocket://")) {
+            detectedModuleURL = rawModuleLink;
+          } else {
+            detectedModuleURL = `shadowrocket://install?module=${encodeURIComponent(rawModuleLink)}`;
+          }
         }
+
+        // 提取描述文字
+        const cleanDescLine = nextLine.replace(/^[*\->+]\s*/, "").replace(/^>+\s*/, "").trim();
+        if (cleanDescLine && !cleanDescLine.startsWith("http") && !cleanDescLine.includes("依赖模块") && !cleanDescLine.includes("项目地址")) {
+          if (!description) description = cleanDescLine;
+        }
+      }
+
+      if (!description) {
+        description = "Shadowrocket 开源社区精选扩展资源。";
       }
 
       let sourceName = "外部资源";
       let ownerName = "";
       try {
-        const parsed = new URL(url);
+        const parsed = new URL(targetURL);
         if (parsed.hostname.includes("github.com")) {
           const parts = parsed.pathname.split("/").filter(Boolean);
           ownerName = parts[0] || "";
@@ -900,34 +915,37 @@ function parseMoreResourcesFromReadme(markdownText) {
         }
       } catch (e) {}
 
+      // 生成作者头像链接：如果是 GitHub 资源，直接获取对应 Owner 的头像
+      const authorAvatar = ownerName ? `https://github.com/${encodeURIComponent(ownerName)}.png?size=64` : "";
+
       moreItems.push({
-        id: `more_auto_${moreItems.length}_${encodeURIComponent(name).slice(0, 16)}`,
+        id: `more_auto_${moreItems.length}_${encodeURIComponent(itemName).slice(0, 16)}`,
         category: "more",
-        name: name,
+        name: itemName,
         description: description,
-        icon: "",
+        // 核心修改：卡片大图标使用对应作者的 GitHub 头像
+        icon: authorAvatar,
         author: {
-          name: ownerName || sourceName,
-          url: ownerName ? `https://github.com/${ownerName}` : url,
+          name: ownerName || itemName,
+          url: ownerName ? `https://github.com/${ownerName}` : targetURL,
           username: ownerName
         },
-        authorAvatar: ownerName ? `https://github.com/${ownerName}.png?size=64` : "",
+        authorAvatar: authorAvatar,
         sourceName: sourceName,
-        sourceURL: url,
-        rawURL: url,
-        installURL: url,
+        sourceURL: targetURL,
+        rawURL: targetURL,
+        installURL: targetURL, // 关键：主按钮“访问链接”使用徽章内的目标网址！
         primaryBtnText: "访问链接",
-        // 关键扩展：如果存在依赖模块，注入 preInstallURL 并把次按钮文字标为“安装模块”
-        preInstallURL: detectedModuleURL,
-        secondaryBtnText: detectedModuleURL ? "安装模块" : "",
+        preInstallURL: detectedModuleURL, // 关键：若含模块直链，提供给前端唤起安装
+        secondaryBtnText: detectedModuleURL ? "安装模块" : "", // 关键：次要按钮展示“安装模块”
         isRepoCard: true,
         isDubious: false,
-        _searchKeywords: [name, description, sourceName, ownerName, "更多资源"].join(" ").toLowerCase()
+        _searchKeywords: [itemName, description, sourceName, ownerName, "更多资源"].join(" ").toLowerCase()
       });
     }
   }
 
-  console.log(`✅ 成功解析出 ${moreItems.length} 个“更多资源”条目 (含 ${moreItems.filter(m => m.preInstallURL).length} 个带依赖模块)`);
+  console.log(`✅ 成功从徽章外链解析出 ${moreItems.length} 个“更多资源”条目 (已应用作者头像，含 ${moreItems.filter(m => m.preInstallURL).length} 个带依赖模块)`);
   return moreItems;
 }
 
@@ -983,7 +1001,7 @@ function getTopMoreCards() {
 
 async function main() {
   console.log("⏳ 等待 60 秒上游缓存同步与网络就绪...");
-  await wait(60000); // 延时 1 分钟再启动构建
+  await wait(60000);
   console.log("🚀 ShadowStore 聚合构建引擎启动...\n");
 
   const outputPath = path.resolve(__dirname, "modules.json");
@@ -1040,7 +1058,7 @@ async function main() {
   // 1. 抓取配色方案
   const colorItems = await fetchColorThemes(repoMarkdown);
 
-  // 2. 组装“更多”分类：手册第 1，仓库第 2，随后跟随 README 提取出的所有外部资源
+  // 2. 组装“更多”分类：手册第 1，仓库第 2，随后跟随徽章提取出的资源
   const topMoreCards = getTopMoreCards();
   const autoMoreItems = parseMoreResourcesFromReadme(repoMarkdown);
   const allMoreItems = [...topMoreCards, ...autoMoreItems];
