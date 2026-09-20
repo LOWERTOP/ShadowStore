@@ -1,7 +1,7 @@
 /**
  * ShadowStore 数据聚合构建引擎
  * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、
- * 描述行精准提取作者/仓库/模块安装、徽章行映射访问链接、超链接纯净化
+ * 描述行精准提取作者/仓库名(从URL解析而非文字)/模块安装、徽章行映射访问链接、超链接纯净化
  */
 const fs = require("fs");
 const path = require("path");
@@ -99,9 +99,6 @@ function cleanText(value) {
     .trim();
 }
 
-/**
- * 清除 Markdown 格式中的超链接并提取纯文本
- */
 function cleanMarkdownText(value) {
   if (!value) return "";
   return String(value)
@@ -491,12 +488,20 @@ function resolveModuleIcon(metadata, rawURL) {
   return "";
 }
 
+/**
+ * 扫描模块仓库的 README（扫描到“更多资源”章节时立即截断，杜绝外部前置模块被当作常规模块收录）
+ */
 function parseRepositoryModules(markdown) {
   if (!markdown || markdown === "404: Not Found") return [];
   const result = [];
   let currentHeading = "";
   let orderIndex = 0;
-  const lines = markdown.split(/\r?\n/);
+  
+  // 截断更多资源章节，防止里面的前置转换器模块被误当成主仓库模块
+  const moreSectionIdx = markdown.search(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源/i);
+  const scanScope = moreSectionIdx !== -1 ? markdown.slice(0, moreSectionIdx) : markdown;
+
+  const lines = scanScope.split(/\r?\n/);
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) continue;
@@ -917,12 +922,12 @@ function parseMoreResourcesFromReadme(markdownText) {
             }
           } catch (e) {}
 
-          // 遍历后续链接
+          // 遍历后续链接：严格区分“依赖模块”与“源仓库”
           for (let k = 1; k < allLinks.length; k++) {
             const linkText = allLinks[k][1].trim();
             const linkHref = allLinks[k][2].trim();
 
-            // 严格校验是否为小火箭模块文件（.sgmodule / .srmodule / .module）或小火箭专属安装协议
+            // 严格按后缀与协议判定依赖模块直链，绝不根据“模块”等汉字误判
             const isStrictModuleFile = /\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(linkHref);
             const isInstallScheme = linkHref.startsWith("shadowrocket://install");
 
@@ -935,9 +940,19 @@ function parseMoreResourcesFromReadme(markdownText) {
                 }
               }
             } else if (linkHref.includes("github.com") && !detectedRepoURL) {
-              // 普通 GitHub 仓库链接归类为源仓库信息（例如 LoonKissSurge 仓库）
-              detectedRepoName = linkText;
+              // 关键修复：从 GitHub URL 中提取英文仓库名（如 LoonKissSurge），杜绝中文文字“模块资源仓库”
               detectedRepoURL = linkHref;
+              try {
+                const rUrlObj = new URL(linkHref);
+                const rParts = rUrlObj.pathname.split("/").filter(Boolean);
+                if (rParts.length >= 2) {
+                  detectedRepoName = rParts[1];
+                } else {
+                  detectedRepoName = rParts[0] || linkText;
+                }
+              } catch (e) {
+                detectedRepoName = linkText;
+              }
             }
           }
         }
@@ -968,7 +983,7 @@ function parseMoreResourcesFromReadme(markdownText) {
       // 提取作者 GitHub 真实头像，作为卡片大图标与作者头像
       const authorAvatar = detectedAuthorUsername ? `https://github.com/${encodeURIComponent(detectedAuthorUsername)}.png?size=64` : "";
 
-      // 源名称：优先显示前一行解析出的仓库名，其次显示平台名
+      // 源仓库展示名称：优先使用解析出的规范英文仓库名，其次提取域名或仓库名
       let sourceName = detectedRepoName || "外部资源";
       if (!detectedRepoName) {
         try {
@@ -989,13 +1004,13 @@ function parseMoreResourcesFromReadme(markdownText) {
         description: descText || "Shadowrocket 开源社区精选扩展资源。",
         icon: authorAvatar, // 作者 GitHub 头像
         author: {
-          name: finalAuthorName, // 前一行提取的作者名（如 Ling KeQing、可莉、Cuttlefish 墨鱼、iab0x00）
-          url: finalAuthorURL,   // 前一行提取的作者主页
+          name: finalAuthorName, // 描述里提取的作者名（如 Ling KeQing、可莉、Cuttlefish 墨鱼、iab0x00）
+          url: finalAuthorURL,   // 描述里提取的作者主页
           username: detectedAuthorUsername
         },
         authorAvatar: authorAvatar,
-        sourceName: sourceName,
-        sourceURL: detectedRepoURL || resourceURL, // 优先关联前一行提取的仓库，其次为徽章地址
+        sourceName: sourceName, // 规范英文仓库名（如 LoonKissSurge），不再是汉字“模块资源仓库”
+        sourceURL: detectedRepoURL || resourceURL, // 优先关联前一行提取的真实仓库链接
         rawURL: resourceURL,
         installURL: resourceURL, // 徽章地址映射到卡片的“访问链接”按钮
         primaryBtnText: "访问链接",
