@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'scripts/**'
+      - 'scripts/build-modules.js'
       - '.github/workflows/sync-modules.yml'
 
 # 防止多个自动化同时构建并提交 modules.json
