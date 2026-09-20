@@ -1,6 +1,6 @@
 /**
  * ShadowStore 数据聚合构建引擎
- * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取
+ * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、更多推荐资源自动解析
  */
 const fs = require("fs");
 const path = require("path");
@@ -714,10 +714,6 @@ function validateOutputData(data) {
 
 /**
  * 自动提取 Shadowrocket 配色方案
- * 1. 过滤“原创配色”及“请使用相应内容替换”等教程小节
- * 2. 彻底清洗 HTML 标签（如 >、<sup>）提取纯净的“中文名 色调模式”
- * 3. 提取 <details> 中的真实 <img src="..." /> 高清截图
- * 4. 选用 iOS 26 协议，杜绝任何额外安装前置按钮
  */
 async function fetchColorThemes(markdownText) {
   console.log("🎨 开始解析 Shadowrocket 配色方案...");
@@ -727,11 +723,9 @@ async function fetchColorThemes(markdownText) {
   const colorSectionIdx = markdownText.indexOf("## Shadowrocket 配色文件");
   const parseScope = colorSectionIdx !== -1 ? markdownText.slice(colorSectionIdx) : markdownText;
 
-  // 按小节（### 开头）切分
   const sections = parseScope.split(/(?=###\s+)/g);
 
   for (const sec of sections) {
-    // 排除非小火箭配色小节、开篇说明卡片以及模板教程小节
     if (
       !sec.includes("Shadowrocket") ||
       sec.includes("Shadowrocket 原创配色") ||
@@ -742,7 +736,6 @@ async function fetchColorThemes(markdownText) {
       continue;
     }
 
-    // 1. 精确提取中文名称（清洗 >、<sup>、HTML 与 Markdown 标签）
     const lines = sec.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     let displayName = "";
 
@@ -758,14 +751,11 @@ async function fetchColorThemes(markdownText) {
         !line.startsWith("<summary") &&
         !line.startsWith("<p")
       ) {
-        // 去除引用符 >
         line = line.replace(/^>+\s*/, "");
-        // 优先提取 <sup>...</sup> 里的内容
         const supMatch = line.match(/<sup>([^<]+)<\/sup>/i);
         if (supMatch) {
           displayName = supMatch[1].trim();
         } else {
-          // 清除所有 HTML 标签及 markdown 字符
           displayName = line.replace(/<[^>]+>/g, "").replace(/[*`_#~]/g, "").trim();
         }
         if (displayName && (displayName.includes("亮底色") || displayName.includes("暗底色") || displayName.length >= 2)) {
@@ -774,19 +764,15 @@ async function fetchColorThemes(markdownText) {
       }
     }
 
-    // 2. 提取“点击查看效果截图”后的真实图片直链（支持 <img src="..." /> 与 ![]()）
     let previewImg = "";
-    // 优先匹配 details 区块内的 img 标签
     const imgTagMatch = sec.match(/<img[^>]+src=["'](https?:\/\/[^"'\s>]+)["']/i);
     if (imgTagMatch) {
       previewImg = imgTagMatch[1].trim();
     } else {
-      // 容错：匹配 Markdown 图片语法
       const mdImgMatch = sec.match(/!\[.*?\]\((https?:\/\/[^\s\)]+)\)/i);
       if (mdImgMatch) previewImg = mdImgMatch[1].trim();
     }
 
-    // 3. 提取“iOS 26 及以上”对应的小火箭安装协议
     let installScheme = "";
     const ios26Match = sec.match(/iOS\s*26\s*及以上[\s\S]*?(shadowrocket\s*:\s*\/\/\s*color\?[^\r\n\`]+)/i);
     if (ios26Match) {
@@ -827,6 +813,123 @@ async function fetchColorThemes(markdownText) {
 
   console.log(`✅ 成功解析出 ${colorItems.length} 个配色方案（已修复名称、过滤教程、提取真实截图与 iOS 26 协议）`);
   return colorItems;
+}
+
+/**
+ * 自动识别并提取 README.md 里的“更多资源”小节
+ */
+function parseMoreResourcesFromReadme(markdownText) {
+  console.log("📑 开始解析 README.md 中的“更多资源”小节...");
+  const moreItems = [];
+  if (!markdownText) return moreItems;
+
+  const sectionMatch = markdownText.match(/##\s*更多资源([\s\S]*?)(?=\n##\s*|$)/i);
+  if (!sectionMatch) {
+    console.warn("⚠️ 未找到 '## 更多资源' 章节");
+    return moreItems;
+  }
+
+  const lines = sectionMatch[1].split(/\r?\n/);
+  const itemRegex = /^\s*[-*+]\s*\[([^\]]+)\]\(([^)]+)\)(?:\s*[:：\-—]\s*(.*))?$/;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const match = line.match(itemRegex);
+    if (match) {
+      const name = match[1].trim();
+      const url = match[2].trim();
+      const description = (match[3] || "开源精选推荐资源").trim();
+
+      let sourceName = "外部资源";
+      let ownerName = "";
+      try {
+        const parsed = new URL(url);
+        if (parsed.hostname.includes("github.com")) {
+          const parts = parsed.pathname.split("/").filter(Boolean);
+          ownerName = parts[0] || "";
+          sourceName = parts[1] || parts[0] || "GitHub";
+        } else {
+          sourceName = parsed.hostname;
+        }
+      } catch (e) {}
+
+      moreItems.push({
+        id: `more_auto_${moreItems.length}_${encodeURIComponent(name).slice(0, 16)}`,
+        category: "more",
+        name: name,
+        description: description,
+        icon: "",
+        author: {
+          name: ownerName || sourceName,
+          url: ownerName ? `https://github.com/${ownerName}` : url,
+          username: ownerName
+        },
+        authorAvatar: ownerName ? `https://github.com/${ownerName}.png?size=64` : "",
+        sourceName: sourceName,
+        sourceURL: url,
+        rawURL: url,
+        installURL: url,
+        primaryBtnText: "访问链接",
+        isRepoCard: true,
+        isDubious: false,
+        _searchKeywords: [name, description, sourceName, ownerName, "更多资源"].join(" ").toLowerCase()
+      });
+    }
+  }
+
+  console.log(`✅ 成功解析出 ${moreItems.length} 个“更多资源”条目`);
+  return moreItems;
+}
+
+/**
+ * 组装“更多”标签页前置固定的两张核心卡片（手册第 1，仓库第 2）
+ */
+function getTopMoreCards() {
+  return [
+    {
+      id: "more_manual",
+      category: "more",
+      name: "使用手册",
+      description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
+      primaryBtnText: "查阅手册",
+      icon: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
+      author: {
+        name: "LOWERTOP",
+        url: "https://github.com/LOWERTOP",
+        username: "LOWERTOP"
+      },
+      authorAvatar: "https://github.com/LOWERTOP.png?size=64",
+      sourceName: "Shadowrocket",
+      sourceURL: "https://github.com/LOWERTOP/Shadowrocket",
+      rawURL: "https://github.com/LOWERTOP/Shadowrocket",
+      installURL: "https://github.com/LOWERTOP/Shadowrocket",
+      isDubious: false,
+      isRepoCard: true,
+      _searchKeywords: "使用手册 教程 shadowrocket 准官方 lowertop"
+    },
+    {
+      id: "more_repo_first",
+      category: "more",
+      name: "配色与配置仓库",
+      description: "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
+      primaryBtnText: "访问仓库",
+      icon: "https://avatars.githubusercontent.com/u/16624731?v=4",
+      author: {
+        name: "LOWERTOP",
+        url: "https://github.com/LOWERTOP",
+        username: "LOWERTOP"
+      },
+      authorAvatar: "https://github.com/LOWERTOP.png?size=64",
+      sourceName: "Shadowrocket-First",
+      sourceURL: "https://github.com/LOWERTOP/Shadowrocket-First",
+      rawURL: "https://github.com/LOWERTOP/Shadowrocket-First",
+      installURL: "https://github.com/LOWERTOP/Shadowrocket-First",
+      isDubious: false,
+      isRepoCard: true,
+      _searchKeywords: "配色与配置仓库 shadowrocket-first 聚合资源 核心仓库 lowertop"
+    }
+  ];
 }
 
 async function main() {
@@ -885,9 +988,16 @@ async function main() {
 
   const sortedResult = sortPinnedModules(result.filter(Boolean));
 
-  // 抓取并合并配色方案
+  // 1. 抓取配色方案
   const colorItems = await fetchColorThemes(repoMarkdown);
-  const finalResources = [...sortedResult, ...colorItems];
+
+  // 2. 组装更多标签页资源：手册排第 1，仓库排第 2，后续跟随 README 中的更多资源条目
+  const topMoreCards = getTopMoreCards();
+  const autoMoreItems = parseMoreResourcesFromReadme(repoMarkdown);
+  const allMoreItems = [...topMoreCards, ...autoMoreItems];
+
+  // 3. 汇总所有资源
+  const finalResources = [...sortedResult, ...colorItems, ...allMoreItems];
 
   validateOutputData(finalResources);
   fs.writeFileSync(tempPath, JSON.stringify(finalResources, null, 2), "utf-8");
@@ -900,7 +1010,7 @@ async function main() {
   }
 
   fs.renameSync(tempPath, outputPath);
-  console.log(`\n🎉 ShadowStore 同步完成！共输出 ${finalResources.length} 个资源 (含 ${colorItems.length} 个配色) 至 modules.json\n`);
+  console.log(`\n🎉 ShadowStore 同步完成！共输出 ${finalResources.length} 个资源 (含 ${colorItems.length} 个配色, ${allMoreItems.length} 个更多标签页资源) 至 modules.json\n`);
 }
 
 main().catch(err => {
