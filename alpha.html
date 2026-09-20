@@ -1757,7 +1757,7 @@
           <button class="tab-item active" role="tab" aria-selected="true" data-tab="module">模块</button>
           <button class="tab-item" role="tab" aria-selected="false" data-tab="rule">规则</button>
           <button class="tab-item" role="tab" aria-selected="false" data-tab="color">配色</button>
-          <button class="tab-item" role="tab" aria-selected="false" data-tab="manual_config">配置</button>
+          <button class="tab-item" role="tab" aria-selected="false" data-tab="config">配置</button>
           <button class="tab-item" role="tab" aria-selected="false" data-tab="more">更多</button>
         </div>
       </nav>
@@ -1864,7 +1864,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609191800";
+    const CACHE_VERSION = "202609200800";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -2009,13 +2009,14 @@
       module: "模块",
       rule: "规则",
       color: "配色",
-      manual_config: "内容",
-      more: "资源"
+      config: "配置",
+      more: "更多"
     };
 
     const STATIC_RESOURCES_DATA = [
+      // 1. 配置标签页
       {
-        category: "manual_config",
+        category: "config",
         name: "懒人配置",
         description: "懒人配置是开箱即用的配置文件，设有常用的分流代理分组，其他设置也经过了精心调整，同时还备注了详尽的注释说明，是除默认配置外首推的配置文件。",
         primaryBtnText: "安装配置",
@@ -2029,8 +2030,9 @@
         isDubious: false,
         isRepoCard: false
       },
+      // 2. 更多标签页 - 第 1 项：使用手册
       {
-        category: "manual_config",
+        category: "more",
         name: "使用手册",
         description: "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
         primaryBtnText: "查阅手册",
@@ -2044,6 +2046,7 @@
         isDubious: false,
         isRepoCard: true
       },
+      // 3. 更多标签页 - 第 2 项：Shadowrocket-First 仓库
       {
         category: "more",
         name: "配色与配置仓库",
@@ -2244,7 +2247,7 @@
           const c = String(m.category).toLowerCase();
           if (c === "color" || c.includes("配色")) category = "color";
           else if (c === "rule" || c.includes("规则")) category = "rule";
-          else if (c.includes("config") || c.includes("manual") || c.includes("配置") || c.includes("手册")) category = "manual_config";
+          else if (c === "config" || c.includes("manual") || c.includes("配置")) category = "config";
           else if (c.includes("more") || c.includes("更多") || c.includes("工具")) category = "more";
         }
 
@@ -2377,7 +2380,7 @@
         if (module.category === "rule") toastMessage = "已复制规则集直链";
         else if (module.isRepoCard) toastMessage = "已复制仓库链接";
         else if (module.category === "color") toastMessage = "已复制配色代码";
-        else if (module.category === "manual_config") toastMessage = "已复制配置直链";
+        else if (module.category === "config") toastMessage = "已复制配置直链";
       }
       showToast(success ? toastMessage : "复制失败，请手动复制");
     });
@@ -3037,7 +3040,7 @@
 
         let defaultPrimaryText = "安装模块";
         if (module.category === "color") defaultPrimaryText = "安装配色";
-        else if (module.category === "manual_config") defaultPrimaryText = "安装配置";
+        else if (module.category === "config") defaultPrimaryText = "安装配置";
         else if (isRepo) defaultPrimaryText = "访问仓库";
         const primaryText = module.primaryBtnText || defaultPrimaryText;
         const primaryTarget = isRepo ? `target="_blank" rel="noopener"` : "";
@@ -3776,7 +3779,6 @@
       throw lastError || new Error("所有数据源均请求失败或校验未通过");
     }
 
-    // 优化：采用“头部 + 中部 + 尾部”分段抽样，防止截断的残缺 JSON 通过校验
     function validateRulesDataset(data) {
       if (!Array.isArray(data) || data.length < 50) return false;
 
@@ -3799,7 +3801,6 @@
       return validSample.length >= Math.ceil(sampled.length * 0.85);
     }
 
-    // 优化：支持 forceRefresh 击穿 URL 缓存，并加入与 modules 完全一致的 retry 重试机制
     async function fetchRulesData(cachedRules = [], forceRefresh = false) {
       const urls = [
         CONFIG.RULES_JSON_URL,
