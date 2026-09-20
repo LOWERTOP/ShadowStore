@@ -1071,7 +1071,7 @@
     }
     @keyframes skeletonPulse {
       0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.85; }
+      50% { opacity: 1; }
     }
     .footer {
       margin-top: auto;
@@ -2885,7 +2885,7 @@
       }
     });
 
-    // 核心搜索执行逻辑（仅在确认时调用，彻底关闭实时输入过滤）
+    // 核心搜索执行逻辑（仅在回车、点击搜索按钮或触发滑动时调用）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2899,6 +2899,16 @@
         floatSearchToTarget(false);
         updateSearchLayer();
       });
+    }
+
+    // 专门用于滑行中静默执行搜索（不重置页面滚动位置、不打断惯性滑行动画）
+    function performSearchSilently() {
+      state.focusedModuleId = null;
+      if (state.isListView) {
+        setListViewMode(false);
+        if (standaloneListBtn) standaloneListBtn.blur();
+      }
+      filterModules();
     }
 
     searchClearBtn.addEventListener("click", (e) => {
@@ -2946,9 +2956,6 @@
       if (!state.isListView) {
         document.body.style.minHeight = "";
       }
-      // 失焦时自动执行一次搜索更新结果，且不打断当前滚动位置
-      state.focusedModuleId = null;
-      filterModules();
     });
 
     function renderAuthor(module) {
@@ -3371,10 +3378,12 @@
       }
     });
 
-    // 仅在手指实际滑动页面时收起软键盘并执行过滤，保持自然平滑滑动
+    // 智能滑动调度引擎：滑动即收起软键盘并执行检索，同时保持原生滑动的惯性动画
     let inputTouchStartY = 0;
     let inputTouchStartX = 0;
     let touchStartsInsideInteractive = false;
+    let isScrollTriggeredSearchPending = false;
+    let scrollCommitTimer = null;
 
     window.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
@@ -3391,22 +3400,38 @@
         const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
         const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
 
-        if (diffY > 14 || diffX > 14) {
-          isPulling = false; // 阻断下拉刷新
-          searchInput.blur(); // 退出键盘并触发自带的 blur 事件自动平滑过滤
+        // 识别到针对内容的有效滚动滑动意图
+        if (diffY > 10 || diffX > 10) {
+          isPulling = false; // 拦截可能误触的下拉刷新
+          
+          // 标记需要在滑动手势稳定后执行搜索
+          isScrollTriggeredSearchPending = true;
+
+          // 核心点：滑行中先快速收起软键盘（绝不在滑行中修改 DOM，保证滑动惯性不受阻）
+          searchInput.blur();
         }
       }
     }, { passive: true });
 
-    const resetTouchInteractiveState = () => {
+    // 手指松手或滑动结束时，平滑呈现过滤后的搜索结果
+    const commitPendingScrollSearch = () => {
       touchStartsInsideInteractive = false;
+      if (isScrollTriggeredSearchPending) {
+        isScrollTriggeredSearchPending = false;
+        clearTimeout(scrollCommitTimer);
+        scrollCommitTimer = setTimeout(() => {
+          performSearchSilently();
+        }, 60);
+      }
     };
-    window.addEventListener('touchend', resetTouchInteractiveState, { passive: true });
-    window.addEventListener('touchcancel', resetTouchInteractiveState, { passive: true });
+
+    window.addEventListener('touchend', commitPendingScrollSearch, { passive: true });
+    window.addEventListener('touchcancel', commitPendingScrollSearch, { passive: true });
 
     window.addEventListener('wheel', () => {
       if (document.activeElement === searchInput) {
         searchInput.blur();
+        performSearchSilently();
       }
     }, { passive: true });
 
