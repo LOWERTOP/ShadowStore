@@ -22,50 +22,6 @@
     "_searchKeywords": "script hub: 重写 & 规则集转换 https://script.hub script-hub-org script-hub"
   },
   {
-    "name": "Sub-Store",
-    "rawURL": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Surge-Noability.sgmodule",
-    "category": "module",
-    "description": "高级订阅管理工具 @Peng-YM 无 ability 参数版本,不会爆内存, 如果需要使用指定节点功能 例如[加旗帜脚本或者cname脚本] 可以用带 ability 参数. 定时任务默认为每天 23 点 55 分. 定时任务指定时将订阅/文件上传到私有 Gist. 在前端, 叫做 '同步' 或 '同步配置'",
-    "author": {
-      "name": "sub-store-org",
-      "url": "https://github.com/sub-store-org",
-      "username": "sub-store-org"
-    },
-    "authorAvatar": "https://github.com/sub-store-org.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/Other_icon/1024px/Sub-Store.png",
-    "sourceName": "Sub-Store",
-    "sourceURL": "https://github.com/sub-store-org/Sub-Store",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fsub-store-org%2FSub-Store%2Fmaster%2Fconfig%2FSurge-Noability.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 66,
-    "_searchKeywords": "sub-store 高级订阅管理工具 @peng-ym 无 ability 参数版本,不会爆内存, 如果需要使用指定节点功能 例如[加旗帜脚本或者cname脚本] 可以用带 ability 参数. 定时任务默认为每天 23 点 55 分. 定时任务指定时将订阅/文件上传到私有 gist. 在前端, 叫做 '同步' 或 '同步配置' sub-store-org sub-store"
-  },
-  {
-    "name": "BoxJs",
-    "rawURL": "https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.surge.sgmodule",
-    "category": "module",
-    "description": "http://boxjs.com",
-    "author": {
-      "name": "chavyleung",
-      "url": "https://github.com/chavyleung",
-      "username": "chavyleung"
-    },
-    "authorAvatar": "https://github.com/chavyleung.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BoxJS.png",
-    "sourceName": "scripts",
-    "sourceURL": "https://github.com/chavyleung/scripts",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fchavyleung%2Fscripts%2Fmaster%2Fbox%2Frewrite%2Fboxjs.rewrite.surge.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 67,
-    "_searchKeywords": "boxjs http://boxjs.com chavyleung scripts"
-  },
-  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 DeepSeek",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/DeepSeek.sgmodule",
     "category": "module",
@@ -966,28 +922,6 @@
     "fromZirawell": false,
     "readmeIndex": 61,
     "_searchKeywords": "彩云天气 2026-02-06 09:00:03 xiangwanguan shadowrocket-first"
-  },
-  {
-    "name": "流媒体解锁测试",
-    "rawURL": "https://raw.githubusercontent.com/huskydsb/Shadowrocket/main/Sgmodule/%E6%B5%81%E5%AA%92%E4%BD%93%E8%A7%A3%E9%94%81%E6%B5%8B%E8%AF%95.module",
-    "category": "module",
-    "description": "https://streaming.test",
-    "author": {
-      "name": "huskydsb",
-      "url": "https://github.com/huskydsb",
-      "username": "huskydsb"
-    },
-    "authorAvatar": "https://github.com/huskydsb.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netflix_01.png",
-    "sourceName": "Shadowrocket",
-    "sourceURL": "https://github.com/huskydsb/Shadowrocket",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fhuskydsb%2FShadowrocket%2Fmain%2FSgmodule%2F%25E6%25B5%2581%25E5%25AA%2592%25E4%25BD%2593%25E8%25A7%25A3%25E9%2594%2581%25E6%25B5%258B%25E8%25AF%2595.module",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 68,
-    "_searchKeywords": "流媒体解锁测试 https://streaming.test huskydsb shadowrocket"
   },
   {
     "name": "12123",
@@ -32340,28 +32274,6 @@
     "_searchKeywords": "huashengtong huashengtong fmz200 wool_scripts"
   },
   {
-    "name": "ScriptHub.Rocket",
-    "rawURL": "https://ddgksf2013.top/module/ScriptHub.Rocket.sgmodule",
-    "category": "module",
-    "description": "ScriptHub.Rocket 模块信息获取失败，请自行判断该模块的作用和有效性。",
-    "author": {
-      "name": "作者信息识别失败",
-      "url": "",
-      "username": ""
-    },
-    "authorAvatar": "",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Script-Hub.png",
-    "sourceName": "ddgksf2013.top",
-    "sourceURL": "https://ddgksf2013.top",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fddgksf2013.top%2Fmodule%2FScriptHub.Rocket.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 64,
-    "_searchKeywords": "scripthub.rocket scripthub.rocket 模块信息获取失败，请自行判断该模块的作用和有效性。 作者信息识别失败 ddgksf2013.top"
-  },
-  {
     "name": "ShenZhenTong",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partS/ShenZhenTong.srmodule",
     "category": "module",
@@ -33196,7 +33108,7 @@
       "username": "QingRex"
     },
     "authorAvatar": "https://github.com/QingRex.png?size=64",
-    "sourceName": "模块资源仓库",
+    "sourceName": "LoonKissSurge",
     "sourceURL": "https://github.com/QingRex/LoonKissSurge",
     "rawURL": "https://surge.qingr.moe",
     "installURL": "https://surge.qingr.moe",
@@ -33205,7 +33117,7 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 模块资源仓库 ling keqing 更多资源"
+    "_searchKeywords": "keqing ling keqing 维护的资源丰富的 模块资源仓库，多数可直接使用 loonkisssurge ling keqing 更多资源"
   },
   {
     "id": "more_auto_4_Kelee",
