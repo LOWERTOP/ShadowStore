@@ -2517,6 +2517,7 @@
       setListViewMode(false);
       searchInput.value = mod.name;
       updateStandaloneButtonState();
+      currentSearchRequestId++;
       if (state.activeTab !== mod.category) {
         state.activeTab = mod.category;
         tabItems.forEach(t => {
@@ -3159,6 +3160,9 @@
     }
 
     function switchToTab(targetTab) {
+      // Tab 切换时立即使之前的 Worker 搜索结果失效
+      currentSearchRequestId++;
+      
       if (state.isListView) {
         setListViewMode(false);
         if (standaloneListBtn) standaloneListBtn.blur();
