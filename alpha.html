@@ -171,6 +171,11 @@
       text-rendering: optimizeLegibility;
       transition: color 0.4s ease;
     }
+    /* 激活搜索时严格锁定滚动与回弹 */
+    body.has-search-focus {
+      touch-action: none !important;
+      overscroll-behavior: none !important;
+    }
     button, input { font: inherit; }
     a { color: inherit; text-decoration: none; }
     .container {
@@ -1071,7 +1076,7 @@
     }
     @keyframes skeletonPulse {
       0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+      50% { opacity: 0.85; }
     }
     .footer {
       margin-top: auto;
@@ -2885,7 +2890,7 @@
       }
     });
 
-    // 核心搜索执行逻辑（仅在回车、点击搜索按钮或触发滑动时调用）
+    // 核心搜索执行逻辑（仅在主动触发时执行）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2901,18 +2906,8 @@
       });
     }
 
-    // 专门用于滑行中静默执行搜索（不重置页面滚动位置、不打断惯性滑行动画）
-    function performSearchSilently() {
-      state.focusedModuleId = null;
-      if (state.isListView) {
-        setListViewMode(false);
-        if (standaloneListBtn) standaloneListBtn.blur();
-      }
-      filterModules();
-    }
-
-    searchClearBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
+    // 取消搜索并还原列表
+    function cancelSearch() {
       state.focusedModuleId = null;
       searchInput.value = "";
       if (!state.isListView) {
@@ -2925,11 +2920,17 @@
         });
       }
       updateStandaloneButtonState();
+      searchInput.blur();
       floatSearchToTarget(false);
       requestAnimationFrame(() => {
         floatSearchToTarget(false);
         updateSearchLayer();
       });
+    }
+
+    searchClearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cancelSearch();
     });
 
     if (searchSubmitBtn) {
@@ -2946,16 +2947,21 @@
       }
     });
 
+    // 激活搜索功能：添加锁定样式，严格禁止屏幕滚动
     searchInput.addEventListener("focus", () => {
       document.body.classList.add("has-search-focus");
+      document.documentElement.classList.add("no-scroll");
       floatSearchToTarget(false);
     });
 
+    // 退出搜索状态：恢复屏幕滑动功能
     searchInput.addEventListener("blur", () => {
       document.body.classList.remove("has-search-focus");
+      document.documentElement.classList.remove("no-scroll");
       if (!state.isListView) {
         document.body.style.minHeight = "";
       }
+      checkScrollLock();
     });
 
     function renderAuthor(module) {
@@ -3370,7 +3376,6 @@
       }, { passive: true });
     }
 
-    // 监听键盘回车
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -3378,62 +3383,52 @@
       }
     });
 
-    // 智能滑动调度引擎：滑动即收起软键盘并执行检索，同时保持原生滑动的惯性动画
+    // 激活搜索时检测滑动并执行：有内容则搜索，无内容则取消搜索；忽略滑动并阻断默认滚动
     let inputTouchStartY = 0;
     let inputTouchStartX = 0;
-    let touchStartsInsideInteractive = false;
-    let isScrollTriggeredSearchPending = false;
-    let scrollCommitTimer = null;
 
     window.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
         inputTouchStartY = e.touches[0].clientY;
         inputTouchStartX = e.touches[0].clientX;
-        touchStartsInsideInteractive = Boolean(e.target.closest('#searchBoxInner, .tab-bar-wrapper'));
       }
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (state.isListView || touchStartsInsideInteractive) return;
+      if (document.activeElement === searchInput) {
+        // 在搜索激活期间直接拦截禁用默认滑动效果
+        if (e.cancelable) e.preventDefault();
 
-      if (document.activeElement === searchInput && e.touches && e.touches.length > 0) {
-        const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
-        const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
+        if (e.touches && e.touches.length > 0) {
+          const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
+          const diffX = Math.abs(e.touches[0].clientX - inputTouchStartX);
 
-        // 识别到针对内容的有效滚动滑动意图
-        if (diffY > 10 || diffX > 10) {
-          isPulling = false; // 拦截可能误触的下拉刷新
-          
-          // 标记需要在滑动手势稳定后执行搜索
-          isScrollTriggeredSearchPending = true;
-
-          // 核心点：滑行中先快速收起软键盘（绝不在滑行中修改 DOM，保证滑动惯性不受阻）
-          searchInput.blur();
+          // 检测到手指划动位移，直接执行业务分流
+          if (diffY > 10 || diffX > 10) {
+            isPulling = false;
+            const query = searchInput.value.trim();
+            if (query.length > 0) {
+              performSearch();
+            } else {
+              cancelSearch();
+            }
+          }
         }
       }
-    }, { passive: true });
+    }, { passive: false });
 
-    // 手指松手或滑动结束时，平滑呈现过滤后的搜索结果
-    const commitPendingScrollSearch = () => {
-      touchStartsInsideInteractive = false;
-      if (isScrollTriggeredSearchPending) {
-        isScrollTriggeredSearchPending = false;
-        clearTimeout(scrollCommitTimer);
-        scrollCommitTimer = setTimeout(() => {
-          performSearchSilently();
-        }, 60);
-      }
-    };
-
-    window.addEventListener('touchend', commitPendingScrollSearch, { passive: true });
-    window.addEventListener('touchcancel', commitPendingScrollSearch, { passive: true });
-
-    window.addEventListener('wheel', () => {
+    // PC 端滚轮同等处理
+    window.addEventListener('wheel', (e) => {
       if (document.activeElement === searchInput) {
-        searchInput.blur();
-        performSearchSilently();
+        if (e.cancelable) e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query.length > 0) {
+          performSearch();
+        } else {
+          cancelSearch();
+        }
       }
-    }, { passive: true });
+    }, { passive: false });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput) {
@@ -3449,14 +3444,7 @@
           closeLightbox();
           return;
         }
-        state.focusedModuleId = null;
-        searchInput.value = "";
-        searchInput.blur();
-        document.body.classList.remove("has-search-text", "has-search-focus");
-        setListViewMode(false);
-        if (standaloneListBtn) standaloneListBtn.blur();
-        switchWithFade(() => { filterModules(); });
-        updateStandaloneButtonState();
+        cancelSearch();
       }
     });
 
