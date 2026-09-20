@@ -2,47 +2,46 @@ name: Sync Rules
 
 on:
   schedule:
-    # 每天 UTC 21:00 自动触发，即北京时间 (UTC+8) 每日早上 05:00
-    - cron: '0 21 * * *'
-  workflow_dispatch: # 支持在 Actions 界面手动触发
+    - cron: '0 */6 * * *' # 每 6 小时自动执行一次
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - 'scripts/sync-rules.js'
-      - '.github/workflows/sync-rules.yml'
-      
-concurrency:
-  group: sync-rules
-  cancel-in-progress: true
 
-permissions:
-  contents: write
+concurrency:
+  group: shadowstore-data-sync
+  cancel-in-progress: false
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - name: 检出仓库代码
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v5
 
-      - name: 设置 Node.js 环境
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: '22'
+          cache: 'npm'
 
-      # 借鉴模块同步机制：检出后延时等待 1 分钟，平滑避开 GitHub API 突发速率限制
-      - name: 缓冲延时 (等待 1 分钟)
-        run: sleep 60
+      - name: Install Dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          fi
 
-      - name: 执行规则生成脚本
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Rules Synchronization Script
         run: node scripts/sync-rules.js
 
-      - name: 提交并推送最新数据
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add scripts/rules.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(rules): 自动同步 blackmatrix7 规则库 [skip ci]" && git push)
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(rules): 自动同步规则与数据 [skip ci]" && git push)
