@@ -1763,7 +1763,7 @@
 
       <div class="search-wrapper">
         <button id="standaloneListBtn" class="standalone-list-btn glass-element" type="button" aria-label="资源列表" title="资源列表">
-          <svg class="list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg>
+          <svg class="list-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg>
           <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
 
@@ -2885,6 +2885,7 @@
       }
     });
 
+    // 核心搜索执行逻辑（仅在确认时调用，彻底关闭实时输入过滤）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2941,11 +2942,12 @@
     });
 
     searchInput.addEventListener("blur", () => {
-      isComposing = false; // 兜底：失焦时强制复位拼音输入法状态
       document.body.classList.remove("has-search-focus");
       if (!state.isListView) {
         document.body.style.minHeight = "";
       }
+      // 失焦时自动执行一次搜索更新结果，且不打断当前滚动位置
+      state.focusedModuleId = null;
       filterModules();
     });
 
@@ -3097,7 +3099,6 @@
         return;
       }
       const keyword = searchInput.value.trim().normalize("NFKC").toLowerCase();
-      document.body.classList.toggle("has-search-text", keyword.length > 0);
       updateStandaloneButtonState();
       if (searchWorker) {
         currentSearchRequestId++;
@@ -3119,15 +3120,6 @@
         renderFilteredList(result, currentLabel);
       }
     }
-
-    function debounce(fn, delay = 200) {
-      let timer = null;
-      return function(...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-      };
-    }
-    const debouncedFilterModules = debounce(filterModules, 180);
 
     function switchWithFade(renderCallback) {
       clearTimeout(modulesFadeTimer);
@@ -3371,12 +3363,7 @@
       }, { passive: true });
     }
 
-    searchInput.addEventListener("input", () => {
-      state.focusedModuleId = null;
-      document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-      debouncedFilterModules();
-    });
-
+    // 监听键盘回车
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -3384,24 +3371,10 @@
       }
     });
 
-    // 智能滑动手势检测与防抖、防误触穿透系统
+    // 仅在手指实际滑动页面时收起软键盘并执行过滤，保持自然平滑滑动
     let inputTouchStartY = 0;
     let inputTouchStartX = 0;
     let touchStartsInsideInteractive = false;
-    let isComposing = false;
-    let isSuppressingClick = false;
-    let suppressClickTimer = null;
-
-    searchInput.addEventListener('compositionstart', () => { isComposing = true; });
-    searchInput.addEventListener('compositionend', () => { isComposing = false; });
-
-    // 阻止滑出键盘瞬间的误点击穿透
-    document.addEventListener('click', (e) => {
-      if (isSuppressingClick) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, true);
 
     window.addEventListener('touchstart', (e) => {
       if (e.touches && e.touches.length > 0) {
@@ -3412,7 +3385,7 @@
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (state.isListView || isComposing || touchStartsInsideInteractive) return;
+      if (state.isListView || touchStartsInsideInteractive) return;
 
       if (document.activeElement === searchInput && e.touches && e.touches.length > 0) {
         const diffY = Math.abs(e.touches[0].clientY - inputTouchStartY);
@@ -3420,22 +3393,7 @@
 
         if (diffY > 14 || diffX > 14) {
           isPulling = false; // 阻断下拉刷新
-          
-          // 激活防点击穿透护盾
-          isSuppressingClick = true;
-          clearTimeout(suppressClickTimer);
-          suppressClickTimer = setTimeout(() => { isSuppressingClick = false; }, 320);
-
-          // 保持滚动惯性，无感退出软键盘
-          const scrollSnapshot = window.scrollY || document.documentElement.scrollTop || 0;
-          searchInput.blur();
-
-          // 消除 iOS 软键盘折叠时的视口瞬间跳顶
-          requestAnimationFrame(() => {
-            if (Math.abs((window.scrollY || document.documentElement.scrollTop || 0) - scrollSnapshot) > 40) {
-              window.scrollTo({ top: scrollSnapshot, behavior: 'auto' });
-            }
-          });
+          searchInput.blur(); // 退出键盘并触发自带的 blur 事件自动平滑过滤
         }
       }
     }, { passive: true });
