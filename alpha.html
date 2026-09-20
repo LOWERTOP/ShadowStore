@@ -2285,7 +2285,6 @@
     // 智能去重合并：只在针对特定前置静态资源（如手册、懒人配置）时排除重复项，绝不误伤云端模块
     function mergeDatasetsSafely(staticList, modulesList, rulesList) {
       const staticUrls = new Set(staticList.map(s => (s.rawURL || s.sourceURL || "").toLowerCase()).filter(Boolean));
-      // 过滤掉 modules 中与静态固定项目完全相同的项即可，其它全量放行
       const filteredModules = modulesList.filter(m => {
         const u = (m.rawURL || m.sourceURL || "").toLowerCase();
         return !u || !staticUrls.has(u);
@@ -2415,9 +2414,6 @@
     }
 
     function scheduleScrollUpdate() {
-      if (searchInput === document.activeElement && searchInput.value.length > 0 && !liveSearchRendering && !liveSearchRestoring) {
-        liveSearchScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      }
       if (scrollRaf) return;
       scrollRaf = requestAnimationFrame(() => {
         scrollRaf = 0;
@@ -2890,6 +2886,17 @@
       }
     });
 
+    // 静默执行搜索：更新数据但绝不打断当前滚动惯性与位置
+    function performSearchSilently() {
+      state.focusedModuleId = null;
+      if (state.isListView) {
+        setListViewMode(false);
+        if (standaloneListBtn) standaloneListBtn.blur();
+      }
+      filterModules();
+    }
+
+    // 交互触发的搜索（点击搜索按钮或回车）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2950,6 +2957,7 @@
       if (!state.isListView) {
         document.body.style.minHeight = "";
       }
+      filterModules();
     });
 
     function renderAuthor(module) {
@@ -3050,26 +3058,6 @@
       checkScrollLock();
     }
 
-    let liveSearchScrollY = 0;
-    let liveSearchRendering = false;
-    let liveSearchRestoring = false;
-
-    function preserveLiveSearchScroll() {
-      return searchInput === document.activeElement && searchInput.value.length > 0;
-    }
-
-    function restoreLiveSearchScroll() {
-      const targetY = Math.max(0, liveSearchScrollY);
-      liveSearchRestoring = true;
-      window.scrollTo({ top: targetY, behavior: "auto" });
-      requestAnimationFrame(() => {
-        if (Math.abs((window.scrollY || document.documentElement.scrollTop || 0) - targetY) > 1) {
-          window.scrollTo({ top: targetY, behavior: "auto" });
-        }
-        liveSearchRestoring = false;
-      });
-    }
-
     function renderFilteredList(list, customLabel = null) {
       if (state.isInitialLoading) {
         sentinel.style.display = "none";
@@ -3079,7 +3067,6 @@
         checkScrollLock();
         return;
       }
-      liveSearchRendering = true;
       state.filteredModules = list;
       state.currentlyRendered = 0;
       modulesContainer.innerHTML = "";
@@ -3090,22 +3077,10 @@
         countText.textContent = `0 个${currentLabel}`;
         scheduleLayoutUpdate();
         checkScrollLock();
-        if (preserveLiveSearchScroll()) {
-          liveSearchRendering = false;
-          restoreLiveSearchScroll();
-        } else {
-          liveSearchRendering = false;
-        }
         return;
       }
       countText.textContent = `${state.filteredModules.length} 个${currentLabel}`;
       appendNextBatch();
-      if (preserveLiveSearchScroll()) {
-        liveSearchRendering = false;
-        restoreLiveSearchScroll();
-      } else {
-        liveSearchRendering = false;
-      }
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -3410,9 +3385,6 @@
     searchInput.addEventListener("input", () => {
       state.focusedModuleId = null;
       document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
-      if (searchInput.value.length > 0) {
-        liveSearchScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      }
       debouncedFilterModules();
     });
 
@@ -3422,6 +3394,40 @@
         performSearch();
       }
     });
+
+    // 监听输入时的滑动手势：检测到滑动即刻退软键盘、执行静默搜索并进入平滑滑动
+    let inputTouchStartY = 0;
+    let inputTouchStartX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        inputTouchStartY = e.touches[0].clientY;
+        inputTouchStartX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (document.activeElement === searchInput && e.touches && e.touches.length > 0) {
+        const currentY = e.touches[0].clientY;
+        const currentX = e.touches[0].clientX;
+        const diffY = Math.abs(currentY - inputTouchStartY);
+        const diffX = Math.abs(currentX - inputTouchStartX);
+
+        // 识别到手指在页面滑动意图（位移大于 8px）
+        if (diffY > 8 || diffX > 8) {
+          searchInput.blur();
+          performSearchSilently();
+        }
+      }
+    }, { passive: true });
+
+    // PC 滚轮滑动支持
+    window.addEventListener('wheel', () => {
+      if (document.activeElement === searchInput) {
+        searchInput.blur();
+        performSearchSilently();
+      }
+    }, { passive: true });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput) {
