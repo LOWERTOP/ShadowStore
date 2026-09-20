@@ -33072,5 +33072,47 @@
     "isDubious": false,
     "fromMyRepo": true,
     "_searchKeywords": "原子灰  暗底色 配色 lowertop shadowrocket-first"
+  },
+  {
+    "id": "more_manual",
+    "category": "more",
+    "name": "使用手册",
+    "description": "Shadowrocket 使用手册与进阶配置指南，系统收录了协议配置、规则分流、解密等全方位软件设置说明与知识词条。",
+    "primaryBtnText": "查阅手册",
+    "icon": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/Shadowrocket.png",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "sourceName": "Shadowrocket",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket",
+    "rawURL": "https://github.com/LOWERTOP/Shadowrocket",
+    "installURL": "https://github.com/LOWERTOP/Shadowrocket",
+    "isDubious": false,
+    "isRepoCard": true,
+    "_searchKeywords": "使用手册 教程 shadowrocket 准官方 lowertop"
+  },
+  {
+    "id": "more_repo_first",
+    "category": "more",
+    "name": "配色与配置仓库",
+    "description": "Shadowrocket 精选模块、规则、配色方案的聚合类型资源仓库，汇聚了众多开源社区优质资源，也是本站的核心数据处理仓库。",
+    "primaryBtnText": "访问仓库",
+    "icon": "https://avatars.githubusercontent.com/u/16624731?v=4",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "rawURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "isDubious": false,
+    "isRepoCard": true,
+    "_searchKeywords": "配色与配置仓库 shadowrocket-first 聚合资源 核心仓库 lowertop"
   }
 ]
