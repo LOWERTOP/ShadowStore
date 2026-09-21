@@ -1,10 +1,16 @@
 /**
  * ShadowStore 数据聚合构建引擎
  * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、
- * 描述行精准提取作者/仓库名(从URL解析而非文字)/模块安装、徽章行映射访问链接、超链接纯净化
  */
 const fs = require("fs");
 const path = require("path");
+
+// 引用独立图标构建模块导出的方法
+const {
+  loadRemoteIcons,
+  getMatchedIcon,
+  findIconInMap
+} = require("./build-icons.js");
 
 const CONFIG = {
   REPO_README_URL: "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/README/README.md",
@@ -12,77 +18,10 @@ const CONFIG = {
   FMZ_TREE_API: "https://api.github.com/repos/fmz200/wool_scripts/git/trees/main?recursive=1",
   ZIRAWELL_README_URL: "https://raw.githubusercontent.com/zirawell/R-Store/main/README.md",
   ZIRAWELL_TREE_API: "https://api.github.com/repos/zirawell/R-Store/git/trees/main?recursive=1",
-  ICONS_JSON_URL: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/icons-all.json",
-  LUESTR_TREE_API: "https://api.github.com/repos/luestr/IconResource/git/trees/main?recursive=1",
   CONCURRENCY: 12,
   MAX_FAILURE_RATIO: 0.25
 };
 
-const APP_ALIASES = {
-  "Plugin2Rocket": ["Shadowrocket"],
-  "一汽大众": ["fawvw"],
-  "上汽大众": ["csvw"],
-  "流媒体": ["netflix"],
-  "影视": ["netflix"],
-  "大师兄": ["netflix"],
-  "苹果": ["apple"],
-  "apple": ["apple"],
-  "谷歌": ["google"],
-  "微软": ["microsoft"],
-  "油管": ["youtube"],
-  "youtube": ["youtube"],
-  "电报": ["telegram"],
-  "推特": ["twitter", "x"],
-  "奈飞": ["netflix"],
-  "网飞": ["netflix"],
-  "迪士尼": ["disney"],
-  "cmcc": ["中国移动"],
-  "小米": ["xiaomi", "mi"],
-  "米家": ["xiaomi", "mihome", "mi"],
-  "call": ["googlevoice"],
-  "ali": ["alibaba"],
-  "阿里": ["alibaba"],
-  "阿里系": ["alibaba"],
-  "京东": ["jd", "jingdong"],
-  "哔哩哔哩": ["bilibili", "b站", "bili"],
-  "b站": ["bilibili"],
-  "bili": ["bilibili"],
-  "微信": ["weixin", "wechat"],
-  "微博": ["weibo"],
-  "知乎": ["zhihu"],
-  "script": ["script-hub"],
-  "小红书": ["xhs", "xiaohongshu", "rednot", "redbook"],
-  "rednot": ["xhs", "xiaohongshu", "rednot", "redbook"],
-  "抖音": ["douyin", "tiktok"],
-  "快手": ["kuaishou"],
-  "网易云": ["netease", "cloudmusic"],
-  "百度": ["baidu"],
-  "高德": ["amap", "gaode"],
-  "腾讯": ["tencent"],
-  "美团": ["meituan"],
-  "拼多多": ["pdd", "pinduoduo"],
-  "闲鱼": ["xianyu"],
-  "咸鱼": ["xianyu"],
-  "饿了么": ["eleme"],
-  "爱奇艺": ["iqiyi"],
-  "优酷": ["youku"],
-  "淘宝": ["taobao"],
-  "豆瓣": ["douban"],
-  "贴吧": ["tieba"],
-  "夸克": ["quark"],
-  "12306": ["12306"],
-  "高德地图": ["amap"]
-};
-
-const FLAG_CODES = new Set([
-  "cn", "us", "hk", "tw", "jp", "kr", "sg", "uk", "gb", "de", "fr", "ca", "ru", "au",
-  "mo", "vn", "th", "ph", "my", "in", "id", "br", "cl", "ar", "mx", "nl", "se", "no",
-  "fi", "ch", "at", "it", "es", "pt", "tr", "ua", "za", "nz", "ie", "pl", "ro", "cz",
-  "hu", "gr", "bg", "hr", "sk", "il", "china", "taiwan", "hongkong", "japan", "korea",
-  "singapore", "usa", "united_states", "united_kingdom", "germany", "france", "russia", "australia"
-]);
-
-let remoteIconsMap = {};
 const stats = { totalAttempted: 0, failedCount: 0 };
 const sourceHealth = { local: false, fmz: false, zirawell: false };
 
@@ -110,18 +49,6 @@ function cleanMarkdownText(value) {
     .replace(/[*_`~]/g, "")
     .replace(/\s+/g, " ")
     .trim();
-}
-
-function isFlagKey(key, url = "") {
-  if (!key && !url) return false;
-  const k = (key || "").toLowerCase().trim();
-  const u = (url || "").toLowerCase().trim();
-  if (FLAG_CODES.has(k)) return true;
-  const flagKeywords = ["flag", "flags", "国旗", "node", "节点", "country", "countries", "region", "regions", "geoip"];
-  if (flagKeywords.some(w => k.includes(w) || u.includes(w))) return true;
-  if (/\/(?:flags?|countries|regions|country)\//i.test(u)) return true;
-  if (/[_\-/](?:cn|us|hk|tw|jp|kr|sg|gb|uk|de|fr|ru|au|mo|ca)\.(?:png|jpg|jpeg|svg|webp)/i.test(u)) return true;
-  return false;
 }
 
 function isInvalidOr404(text) {
@@ -270,167 +197,9 @@ async function fetchZirawellModules() {
   return modules;
 }
 
-async function loadLuestrIcons() {
-  try {
-    const res = await fetchWithTimeout(CONFIG.LUESTR_TREE_API, {}, 8000);
-    if (res.ok) {
-      const data = await res.json();
-      if (data && Array.isArray(data.tree)) {
-        for (const item of data.tree) {
-          const pathName = item.path || "";
-          if (item.type === "blob" && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
-            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
-            const url = `https://raw.githubusercontent.com/luestr/IconResource/main/${pathName}`;
-            if (!isFlagKey(fileName, url)) {
-              const cleanName = fileName.trim().toLowerCase();
-              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
-                remoteIconsMap[cleanName] = url;
-              }
-            }
-          }
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("⚠️ IconResource 图标库拉取跳过:", e.message);
-  }
-}
-
-async function loadZirawellIcons() {
-  try {
-    const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 8000);
-    if (res.ok) {
-      const data = await res.json();
-      if (data && Array.isArray(data.tree)) {
-        for (const item of data.tree) {
-          const pathName = item.path || "";
-          if (item.type === "blob" && /^Res\/Icon\//i.test(pathName) && /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)) {
-            const fileName = pathName.split("/").pop().replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
-            const url = `https://raw.githubusercontent.com/zirawell/R-Store/main/${pathName}`;
-            if (!isFlagKey(fileName, url)) {
-              const cleanName = fileName.trim().toLowerCase();
-              if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
-                remoteIconsMap[cleanName] = url;
-              }
-            }
-          }
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("⚠️ Zirawell 图标库拉取跳过:", e.message);
-  }
-}
-
-async function loadRemoteIcons() {
-  remoteIconsMap = {};
-  try {
-    const res = await fetchWithTimeout(CONFIG.ICONS_JSON_URL, {}, 8000);
-    if (res.ok) {
-      const data = await res.json();
-      const extractUrl = (item) => {
-        if (typeof item === 'string') return item;
-        if (typeof item === 'object' && item !== null) {
-          return item.icon || item.url || item.src || item.img || item.path || item.link || "";
-        }
-        return "";
-      };
-      const extractName = (item) => {
-        if (typeof item === 'object' && item !== null) {
-          return item.name || item.title || item.label || item.id || item.app || "";
-        }
-        return "";
-      };
-      const addMap = (name, url) => {
-        if (name && typeof name === 'string' && url && typeof url === 'string' && url.length > 5) {
-          if (isFlagKey(name, url)) return;
-          const cleanName = name.trim().toLowerCase();
-          if (cleanName.length < 2) return;
-          remoteIconsMap[cleanName] = url.trim();
-          const baseName = cleanName.replace(/[_-]?\d+$/, "").trim();
-          if (baseName && baseName.length >= 2 && !remoteIconsMap[baseName]) {
-            remoteIconsMap[baseName] = url.trim();
-          }
-        }
-      };
-      if (Array.isArray(data)) {
-        data.forEach(item => addMap(extractName(item), extractUrl(item)));
-      } else if (data && typeof data === 'object') {
-        const list = data.icons || data.data || data.list;
-        if (Array.isArray(list)) {
-          list.forEach(item => addMap(extractName(item), extractUrl(item)));
-        } else {
-          Object.entries(data).forEach(([k, v]) => addMap(k, extractUrl(v)));
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("⚠️ FMZ 图标加载跳过:", e.message);
-  }
-  await Promise.all([loadLuestrIcons(), loadZirawellIcons()]);
-}
-
-function findIconInMap(key) {
-  if (!key) return "";
-  const lowerKey = key.toLowerCase().trim();
-  if (remoteIconsMap[lowerKey] && !isFlagKey(lowerKey, remoteIconsMap[lowerKey])) return remoteIconsMap[lowerKey];
-  const baseKey = lowerKey.replace(/[_-]?\d+$/, "").trim();
-  if (baseKey && remoteIconsMap[baseKey] && !isFlagKey(baseKey, remoteIconsMap[baseKey])) return remoteIconsMap[baseKey];
-  for (const [iconKey, iconUrl] of Object.entries(remoteIconsMap)) {
-    if (isFlagKey(iconKey, iconUrl)) continue;
-    const cleanIconKey = iconKey.replace(/[_-]?\d+$/, "").trim();
-    if (cleanIconKey === lowerKey || (baseKey && cleanIconKey === baseKey)) {
-      return iconUrl;
-    }
-  }
-  return "";
-}
-
-function getMatchedIcon(name) {
-  if (!name) return "";
-  const lowerName = name.trim().toLowerCase();
-  if (!lowerName) return "";
-  if (lowerName.includes("youtube") || lowerName.includes("油管") || lowerName.includes("ytb")) {
-    const ytIcon = findIconInMap("youtube");
-    if (ytIcon) return ytIcon;
-  }
-  if (lowerName.includes("小米") || lowerName.includes("米家") || lowerName.includes("xiaomi") || lowerName.includes("mihome")) {
-    const miIcon = findIconInMap("xiaomi") || findIconInMap("mihome") || findIconInMap("mi");
-    if (miIcon) return miIcon;
-  }
-  let matched = findIconInMap(lowerName);
-  if (matched) return matched;
-  const cleanName = lowerName
-    .replace(/(去广告|净化|移除|破解|签到|脚本|模块|解锁|自动|净化版|修复|增强|vip|pro|lite|hd|edge|plus|v\d+)/g, "")
-    .replace(/[-_.\s]/g, "")
-    .trim();
-  if (cleanName && cleanName.length >= 2) {
-    matched = findIconInMap(cleanName);
-    if (matched) return matched;
-  }
-  for (const [cnKeyword, enKeys] of Object.entries(APP_ALIASES)) {
-    if (lowerName.includes(cnKeyword.toLowerCase())) {
-      for (const key of enKeys) {
-        matched = findIconInMap(key);
-        if (matched) return matched;
-      }
-    }
-  }
-  for (const [iconName, iconUrl] of Object.entries(remoteIconsMap)) {
-    if (!iconName || iconName.length < 3 || isFlagKey(iconName, iconUrl)) continue;
-    const baseIconName = iconName.replace(/[_-]?\d+$/, "").trim();
-    if (baseIconName.length < 3 || isFlagKey(baseIconName, iconUrl)) continue;
-    if (lowerName.includes(iconName) || lowerName.includes(baseIconName)) {
-      return iconUrl;
-    }
-  }
-  return "";
-}
-
 function resolveIconURL(icon, rawURL) {
   if (!icon) return "";
   icon = icon.trim();
-  if (isFlagKey("", icon)) return "";
   if (icon.startsWith("data:")) return icon;
   if (/^https?:\/\//i.test(icon)) return normalizeRawURL(icon);
   try {
@@ -456,7 +225,7 @@ function resolveModuleIcon(metadata, rawURL) {
   let rawIcon = metadata.icon ? metadata.icon.trim() : "";
   if (rawIcon) {
     const key = extractIconKeyFromPath(rawIcon);
-    if (key) {
+    if (key && typeof findIconInMap === "function") {
       const matchedVerifiedIcon = findIconInMap(key);
       if (matchedVerifiedIcon) return matchedVerifiedIcon;
     }
@@ -497,7 +266,6 @@ function parseRepositoryModules(markdown) {
   let currentHeading = "";
   let orderIndex = 0;
   
-  // 截断更多资源章节，防止里面的前置转换器模块被误当成主仓库模块
   const moreSectionIdx = markdown.search(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源/i);
   const scanScope = moreSectionIdx !== -1 ? markdown.slice(0, moreSectionIdx) : markdown;
 
@@ -839,9 +607,6 @@ async function fetchColorThemes(markdownText) {
 
 /**
  * 自动识别并提取 README.md 里的“更多资源”小节
- * 结构规则：
- * 前一行：> [作者名](作者GitHub) 维护的描述内容...，安装 [模块名](依赖模块直链) ...
- * 后一行：> [![社区资源 xxx](badge_url)](目标资源访问地址 "点击查看")
  */
 function parseMoreResourcesFromReadme(markdownText) {
   console.log("📑 开始解析 README.md 中的“更多资源”小节...");
@@ -857,7 +622,6 @@ function parseMoreResourcesFromReadme(markdownText) {
   const sectionContent = sectionMatch[0];
   const lines = sectionContent.split(/\r?\n/);
 
-  // 匹配徽章格式：[![alt](badge_img)](target_url)
   const badgeRegex = /\[!\[([^\]]*)\]\((https?:\/\/[^\s\)]+)\)\]\((https?:\/\/[^\s\)]+?)(?:\s+["'][^"']*["'])?\)/i;
 
   for (let i = 0; i < lines.length; i++) {
@@ -869,9 +633,8 @@ function parseMoreResourcesFromReadme(markdownText) {
     if (bMatch) {
       const badgeAlt = bMatch[1].trim();
       const badgeImg = bMatch[2].trim();
-      const resourceURL = bMatch[3].trim(); // 下一行徽章内的目标网址 -> 映射到卡片的访问链接按钮
+      const resourceURL = bMatch[3].trim();
 
-      // 忽略自身仓库和手册
       if (
         resourceURL.includes("LOWERTOP/Shadowrocket-First") ||
         resourceURL.includes("lowertop.github.io/Shadowrocket")
@@ -879,14 +642,12 @@ function parseMoreResourcesFromReadme(markdownText) {
         continue;
       }
 
-      // 从徽章中获取资源显示名（如 message=KeQing / message=Kelee / message=Cuttlefish / message=iab0x00）
       let badgeMessage = "";
       try {
         const badgeUrlObj = new URL(badgeImg);
         badgeMessage = badgeUrlObj.searchParams.get("message") || "";
       } catch (e) {}
 
-      // 获取前一行描述文字（跳过空行和引用符）
       let descRawLine = "";
       for (let prev = i - 1; prev >= Math.max(0, i - 4); prev--) {
         const pLine = lines[prev].trim().replace(/^>+\s*/, "");
@@ -905,11 +666,9 @@ function parseMoreResourcesFromReadme(markdownText) {
       let descText = "";
 
       if (descRawLine) {
-        // 从前一行文字中提取所有超链接 [文字](URL)
         const allLinks = Array.from(descRawLine.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/gi));
 
         if (allLinks.length > 0) {
-          // 首个链接必为作者信息！如 [Ling KeQing](https://github.com/QingRex)
           const firstLink = allLinks[0];
           detectedAuthorName = firstLink[1].trim();
           detectedAuthorURL = firstLink[2].trim();
@@ -922,12 +681,10 @@ function parseMoreResourcesFromReadme(markdownText) {
             }
           } catch (e) {}
 
-          // 遍历后续链接：严格区分“依赖模块”与“源仓库”
           for (let k = 1; k < allLinks.length; k++) {
             const linkText = allLinks[k][1].trim();
             const linkHref = allLinks[k][2].trim();
 
-            // 严格按后缀与协议判定依赖模块直链，绝不根据“模块”等汉字误判
             const isStrictModuleFile = /\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(linkHref);
             const isInstallScheme = linkHref.startsWith("shadowrocket://install");
 
@@ -940,7 +697,6 @@ function parseMoreResourcesFromReadme(markdownText) {
                 }
               }
             } else if (linkHref.includes("github.com") && !detectedRepoURL) {
-              // 关键修复：从 GitHub URL 中提取英文仓库名（如 LoonKissSurge），杜绝中文文字“模块资源仓库”
               detectedRepoURL = linkHref;
               try {
                 const rUrlObj = new URL(linkHref);
@@ -957,11 +713,9 @@ function parseMoreResourcesFromReadme(markdownText) {
           }
         }
 
-        // 纯净化前一行的描述文字（去除所有 Markdown 超链接标签，仅保留纯文本）
         descText = cleanMarkdownText(descRawLine);
       }
 
-      // 如果前一行未显式提供 GitHub 用户名，则尝试从徽章的访问链接兜底
       if (!detectedAuthorUsername) {
         try {
           const parsed = new URL(resourceURL);
@@ -980,10 +734,8 @@ function parseMoreResourcesFromReadme(markdownText) {
       const finalAuthorURL = detectedAuthorURL || resourceURL;
       const finalItemName = badgeMessage || finalAuthorName;
 
-      // 提取作者 GitHub 真实头像，作为卡片大图标与作者头像
       const authorAvatar = detectedAuthorUsername ? `https://github.com/${encodeURIComponent(detectedAuthorUsername)}.png?size=64` : "";
 
-      // 源仓库展示名称：优先使用解析出的规范英文仓库名，其次提取域名或仓库名
       let sourceName = detectedRepoName || "外部资源";
       if (!detectedRepoName) {
         try {
@@ -1002,20 +754,20 @@ function parseMoreResourcesFromReadme(markdownText) {
         category: "more",
         name: finalItemName,
         description: descText || "Shadowrocket 开源社区精选扩展资源。",
-        icon: authorAvatar, // 作者 GitHub 头像
+        icon: authorAvatar,
         author: {
-          name: finalAuthorName, // 描述里提取的作者名（如 Ling KeQing、可莉、Cuttlefish 墨鱼、iab0x00）
-          url: finalAuthorURL,   // 描述里提取的作者主页
+          name: finalAuthorName,
+          url: finalAuthorURL,
           username: detectedAuthorUsername
         },
         authorAvatar: authorAvatar,
-        sourceName: sourceName, // 规范英文仓库名（如 LoonKissSurge），不再是汉字“模块资源仓库”
-        sourceURL: detectedRepoURL || resourceURL, // 优先关联前一行提取的真实仓库链接
+        sourceName: sourceName,
+        sourceURL: detectedRepoURL || resourceURL,
         rawURL: resourceURL,
-        installURL: resourceURL, // 徽章地址映射到卡片的“访问链接”按钮
+        installURL: resourceURL,
         primaryBtnText: "访问链接",
-        preInstallURL: detectedModuleURL, // 严格匹配到 .sgmodule 等模块直链时才会赋值
-        secondaryBtnText: detectedModuleURL ? "安装模块" : "", // 映射到复制链接按钮上，有模块时显示为“安装模块”
+        preInstallURL: detectedModuleURL,
+        secondaryBtnText: detectedModuleURL ? "安装模块" : "",
         isRepoCard: true,
         isDubious: false,
         _searchKeywords: [finalItemName, descText, sourceName, finalAuthorName, "更多资源"].join(" ").toLowerCase()
@@ -1108,7 +860,10 @@ async function main() {
   const zirawellModules = await fetchZirawellModules();
   sourceHealth.zirawell = true;
 
-  await loadRemoteIcons();
+  // 初始化统一加载图标库
+  if (typeof loadRemoteIcons === "function") {
+    await loadRemoteIcons();
+  }
 
   const seenURLs = new Set();
   const sourceModules = [...localModules, ...fmzModules, ...zirawellModules].filter(item => {
