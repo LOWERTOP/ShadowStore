@@ -2,6 +2,7 @@
  * ShadowStore 数据聚合构建引擎
  * 严格来源熔断、原子化写盘、作者/头像解析、高精度全量图标匹配、配色方案自动提取、
  */
+
 const fs = require("fs");
 const path = require("path");
 
@@ -54,10 +55,12 @@ function cleanMarkdownText(value) {
 function isInvalidOr404(text) {
   if (!text) return false;
   const t = String(text);
-  return /404\s*:\s*Not\s*Found/i.test(t) ||
-         /404\s+Not\s+Found/i.test(t) ||
-         /Cannot\s+GET/i.test(t) ||
-         /(?:已失效|此模块已失效|资源已失效|链接已失效|文件已删除|文件不存在|404\s*失效)/i.test(t);
+  return (
+    /404\s*:\s*Not\s*Found/i.test(t) ||
+    /404\s+Not\s+Found/i.test(t) ||
+    /Cannot\s+GET/i.test(t) ||
+    /(?:已失效|此模块已失效|资源已失效|链接已失效|文件已删除|文件不存在|404\s*失效)/i.test(t)
+  );
 }
 
 function normalizeRawURL(url) {
@@ -67,13 +70,17 @@ function normalizeRawURL(url) {
   if (value.includes("url=")) {
     const match = value.match(/[?&]url=([^&]+)/i) || value.match(/url=([^&]+)/i);
     if (match) {
-      try { value = decodeURIComponent(match[1]); } catch(e) {}
+      try {
+        value = decodeURIComponent(match[1]);
+      } catch (e) {}
     }
   }
   if (value.includes("install?module=")) {
     const match = value.match(/install\?module=([^&]+)/i);
     if (match) {
-      try { value = decodeURIComponent(match[1]); } catch(e) {}
+      try {
+        value = decodeURIComponent(match[1]);
+      } catch (e) {}
     }
   }
   value = value.replace(/#/g, "%23").replace(/\s+/g, "%20");
@@ -159,6 +166,7 @@ async function fetchFMZModules() {
   const data = await res.json();
   if (data?.truncated) throw new Error("FMZ 目录树被 GitHub 截断 (truncated: true)");
   if (!Array.isArray(data?.tree)) throw new Error("FMZ Tree API 数据结构异常");
+
   const modules = data.tree
     .filter(item => item.type === "blob" && (item.path || "").startsWith("Shadowrocket/module/") && /\.(?:sgmodule|srmodule|module)$/i.test(item.path))
     .map(item => {
@@ -166,6 +174,7 @@ async function fetchFMZModules() {
       const rawURL = normalizeRawURL(`https://raw.githubusercontent.com/fmz200/wool_scripts/main/${item.path}`);
       return { name: fileName, rawURL, fromFMZ: true };
     });
+
   if (!modules.length) throw new Error("FMZ 目录树获取成功，但未解析到模块");
   console.log(`✅ FMZ 获取 ${modules.length} 个模块`);
   return modules;
@@ -174,17 +183,20 @@ async function fetchFMZModules() {
 async function fetchZirawellModules() {
   console.log("📦 正在获取 Zirawell 模块...");
   const modules = [];
+
   try {
     const readme = await fetchRawText(CONFIG.ZIRAWELL_README_URL, false);
     parseRepositoryModules(readme).forEach(m => modules.push({ ...m, fromZirawell: true }));
   } catch (e) {
     console.warn("⚠️ Zirawell README 解析跳过:", e.message);
   }
+
   const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 15000);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   if (data?.truncated) throw new Error("Zirawell 目录树被 GitHub 截断 (truncated: true)");
   if (!Array.isArray(data?.tree)) throw new Error("Zirawell Tree API 数据结构异常");
+
   data.tree.forEach(item => {
     if (item.type === "blob" && (item.path || "").startsWith("Rule/Surge/") && /\.(?:sgmodule|srmodule|module)$/i.test(item.path)) {
       const fileName = item.path.split("/").pop().replace(/\.(?:sgmodule|srmodule|module)$/i, "");
@@ -192,6 +204,7 @@ async function fetchZirawellModules() {
       modules.push({ name: fileName, rawURL, fromZirawell: true });
     }
   });
+
   if (!modules.length) throw new Error("Zirawell 获取成功，但未解析到模块");
   console.log(`✅ Zirawell 获取 ${modules.length} 个模块`);
   return modules;
@@ -223,12 +236,9 @@ function extractIconKeyFromPath(iconStr) {
 
 function resolveModuleIcon(metadata, rawURL) {
   let rawIcon = metadata.icon ? metadata.icon.trim() : "";
+
+  // 1. 首选：模块自带图标
   if (rawIcon) {
-    const key = extractIconKeyFromPath(rawIcon);
-    if (key && typeof findIconInMap === "function") {
-      const matchedVerifiedIcon = findIconInMap(key);
-      if (matchedVerifiedIcon) return matchedVerifiedIcon;
-    }
     let fixedIcon = rawIcon;
     if (fixedIcon.includes("zirawell/R-Store")) {
       fixedIcon = fixedIcon
@@ -236,24 +246,30 @@ function resolveModuleIcon(metadata, rawURL) {
         .replace("/Rule/Res/Icon/", "/Res/Icon/")
         .replace("/Icon/", "/Res/Icon/");
     }
+
     const resolved = resolveIconURL(fixedIcon, rawURL);
     if (resolved && !resolved.includes("/Rule/Res/Icon/")) {
       return resolved;
     }
   }
+
+  // 2. 次选：自带图标缺失或解析无效时，再使用名称从远程图标库匹配
   if (metadata.declaredName) {
     const matched = getMatchedIcon(metadata.declaredName);
     if (matched) return matched;
   }
+
   const fileName = getModuleNameFromURL(rawURL);
   if (fileName) {
     const matched = getMatchedIcon(fileName);
     if (matched) return matched;
   }
+
   if (metadata.name) {
     const matched = getMatchedIcon(metadata.name);
     if (matched) return matched;
   }
+
   return "";
 }
 
@@ -265,7 +281,7 @@ function parseRepositoryModules(markdown) {
   const result = [];
   let currentHeading = "";
   let orderIndex = 0;
-  
+
   const moreSectionIdx = markdown.search(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源/i);
   const scanScope = moreSectionIdx !== -1 ? markdown.slice(0, moreSectionIdx) : markdown;
 
@@ -273,12 +289,14 @@ function parseRepositoryModules(markdown) {
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) continue;
+
     const headingMatch = line.match(/^(?:#{1,6}|\*|-|\+)\s*(?:\[([^\]]+)\]|`([^`]+)`|([^\n(#*]+))/);
     if (headingMatch) {
       const rawTitle = (headingMatch[1] || headingMatch[2] || headingMatch[3] || "").trim();
       const cleanTitle = cleanText(rawTitle.replace(/[*`_#]/g, "").replace(/^[🚀📁📦\s]+/, ""));
       if (cleanTitle && cleanTitle.length >= 2) currentHeading = cleanTitle;
     }
+
     const rawRegex = /(https?:\/\/[^\s)\]"'<>]+?\.(?:sgmodule|srmodule|module)(?:[^\s)\]"'<>]*)?)/ig;
     let match;
     while ((match = rawRegex.exec(line)) !== null) {
@@ -291,6 +309,7 @@ function parseRepositoryModules(markdown) {
       });
     }
   }
+
   const seen = new Set();
   return result.filter(item => {
     const key = item.rawURL.toLowerCase();
@@ -305,12 +324,14 @@ function parseGitHubRawURL(rawURL) {
     const url = new URL(rawURL);
     if (url.hostname === "raw.githubusercontent.com" || url.hostname === "github.com") {
       const parts = url.pathname.split("/").filter(Boolean);
-      if (parts.length >= 2) return {
-        owner: parts[0],
-        repo: parts[1],
-        fullName: `${parts[0]}/${parts[1]}`,
-        url: `https://github.com/${parts[0]}/${parts[1]}`
-      };
+      if (parts.length >= 2) {
+        return {
+          owner: parts[0],
+          repo: parts[1],
+          fullName: `${parts[0]}/${parts[1]}`,
+          url: `https://github.com/${parts[0]}/${parts[1]}`
+        };
+      }
     }
   } catch {}
   return null;
@@ -339,11 +360,14 @@ function getAuthorFromURL(rawURL, githubInfo) {
       };
     }
   } catch (e) {}
-  if (githubInfo) return {
-    name: githubInfo.owner,
-    url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
-    username: githubInfo.owner
-  };
+
+  if (githubInfo) {
+    return {
+      name: githubInfo.owner,
+      url: `https://github.com/${encodeURIComponent(githubInfo.owner)}`,
+      username: githubInfo.owner
+    };
+  }
   return { name: "作者信息识别失败", url: "", username: "" };
 }
 
@@ -353,16 +377,20 @@ function parseModuleMetadata(text, fallbackName, rawURL = "") {
   for (let i = 0; i < Math.min(lines.length, 100); i++) {
     const line = lines[i].trim();
     if (!line) continue;
+
     if (line.startsWith("#!")) {
       const match = line.match(/^#!\s*([a-zA-Z0-9_-]+)\s*=\s*(.*)$/i);
       if (match) metadata[match[1].trim().toLowerCase()] = cleanText(match[2]);
       continue;
     }
+
     const commentMatch = line.match(/^(?:#|\/\/)\s*@?(?:name|规则名称|模块名称)\s*[:=]\s*(.+)$/i);
     if (commentMatch && !metadata.name) metadata.name = cleanText(commentMatch[1]);
   }
+
   const declaredName = metadata.name || "";
   const resolvedName = declaredName || resolveFallbackName(fallbackName, rawURL);
+
   return {
     name: resolvedName,
     declaredName,
@@ -373,6 +401,7 @@ function parseModuleMetadata(text, fallbackName, rawURL = "") {
 
 function generateDescription(metadata, rawText) {
   if (metadata.description) return cleanMarkdownText(metadata.description);
+
   const lines = rawText.split(/\r?\n/);
   const comments = [];
   for (let i = 0; i < Math.min(lines.length, 40); i++) {
@@ -383,7 +412,10 @@ function generateDescription(metadata, rawText) {
       if (line && !/^[-=*]+$/.test(line) && line.length >= 4) comments.push(line);
     }
   }
-  return comments.length ? cleanMarkdownText(comments.slice(0, 2).join(" ")) : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
+
+  return comments.length
+    ? cleanMarkdownText(comments.slice(0, 2).join(" "))
+    : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
 }
 
 function getPinnedRank(item) {
@@ -392,13 +424,16 @@ function getPinnedRank(item) {
   if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
     return 9999;
   }
+
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
   if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
   if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
   if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
+
   if (item.fromMyRepo) return 10;
   if (item.fromFMZ || rawURL.includes("fmz200")) return 40;
   if (item.fromZirawell || rawURL.includes("zirawell")) return 50;
+
   return 60;
 }
 
@@ -407,11 +442,13 @@ function sortPinnedModules(list) {
   return [...list].sort((a, b) => {
     const rankDiff = getPinnedRank(a) - getPinnedRank(b);
     if (rankDiff !== 0) return rankDiff;
+
     if (a.fromMyRepo && b.fromMyRepo) {
       const idxA = a.readmeIndex !== undefined ? a.readmeIndex : 99999;
       const idxB = b.readmeIndex !== undefined ? b.readmeIndex : 99999;
       return idxA - idxB;
     }
+
     return a.name.localeCompare(b.name, "zh-Hans-CN");
   });
 }
@@ -421,20 +458,27 @@ async function fetchModule(item) {
   const githubInfo = parseGitHubRawURL(item.rawURL);
   const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
   const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
-  const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
+  const avatarUrl = urlAuthor.username
+    ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64`
+    : "";
+
   const fromMyRepo = item.fromMyRepo || false;
   const fromFMZ = item.fromFMZ || false;
   const fromZirawell = item.fromZirawell || false;
   const readmeIndex = item.readmeIndex !== undefined ? item.readmeIndex : 99999;
+
   try {
     const rawText = await fetchRawText(item.rawURL, true);
     if (!rawText || rawText === "404: Not Found") throw new Error("404 Not Found");
+
     const metadata = parseModuleMetadata(rawText, item.name, item.rawURL);
     const description = generateDescription(metadata, rawText);
     if (description && description.includes("已合并至")) return null;
+
     const icon = resolveModuleIcon(metadata, item.rawURL);
     const isDubious = isInvalidOr404(rawText) || isInvalidOr404(description);
     if (isDubious) stats.failedCount++;
+
     return {
       name: metadata.name,
       rawURL: item.rawURL,
@@ -457,6 +501,7 @@ async function fetchModule(item) {
     stats.failedCount++;
     const resolvedName = resolveFallbackName(item.name, item.rawURL);
     const fallbackDesc = `${resolvedName || "该模块"} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
+
     return {
       name: resolvedName,
       rawURL: item.rawURL,
@@ -481,6 +526,7 @@ async function fetchModule(item) {
 async function mapWithConcurrency(items, concurrency, handler) {
   const results = new Array(items.length);
   let index = 0;
+
   async function worker() {
     while (true) {
       const current = index++;
@@ -488,6 +534,7 @@ async function mapWithConcurrency(items, concurrency, handler) {
       results[current] = await handler(items[current]);
     }
   }
+
   await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => worker()));
   return results;
 }
@@ -514,7 +561,6 @@ async function fetchColorThemes(markdownText) {
   const parseScope = colorSectionIdx !== -1 ? markdownText.slice(colorSectionIdx) : markdownText;
 
   const sections = parseScope.split(/(?=###\s+)/g);
-
   for (const sec of sections) {
     if (
       !sec.includes("Shadowrocket") ||
@@ -621,7 +667,6 @@ function parseMoreResourcesFromReadme(markdownText) {
 
   const sectionContent = sectionMatch[0];
   const lines = sectionContent.split(/\r?\n/);
-
   const badgeRegex = /\[!\[([^\]]*)\]\((https?:\/\/[^\s\)]+)\)\]\((https?:\/\/[^\s\)]+?)(?:\s+["'][^"']*["'])?\)/i;
 
   for (let i = 0; i < lines.length; i++) {
@@ -629,7 +674,6 @@ function parseMoreResourcesFromReadme(markdownText) {
     if (!line || line.startsWith("#")) continue;
 
     const bMatch = line.match(badgeRegex);
-
     if (bMatch) {
       const badgeAlt = bMatch[1].trim();
       const badgeImg = bMatch[2].trim();
@@ -667,7 +711,6 @@ function parseMoreResourcesFromReadme(markdownText) {
 
       if (descRawLine) {
         const allLinks = Array.from(descRawLine.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/gi));
-
         if (allLinks.length > 0) {
           const firstLink = allLinks[0];
           detectedAuthorName = firstLink[1].trim();
@@ -684,7 +727,6 @@ function parseMoreResourcesFromReadme(markdownText) {
           for (let k = 1; k < allLinks.length; k++) {
             const linkText = allLinks[k][1].trim();
             const linkHref = allLinks[k][2].trim();
-
             const isStrictModuleFile = /\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(linkHref);
             const isInstallScheme = linkHref.startsWith("shadowrocket://install");
 
@@ -712,7 +754,6 @@ function parseMoreResourcesFromReadme(markdownText) {
             }
           }
         }
-
         descText = cleanMarkdownText(descRawLine);
       }
 
@@ -733,8 +774,9 @@ function parseMoreResourcesFromReadme(markdownText) {
       const finalAuthorName = detectedAuthorName || badgeMessage || "开源作者";
       const finalAuthorURL = detectedAuthorURL || resourceURL;
       const finalItemName = badgeMessage || finalAuthorName;
-
-      const authorAvatar = detectedAuthorUsername ? `https://github.com/${encodeURIComponent(detectedAuthorUsername)}.png?size=64` : "";
+      const authorAvatar = detectedAuthorUsername
+        ? `https://github.com/${encodeURIComponent(detectedAuthorUsername)}.png?size=64`
+        : "";
 
       let sourceName = detectedRepoName || "外部资源";
       if (!detectedRepoName) {
@@ -832,6 +874,7 @@ function getTopMoreCards() {
 async function main() {
   console.log("⏳ 等待 60 秒上游缓存同步与网络就绪...");
   await wait(60000);
+
   console.log("🚀 ShadowStore 聚合构建引擎启动...\n");
 
   const outputPath = path.resolve(__dirname, "modules.json");
@@ -840,11 +883,15 @@ async function main() {
   let repoMarkdown = "";
   try {
     repoMarkdown = await fetchRawText(CONFIG.REPO_README_URL, false);
-    if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) throw new Error("主 README 无效");
+    if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) {
+      throw new Error("主 README 无效");
+    }
   } catch (e) {
     try {
       repoMarkdown = await fetchRawText(CONFIG.REPO_README_BACKUP, false);
-      if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) throw new Error("备用 README 无效");
+      if (!repoMarkdown || repoMarkdown === "404: Not Found" || repoMarkdown.length < 50) {
+        throw new Error("备用 README 无效");
+      }
     } catch (e2) {
       throw new Error("❌ 来源熔断：本仓库 README 获取失败，拒绝发布！");
     }
@@ -875,10 +922,12 @@ async function main() {
   });
 
   console.log(`📦 去重后共 ${sourceModules.length} 个独立模块，开始抓取元数据...`);
+
   stats.totalAttempted = 0;
   stats.failedCount = 0;
 
   const result = await mapWithConcurrency(sourceModules, CONFIG.CONCURRENCY, fetchModule);
+
   const failureRatio = stats.totalAttempted > 0 ? stats.failedCount / stats.totalAttempted : 0;
   console.log(`📊 抓取总数: ${stats.totalAttempted} | 失败: ${stats.failedCount} | 失败率: ${(failureRatio * 100).toFixed(2)}%`);
 
@@ -900,10 +949,12 @@ async function main() {
   const finalResources = [...sortedResult, ...colorItems, ...allMoreItems];
 
   validateOutputData(finalResources);
+
   fs.writeFileSync(tempPath, JSON.stringify(finalResources, null, 2), "utf-8");
 
   const verifyData = JSON.parse(fs.readFileSync(tempPath, "utf-8"));
   validateOutputData(verifyData);
+
   if (verifyData.length !== finalResources.length) {
     if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
     throw new Error("❌ 临时文件校验不一致！");
@@ -917,7 +968,9 @@ main().catch(err => {
   console.error("\n❌ ShadowStore 构建失败:", err.message);
   const tempPath = path.resolve(__dirname, "modules.json.tmp");
   if (fs.existsSync(tempPath)) {
-    try { fs.unlinkSync(tempPath); } catch (e) {}
+    try {
+      fs.unlinkSync(tempPath);
+    } catch (e) {}
   }
   process.exit(1);
 });
