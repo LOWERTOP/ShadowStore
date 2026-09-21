@@ -282,7 +282,14 @@ function getMatchedIcon(name, originalIcon = "") {
 
   // 2. 次选：根据名称匹配图标库
   if (!name) return "";
-  const lowerName = name.trim().toLowerCase();
+
+  // 预清洗：剥离特殊区域指示符、方块字母（如 🆃🅾🅿🅼🅾🅳🆂）和 Emoji 符号
+  const strippedName = String(name)
+    .replace(/[\uD83C\uDD00-\uD83C\uDDFF]/gu, "")
+    .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "")
+    .trim();
+
+  const lowerName = (strippedName || name).trim().toLowerCase();
   if (!lowerName) return "";
 
   if (
