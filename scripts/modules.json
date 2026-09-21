@@ -22,6 +22,44 @@
     "_searchKeywords": "script hub: 重写 & 规则集转换 https://script.hub script-hub-org script-hub"
   },
   {
+    "name": "Sub-Store",
+    "category": "module",
+    "description": "功能强大的高级订阅管理工具，支持节点批量清洗、重命名、测速、分流策略编排及转换同步。",
+    "rawURL": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store.sgmodule",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fsub-store-org%2FSub-Store%2Frelease%2Fsub-store.sgmodule",
+    "author": {
+      "name": "sub-store-org",
+      "url": "https://github.com/sub-store-org",
+      "username": "sub-store-org"
+    },
+    "authorAvatar": "https://github.com/sub-store-org.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/SubStore.png",
+    "sourceName": "Sub-Store",
+    "sourceURL": "https://github.com/sub-store-org/Sub-Store",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "substore sub-store 订阅管理"
+  },
+  {
+    "name": "BoxJs",
+    "category": "module",
+    "description": "轻量级网页端脚本持久化数据管理工具，用于查看和修改各类自动化签到与任务脚本的环境变量及数据。",
+    "rawURL": "https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.sgmodule",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fchavyleung%2Fscripts%2Fmaster%2Fbox%2Frewrite%2Fboxjs.rewrite.sgmodule",
+    "author": {
+      "name": "chavyleung",
+      "url": "https://github.com/chavyleung",
+      "username": "chavyleung"
+    },
+    "authorAvatar": "https://github.com/chavyleung.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BoxJS.png",
+    "sourceName": "scripts",
+    "sourceURL": "https://github.com/chavyleung/scripts",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "_searchKeywords": "boxjs chavyleung 脚本数据管理"
+  },
+  {
     "name": "🆃🅾🅿🅼🅾🅳🆂 DeepSeek",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/DeepSeek.sgmodule",
     "category": "module",
