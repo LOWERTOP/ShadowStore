@@ -23,8 +23,16 @@ const CONFIG = {
   MAX_FAILURE_RATIO: 0.25
 };
 
-const stats = { totalAttempted: 0, failedCount: 0 };
-const sourceHealth = { local: false, fmz: false, zirawell: false };
+const stats = {
+  totalAttempted: 0,
+  failedCount: 0
+};
+
+const sourceHealth = {
+  local: false,
+  fmz: false,
+  zirawell: false
+};
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -67,6 +75,7 @@ function normalizeRawURL(url) {
   if (!url) return "";
   let value = url.trim().replace(/^<|>$/g, "").replace(/&amp;/g, "&");
   value = value.replace(/\\([#_~`*])/g, "$1");
+
   if (value.includes("url=")) {
     const match = value.match(/[?&]url=([^&]+)/i) || value.match(/url=([^&]+)/i);
     if (match) {
@@ -75,6 +84,7 @@ function normalizeRawURL(url) {
       } catch (e) {}
     }
   }
+
   if (value.includes("install?module=")) {
     const match = value.match(/install\?module=([^&]+)/i);
     if (match) {
@@ -83,7 +93,9 @@ function normalizeRawURL(url) {
       } catch (e) {}
     }
   }
+
   value = value.replace(/#/g, "%23").replace(/\s+/g, "%20");
+
   try {
     const parsed = new URL(value);
     if (parsed.hostname === "raw.githubusercontent.com") return parsed.href;
@@ -123,10 +135,12 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   const headers = { ...options.headers };
+
   if (process.env.GITHUB_TOKEN && url.includes("api.github.com")) {
     headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
     headers["User-Agent"] = "ShadowStore-Builder";
   }
+
   try {
     return await fetch(url, { ...options, headers, signal: controller.signal });
   } finally {
@@ -145,6 +159,7 @@ async function fetchRawText(url, isPartial = true) {
           if (response.status === 206 || response.status === 200) return await response.text();
         } catch (e) {}
       }
+
       const fallbackRes = await fetchWithTimeout(url, {}, 8000);
       if (fallbackRes.status === 404) return "404: Not Found";
       if (fallbackRes.ok) return await fallbackRes.text();
@@ -215,6 +230,7 @@ function resolveIconURL(icon, rawURL) {
   icon = icon.trim();
   if (icon.startsWith("data:")) return icon;
   if (/^https?:\/\//i.test(icon)) return normalizeRawURL(icon);
+
   try {
     const safeIcon = icon.replace(/#/g, "%23").replace(/\s+/g, "%20");
     return new URL(safeIcon, rawURL).href;
@@ -241,7 +257,6 @@ function resolveModuleIcon(metadata, rawURL) {
   if (rawIcon) {
     let fixedIcon = rawIcon;
     if (fixedIcon.includes("zirawell/R-Store")) {
-      // 仅当路径缺少 Res 前缀或使用了 master 时才做精细规范化，避免重复拼接
       fixedIcon = fixedIcon.replace("/master/", "/main/");
       if (fixedIcon.includes("/Rule/Res/Icon/")) {
         fixedIcon = fixedIcon.replace("/Rule/Res/Icon/", "/Res/Icon/");
@@ -249,7 +264,6 @@ function resolveModuleIcon(metadata, rawURL) {
         fixedIcon = fixedIcon.replace("/Icon/", "/Res/Icon/");
       }
     }
-
     const resolved = resolveIconURL(fixedIcon, rawURL);
     if (resolved && !resolved.includes("/Rule/Res/Icon/")) {
       return resolved;
@@ -287,8 +301,8 @@ function parseRepositoryModules(markdown) {
 
   const moreSectionIdx = markdown.search(/(?:^|\n)#{1,4}\s*[^#\n]*?更多资源/i);
   const scanScope = moreSectionIdx !== -1 ? markdown.slice(0, moreSectionIdx) : markdown;
-
   const lines = scanScope.split(/\r?\n/);
+
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) continue;
@@ -305,6 +319,7 @@ function parseRepositoryModules(markdown) {
     while ((match = rawRegex.exec(line)) !== null) {
       let rawURL = normalizeRawURL(match[1].replace(/[),\]"'<>]+$/g, ""));
       if (!rawURL || !/\.(?:sgmodule|srmodule|module)(?:$|[?#%])/i.test(rawURL)) continue;
+
       result.push({
         name: getModuleNameFromURL(rawURL) || currentHeading || "未命名模块",
         rawURL,
@@ -393,7 +408,6 @@ function parseModuleMetadata(text, fallbackName, rawURL = "") {
 
   const declaredName = metadata.name || "";
   const resolvedName = declaredName || resolveFallbackName(fallbackName, rawURL);
-
   return {
     name: resolvedName,
     declaredName,
@@ -404,7 +418,6 @@ function parseModuleMetadata(text, fallbackName, rawURL = "") {
 
 function generateDescription(metadata, rawText) {
   if (metadata.description) return cleanMarkdownText(metadata.description);
-
   const lines = rawText.split(/\r?\n/);
   const comments = [];
   for (let i = 0; i < Math.min(lines.length, 40); i++) {
@@ -415,7 +428,6 @@ function generateDescription(metadata, rawText) {
       if (line && !/^[-=*]+$/.test(line) && line.length >= 4) comments.push(line);
     }
   }
-
   return comments.length
     ? cleanMarkdownText(comments.slice(0, 2).join(" "))
     : `${metadata.name} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
@@ -424,19 +436,21 @@ function generateDescription(metadata, rawText) {
 function getPinnedRank(item) {
   if (!item) return 9999;
   const rawURL = (item.rawURL || "").toLowerCase();
-  if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
-    return 9999;
-  }
-
   const name = (item.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
+
+  // 核心工具三大模块固定排在前 3 位，不受 isDubious 降权影响
   if (name.includes("scripthub") || rawURL.includes("script-hub") || rawURL.includes("scripthub")) return 1;
   if (name.includes("substore") || rawURL.includes("sub-store") || rawURL.includes("substore")) return 2;
   if (name.includes("boxjs") || rawURL.includes("boxjs") || name.includes("box.js")) return 3;
 
+  // 常规模块的降权与过滤判断
+  if (item.isDubious || rawURL.includes("ddgksf2013.top")) {
+    return 9999;
+  }
+
   if (item.fromMyRepo) return 10;
   if (item.fromFMZ || rawURL.includes("fmz200")) return 40;
   if (item.fromZirawell || rawURL.includes("zirawell")) return 50;
-
   return 60;
 }
 
@@ -461,10 +475,7 @@ async function fetchModule(item) {
   const githubInfo = parseGitHubRawURL(item.rawURL);
   const sourceInfo = getSourceRepoInfo(item.rawURL, githubInfo);
   const urlAuthor = getAuthorFromURL(item.rawURL, githubInfo);
-  const avatarUrl = urlAuthor.username
-    ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64`
-    : "";
-
+  const avatarUrl = urlAuthor.username ? `https://github.com/${encodeURIComponent(urlAuthor.username)}.png?size=64` : "";
   const fromMyRepo = item.fromMyRepo || false;
   const fromFMZ = item.fromFMZ || false;
   const fromZirawell = item.fromZirawell || false;
@@ -504,7 +515,6 @@ async function fetchModule(item) {
     stats.failedCount++;
     const resolvedName = resolveFallbackName(item.name, item.rawURL);
     const fallbackDesc = `${resolvedName || "该模块"} 模块信息获取失败，请自行判断该模块的作用和有效性。`;
-
     return {
       name: resolvedName,
       rawURL: item.rawURL,
@@ -562,8 +572,8 @@ async function fetchColorThemes(markdownText) {
 
   const colorSectionIdx = markdownText.indexOf("## Shadowrocket 配色文件");
   const parseScope = colorSectionIdx !== -1 ? markdownText.slice(colorSectionIdx) : markdownText;
-
   const sections = parseScope.split(/(?=###\s+)/g);
+
   for (const sec of sections) {
     if (
       !sec.includes("Shadowrocket") ||
@@ -877,7 +887,6 @@ function getTopMoreCards() {
 async function main() {
   console.log("⏳ 等待 60 秒上游缓存同步与网络就绪...");
   await wait(60000);
-
   console.log("🚀 ShadowStore 聚合构建引擎启动...\n");
 
   const outputPath = path.resolve(__dirname, "modules.json");
@@ -925,12 +934,10 @@ async function main() {
   });
 
   console.log(`📦 去重后共 ${sourceModules.length} 个独立模块，开始抓取元数据...`);
-
   stats.totalAttempted = 0;
   stats.failedCount = 0;
 
   const result = await mapWithConcurrency(sourceModules, CONFIG.CONCURRENCY, fetchModule);
-
   const failureRatio = stats.totalAttempted > 0 ? stats.failedCount / stats.totalAttempted : 0;
   console.log(`📊 抓取总数: ${stats.totalAttempted} | 失败: ${stats.failedCount} | 失败率: ${(failureRatio * 100).toFixed(2)}%`);
 
@@ -938,7 +945,92 @@ async function main() {
     throw new Error(`❌ 数据熔断：失败率 ${(failureRatio * 100).toFixed(2)}% 超出安全阈值，中止发布！`);
   }
 
-  const sortedResult = sortPinnedModules(result.filter(Boolean));
+  const validModules = result.filter(Boolean);
+
+  // ==================== 核心三大固定模块保底定义 ====================
+  const ESSENTIAL_PINNED_MODULES = [
+    {
+      name: "ScriptHub",
+      category: "module",
+      description: "可将各类代理工具的脚本规则重写为通用格式，便于在 Shadowrocket 中集中管理与自动转换。",
+      rawURL: "https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/scripthub.sgmodule",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FScript-Hub-Org%2FScript-Hub%2Fmain%2Fscripthub.sgmodule",
+      author: {
+        name: "Script-Hub-Org",
+        url: "https://github.com/Script-Hub-Org",
+        username: "Script-Hub-Org"
+      },
+      authorAvatar: "https://github.com/Script-Hub-Org.png?size=64",
+      icon: getMatchedIcon("scripthub") || "https://github.com/Script-Hub-Org.png?size=64",
+      sourceName: "Script-Hub",
+      sourceURL: "https://github.com/Script-Hub-Org/Script-Hub",
+      isDubious: false,
+      fromMyRepo: true,
+      _searchKeywords: "scripthub script-hub 脚本转换"
+    },
+    {
+      name: "Sub-Store",
+      category: "module",
+      description: "功能强大的高级订阅管理工具，支持节点批量清洗、重命名、测速、分流策略编排及转换同步。",
+      rawURL: "https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store.sgmodule",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fsub-store-org%2FSub-Store%2Frelease%2Fsub-store.sgmodule",
+      author: {
+        name: "sub-store-org",
+        url: "https://github.com/sub-store-org",
+        username: "sub-store-org"
+      },
+      authorAvatar: "https://github.com/sub-store-org.png?size=64",
+      icon: getMatchedIcon("substore") || "https://github.com/sub-store-org.png?size=64",
+      sourceName: "Sub-Store",
+      sourceURL: "https://github.com/sub-store-org/Sub-Store",
+      isDubious: false,
+      fromMyRepo: true,
+      _searchKeywords: "substore sub-store 订阅管理"
+    },
+    {
+      name: "BoxJs",
+      category: "module",
+      description: "轻量级网页端脚本持久化数据管理工具，用于查看和修改各类自动化签到与任务脚本的环境变量及数据。",
+      rawURL: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.sgmodule",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fchavyleung%2Fscripts%2Fmaster%2Fbox%2Frewrite%2Fboxjs.rewrite.sgmodule",
+      author: {
+        name: "chavyleung",
+        url: "https://github.com/chavyleung",
+        username: "chavyleung"
+      },
+      authorAvatar: "https://github.com/chavyleung.png?size=64",
+      icon: getMatchedIcon("boxjs") || "https://github.com/chavyleung.png?size=64",
+      sourceName: "scripts",
+      sourceURL: "https://github.com/chavyleung/scripts",
+      isDubious: false,
+      fromMyRepo: true,
+      _searchKeywords: "boxjs chavyleung 脚本数据管理"
+    }
+  ];
+
+  // 保底补齐与强制解除 Dubious 标记，确保前台不被过滤且前三置顶
+  for (const essential of ESSENTIAL_PINNED_MODULES) {
+    const normKey = essential.name.toLowerCase().replace(/[\s_\-.]/g, "");
+    const existingIdx = validModules.findIndex(m => {
+      const mName = (m.name || "").toLowerCase().replace(/[\s_\-.]/g, "");
+      const mURL = (m.rawURL || "").toLowerCase();
+      return mName.includes(normKey) || mURL.includes(normKey);
+    });
+
+    if (existingIdx !== -1) {
+      validModules[existingIdx].isDubious = false;
+      if (!validModules[existingIdx].description || validModules[existingIdx].description.includes("获取失败")) {
+        validModules[existingIdx].description = essential.description;
+      }
+      if (!validModules[existingIdx].icon) {
+        validModules[existingIdx].icon = essential.icon;
+      }
+    } else {
+      validModules.push(essential);
+    }
+  }
+
+  const sortedResult = sortPinnedModules(validModules);
 
   // 1. 抓取配色方案
   const colorItems = await fetchColorThemes(repoMarkdown);
@@ -950,11 +1042,9 @@ async function main() {
 
   // 3. 汇总所有资源
   const finalResources = [...sortedResult, ...colorItems, ...allMoreItems];
-
   validateOutputData(finalResources);
 
   fs.writeFileSync(tempPath, JSON.stringify(finalResources, null, 2), "utf-8");
-
   const verifyData = JSON.parse(fs.readFileSync(tempPath, "utf-8"));
   validateOutputData(verifyData);
 
