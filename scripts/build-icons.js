@@ -61,11 +61,12 @@ const APP_ALIASES = {
 };
 
 const FLAG_CODES = new Set([
-  "cn", "us", "hk", "tw", "jp", "kr", "sg", "uk", "gb", "de", "fr", "ca", "ru", "au",
-  "mo", "vn", "th", "ph", "my", "in", "id", "br", "cl", "ar", "mx", "nl", "se", "no",
-  "fi", "ch", "at", "it", "es", "pt", "tr", "ua", "za", "nz", "ie", "pl", "ro", "cz",
-  "hu", "gr", "bg", "hr", "sk", "il", "china", "taiwan", "hongkong", "japan", "korea",
-  "singapore", "usa", "united_states", "united_kingdom", "germany", "france", "russia", "australia"
+  "cn", "us", "hk", "tw", "jp", "kr", "sg", "uk", "gb", "de", "fr", "ca", "ru",
+  "au", "mo", "vn", "th", "ph", "my", "in", "id", "br", "cl", "ar", "mx", "nl",
+  "se", "no", "fi", "ch", "at", "it", "es", "pt", "tr", "ua", "za", "nz", "ie",
+  "pl", "ro", "cz", "hu", "gr", "bg", "hr", "sk", "il", "china", "taiwan",
+  "hongkong", "japan", "korea", "singapore", "usa", "united_states",
+  "united_kingdom", "germany", "france", "russia", "australia"
 ]);
 
 let remoteIconsMap = {};
@@ -73,20 +74,13 @@ let remoteIconsMap = {};
 async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
-
   const headers = { ...options.headers };
-
   if (process.env.GITHUB_TOKEN && url.includes("api.github.com")) {
     headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
     headers["User-Agent"] = "ShadowStore-Builder";
   }
-
   try {
-    return await fetch(url, {
-      ...options,
-      headers,
-      signal: controller.signal
-    });
+    return await fetch(url, { ...options, headers, signal: controller.signal });
   } finally {
     clearTimeout(timer);
   }
@@ -94,42 +88,31 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
 
 function isFlagKey(key, url = "") {
   if (!key && !url) return false;
-
   const k = (key || "").toLowerCase().trim();
   const u = (url || "").toLowerCase().trim();
 
   if (FLAG_CODES.has(k)) return true;
 
   const flagKeywords = [
-    "flag", "flags", "国旗",
-    "node", "节点",
-    "country", "countries",
-    "region", "regions",
-    "geoip"
+    "flag", "flags", "国旗", "node", "节点", "country", "countries",
+    "region", "regions", "geoip"
   ];
-
   if (flagKeywords.some(w => k.includes(w) || u.includes(w))) return true;
-
   if (/\/(?:flags?|countries|regions|country)\//i.test(u)) return true;
-
   if (/[_\-\/](?:cn|us|hk|tw|jp|kr|sg|gb|uk|de|fr|ru|au|mo|ca)\.(?:png|jpg|jpeg|svg|webp)/i.test(u)) {
     return true;
   }
-
   return false;
 }
 
 async function loadLuestrIcons() {
   try {
     const res = await fetchWithTimeout(CONFIG.LUESTR_TREE_API, {}, 8000);
-
     if (res.ok) {
       const data = await res.json();
-
       if (data && Array.isArray(data.tree)) {
         for (const item of data.tree) {
           const pathName = item.path || "";
-
           if (
             item.type === "blob" &&
             /\.(?:png|jpg|jpeg|svg|webp)$/i.test(pathName)
@@ -138,13 +121,9 @@ async function loadLuestrIcons() {
               .split("/")
               .pop()
               .replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
-
-            const url =
-              `https://raw.githubusercontent.com/luestr/IconResource/main/${pathName}`;
-
+            const url = `https://raw.githubusercontent.com/luestr/IconResource/main/${pathName}`;
             if (!isFlagKey(fileName, url)) {
               const cleanName = fileName.trim().toLowerCase();
-
               if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
                 remoteIconsMap[cleanName] = url;
               }
@@ -161,14 +140,11 @@ async function loadLuestrIcons() {
 async function loadZirawellIcons() {
   try {
     const res = await fetchWithTimeout(CONFIG.ZIRAWELL_TREE_API, {}, 8000);
-
     if (res.ok) {
       const data = await res.json();
-
       if (data && Array.isArray(data.tree)) {
         for (const item of data.tree) {
           const pathName = item.path || "";
-
           if (
             item.type === "blob" &&
             /^Res\/Icon\//i.test(pathName) &&
@@ -178,13 +154,9 @@ async function loadZirawellIcons() {
               .split("/")
               .pop()
               .replace(/\.(?:png|jpg|jpeg|svg|webp)$/i, "");
-
-            const url =
-              `https://raw.githubusercontent.com/zirawell/R-Store/main/${pathName}`;
-
+            const url = `https://raw.githubusercontent.com/zirawell/R-Store/main/${pathName}`;
             if (!isFlagKey(fileName, url)) {
               const cleanName = fileName.trim().toLowerCase();
-
               if (cleanName.length >= 2 && !remoteIconsMap[cleanName]) {
                 remoteIconsMap[cleanName] = url;
               }
@@ -200,42 +172,23 @@ async function loadZirawellIcons() {
 
 async function loadRemoteIcons() {
   remoteIconsMap = {};
-
   try {
     const res = await fetchWithTimeout(CONFIG.ICONS_JSON_URL, {}, 8000);
-
     if (res.ok) {
       const data = await res.json();
-
       const extractUrl = (item) => {
         if (typeof item === "string") return item;
-
         if (typeof item === "object" && item !== null) {
-          return item.icon ||
-            item.url ||
-            item.src ||
-            item.img ||
-            item.path ||
-            item.link ||
-            "";
+          return item.icon || item.url || item.src || item.img || item.path || item.link || "";
         }
-
         return "";
       };
-
       const extractName = (item) => {
         if (typeof item === "object" && item !== null) {
-          return item.name ||
-            item.title ||
-            item.label ||
-            item.id ||
-            item.app ||
-            "";
+          return item.name || item.title || item.label || item.id || item.app || "";
         }
-
         return "";
       };
-
       const addMap = (name, url) => {
         if (
           name &&
@@ -245,22 +198,13 @@ async function loadRemoteIcons() {
           url.length > 5
         ) {
           if (isFlagKey(name, url)) return;
-
           const cleanName = name.trim().toLowerCase();
-
           if (cleanName.length < 2) return;
-
           remoteIconsMap[cleanName] = url.trim();
-
           const baseName = cleanName
             .replace(/[_-]?\d+$/, "")
             .trim();
-
-          if (
-            baseName &&
-            baseName.length >= 2 &&
-            !remoteIconsMap[baseName]
-          ) {
+          if (baseName && baseName.length >= 2 && !remoteIconsMap[baseName]) {
             remoteIconsMap[baseName] = url.trim();
           }
         }
@@ -272,7 +216,6 @@ async function loadRemoteIcons() {
         });
       } else if (data && typeof data === "object") {
         const list = data.icons || data.data || data.list;
-
         if (Array.isArray(list)) {
           list.forEach(item => {
             addMap(extractName(item), extractUrl(item));
@@ -296,39 +239,25 @@ async function loadRemoteIcons() {
 
 function findIconInMap(key) {
   if (!key) return "";
-
   const lowerKey = key.toLowerCase().trim();
 
-  if (
-    remoteIconsMap[lowerKey] &&
-    !isFlagKey(lowerKey, remoteIconsMap[lowerKey])
-  ) {
+  if (remoteIconsMap[lowerKey] && !isFlagKey(lowerKey, remoteIconsMap[lowerKey])) {
     return remoteIconsMap[lowerKey];
   }
 
   const baseKey = lowerKey
     .replace(/[_-]?\d+$/, "")
     .trim();
-
-  if (
-    baseKey &&
-    remoteIconsMap[baseKey] &&
-    !isFlagKey(baseKey, remoteIconsMap[baseKey])
-  ) {
+  if (baseKey && remoteIconsMap[baseKey] && !isFlagKey(baseKey, remoteIconsMap[baseKey])) {
     return remoteIconsMap[baseKey];
   }
 
   for (const [iconKey, iconUrl] of Object.entries(remoteIconsMap)) {
     if (isFlagKey(iconKey, iconUrl)) continue;
-
     const cleanIconKey = iconKey
       .replace(/[_-]?\d+$/, "")
       .trim();
-
-    if (
-      cleanIconKey === lowerKey ||
-      (baseKey && cleanIconKey === baseKey)
-    ) {
+    if (cleanIconKey === lowerKey || (baseKey && cleanIconKey === baseKey)) {
       return iconUrl;
     }
   }
@@ -336,11 +265,24 @@ function findIconInMap(key) {
   return "";
 }
 
-function getMatchedIcon(name) {
+/**
+ * 匹配或获取图标
+ * @param {string} name 模块或规则名称
+ * @param {string} [originalIcon=""] 模块自身附带的原图标链接
+ * @returns {string} 优先返回模块自带图标，不存在或无效时返回匹配的图标链接
+ */
+function getMatchedIcon(name, originalIcon = "") {
+  // 1. 首选：模块自带图标
+  if (typeof originalIcon === "string" && originalIcon.trim().length > 5) {
+    const rawIcon = originalIcon.trim();
+    if (!isFlagKey("", rawIcon)) {
+      return rawIcon;
+    }
+  }
+
+  // 2. 次选：根据名称匹配图标库
   if (!name) return "";
-
   const lowerName = name.trim().toLowerCase();
-
   if (!lowerName) return "";
 
   if (
@@ -349,7 +291,6 @@ function getMatchedIcon(name) {
     lowerName.includes("ytb")
   ) {
     const ytIcon = findIconInMap("youtube");
-
     if (ytIcon) return ytIcon;
   }
 
@@ -363,12 +304,10 @@ function getMatchedIcon(name) {
       findIconInMap("xiaomi") ||
       findIconInMap("mihome") ||
       findIconInMap("mi");
-
     if (miIcon) return miIcon;
   }
 
   let matched = findIconInMap(lowerName);
-
   if (matched) return matched;
 
   const cleanName = lowerName
@@ -381,7 +320,6 @@ function getMatchedIcon(name) {
 
   if (cleanName && cleanName.length >= 2) {
     matched = findIconInMap(cleanName);
-
     if (matched) return matched;
   }
 
@@ -389,36 +327,22 @@ function getMatchedIcon(name) {
     if (lowerName.includes(cnKeyword.toLowerCase())) {
       for (const key of enKeys) {
         matched = findIconInMap(key);
-
         if (matched) return matched;
       }
     }
   }
 
   for (const [iconName, iconUrl] of Object.entries(remoteIconsMap)) {
-    if (
-      !iconName ||
-      iconName.length < 3 ||
-      isFlagKey(iconName, iconUrl)
-    ) {
+    if (!iconName || iconName.length < 3 || isFlagKey(iconName, iconUrl)) {
       continue;
     }
-
     const baseIconName = iconName
       .replace(/[_-]?\d+$/, "")
       .trim();
-
-    if (
-      baseIconName.length < 3 ||
-      isFlagKey(baseIconName, iconUrl)
-    ) {
+    if (baseIconName.length < 3 || isFlagKey(baseIconName, iconUrl)) {
       continue;
     }
-
-    if (
-      lowerName.includes(iconName) ||
-      lowerName.includes(baseIconName)
-    ) {
+    if (lowerName.includes(iconName) || lowerName.includes(baseIconName)) {
       return iconUrl;
     }
   }
