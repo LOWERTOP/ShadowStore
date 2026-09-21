@@ -1866,7 +1866,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609201500";
+    const CACHE_VERSION = "202609211208";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1883,7 +1883,7 @@
       PAGE_SIZE: 16,
       CACHE_KEY: `sr_modules_data_${CACHE_VERSION}`,
       RULES_CACHE_KEY: `sr_rules_data_${CACHE_VERSION}`,
-      FETCH_TIMEOUT: 8000,
+      FETCH_TIMEOUT: 6000,
       FETCH_RETRIES: 1,
       RETRY_DELAY: 500,
       MIN_REASONABLE_RESOURCES: 100
@@ -3035,8 +3035,12 @@
             secondaryBtnHTML = `<button type="button" class="button button-secondary view-preview-btn" data-preview="${escapeHTML(module.previewImg)}" aria-label="查看效果 ${escapeHTML(module.name)}">查看效果</button>`;
           }
         } else if (module.preInstallURL) {
-          const preText = module.secondaryBtnText || "安装前置";
-          secondaryBtnHTML = `<a class="button button-secondary" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
+          const preText = module.secondaryBtnText || "安装模块";
+          const preButtonClass = preText === "安装模块" && module.isRepoCard
+            ? "button button-primary"
+            : "button button-secondary";
+
+          secondaryBtnHTML = `<a class="${preButtonClass}" href="${escapeHTML(module.preInstallURL)}" aria-label="${escapeHTML(preText)} ${escapeHTML(module.name)}">${escapeHTML(preText)}</a>`;
         } else if (module.rawURL) {
           secondaryBtnHTML = `<button class="button button-secondary copy-btn" data-url="${escapeHTML(module.rawURL)}" aria-label="复制链接 ${escapeHTML(module.name)}">复制链接</button>`;
         }
