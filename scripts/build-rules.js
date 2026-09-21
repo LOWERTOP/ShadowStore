@@ -1,6 +1,6 @@
 /**
  * ShadowStore 规则集自动化构建引擎
- * 增强特性：Git Trees truncated 熔断、从 README 真实提取直链杜绝硬编码幽灵链接、配置建议提取与原子写盘
+ * Git Trees truncated 熔断、从 README 真实提取直链杜绝硬编码幽灵链接、配置建议提取与原子写盘
  */
 const fs = require('fs');
 const path = require('path');
