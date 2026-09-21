@@ -2,8 +2,9 @@
   {
     "id": "115",
     "title": "115",
+    "iconKey": "115",
     "suggestion": "- 115.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/115.png",
     "isCombined": false,
     "buttons": [
       {
@@ -15,8 +16,9 @@
   {
     "id": "12306",
     "title": "12306",
+    "iconKey": "12306",
     "suggestion": "- 12306.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/12306.png",
     "isCombined": false,
     "buttons": [
       {
@@ -28,6 +30,7 @@
   {
     "id": "1337x",
     "title": "1337x",
+    "iconKey": "1337x",
     "suggestion": "- 1337x.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -41,6 +44,7 @@
   {
     "id": "17173",
     "title": "17173",
+    "iconKey": "17173",
     "suggestion": "- 17173.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -54,6 +58,7 @@
   {
     "id": "178",
     "title": "178",
+    "iconKey": "178",
     "suggestion": "- 178.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -67,6 +72,7 @@
   {
     "id": "17zuoye",
     "title": "一起作业",
+    "iconKey": "17zuoye",
     "suggestion": "- 17zuoye.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -80,8 +86,9 @@
   {
     "id": "2KGames",
     "title": "2KGames",
+    "iconKey": "2KGames",
     "suggestion": "- 2KGames.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -93,6 +100,7 @@
   {
     "id": "360",
     "title": "奇虎360",
+    "iconKey": "360",
     "suggestion": "- 360.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -106,8 +114,9 @@
   {
     "id": "36kr",
     "title": "36氪",
+    "iconKey": "36kr",
     "suggestion": "- 36kr.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/36Kr.png",
     "isCombined": false,
     "buttons": [
       {
@@ -119,6 +128,7 @@
   {
     "id": "3Type",
     "title": "3Type",
+    "iconKey": "3Type",
     "suggestion": "- 3Type.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -132,6 +142,7 @@
   {
     "id": "3dm",
     "title": "3dm",
+    "iconKey": "3dm",
     "suggestion": "- 3dm.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -145,6 +156,7 @@
   {
     "id": "4399",
     "title": "4399",
+    "iconKey": "4399",
     "suggestion": "- 4399.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -158,6 +170,7 @@
   {
     "id": "4Paradigm",
     "title": "4Paradigm",
+    "iconKey": "4Paradigm",
     "suggestion": "- 4Paradigm.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -171,8 +184,9 @@
   {
     "id": "4chan",
     "title": "4chan",
+    "iconKey": "4chan",
     "suggestion": "- 4chan.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -184,8 +198,9 @@
   {
     "id": "51Job",
     "title": "前程无忧",
+    "iconKey": "51Job",
     "suggestion": "- 51Job.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/51Job.png",
     "isCombined": false,
     "buttons": [
       {
@@ -197,6 +212,7 @@
   {
     "id": "51nod",
     "title": "51nod",
+    "iconKey": "51nod",
     "suggestion": "- 51nod.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -210,6 +226,7 @@
   {
     "id": "56",
     "title": "56网",
+    "iconKey": "56",
     "suggestion": "- 56.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -223,8 +240,9 @@
   {
     "id": "58TongCheng",
     "title": "58同城",
+    "iconKey": "58同城",
     "suggestion": "- 58TongCheng.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/58同城.png",
     "isCombined": false,
     "buttons": [
       {
@@ -236,6 +254,7 @@
   {
     "id": "6JianFang",
     "title": "六间房",
+    "iconKey": "6JianFang",
     "suggestion": "- 6JianFang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -249,8 +268,9 @@
   {
     "id": "6park",
     "title": "留园网",
+    "iconKey": "6park",
     "suggestion": "- 6park.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/Twoandz9/Ark.png",
     "isCombined": false,
     "buttons": [
       {
@@ -262,6 +282,7 @@
   {
     "id": "8btc",
     "title": "8btc",
+    "iconKey": "8btc",
     "suggestion": "- 8btc.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -275,6 +296,7 @@
   {
     "id": "9News",
     "title": "9News",
+    "iconKey": "9News",
     "suggestion": "- 9News.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -288,6 +310,7 @@
   {
     "id": "9to5",
     "title": "9to5",
+    "iconKey": "9to5",
     "suggestion": "- 9to5.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -301,8 +324,9 @@
   {
     "id": "ABC",
     "title": "农业银行",
+    "iconKey": "ABC",
     "suggestion": "- ABC.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/abc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -314,6 +338,7 @@
   {
     "id": "AFP",
     "title": "AFP",
+    "iconKey": "AFP",
     "suggestion": "- AFP.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -327,6 +352,7 @@
   {
     "id": "ALJazeera",
     "title": "ALJazeera",
+    "iconKey": "ALJazeera",
     "suggestion": "- ALJazeera.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -340,6 +366,7 @@
   {
     "id": "AMD",
     "title": "AMD",
+    "iconKey": "AMD",
     "suggestion": "- AMD.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -353,6 +380,7 @@
   {
     "id": "AMP",
     "title": "AMP",
+    "iconKey": "AMP",
     "suggestion": "- AMP.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -366,6 +394,7 @@
   {
     "id": "AOL",
     "title": "AOL",
+    "iconKey": "AOL",
     "suggestion": "- AOL.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -379,6 +408,7 @@
   {
     "id": "APKCombo",
     "title": "APKCombo",
+    "iconKey": "APKCombo",
     "suggestion": "- APKCombo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -392,6 +422,7 @@
   {
     "id": "ATTWatchTV",
     "title": "ATTWatchTV",
+    "iconKey": "ATTWatchTV",
     "suggestion": "- ATTWatchTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -405,6 +436,7 @@
   {
     "id": "Abema",
     "title": "Abema",
+    "iconKey": "Abema",
     "suggestion": "- Abema.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -418,6 +450,7 @@
   {
     "id": "AbemaTV",
     "title": "AbemaTV",
+    "iconKey": "AbemaTV",
     "suggestion": "- AbemaTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -431,8 +464,9 @@
   {
     "id": "AcFun",
     "title": "AcFun",
+    "iconKey": "AcFun",
     "suggestion": "- AcFun.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AcFun.png",
     "isCombined": false,
     "buttons": [
       {
@@ -444,6 +478,7 @@
   {
     "id": "Accuweather",
     "title": "Accuweather",
+    "iconKey": "Accuweather",
     "suggestion": "- Accuweather.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -457,6 +492,7 @@
   {
     "id": "Acer",
     "title": "Acer",
+    "iconKey": "Acer",
     "suggestion": "- Acer.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -470,8 +506,9 @@
   {
     "id": "Acplay",
     "title": "Acplay",
+    "iconKey": "Acplay",
     "suggestion": "- Acplay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/play.png",
     "isCombined": false,
     "buttons": [
       {
@@ -483,6 +520,7 @@
   {
     "id": "Actalis",
     "title": "Actalis",
+    "iconKey": "Actalis",
     "suggestion": "- Actalis.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -496,6 +534,7 @@
   {
     "id": "AdColony",
     "title": "AdColony",
+    "iconKey": "AdColony",
     "suggestion": "- AdColony.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -509,8 +548,9 @@
   {
     "id": "AdGuardSDNSFilter",
     "title": "AdGuardS DNS Filter Direct",
+    "iconKey": "AdGuardSDNSFilter",
     "suggestion": "- Direct.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AdGuard_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -522,8 +562,9 @@
   {
     "id": "AdGuardSDNSFilter",
     "title": "AdGuardSDNSFilter",
+    "iconKey": "AdGuardSDNSFilter",
     "suggestion": "",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AdGuard_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -535,6 +576,7 @@
   {
     "id": "AddToAny",
     "title": "AddToAny",
+    "iconKey": "AddToAny",
     "suggestion": "- AddToAny.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -548,6 +590,7 @@
   {
     "id": "Addthis",
     "title": "Addthis",
+    "iconKey": "Addthis",
     "suggestion": "- Addthis.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -561,6 +604,7 @@
   {
     "id": "Adidas",
     "title": "Adidas",
+    "iconKey": "Adidas",
     "suggestion": "- Adidas.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -574,6 +618,7 @@
   {
     "id": "Adobe",
     "title": "Adobe",
+    "iconKey": "Adobe",
     "suggestion": "- Adobe.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -587,6 +632,7 @@
   {
     "id": "AdobeActivation",
     "title": "AdobeActivation",
+    "iconKey": "AdobeActivation",
     "suggestion": "- AdobeActivation.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -600,42 +646,37 @@
   {
     "id": "Advertising",
     "title": "去广告",
+    "iconKey": "Advertising",
     "suggestion": "- Advertising.list、Advertising_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Advertising/Advertising.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Advertising/Advertising_Domain.list"
       }
     ]
   },
   {
     "id": "AdvertisingLite",
     "title": "去广告精简版",
+    "iconKey": "AdvertisingLite",
     "suggestion": "- AdvertisingLite.list、AdvertisingLite_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingLite/AdvertisingLite.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingLite/AdvertisingLite_Domain.list"
       }
     ]
   },
   {
     "id": "AdvertisingMiTV",
     "title": "小米电视去广告",
+    "iconKey": "小米电视去广告",
     "suggestion": "- AdvertisingMiTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xiaomi.png",
     "isCombined": false,
     "buttons": [
       {
@@ -647,23 +688,21 @@
   {
     "id": "AdvertisingTest",
     "title": "去广告测试版",
+    "iconKey": "AdvertisingTest",
     "suggestion": "- AdvertisingTest.list、AdvertisingTest_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingTest/AdvertisingTest.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingTest/AdvertisingTest_Domain.list"
       }
     ]
   },
   {
     "id": "Aerogard",
     "title": "Aerogard",
+    "iconKey": "Aerogard",
     "suggestion": "- Aerogard.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -677,8 +716,9 @@
   {
     "id": "Afdian",
     "title": "Afdian",
+    "iconKey": "Afdian",
     "suggestion": "- Afdian.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -690,6 +730,7 @@
   {
     "id": "Agora",
     "title": "声网",
+    "iconKey": "Agora",
     "suggestion": "- Agora.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -703,8 +744,9 @@
   {
     "id": "AiQiCha",
     "title": "爱企查",
+    "iconKey": "AiQiCha",
     "suggestion": "- AiQiCha.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/aiqicha.png",
     "isCombined": false,
     "buttons": [
       {
@@ -716,8 +758,9 @@
   {
     "id": "AirChina",
     "title": "中国国航",
+    "iconKey": "AirChina",
     "suggestion": "- AirChina.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/airchina.png",
     "isCombined": false,
     "buttons": [
       {
@@ -729,6 +772,7 @@
   {
     "id": "AirWick",
     "title": "AirWick",
+    "iconKey": "AirWick",
     "suggestion": "- AirWick.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -742,6 +786,7 @@
   {
     "id": "Akamai",
     "title": "Akamai",
+    "iconKey": "Akamai",
     "suggestion": "- Akamai.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -755,6 +800,7 @@
   {
     "id": "Ali213",
     "title": "游侠网",
+    "iconKey": "Ali213",
     "suggestion": "- Ali213.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -768,8 +814,9 @@
   {
     "id": "AliPay",
     "title": "支付宝",
+    "iconKey": "AliPay",
     "suggestion": "- AliPay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AliPay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -781,23 +828,21 @@
   {
     "id": "Alibaba",
     "title": "阿里巴巴",
+    "iconKey": "阿里巴巴",
     "suggestion": "- Alibaba.list、Alibaba_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/阿里巴巴.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Alibaba/Alibaba.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Alibaba/Alibaba_Domain.list"
       }
     ]
   },
   {
     "id": "All4",
     "title": "All4",
+    "iconKey": "All4",
     "suggestion": "- All4.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -811,8 +856,9 @@
   {
     "id": "Amazon",
     "title": "Amazon",
+    "iconKey": "Amazon",
     "suggestion": "- Amazon.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -824,8 +870,9 @@
   {
     "id": "AmazonCN",
     "title": "AmazonCN",
+    "iconKey": "AmazonCN",
     "suggestion": "- AmazonCN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -837,8 +884,9 @@
   {
     "id": "AmazonIP",
     "title": "AmazonIP",
+    "iconKey": "AmazonIP",
     "suggestion": "- AmazonIP.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -850,8 +898,9 @@
   {
     "id": "AmazonPrimeVideo",
     "title": "AmazonPrimeVideo",
+    "iconKey": "AmazonPrimeVideo",
     "suggestion": "- AmazonPrimeVideo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -863,8 +912,9 @@
   {
     "id": "AmazonTrust",
     "title": "AmazonTrust",
+    "iconKey": "AmazonTrust",
     "suggestion": "- AmazonTrust.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -876,6 +926,7 @@
   {
     "id": "Americasvoice",
     "title": "Americasvoice",
+    "iconKey": "Americasvoice",
     "suggestion": "- Americasvoice.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -889,6 +940,7 @@
   {
     "id": "AnTianKeJi",
     "title": "安天科技",
+    "iconKey": "AnTianKeJi",
     "suggestion": "- AnTianKeJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -902,6 +954,7 @@
   {
     "id": "Anaconda",
     "title": "Anaconda",
+    "iconKey": "Anaconda",
     "suggestion": "- Anaconda.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -915,6 +968,7 @@
   {
     "id": "AnandTech",
     "title": "AnandTech",
+    "iconKey": "AnandTech",
     "suggestion": "- AnandTech.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -928,6 +982,7 @@
   {
     "id": "Android",
     "title": "Android",
+    "iconKey": "Android",
     "suggestion": "- Android.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -941,6 +996,7 @@
   {
     "id": "Anime",
     "title": "Anime",
+    "iconKey": "Anime",
     "suggestion": "- Anime.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -954,6 +1010,7 @@
   {
     "id": "Anjuke",
     "title": "安居客",
+    "iconKey": "Anjuke",
     "suggestion": "- Anjuke.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -967,6 +1024,7 @@
   {
     "id": "Anonv",
     "title": "Anonv",
+    "iconKey": "Anonv",
     "suggestion": "- Anonv.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -980,6 +1038,7 @@
   {
     "id": "Anthropic",
     "title": "Anthropic",
+    "iconKey": "Anthropic",
     "suggestion": "- Anthropic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -993,6 +1052,7 @@
   {
     "id": "Antutu",
     "title": "安兔兔",
+    "iconKey": "Antutu",
     "suggestion": "- Antutu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1006,6 +1066,7 @@
   {
     "id": "Apifox",
     "title": "Apifox",
+    "iconKey": "Apifox",
     "suggestion": "- Apifox.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1019,6 +1080,7 @@
   {
     "id": "Apkpure",
     "title": "Apkpure",
+    "iconKey": "Apkpure",
     "suggestion": "- Apkpure.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1032,6 +1094,7 @@
   {
     "id": "AppLovin",
     "title": "AppLovin",
+    "iconKey": "AppLovin",
     "suggestion": "- AppLovin.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1045,8 +1108,9 @@
   {
     "id": "AppStore",
     "title": "AppStore",
+    "iconKey": "AppStore",
     "suggestion": "- AppStore.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AppStore.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1058,25 +1122,23 @@
   {
     "id": "Apple",
     "title": "Apple",
+    "iconKey": "Apple",
     "suggestion": "- Apple.list、Apple_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple_Domain.list"
       }
     ]
   },
   {
     "id": "AppleDaily",
     "title": "AppleDaily",
+    "iconKey": "AppleDaily",
     "suggestion": "- AppleDaily.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1088,8 +1150,9 @@
   {
     "id": "AppleDev",
     "title": "AppleDev",
+    "iconKey": "AppleDev",
     "suggestion": "- AppleDev.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1101,8 +1164,9 @@
   {
     "id": "AppleFirmware",
     "title": "AppleFirmware",
+    "iconKey": "AppleFirmware",
     "suggestion": "- AppleFirmware.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1114,8 +1178,9 @@
   {
     "id": "AppleHardware",
     "title": "AppleHardware",
+    "iconKey": "AppleHardware",
     "suggestion": "- AppleHardware.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1127,8 +1192,9 @@
   {
     "id": "AppleID",
     "title": "AppleID",
+    "iconKey": "AppleID",
     "suggestion": "- AppleID.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1140,8 +1206,9 @@
   {
     "id": "AppleMail",
     "title": "AppleMail",
+    "iconKey": "AppleMail",
     "suggestion": "- AppleMail.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1153,8 +1220,9 @@
   {
     "id": "AppleMedia",
     "title": "AppleMedia",
+    "iconKey": "AppleMedia",
     "suggestion": "- AppleMedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1166,8 +1234,9 @@
   {
     "id": "AppleMusic",
     "title": "AppleMusic",
+    "iconKey": "AppleMusic",
     "suggestion": "- AppleMusic.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AppleMusic.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1179,8 +1248,9 @@
   {
     "id": "AppleNews",
     "title": "AppleNews",
+    "iconKey": "AppleNews",
     "suggestion": "- AppleNews.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AppleNews.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1192,8 +1262,9 @@
   {
     "id": "AppleProxy",
     "title": "AppleProxy",
+    "iconKey": "AppleProxy",
     "suggestion": "- AppleProxy.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1205,8 +1276,9 @@
   {
     "id": "AppleTV",
     "title": "AppleTV",
+    "iconKey": "AppleTV",
     "suggestion": "- AppleTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1218,6 +1290,7 @@
   {
     "id": "Arphic",
     "title": "Arphic",
+    "iconKey": "Arphic",
     "suggestion": "- Arphic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1231,6 +1304,7 @@
   {
     "id": "Asahi",
     "title": "Asahi",
+    "iconKey": "Asahi",
     "suggestion": "- Asahi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1244,8 +1318,9 @@
   {
     "id": "AsianMedia",
     "title": "AsianMedia",
+    "iconKey": "AsianMedia",
     "suggestion": "- AsianMedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1257,6 +1332,7 @@
   {
     "id": "Atlassian",
     "title": "Atlassian",
+    "iconKey": "Atlassian",
     "suggestion": "- Atlassian.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1270,6 +1346,7 @@
   {
     "id": "Atomdata",
     "title": "Atomdata",
+    "iconKey": "Atomdata",
     "suggestion": "- Atomdata.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1283,6 +1360,7 @@
   {
     "id": "BBC",
     "title": "BBC",
+    "iconKey": "BBC",
     "suggestion": "- BBC.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1296,6 +1374,7 @@
   {
     "id": "BMW",
     "title": "BMW",
+    "iconKey": "BMW",
     "suggestion": "- BMW.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1309,8 +1388,9 @@
   {
     "id": "BOC",
     "title": "中国银行",
+    "iconKey": "BOC",
     "suggestion": "- BOC.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/boc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1322,8 +1402,9 @@
   {
     "id": "BOCOM",
     "title": "交通银行",
+    "iconKey": "BOCOM",
     "suggestion": "- BOCOM.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/boc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1335,6 +1416,7 @@
   {
     "id": "Bahamut",
     "title": "Bahamut",
+    "iconKey": "Bahamut",
     "suggestion": "- Bahamut.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1348,8 +1430,9 @@
   {
     "id": "BaiDuTieBa",
     "title": "百度贴吧",
+    "iconKey": "BaiDuTieBa",
     "suggestion": "- BaiDuTieBa.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/baidutieba.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1361,8 +1444,9 @@
   {
     "id": "BaiFenDian",
     "title": "百分点",
+    "iconKey": "BaiFenDian",
     "suggestion": "- BaiFenDian.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1374,8 +1458,9 @@
   {
     "id": "BaiShanYunKeJi",
     "title": "白山耘科技",
+    "iconKey": "BaiShanYunKeJi",
     "suggestion": "- BaiShanYunKeJi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1387,8 +1472,9 @@
   {
     "id": "Baidu",
     "title": "百度",
+    "iconKey": "Baidu",
     "suggestion": "- Baidu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Baidu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1400,6 +1486,7 @@
   {
     "id": "BaoFengYingYin",
     "title": "暴风影音",
+    "iconKey": "BaoFengYingYin",
     "suggestion": "- BaoFengYingYin.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1413,6 +1500,7 @@
   {
     "id": "BardAI",
     "title": "BardAI",
+    "iconKey": "BardAI",
     "suggestion": "- BardAI.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1426,6 +1514,7 @@
   {
     "id": "Battle",
     "title": "Battle",
+    "iconKey": "Battle",
     "suggestion": "- Battle.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1439,6 +1528,7 @@
   {
     "id": "BeStore",
     "title": "良品铺子",
+    "iconKey": "BeStore",
     "suggestion": "- BeStore.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1452,6 +1542,7 @@
   {
     "id": "Beats",
     "title": "Beats",
+    "iconKey": "Beats",
     "suggestion": "- Beats.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1465,8 +1556,9 @@
   {
     "id": "BesTV",
     "title": "BesTV",
+    "iconKey": "BesTV",
     "suggestion": "- BesTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/bestv.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1478,6 +1570,7 @@
   {
     "id": "Bestbuy",
     "title": "Bestbuy",
+    "iconKey": "Bestbuy",
     "suggestion": "- Bestbuy.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1491,6 +1584,7 @@
   {
     "id": "BianFeng",
     "title": "边锋网络",
+    "iconKey": "BianFeng",
     "suggestion": "- BianFeng.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1504,8 +1598,9 @@
   {
     "id": "BiliBili",
     "title": "BiliBili",
+    "iconKey": "BiliBili",
     "suggestion": "- BiliBili.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BiliBili.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1517,8 +1612,9 @@
   {
     "id": "BiliBiliIntl",
     "title": "BiliBiliIntl",
+    "iconKey": "BiliBiliIntl",
     "suggestion": "- BiliBiliIntl.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BiliBili.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1530,6 +1626,7 @@
   {
     "id": "Binance",
     "title": "币安交易所",
+    "iconKey": "Binance",
     "suggestion": "- Binance.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1543,8 +1640,9 @@
   {
     "id": "Bing",
     "title": "必应",
+    "iconKey": "Bing",
     "suggestion": "- Bing.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/bing.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1556,6 +1654,7 @@
   {
     "id": "Blizzard",
     "title": "暴雪娱乐",
+    "iconKey": "Blizzard",
     "suggestion": "- Blizzard.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1569,8 +1668,9 @@
   {
     "id": "BlockHttpDNS",
     "title": "BlockHttpDNS",
+    "iconKey": "BlockHttpDNS",
     "suggestion": "- BlockHttpDNS.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/Other_icon/1024px/HTTPDNS.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1582,6 +1682,7 @@
   {
     "id": "Bloomberg",
     "title": "Bloomberg",
+    "iconKey": "Bloomberg",
     "suggestion": "- Bloomberg.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1595,8 +1696,9 @@
   {
     "id": "Blued",
     "title": "Blued",
+    "iconKey": "Blued",
     "suggestion": "- Blued.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/blued.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1608,6 +1710,7 @@
   {
     "id": "BoXun",
     "title": "BoXun",
+    "iconKey": "BoXun",
     "suggestion": "- BoXun.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1621,6 +1724,7 @@
   {
     "id": "Bootcss",
     "title": "Bootcss",
+    "iconKey": "Bootcss",
     "suggestion": "- Bootcss.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1634,6 +1738,7 @@
   {
     "id": "BrightCove",
     "title": "BrightCove",
+    "iconKey": "BrightCove",
     "suggestion": "- BrightCove.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1647,6 +1752,7 @@
   {
     "id": "BritboxUK",
     "title": "BritboxUK",
+    "iconKey": "BritboxUK",
     "suggestion": "- BritboxUK.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1660,6 +1766,7 @@
   {
     "id": "Buypass",
     "title": "Buypass",
+    "iconKey": "Buypass",
     "suggestion": "- Buypass.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1673,6 +1780,7 @@
   {
     "id": "ByteDance",
     "title": "字节跳动",
+    "iconKey": "ByteDance",
     "suggestion": "- ByteDance.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1686,6 +1794,7 @@
   {
     "id": "CAS",
     "title": "中国科学院文献情报中心",
+    "iconKey": "CAS",
     "suggestion": "- CAS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1699,6 +1808,7 @@
   {
     "id": "CBS",
     "title": "CBS",
+    "iconKey": "CBS",
     "suggestion": "- CBS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1712,8 +1822,9 @@
   {
     "id": "CCB",
     "title": "建设银行",
+    "iconKey": "CCB",
     "suggestion": "- CCB.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/ccb.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1725,6 +1836,7 @@
   {
     "id": "CCTV",
     "title": "CCTV",
+    "iconKey": "CCTV",
     "suggestion": "- CCTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1738,8 +1850,9 @@
   {
     "id": "CEB",
     "title": "光大银行",
+    "iconKey": "光大银行",
     "suggestion": "- CEB.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/bank/CEB.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1751,6 +1864,7 @@
   {
     "id": "CETV",
     "title": "中国教育电视台",
+    "iconKey": "CETV",
     "suggestion": "- CETV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1764,8 +1878,9 @@
   {
     "id": "CGB",
     "title": "广发银行",
+    "iconKey": "CGB",
     "suggestion": "- CGB.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/cgb.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1777,6 +1892,7 @@
   {
     "id": "CHT",
     "title": "CHT",
+    "iconKey": "CHT",
     "suggestion": "- CHT.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1790,8 +1906,9 @@
   {
     "id": "CIBN",
     "title": "CIBN互联网电视",
+    "iconKey": "CIBN",
     "suggestion": "- CIBN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/cib.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1803,6 +1920,7 @@
   {
     "id": "CKJR",
     "title": "创客匠人",
+    "iconKey": "CKJR",
     "suggestion": "- CKJR.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1816,8 +1934,9 @@
   {
     "id": "CMB",
     "title": "招商银行",
+    "iconKey": "CMB",
     "suggestion": "- CMB.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/cmb.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1829,6 +1948,7 @@
   {
     "id": "CNKI",
     "title": "中国知网",
+    "iconKey": "CNKI",
     "suggestion": "- CNKI.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1842,6 +1962,7 @@
   {
     "id": "CNN",
     "title": "CNN",
+    "iconKey": "CNN",
     "suggestion": "- CNN.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1855,6 +1976,7 @@
   {
     "id": "CNNIC",
     "title": "中国互联网络信息中心",
+    "iconKey": "CNNIC",
     "suggestion": "- CNNIC.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1868,8 +1990,9 @@
   {
     "id": "CSDN",
     "title": "CSDN",
+    "iconKey": "CSDN",
     "suggestion": "- CSDN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/csdn.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1881,6 +2004,7 @@
   {
     "id": "CWSeed",
     "title": "CWSeed",
+    "iconKey": "CWSeed",
     "suggestion": "- CWSeed.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1894,8 +2018,9 @@
   {
     "id": "CableTV",
     "title": "CableTV",
+    "iconKey": "CableTV",
     "suggestion": "- CableTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/letv.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1907,8 +2032,9 @@
   {
     "id": "CaiNiao",
     "title": "菜鸟裹裹",
+    "iconKey": "CaiNiao",
     "suggestion": "- CaiNiao.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/cainiao.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1920,8 +2046,9 @@
   {
     "id": "CaiXinChuanMei",
     "title": "财新传媒",
+    "iconKey": "CaiXinChuanMei",
     "suggestion": "- CaiXinChuanMei.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/caixin.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1933,6 +2060,7 @@
   {
     "id": "Cake",
     "title": "Cake",
+    "iconKey": "Cake",
     "suggestion": "- Cake.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1946,6 +2074,7 @@
   {
     "id": "Camera360",
     "title": "Camera360",
+    "iconKey": "Camera360",
     "suggestion": "- Camera360.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1959,6 +2088,7 @@
   {
     "id": "Canon",
     "title": "Canon",
+    "iconKey": "Canon",
     "suggestion": "- Canon.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -1972,8 +2102,9 @@
   {
     "id": "ChengTongWangPan",
     "title": "城通网盘",
+    "iconKey": "城通网盘",
     "suggestion": "- ChengTongWangPan.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/城通网盘.png",
     "isCombined": false,
     "buttons": [
       {
@@ -1985,23 +2116,21 @@
   {
     "id": "China",
     "title": "China",
+    "iconKey": "China",
     "suggestion": "- China.list、China_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaDNS",
     "title": "ChinaDNS",
+    "iconKey": "ChinaDNS",
     "suggestion": "- ChinaDNS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2015,8 +2144,9 @@
   {
     "id": "ChinaIPs",
     "title": "ChinaIPsTest",
+    "iconKey": "ChinaIPsTest",
     "suggestion": "- ChinaIPsTest.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2028,6 +2158,7 @@
   {
     "id": "ChinaIPs",
     "title": "ChinaIPs",
+    "iconKey": "ChinaIPs",
     "suggestion": "- ChinaIPs.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2041,8 +2172,9 @@
   {
     "id": "ChinaIPsBGP",
     "title": "ChinaIPsBGP",
+    "iconKey": "ChinaIPsBGP",
     "suggestion": "- ChinaIPsBGP.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BGP.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2054,59 +2186,51 @@
   {
     "id": "ChinaMax",
     "title": "国内网站/IP合集",
+    "iconKey": "ChinaMax",
     "suggestion": "- ChinaMax.list、ChinaMax_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMax/ChinaMax.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMax/ChinaMax_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaMaxNoIP",
     "title": "国内域名合集",
+    "iconKey": "ChinaMaxNoIP",
     "suggestion": "- ChinaMaxNoIP.list、ChinaMaxNoIP_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaMaxNoMedia",
     "title": "ChinaMaxNoMedia",
+    "iconKey": "ChinaMaxNoMedia",
     "suggestion": "- ChinaMaxNoMedia.list、ChinaMaxNoMedia_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoMedia/ChinaMaxNoMedia.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoMedia/ChinaMaxNoMedia_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaMedia",
     "title": "ChinaMedia",
+    "iconKey": "ChinaMedia",
     "suggestion": "- ChinaMedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2118,8 +2242,9 @@
   {
     "id": "ChinaMobile",
     "title": "中国移动",
+    "iconKey": "ChinaMobile",
     "suggestion": "- ChinaMobile.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ChinaMobile.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2131,6 +2256,7 @@
   {
     "id": "ChinaNews",
     "title": "中国新闻网",
+    "iconKey": "ChinaNews",
     "suggestion": "- ChinaNews.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2144,25 +2270,23 @@
   {
     "id": "ChinaNoMedia",
     "title": "ChinaNoMedia",
+    "iconKey": "ChinaNoMedia",
     "suggestion": "- ChinaNoMedia.list、ChinaNoMedia_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaNoMedia/ChinaNoMedia.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaNoMedia/ChinaNoMedia_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaTelecom",
     "title": "中国电信",
+    "iconKey": "ChinaTelecom",
     "suggestion": "- ChinaTelecom.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/Twoandz9/ELE.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2174,25 +2298,23 @@
   {
     "id": "ChinaTest",
     "title": "ChinaTest",
+    "iconKey": "ChinaTest",
     "suggestion": "- ChinaTest.list、ChinaTest_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaTest/ChinaTest.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaTest/ChinaTest_Domain.list"
       }
     ]
   },
   {
     "id": "ChinaUnicom",
     "title": "中国联通",
+    "iconKey": "ChinaUnicom",
     "suggestion": "- ChinaUnicom.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ChinaUnicom.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2204,6 +2326,7 @@
   {
     "id": "Chromecast",
     "title": "Chromecast",
+    "iconKey": "Chromecast",
     "suggestion": "- Chromecast.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2217,6 +2340,7 @@
   {
     "id": "ChuangKeTie",
     "title": "创客贴",
+    "iconKey": "ChuangKeTie",
     "suggestion": "- ChuangKeTie.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2230,6 +2354,7 @@
   {
     "id": "ChunYou",
     "title": "纯游",
+    "iconKey": "ChunYou",
     "suggestion": "- ChunYou.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2243,8 +2368,9 @@
   {
     "id": "Cisco",
     "title": "Cisco",
+    "iconKey": "Cisco",
     "suggestion": "- Cisco.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Cisco.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2256,6 +2382,7 @@
   {
     "id": "Civitai",
     "title": "Civitai",
+    "iconKey": "Civitai",
     "suggestion": "- Civitai.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2269,6 +2396,7 @@
   {
     "id": "Classic",
     "title": "Classic",
+    "iconKey": "Classic",
     "suggestion": "- Classic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2282,8 +2410,9 @@
   {
     "id": "Claude",
     "title": "Claude",
+    "iconKey": "Claude",
     "suggestion": "- Claude.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Claude_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2295,6 +2424,7 @@
   {
     "id": "Cloud",
     "title": "360云计算",
+    "iconKey": "Cloud",
     "suggestion": "- 360Cloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2308,8 +2438,9 @@
   {
     "id": "Cloud",
     "title": "AkamaiCloud",
+    "iconKey": "AkamaiCloud",
     "suggestion": "- AkamaiCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/iCloud.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2321,8 +2452,9 @@
   {
     "id": "Cloud",
     "title": "AmazonCloud",
+    "iconKey": "AmazonCloud",
     "suggestion": "- AmazonCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Amazon.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2334,8 +2466,9 @@
   {
     "id": "Cloud",
     "title": "百度云计算",
+    "iconKey": "百度云计算",
     "suggestion": "- BaiduCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Baidu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2347,6 +2480,7 @@
   {
     "id": "Cloud",
     "title": "国内云计算",
+    "iconKey": "Cloud",
     "suggestion": "- CloudCN.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2360,6 +2494,7 @@
   {
     "id": "Cloud",
     "title": "全球云计算",
+    "iconKey": "Cloud",
     "suggestion": "- CloudGlobal.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2373,6 +2508,7 @@
   {
     "id": "Cloud",
     "title": "HiNet",
+    "iconKey": "Cloud",
     "suggestion": "- HiNet.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2386,6 +2522,7 @@
   {
     "id": "Cloud",
     "title": "华为云计算",
+    "iconKey": "Cloud",
     "suggestion": "- HuaweiCloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2399,8 +2536,9 @@
   {
     "id": "Cloud",
     "title": "京东云计算",
+    "iconKey": "京东云计算",
     "suggestion": "- JingDongCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/JD.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2412,6 +2550,7 @@
   {
     "id": "Cloud",
     "title": "金山云计算",
+    "iconKey": "Cloud",
     "suggestion": "- KingsoftCloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2425,8 +2564,9 @@
   {
     "id": "Cloud",
     "title": "网易云计算",
+    "iconKey": "网易云计算",
     "suggestion": "- NeteaseCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netease.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2438,8 +2578,9 @@
   {
     "id": "Cloud",
     "title": "腾讯云计算",
+    "iconKey": "腾讯云计算",
     "suggestion": "- TencentCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/tencent.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2451,8 +2592,9 @@
   {
     "id": "Cloudflare",
     "title": "Cloudflare",
+    "iconKey": "Cloudflare",
     "suggestion": "- Cloudflare.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Cloudflare.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2464,8 +2606,9 @@
   {
     "id": "Cloudflarecn",
     "title": "Cloudflarecn",
+    "iconKey": "Cloudflarecn",
     "suggestion": "- Cloudflarecn.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Cloudflare.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2477,8 +2620,9 @@
   {
     "id": "Clubhouse",
     "title": "Clubhouse",
+    "iconKey": "Clubhouse",
     "suggestion": "- Clubhouse.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Clubhouse.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2490,8 +2634,9 @@
   {
     "id": "ClubhouseIP",
     "title": "ClubhouseIP",
+    "iconKey": "ClubhouseIP",
     "suggestion": "- ClubhouseIP.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Clubhouse.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2503,6 +2648,7 @@
   {
     "id": "Cnet",
     "title": "Cnet",
+    "iconKey": "Cnet",
     "suggestion": "- Cnet.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2516,6 +2662,7 @@
   {
     "id": "Collabora",
     "title": "Collabora",
+    "iconKey": "Collabora",
     "suggestion": "- Collabora.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2529,6 +2676,7 @@
   {
     "id": "Comodo",
     "title": "Comodo",
+    "iconKey": "Comodo",
     "suggestion": "- Comodo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2542,6 +2690,7 @@
   {
     "id": "Contentful",
     "title": "Contentful",
+    "iconKey": "Contentful",
     "suggestion": "- Contentful.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2555,8 +2704,9 @@
   {
     "id": "Coolapk",
     "title": "Coolapk",
+    "iconKey": "Coolapk",
     "suggestion": "- Coolapk.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CoolApk.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2568,6 +2718,7 @@
   {
     "id": "Copilot",
     "title": "Copilot",
+    "iconKey": "Copilot",
     "suggestion": "- Copilot.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2581,6 +2732,7 @@
   {
     "id": "Crypto",
     "title": "Crypto",
+    "iconKey": "Crypto",
     "suggestion": "- Crypto.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2594,6 +2746,7 @@
   {
     "id": "Cryptocurrency",
     "title": "Cryptocurrency",
+    "iconKey": "Cryptocurrency",
     "suggestion": "- Cryptocurrency.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2607,6 +2760,7 @@
   {
     "id": "CyberTrust",
     "title": "CyberTrust",
+    "iconKey": "CyberTrust",
     "suggestion": "- CyberTrust.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2620,8 +2774,9 @@
   {
     "id": "DAZN",
     "title": "DAZN",
+    "iconKey": "DAZN",
     "suggestion": "- DAZN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Dazn.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2633,6 +2788,7 @@
   {
     "id": "DMM",
     "title": "DMM",
+    "iconKey": "DMM",
     "suggestion": "- DMM.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2646,6 +2802,7 @@
   {
     "id": "DNS",
     "title": "DNS",
+    "iconKey": "DNS",
     "suggestion": "- DNS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2659,8 +2816,9 @@
   {
     "id": "DaMai",
     "title": "红马传媒(大麦网)",
+    "iconKey": "DaMai",
     "suggestion": "- DaMai.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Damai.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2672,8 +2830,9 @@
   {
     "id": "Dailymail",
     "title": "Dailymail",
+    "iconKey": "Dailymail",
     "suggestion": "- Dailymail.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/mail.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2685,8 +2844,9 @@
   {
     "id": "Dailymotion",
     "title": "Dailymotion",
+    "iconKey": "Dailymotion",
     "suggestion": "- Dailymotion.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Daily.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2698,6 +2858,7 @@
   {
     "id": "DanDanZan",
     "title": "蛋蛋赞",
+    "iconKey": "DanDanZan",
     "suggestion": "- DanDanZan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2711,8 +2872,9 @@
   {
     "id": "Dandanplay",
     "title": "弹弹Play",
+    "iconKey": "Dandanplay",
     "suggestion": "- Dandanplay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/play.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2724,8 +2886,9 @@
   {
     "id": "DangDang",
     "title": "当当",
+    "iconKey": "DangDang",
     "suggestion": "- DangDang.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/dangdang.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2737,6 +2900,7 @@
   {
     "id": "Dedao",
     "title": "得到",
+    "iconKey": "Dedao",
     "suggestion": "- Dedao.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2750,6 +2914,7 @@
   {
     "id": "Deepin",
     "title": "深度科技",
+    "iconKey": "Deepin",
     "suggestion": "- Deepin.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2763,6 +2928,7 @@
   {
     "id": "Deezer",
     "title": "Deezer",
+    "iconKey": "Deezer",
     "suggestion": "- Deezer.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2776,6 +2942,7 @@
   {
     "id": "Dell",
     "title": "Dell",
+    "iconKey": "Dell",
     "suggestion": "- Dell.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2789,6 +2956,7 @@
   {
     "id": "Developer",
     "title": "Developer",
+    "iconKey": "Developer",
     "suggestion": "- Developer.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2802,8 +2970,9 @@
   {
     "id": "DiDi",
     "title": "滴滴出行",
+    "iconKey": "DiDi",
     "suggestion": "- DiDi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/didi.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2815,6 +2984,7 @@
   {
     "id": "DiLianWangLuo",
     "title": "帝联网络",
+    "iconKey": "DiLianWangLuo",
     "suggestion": "- DiLianWangLuo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2828,6 +2998,7 @@
   {
     "id": "DiSiFanShi",
     "title": "第四范式",
+    "iconKey": "DiSiFanShi",
     "suggestion": "- DiSiFanShi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2841,8 +3012,9 @@
   {
     "id": "DiabloIII",
     "title": "DiabloIII",
+    "iconKey": "DiabloIII",
     "suggestion": "- DiabloIII.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2854,8 +3026,9 @@
   {
     "id": "DianCeWangKe",
     "title": "点测网科",
+    "iconKey": "DianCeWangKe",
     "suggestion": "- DianCeWangKe.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2867,6 +3040,7 @@
   {
     "id": "DigiCert",
     "title": "DigiCert",
+    "iconKey": "DigiCert",
     "suggestion": "- DigiCert.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2880,6 +3054,7 @@
   {
     "id": "DigitalOcean",
     "title": "DigitalOcean",
+    "iconKey": "DigitalOcean",
     "suggestion": "- DigitalOcean.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2893,8 +3068,9 @@
   {
     "id": "DingTalk",
     "title": "钉钉",
+    "iconKey": "钉钉",
     "suggestion": "- DingTalk.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/钉钉.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2906,6 +3082,7 @@
   {
     "id": "DingXiangYuan",
     "title": "丁香园",
+    "iconKey": "DingXiangYuan",
     "suggestion": "- DingXiangYuan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2919,8 +3096,9 @@
   {
     "id": "Direct",
     "title": "直连",
+    "iconKey": "Direct",
     "suggestion": "- Direct.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Direct.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2932,8 +3110,9 @@
   {
     "id": "Discord",
     "title": "Discord",
+    "iconKey": "Discord",
     "suggestion": "- Discord.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Discord.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2945,8 +3124,9 @@
   {
     "id": "DiscoveryPlus",
     "title": "DiscoveryPlus",
+    "iconKey": "DiscoveryPlus",
     "suggestion": "- DiscoveryPlus.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Plus.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2958,6 +3138,7 @@
   {
     "id": "Disney",
     "title": "Disney",
+    "iconKey": "Disney",
     "suggestion": "- Disney.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2971,6 +3152,7 @@
   {
     "id": "Disqus",
     "title": "Disqus",
+    "iconKey": "Disqus",
     "suggestion": "- Disqus.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2984,6 +3166,7 @@
   {
     "id": "Docker",
     "title": "Docker",
+    "iconKey": "Docker",
     "suggestion": "- Docker.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -2997,6 +3180,7 @@
   {
     "id": "Domob",
     "title": "多盟",
+    "iconKey": "Domob",
     "suggestion": "- Domob.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3010,6 +3194,7 @@
   {
     "id": "Dood",
     "title": "Dood",
+    "iconKey": "Dood",
     "suggestion": "- Dood.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3023,8 +3208,9 @@
   {
     "id": "DouBan",
     "title": "豆瓣",
+    "iconKey": "DouBan",
     "suggestion": "- DouBan.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/DouBan.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3036,8 +3222,9 @@
   {
     "id": "DouYin",
     "title": "抖音",
+    "iconKey": "抖音",
     "suggestion": "- DouYin.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/抖音.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3049,8 +3236,9 @@
   {
     "id": "Douyu",
     "title": "斗鱼",
+    "iconKey": "Douyu",
     "suggestion": "- Douyu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/douyu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3062,8 +3250,9 @@
   {
     "id": "Download",
     "title": "Download",
+    "iconKey": "Download",
     "suggestion": "- Download.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Download.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3075,6 +3264,7 @@
   {
     "id": "Dropbox",
     "title": "Dropbox",
+    "iconKey": "Dropbox",
     "suggestion": "- Dropbox.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3088,6 +3278,7 @@
   {
     "id": "DtDNS",
     "title": "DtDNS",
+    "iconKey": "DtDNS",
     "suggestion": "- DtDNS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3101,8 +3292,9 @@
   {
     "id": "Dubox",
     "title": "百度网盘国际版",
+    "iconKey": "百度网盘国际版",
     "suggestion": "- Dubox.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Baidu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3114,6 +3306,7 @@
   {
     "id": "Duckduckgo",
     "title": "Duckduckgo",
+    "iconKey": "Duckduckgo",
     "suggestion": "- Duckduckgo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3127,6 +3320,7 @@
   {
     "id": "DuoWan",
     "title": "多玩",
+    "iconKey": "DuoWan",
     "suggestion": "- DuoWan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3140,6 +3334,7 @@
   {
     "id": "Duolingo",
     "title": "Duolingo",
+    "iconKey": "Duolingo",
     "suggestion": "- Duolingo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3153,6 +3348,7 @@
   {
     "id": "DynDNS",
     "title": "DynDNS",
+    "iconKey": "DynDNS",
     "suggestion": "- DynDNS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3166,6 +3362,7 @@
   {
     "id": "Dynu",
     "title": "Dynu",
+    "iconKey": "Dynu",
     "suggestion": "- Dynu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3179,6 +3376,7 @@
   {
     "id": "EA",
     "title": "EA",
+    "iconKey": "EA",
     "suggestion": "- EA.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3192,6 +3390,7 @@
   {
     "id": "EHGallery",
     "title": "EHGallery",
+    "iconKey": "EHGallery",
     "suggestion": "- EHGallery.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3205,8 +3404,9 @@
   {
     "id": "EastMoney",
     "title": "东方财富",
+    "iconKey": "EastMoney",
     "suggestion": "- EastMoney.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/eastmoney.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3218,6 +3418,7 @@
   {
     "id": "EasyPrivacy",
     "title": "EasyPrivacy",
+    "iconKey": "EasyPrivacy",
     "suggestion": "",
     "icon": "",
     "isCombined": false,
@@ -3231,8 +3432,9 @@
   {
     "id": "Electron",
     "title": "Electron",
+    "iconKey": "Electron",
     "suggestion": "- Electron.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/Twoandz9/ELE.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3244,8 +3446,9 @@
   {
     "id": "Eleme",
     "title": "饿了么",
+    "iconKey": "Eleme",
     "suggestion": "- Eleme.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eleme.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3257,6 +3460,7 @@
   {
     "id": "Embl",
     "title": "Embl",
+    "iconKey": "Embl",
     "suggestion": "- Embl.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3270,8 +3474,9 @@
   {
     "id": "Emby",
     "title": "Emby",
+    "iconKey": "Emby",
     "suggestion": "- Emby.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Emby.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3283,8 +3488,9 @@
   {
     "id": "Emojipedia",
     "title": "Emojipedia",
+    "iconKey": "Emojipedia",
     "suggestion": "- Emojipedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3296,6 +3502,7 @@
   {
     "id": "EncoreTVB",
     "title": "EncoreTVB",
+    "iconKey": "EncoreTVB",
     "suggestion": "- EncoreTVB.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3309,6 +3516,7 @@
   {
     "id": "Entrust",
     "title": "Entrust",
+    "iconKey": "Entrust",
     "suggestion": "- Entrust.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3322,6 +3530,7 @@
   {
     "id": "Epic",
     "title": "Epic",
+    "iconKey": "Epic",
     "suggestion": "- Epic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3335,6 +3544,7 @@
   {
     "id": "Espn",
     "title": "Espn",
+    "iconKey": "Espn",
     "suggestion": "- Espn.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3348,6 +3558,7 @@
   {
     "id": "FOXNOW",
     "title": "FOX NOW",
+    "iconKey": "FOXNOW",
     "suggestion": "- FOXNOW.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3361,8 +3572,9 @@
   {
     "id": "FOXPlus",
     "title": "FOXPlus",
+    "iconKey": "FOXPlus",
     "suggestion": "- FOXPlus.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Plus.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3374,8 +3586,9 @@
   {
     "id": "Facebook",
     "title": "Facebook",
+    "iconKey": "Facebook",
     "suggestion": "- Facebook.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/facebook.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3387,6 +3600,7 @@
   {
     "id": "FanFou",
     "title": "饭否科技",
+    "iconKey": "FanFou",
     "suggestion": "- FanFou.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3400,8 +3614,9 @@
   {
     "id": "FangZhengDianZi",
     "title": "方正电子",
+    "iconKey": "FangZhengDianZi",
     "suggestion": "- FangZhengDianZi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3413,6 +3628,7 @@
   {
     "id": "Faronics",
     "title": "Faronics",
+    "iconKey": "Faronics",
     "suggestion": "- Faronics.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3426,8 +3642,9 @@
   {
     "id": "FeiZhu",
     "title": "飞猪",
+    "iconKey": "FeiZhu",
     "suggestion": "- FeiZhu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Feizhu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3439,6 +3656,7 @@
   {
     "id": "FengHuangWang",
     "title": "凤凰网",
+    "iconKey": "FengHuangWang",
     "suggestion": "- FengHuangWang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3452,6 +3670,7 @@
   {
     "id": "FengXiaWangLuo",
     "title": "凤侠网络",
+    "iconKey": "FengXiaWangLuo",
     "suggestion": "- FengXiaWangLuo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3465,6 +3684,7 @@
   {
     "id": "Figma",
     "title": "Figma",
+    "iconKey": "Figma",
     "suggestion": "- Figma.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3478,6 +3698,7 @@
   {
     "id": "Fiio",
     "title": "飞傲",
+    "iconKey": "Fiio",
     "suggestion": "- Fiio.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3491,6 +3712,7 @@
   {
     "id": "FindMy",
     "title": "查找",
+    "iconKey": "FindMy",
     "suggestion": "- FindMy.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3504,8 +3726,9 @@
   {
     "id": "FitnessPlus",
     "title": "FitnessPlus",
+    "iconKey": "FitnessPlus",
     "suggestion": "- FitnessPlus.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Plus.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3517,6 +3740,7 @@
   {
     "id": "FlipBoard",
     "title": "FlipBoard",
+    "iconKey": "FlipBoard",
     "suggestion": "- FlipBoard.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3530,6 +3754,7 @@
   {
     "id": "Flurry",
     "title": "Flurry",
+    "iconKey": "Flurry",
     "suggestion": "- Flurry.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3543,6 +3768,7 @@
   {
     "id": "Fox",
     "title": "Fox",
+    "iconKey": "Fox",
     "suggestion": "- Fox.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3556,6 +3782,7 @@
   {
     "id": "FreeCodeCamp",
     "title": "FreeCodeCamp",
+    "iconKey": "FreeCodeCamp",
     "suggestion": "- FreeCodeCamp.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3569,6 +3796,7 @@
   {
     "id": "FuboTV",
     "title": "FuboTV",
+    "iconKey": "FuboTV",
     "suggestion": "- FuboTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3582,6 +3810,7 @@
   {
     "id": "Funshion",
     "title": "风行网",
+    "iconKey": "Funshion",
     "suggestion": "- Funshion.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3595,8 +3824,9 @@
   {
     "id": "Game",
     "title": "GameDownload",
+    "iconKey": "Game",
     "suggestion": "- GameDownload.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3608,8 +3838,9 @@
   {
     "id": "Game",
     "title": "GameDownloadCN",
+    "iconKey": "Game",
     "suggestion": "- GameDownloadCN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3621,8 +3852,9 @@
   {
     "id": "Game",
     "title": "胜利女神",
+    "iconKey": "Game",
     "suggestion": "- Nikke.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3634,8 +3866,9 @@
   {
     "id": "Game",
     "title": "游戏",
+    "iconKey": "Game",
     "suggestion": "- Game.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3647,8 +3880,9 @@
   {
     "id": "Game",
     "title": "Roblox",
+    "iconKey": "Game",
     "suggestion": "- Roblox.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3660,8 +3894,9 @@
   {
     "id": "Game",
     "title": "腾讯英雄联盟手游",
+    "iconKey": "Game",
     "suggestion": "- TencentLoLMobile.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Game.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3673,8 +3908,9 @@
   {
     "id": "GaoDe",
     "title": "高德",
+    "iconKey": "高德",
     "suggestion": "- GaoDe.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Amap.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3686,6 +3922,7 @@
   {
     "id": "Garena",
     "title": "Garena",
+    "iconKey": "Garena",
     "suggestion": "- Garena.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3699,6 +3936,7 @@
   {
     "id": "Geely",
     "title": "吉利",
+    "iconKey": "Geely",
     "suggestion": "- Geely.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3712,8 +3950,9 @@
   {
     "id": "Gemini",
     "title": "Gemini",
+    "iconKey": "Gemini",
     "suggestion": "- Gemini.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Gemini_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3725,6 +3964,7 @@
   {
     "id": "Gettyimages",
     "title": "Gettyimages",
+    "iconKey": "Gettyimages",
     "suggestion": "- Gettyimages.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3738,6 +3978,7 @@
   {
     "id": "Gigabyte",
     "title": "Gigabyte",
+    "iconKey": "Gigabyte",
     "suggestion": "- Gigabyte.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3751,6 +3992,7 @@
   {
     "id": "GitBook",
     "title": "GitBook",
+    "iconKey": "GitBook",
     "suggestion": "- GitBook.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3764,8 +4006,9 @@
   {
     "id": "GitHub",
     "title": "GitHub",
+    "iconKey": "GitHub",
     "suggestion": "- GitHub.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3777,6 +4020,7 @@
   {
     "id": "GitLab",
     "title": "GitLab",
+    "iconKey": "GitLab",
     "suggestion": "- GitLab.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3790,6 +4034,7 @@
   {
     "id": "Gitee",
     "title": "Gitee",
+    "iconKey": "Gitee",
     "suggestion": "- Gitee.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3803,40 +4048,35 @@
   {
     "id": "Global",
     "title": "Global",
+    "iconKey": "Global",
     "suggestion": "- Global.list、Global_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global_Domain.list"
       }
     ]
   },
   {
     "id": "GlobalMedia",
     "title": "GlobalMedia",
+    "iconKey": "GlobalMedia",
     "suggestion": "- GlobalMedia.list、GlobalMedia_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GlobalMedia/GlobalMedia.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GlobalMedia/GlobalMedia_Domain.list"
       }
     ]
   },
   {
     "id": "GlobalScholar",
     "title": "GlobalScholar",
+    "iconKey": "GlobalScholar",
     "suggestion": "- GlobalScholar.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3850,6 +4090,7 @@
   {
     "id": "GlobalSign",
     "title": "Globalsign",
+    "iconKey": "GlobalSign",
     "suggestion": "- GlobalSign.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3863,6 +4104,7 @@
   {
     "id": "Gog",
     "title": "Gog",
+    "iconKey": "Gog",
     "suggestion": "- Gog.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3876,8 +4118,9 @@
   {
     "id": "Google",
     "title": "Google",
+    "iconKey": "Google",
     "suggestion": "- Google.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Google.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3889,8 +4132,9 @@
   {
     "id": "GoogleDrive",
     "title": "GoogleDrive",
+    "iconKey": "GoogleDrive",
     "suggestion": "- GoogleDrive.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/GoogleDrive.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3902,8 +4146,9 @@
   {
     "id": "GoogleEarth",
     "title": "GoogleEarth",
+    "iconKey": "GoogleEarth",
     "suggestion": "- GoogleEarth.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Google_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3915,8 +4160,9 @@
   {
     "id": "GoogleFCM",
     "title": "谷歌推送",
+    "iconKey": "GoogleFCM",
     "suggestion": "- GoogleFCM.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/airport/efc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3928,8 +4174,9 @@
   {
     "id": "GoogleSearch",
     "title": "GoogleSearch",
+    "iconKey": "GoogleSearch",
     "suggestion": "- GoogleSearch.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Google_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3941,8 +4188,9 @@
   {
     "id": "GoogleVoice",
     "title": "GoogleVoice",
+    "iconKey": "GoogleVoice",
     "suggestion": "- GoogleVoice.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Googlevoice.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3954,6 +4202,7 @@
   {
     "id": "GovCN",
     "title": "GovernmentCN",
+    "iconKey": "GovCN",
     "suggestion": "- GovCN.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3967,6 +4216,7 @@
   {
     "id": "Gucci",
     "title": "Gucci",
+    "iconKey": "Gucci",
     "suggestion": "- Gucci.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3980,6 +4230,7 @@
   {
     "id": "GuiGuDongLi",
     "title": "硅谷动力",
+    "iconKey": "GuiGuDongLi",
     "suggestion": "- GuiGuDongLi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -3993,8 +4244,9 @@
   {
     "id": "HBO",
     "title": "HBO",
+    "iconKey": "HBO",
     "suggestion": "- HBO.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/HBO.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4006,8 +4258,9 @@
   {
     "id": "HBOAsia",
     "title": "HBOAsia",
+    "iconKey": "HBOAsia",
     "suggestion": "- HBOAsia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/HBO_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4019,8 +4272,9 @@
   {
     "id": "HBOHK",
     "title": "HBO(香港)",
+    "iconKey": "HBOHK",
     "suggestion": "- HBOHK.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/HBO_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4032,8 +4286,9 @@
   {
     "id": "HBOUSA",
     "title": "HBO(美国)",
+    "iconKey": "HBOUSA",
     "suggestion": "- HBOUSA.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/HBO_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4045,6 +4300,7 @@
   {
     "id": "HKBN",
     "title": "HKBN",
+    "iconKey": "HKBN",
     "suggestion": "- HKBN.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4058,6 +4314,7 @@
   {
     "id": "HKOpenTV",
     "title": "HKOpenTV",
+    "iconKey": "HKOpenTV",
     "suggestion": "- HKOpenTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4071,8 +4328,9 @@
   {
     "id": "HKedcity",
     "title": "HKedcity",
+    "iconKey": "HKedcity",
     "suggestion": "- HKedcity.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/EDC.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4084,6 +4342,7 @@
   {
     "id": "HP",
     "title": "HP",
+    "iconKey": "HP",
     "suggestion": "- HP.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4097,6 +4356,7 @@
   {
     "id": "HWTV",
     "title": "HWTV",
+    "iconKey": "HWTV",
     "suggestion": "- HWTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4110,8 +4370,9 @@
   {
     "id": "HaiNanHangKong",
     "title": "海南航空",
+    "iconKey": "HaiNanHangKong",
     "suggestion": "- HaiNanHangKong.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4123,6 +4384,7 @@
   {
     "id": "HamiVideo",
     "title": "HamiVideo",
+    "iconKey": "HamiVideo",
     "suggestion": "- HamiVideo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4136,8 +4398,9 @@
   {
     "id": "HanYi",
     "title": "汉仪",
+    "iconKey": "HanYi",
     "suggestion": "- HanYi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4149,6 +4412,7 @@
   {
     "id": "HashiCorp",
     "title": "HashiCorp",
+    "iconKey": "HashiCorp",
     "suggestion": "- HashiCorp.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4162,6 +4426,7 @@
   {
     "id": "Haveibeenpwned",
     "title": "Haveibeenpwned",
+    "iconKey": "Haveibeenpwned",
     "suggestion": "- Haveibeenpwned.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4175,6 +4440,7 @@
   {
     "id": "HeMa",
     "title": "盒马",
+    "iconKey": "HeMa",
     "suggestion": "- HeMa.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4188,8 +4454,9 @@
   {
     "id": "Hearthstone",
     "title": "Hearthstone",
+    "iconKey": "Hearthstone",
     "suggestion": "- Hearthstone.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/one.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4201,6 +4468,7 @@
   {
     "id": "HeroesoftheStorm",
     "title": "HeroesoftheStorm",
+    "iconKey": "HeroesoftheStorm",
     "suggestion": "- HeroesoftheStorm.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4214,6 +4482,7 @@
   {
     "id": "Heroku",
     "title": "Heroku",
+    "iconKey": "Heroku",
     "suggestion": "- Heroku.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4227,6 +4496,7 @@
   {
     "id": "HibyMusic",
     "title": "海贝音乐",
+    "iconKey": "HibyMusic",
     "suggestion": "- HibyMusic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4240,6 +4510,7 @@
   {
     "id": "Hijacking",
     "title": "反劫持",
+    "iconKey": "Hijacking",
     "suggestion": "- Hijacking.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4253,8 +4524,9 @@
   {
     "id": "Himalaya",
     "title": "喜马拉雅",
+    "iconKey": "Himalaya",
     "suggestion": "- Himalaya.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Himalaya.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4266,6 +4538,7 @@
   {
     "id": "Hkgolden",
     "title": "Hkgolden",
+    "iconKey": "Hkgolden",
     "suggestion": "- Hkgolden.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4279,6 +4552,7 @@
   {
     "id": "HoYoverse",
     "title": "米哈游HoYoverse",
+    "iconKey": "HoYoverse",
     "suggestion": "- HoYoverse.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4292,8 +4566,9 @@
   {
     "id": "Hpplay",
     "title": "乐播投屏",
+    "iconKey": "Hpplay",
     "suggestion": "- Hpplay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/hpplay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4305,8 +4580,9 @@
   {
     "id": "HuYa",
     "title": "虎牙",
+    "iconKey": "HuYa",
     "suggestion": "- HuYa.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/huya.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4318,6 +4594,7 @@
   {
     "id": "HuaShuTV",
     "title": "华数TV",
+    "iconKey": "HuaShuTV",
     "suggestion": "- HuaShuTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4331,6 +4608,7 @@
   {
     "id": "HuanJu",
     "title": "欢聚时代",
+    "iconKey": "HuanJu",
     "suggestion": "- HuanJu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4344,6 +4622,7 @@
   {
     "id": "Huawei",
     "title": "华为",
+    "iconKey": "Huawei",
     "suggestion": "- Huawei.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4357,6 +4636,7 @@
   {
     "id": "Huffpost",
     "title": "Huffpost",
+    "iconKey": "Huffpost",
     "suggestion": "- Huffpost.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4370,8 +4650,9 @@
   {
     "id": "Hulu",
     "title": "Hulu",
+    "iconKey": "Hulu",
     "suggestion": "- Hulu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Hulu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4383,8 +4664,9 @@
   {
     "id": "HuluJP",
     "title": "HuluJP",
+    "iconKey": "HuluJP",
     "suggestion": "- HuluJP.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Hulu_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4396,8 +4678,9 @@
   {
     "id": "HuluUSA",
     "title": "HuluUSA",
+    "iconKey": "HuluUSA",
     "suggestion": "- HuluUSA.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Hulu_02.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4409,6 +4692,7 @@
   {
     "id": "HunanTV",
     "title": "湖南TV",
+    "iconKey": "HunanTV",
     "suggestion": "- HunanTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4422,8 +4706,9 @@
   {
     "id": "Hupu",
     "title": "虎扑",
+    "iconKey": "Hupu",
     "suggestion": "- Hupu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/HUPU.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4435,6 +4720,7 @@
   {
     "id": "IBM",
     "title": "IBM",
+    "iconKey": "IBM",
     "suggestion": "- IBM.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4448,8 +4734,9 @@
   {
     "id": "ICBC",
     "title": "中国工商银行",
+    "iconKey": "ICBC",
     "suggestion": "- ICBC.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/icbc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4461,6 +4748,7 @@
   {
     "id": "IKEA",
     "title": "宜家",
+    "iconKey": "IKEA",
     "suggestion": "- IKEA.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4474,8 +4762,9 @@
   {
     "id": "IMDB",
     "title": "IMDB",
+    "iconKey": "IMDB",
     "suggestion": "- IMDB.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/mdb.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4487,8 +4776,9 @@
   {
     "id": "IPTVMainland",
     "title": "IPTV大陆",
+    "iconKey": "IPTVMainland",
     "suggestion": "- IPTVMainland.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/Filter/Mainland.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4500,23 +4790,21 @@
   {
     "id": "IPTVOther",
     "title": "IPTV其他",
+    "iconKey": "IPTVOther",
     "suggestion": "- IPTVOther.list、IPTVOther_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/IPTVOther/IPTVOther.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/IPTVOther/IPTVOther_Domain.list"
       }
     ]
   },
   {
     "id": "ITV",
     "title": "ITV",
+    "iconKey": "ITV",
     "suggestion": "- ITV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4530,6 +4818,7 @@
   {
     "id": "Identrust",
     "title": "Identrust",
+    "iconKey": "Identrust",
     "suggestion": "- Identrust.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4543,6 +4832,7 @@
   {
     "id": "Imgur",
     "title": "Imgur",
+    "iconKey": "Imgur",
     "suggestion": "- Imgur.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4556,8 +4846,9 @@
   {
     "id": "Instagram",
     "title": "Instagram",
+    "iconKey": "Instagram",
     "suggestion": "- Instagram.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Instagram.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4569,6 +4860,7 @@
   {
     "id": "Intel",
     "title": "Intel",
+    "iconKey": "Intel",
     "suggestion": "- Intel.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4582,6 +4874,7 @@
   {
     "id": "Intercom",
     "title": "Intercom",
+    "iconKey": "Intercom",
     "suggestion": "- Intercom.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4595,6 +4888,7 @@
   {
     "id": "JOOX",
     "title": "JOOX",
+    "iconKey": "JOOX",
     "suggestion": "- JOOX.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4608,6 +4902,7 @@
   {
     "id": "Japonx",
     "title": "Japonx",
+    "iconKey": "Japonx",
     "suggestion": "- Japonx.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4621,6 +4916,7 @@
   {
     "id": "Jetbrains",
     "title": "Jetbrains",
+    "iconKey": "Jetbrains",
     "suggestion": "- Jetbrains.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4634,8 +4930,9 @@
   {
     "id": "Jfrog",
     "title": "Jfrog",
+    "iconKey": "Jfrog",
     "suggestion": "- Jfrog.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/airport/frog.jpeg",
     "isCombined": false,
     "buttons": [
       {
@@ -4647,6 +4944,7 @@
   {
     "id": "JiGuangTuiSong",
     "title": "极光推送",
+    "iconKey": "JiGuangTuiSong",
     "suggestion": "- JiGuangTuiSong.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4660,8 +4958,9 @@
   {
     "id": "JianGuoYun",
     "title": "坚果云",
+    "iconKey": "坚果云",
     "suggestion": "- JianGuoYun.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/坚果云.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4673,6 +4972,7 @@
   {
     "id": "JianShu",
     "title": "简书",
+    "iconKey": "JianShu",
     "suggestion": "- JianShu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4686,8 +4986,9 @@
   {
     "id": "JinJiangWenXue",
     "title": "晋江文学",
+    "iconKey": "JinJiangWenXue",
     "suggestion": "- JinJiangWenXue.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/jin10.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4699,8 +5000,9 @@
   {
     "id": "JingDong",
     "title": "京东",
+    "iconKey": "JingDong",
     "suggestion": "- JingDong.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/jin10.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4712,6 +5014,7 @@
   {
     "id": "Jquery",
     "title": "Jquery",
+    "iconKey": "Jquery",
     "suggestion": "- Jquery.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4725,6 +5028,7 @@
   {
     "id": "Jsdelivr",
     "title": "Jsdelivr",
+    "iconKey": "Jsdelivr",
     "suggestion": "- Jsdelivr.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4738,8 +5042,9 @@
   {
     "id": "JueJin",
     "title": "掘金",
+    "iconKey": "JueJin",
     "suggestion": "- JueJin.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/jin10.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4751,8 +5056,9 @@
   {
     "id": "Jwplayer",
     "title": "Jwplayer",
+    "iconKey": "Jwplayer",
     "suggestion": "- Jwplayer.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/play.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4764,6 +5070,7 @@
   {
     "id": "KKBOX",
     "title": "KKBOX",
+    "iconKey": "KKBOX",
     "suggestion": "- KKBOX.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4777,6 +5084,7 @@
   {
     "id": "KKTV",
     "title": "KKTV",
+    "iconKey": "KKTV",
     "suggestion": "- KKTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4790,8 +5098,9 @@
   {
     "id": "KakaoTalk",
     "title": "KakaoTalk",
+    "iconKey": "KakaoTalk",
     "suggestion": "- KakaoTalk.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/KakaoTalk.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4803,6 +5112,7 @@
   {
     "id": "Kantv",
     "title": "Kantv",
+    "iconKey": "Kantv",
     "suggestion": "- Kantv.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4816,8 +5126,9 @@
   {
     "id": "Keep",
     "title": "Keep",
+    "iconKey": "Keep",
     "suggestion": "- Keep.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Keep.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4829,6 +5140,7 @@
   {
     "id": "KingSmith",
     "title": "金史密斯",
+    "iconKey": "KingSmith",
     "suggestion": "- KingSmith.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4842,6 +5154,7 @@
   {
     "id": "Kingsoft",
     "title": "金山软件",
+    "iconKey": "Kingsoft",
     "suggestion": "- Kingsoft.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4855,8 +5168,9 @@
   {
     "id": "KouDaiShiShang",
     "title": "口袋时尚",
+    "iconKey": "KouDaiShiShang",
     "suggestion": "- KouDaiShiShang.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4868,6 +5182,7 @@
   {
     "id": "Ku6",
     "title": "酷6",
+    "iconKey": "Ku6",
     "suggestion": "- Ku6.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4881,6 +5196,7 @@
   {
     "id": "KuKeMusic",
     "title": "库客音乐",
+    "iconKey": "KuKeMusic",
     "suggestion": "- KuKeMusic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4894,8 +5210,9 @@
   {
     "id": "KuaiDi100",
     "title": "快递100",
+    "iconKey": "KuaiDi100",
     "suggestion": "- KuaiDi100.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuaiDi100.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4907,8 +5224,9 @@
   {
     "id": "KuaiShou",
     "title": "快手",
+    "iconKey": "KuaiShou",
     "suggestion": "- KuaiShou.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/kuaishou_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4920,6 +5238,7 @@
   {
     "id": "KuangShi",
     "title": "旷视",
+    "iconKey": "KuangShi",
     "suggestion": "- KuangShi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4933,8 +5252,9 @@
   {
     "id": "KugouKuwo",
     "title": "酷狗/酷我",
+    "iconKey": "KugouKuwo",
     "suggestion": "- KugouKuwo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuGou.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4946,6 +5266,7 @@
   {
     "id": "LG",
     "title": "LG",
+    "iconKey": "LG",
     "suggestion": "- LG.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4959,6 +5280,7 @@
   {
     "id": "Lan",
     "title": "本地局域网地址",
+    "iconKey": "Lan",
     "suggestion": "- Lan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4972,6 +5294,7 @@
   {
     "id": "LanZouYun",
     "title": "蓝奏云",
+    "iconKey": "LanZouYun",
     "suggestion": "- LanZouYun.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4985,6 +5308,7 @@
   {
     "id": "LastFM",
     "title": "LastFM",
+    "iconKey": "LastFM",
     "suggestion": "- LastFM.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -4998,8 +5322,9 @@
   {
     "id": "LastPass",
     "title": "LastPass",
+    "iconKey": "LastPass",
     "suggestion": "- LastPass.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/LastPass.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5011,6 +5336,7 @@
   {
     "id": "LeJu",
     "title": "乐居",
+    "iconKey": "LeJu",
     "suggestion": "- LeJu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5024,8 +5350,9 @@
   {
     "id": "LeTV",
     "title": "乐视",
+    "iconKey": "LeTV",
     "suggestion": "- LeTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/letv.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5037,8 +5364,9 @@
   {
     "id": "Lenovo",
     "title": "联想",
+    "iconKey": "Lenovo",
     "suggestion": "- Lenovo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/lenovo.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5050,6 +5378,7 @@
   {
     "id": "LiTV",
     "title": "LiTV",
+    "iconKey": "LiTV",
     "suggestion": "- LiTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5063,6 +5392,7 @@
   {
     "id": "LianMeng",
     "title": "脸萌",
+    "iconKey": "LianMeng",
     "suggestion": "- LianMeng.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5076,6 +5406,7 @@
   {
     "id": "Limelight",
     "title": "Limelight",
+    "iconKey": "Limelight",
     "suggestion": "- Limelight.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5089,8 +5420,9 @@
   {
     "id": "Line",
     "title": "Line",
+    "iconKey": "Line",
     "suggestion": "- Line.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Line_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5102,8 +5434,9 @@
   {
     "id": "LineTV",
     "title": "LineTV",
+    "iconKey": "LineTV",
     "suggestion": "- LineTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Line_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5115,6 +5448,7 @@
   {
     "id": "Linguee",
     "title": "Linguee",
+    "iconKey": "Linguee",
     "suggestion": "- Linguee.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5128,8 +5462,9 @@
   {
     "id": "LinkedIn",
     "title": "LinkedIn",
+    "iconKey": "LinkedIn",
     "suggestion": "- LinkedIn.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/linkedin.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5141,6 +5476,7 @@
   {
     "id": "Linux",
     "title": "Linux",
+    "iconKey": "Linux",
     "suggestion": "- Linux.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5154,6 +5490,7 @@
   {
     "id": "LivePerson",
     "title": "LivePerson",
+    "iconKey": "LivePerson",
     "suggestion": "- LivePerson.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5167,6 +5504,7 @@
   {
     "id": "Logitech",
     "title": "Logitech",
+    "iconKey": "Logitech",
     "suggestion": "- Logitech.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5180,6 +5518,7 @@
   {
     "id": "LondonReal",
     "title": "LondonReal",
+    "iconKey": "LondonReal",
     "suggestion": "- LondonReal.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5193,6 +5532,7 @@
   {
     "id": "LuDaShi",
     "title": "鲁大师",
+    "iconKey": "LuDaShi",
     "suggestion": "- LuDaShi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5206,6 +5546,7 @@
   {
     "id": "LvMiLianChuang",
     "title": "绿米联创",
+    "iconKey": "LvMiLianChuang",
     "suggestion": "- LvMiLianChuang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5219,8 +5560,9 @@
   {
     "id": "MEGA",
     "title": "MEGA",
+    "iconKey": "MEGA",
     "suggestion": "- MEGA.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MEGA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5232,6 +5574,7 @@
   {
     "id": "MIUIPrivacy",
     "title": "MIUIPrivacy",
+    "iconKey": "MIUIPrivacy",
     "suggestion": "- MIUIPrivacy.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5245,8 +5588,9 @@
   {
     "id": "MOMOShop",
     "title": "MOMO購物網",
+    "iconKey": "MOMOShop",
     "suggestion": "- MOMOShop.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MOMO.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5258,6 +5602,7 @@
   {
     "id": "MOOMusic",
     "title": "MOO音乐",
+    "iconKey": "MOOMusic",
     "suggestion": "- MOOMusic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5271,6 +5616,7 @@
   {
     "id": "MOOV",
     "title": "MOOV",
+    "iconKey": "MOOV",
     "suggestion": "- MOOV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5284,8 +5630,9 @@
   {
     "id": "Mail",
     "title": "Mail",
+    "iconKey": "Mail",
     "suggestion": "- Mail.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/mail.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5297,8 +5644,9 @@
   {
     "id": "Mailru",
     "title": "Mailru",
+    "iconKey": "Mailru",
     "suggestion": "- Mailru.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/mail.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5310,8 +5658,9 @@
   {
     "id": "Majsoul",
     "title": "雀魂",
+    "iconKey": "Majsoul",
     "suggestion": "- Majsoul.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Soul.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5323,6 +5672,7 @@
   {
     "id": "Manorama",
     "title": "Manorama",
+    "iconKey": "Manorama",
     "suggestion": "- Manorama.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5336,6 +5686,7 @@
   {
     "id": "Maocloud",
     "title": "猫云",
+    "iconKey": "Maocloud",
     "suggestion": "- Maocloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5349,8 +5700,9 @@
   {
     "id": "Marketing",
     "title": "思杰马克丁软件",
+    "iconKey": "Marketing",
     "suggestion": "- Marketing.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/Twoandz9/Ark.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5362,8 +5714,9 @@
   {
     "id": "McDonalds",
     "title": "McDonalds",
+    "iconKey": "McDonalds",
     "suggestion": "- McDonalds.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/mcd.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5375,6 +5728,7 @@
   {
     "id": "MeWatch",
     "title": "MeWatch",
+    "iconKey": "MeWatch",
     "suggestion": "- MeWatch.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5388,8 +5742,9 @@
   {
     "id": "MeiTu",
     "title": "美图",
+    "iconKey": "MeiTu",
     "suggestion": "- MeiTu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MeiTu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5401,8 +5756,9 @@
   {
     "id": "MeiTuan",
     "title": "美团",
+    "iconKey": "MeiTuan",
     "suggestion": "- MeiTuan.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/meituan.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5414,6 +5770,7 @@
   {
     "id": "MeiZu",
     "title": "魅族",
+    "iconKey": "MeiZu",
     "suggestion": "- MeiZu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5427,6 +5784,7 @@
   {
     "id": "MiWu",
     "title": "米物",
+    "iconKey": "MiWu",
     "suggestion": "- MiWu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5440,8 +5798,9 @@
   {
     "id": "Microsoft",
     "title": "Microsoft",
+    "iconKey": "Microsoft",
     "suggestion": "- Microsoft.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Microsoft.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5453,8 +5812,9 @@
   {
     "id": "MicrosoftEdge",
     "title": "MicrosoftEdge",
+    "iconKey": "MicrosoftEdge",
     "suggestion": "- MicrosoftEdge.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Microsoft.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5466,6 +5826,7 @@
   {
     "id": "Migu",
     "title": "咪咕",
+    "iconKey": "Migu",
     "suggestion": "- Migu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5479,6 +5840,7 @@
   {
     "id": "MingLueZhaoHui",
     "title": "明略昭辉",
+    "iconKey": "MingLueZhaoHui",
     "suggestion": "- MingLueZhaoHui.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5492,8 +5854,9 @@
   {
     "id": "Mogujie",
     "title": "蘑菇街",
+    "iconKey": "蘑菇街",
     "suggestion": "- Mogujie.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/蘑菇街.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5505,8 +5868,9 @@
   {
     "id": "Mojitianqi",
     "title": "墨迹天气",
+    "iconKey": "Mojitianqi",
     "suggestion": "- Mojitianqi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/moji.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5518,6 +5882,7 @@
   {
     "id": "Movefree",
     "title": "Movefree",
+    "iconKey": "Movefree",
     "suggestion": "- Movefree.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5531,6 +5896,7 @@
   {
     "id": "Mozilla",
     "title": "Mozilla",
+    "iconKey": "Mozilla",
     "suggestion": "- Mozilla.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5544,6 +5910,7 @@
   {
     "id": "My5",
     "title": "My5",
+    "iconKey": "My5",
     "suggestion": "- My5.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5557,6 +5924,7 @@
   {
     "id": "NBC",
     "title": "NBC",
+    "iconKey": "NBC",
     "suggestion": "- NBC.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5570,8 +5938,9 @@
   {
     "id": "NGA",
     "title": "NGA",
+    "iconKey": "NGA",
     "suggestion": "- NGA.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/nga.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5583,8 +5952,9 @@
   {
     "id": "NGAA",
     "title": "新流云",
+    "iconKey": "NGAA",
     "suggestion": "- NGAA.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/nga.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5596,6 +5966,7 @@
   {
     "id": "NTPService",
     "title": "NTPService",
+    "iconKey": "NTPService",
     "suggestion": "- NTPService.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5609,6 +5980,7 @@
   {
     "id": "NYPost",
     "title": "NYPost",
+    "iconKey": "NYPost",
     "suggestion": "- NYPost.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5622,6 +5994,7 @@
   {
     "id": "NYTimes",
     "title": "NYTimes",
+    "iconKey": "NYTimes",
     "suggestion": "- NYTimes.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5635,8 +6008,9 @@
   {
     "id": "NaSDDNS",
     "title": "NaSDDNS",
+    "iconKey": "NaSDDNS",
     "suggestion": "- NaSDDNS.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Nas.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5648,6 +6022,7 @@
   {
     "id": "Naver",
     "title": "Naver",
+    "iconKey": "Naver",
     "suggestion": "- Naver.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5661,6 +6036,7 @@
   {
     "id": "NaverTV",
     "title": "NaverTV",
+    "iconKey": "NaverTV",
     "suggestion": "- NaverTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5674,8 +6050,9 @@
   {
     "id": "NetEase",
     "title": "网易",
+    "iconKey": "NetEase",
     "suggestion": "- NetEase.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netease.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5687,8 +6064,9 @@
   {
     "id": "NetEaseMusic",
     "title": "网易云音乐",
+    "iconKey": "NetEaseMusic",
     "suggestion": "- NetEaseMusic.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netease.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5700,8 +6078,9 @@
   {
     "id": "Netflix",
     "title": "Netflix",
+    "iconKey": "Netflix",
     "suggestion": "- Netflix.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netflix_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5713,6 +6092,7 @@
   {
     "id": "Niconico",
     "title": "Niconico",
+    "iconKey": "Niconico",
     "suggestion": "- Niconico.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5726,8 +6106,9 @@
   {
     "id": "Nike",
     "title": "Nike",
+    "iconKey": "Nike",
     "suggestion": "- Nike.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Nike.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5739,6 +6120,7 @@
   {
     "id": "Nikkei",
     "title": "Nikkei",
+    "iconKey": "Nikkei",
     "suggestion": "- Nikkei.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5752,6 +6134,7 @@
   {
     "id": "Nintendo",
     "title": "Nintendo",
+    "iconKey": "Nintendo",
     "suggestion": "- Nintendo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5765,6 +6148,7 @@
   {
     "id": "NivodTV",
     "title": "NivodTV",
+    "iconKey": "NivodTV",
     "suggestion": "- NivodTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5778,8 +6162,9 @@
   {
     "id": "Notion",
     "title": "Notion",
+    "iconKey": "Notion",
     "suggestion": "- Notion.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Notion.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5791,6 +6176,7 @@
   {
     "id": "NowE",
     "title": "NowE",
+    "iconKey": "NowE",
     "suggestion": "- NowE.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5804,6 +6190,7 @@
   {
     "id": "Npmjs",
     "title": "Npmjs",
+    "iconKey": "Npmjs",
     "suggestion": "- Npmjs.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5817,8 +6204,9 @@
   {
     "id": "Nvidia",
     "title": "Nvidia",
+    "iconKey": "Nvidia",
     "suggestion": "- Nvidia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5830,8 +6218,9 @@
   {
     "id": "OKX",
     "title": "OKX",
+    "iconKey": "OKX",
     "suggestion": "- OKX.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/OKX.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5843,6 +6232,7 @@
   {
     "id": "OP",
     "title": "OP",
+    "iconKey": "OP",
     "suggestion": "- OP.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5856,6 +6246,7 @@
   {
     "id": "OPPO",
     "title": "OPPO",
+    "iconKey": "OPPO",
     "suggestion": "- OPPO.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5869,6 +6260,7 @@
   {
     "id": "Olevod",
     "title": "Olevod",
+    "iconKey": "Olevod",
     "suggestion": "- Olevod.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5882,8 +6274,9 @@
   {
     "id": "OneDrive",
     "title": "OneDrive",
+    "iconKey": "OneDrive",
     "suggestion": "- OneDrive.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/OneDrive.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5895,8 +6288,9 @@
   {
     "id": "OnePlus",
     "title": "OnePlus",
+    "iconKey": "OnePlus",
     "suggestion": "- OnePlus.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/one.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5908,8 +6302,9 @@
   {
     "id": "OpenAI",
     "title": "OpenAI",
+    "iconKey": "OpenAI",
     "suggestion": "- OpenAI.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/Website_icon/1024px/OpenAI.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5921,6 +6316,7 @@
   {
     "id": "Opera",
     "title": "Opera",
+    "iconKey": "Opera",
     "suggestion": "- Opera.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5934,6 +6330,7 @@
   {
     "id": "Oracle",
     "title": "Oracle",
+    "iconKey": "Oracle",
     "suggestion": "- Oracle.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5947,6 +6344,7 @@
   {
     "id": "Oreilly",
     "title": "Oreilly",
+    "iconKey": "Oreilly",
     "suggestion": "- Oreilly.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5960,6 +6358,7 @@
   {
     "id": "Origin",
     "title": "Origin",
+    "iconKey": "Origin",
     "suggestion": "- Origin.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5973,6 +6372,7 @@
   {
     "id": "OuPeng",
     "title": "欧朋浏览器",
+    "iconKey": "OuPeng",
     "suggestion": "- OuPeng.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5986,6 +6386,7 @@
   {
     "id": "Overcast",
     "title": "Overcast",
+    "iconKey": "Overcast",
     "suggestion": "- Overcast.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -5999,6 +6400,7 @@
   {
     "id": "Overwatch",
     "title": "Overwatch",
+    "iconKey": "Overwatch",
     "suggestion": "- Overwatch.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6012,6 +6414,7 @@
   {
     "id": "PBS",
     "title": "PBS",
+    "iconKey": "PBS",
     "suggestion": "- PBS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6025,6 +6428,7 @@
   {
     "id": "PCCW",
     "title": "PCCW",
+    "iconKey": "PCCW",
     "suggestion": "- PCCW.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6038,6 +6442,7 @@
   {
     "id": "PChome",
     "title": "PChome",
+    "iconKey": "PChome",
     "suggestion": "- PChome.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6051,8 +6456,9 @@
   {
     "id": "PChomeTW",
     "title": "PChome Online 網路家庭",
+    "iconKey": "PChome Online 網路家庭",
     "suggestion": "- PChomeTW.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Line_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6064,6 +6470,7 @@
   {
     "id": "PPTV",
     "title": "PPTV",
+    "iconKey": "PPTV",
     "suggestion": "- PPTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6077,8 +6484,9 @@
   {
     "id": "PSBC",
     "title": "中国邮政储蓄银行",
+    "iconKey": "PSBC",
     "suggestion": "- PSBC.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/psbc.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6090,8 +6498,9 @@
   {
     "id": "Pandora",
     "title": "Pandora",
+    "iconKey": "Pandora",
     "suggestion": "- Pandora.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Pandora.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6103,8 +6512,9 @@
   {
     "id": "PandoraTV",
     "title": "PandoraTV",
+    "iconKey": "PandoraTV",
     "suggestion": "- PandoraTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Pandora.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6116,8 +6526,9 @@
   {
     "id": "ParamountPlus",
     "title": "ParamountPlus",
+    "iconKey": "ParamountPlus",
     "suggestion": "- ParamountPlus.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Plus.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6129,6 +6540,7 @@
   {
     "id": "Patreon",
     "title": "Patreon",
+    "iconKey": "Patreon",
     "suggestion": "- Patreon.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6142,8 +6554,9 @@
   {
     "id": "PayPal",
     "title": "PayPal",
+    "iconKey": "PayPal",
     "suggestion": "- PayPal.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Paypal.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6155,6 +6568,7 @@
   {
     "id": "Peacock",
     "title": "Peacock",
+    "iconKey": "Peacock",
     "suggestion": "- Peacock.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6168,8 +6582,9 @@
   {
     "id": "Picacg",
     "title": "Picacg",
+    "iconKey": "Picacg",
     "suggestion": "- Picacg.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Acg.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6181,6 +6596,7 @@
   {
     "id": "Picsee",
     "title": "Picsee",
+    "iconKey": "Picsee",
     "suggestion": "- Picsee.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6194,8 +6610,9 @@
   {
     "id": "PikPak",
     "title": "PikPak",
+    "iconKey": "PikPak",
     "suggestion": "- PikPak.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/PikPak.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6207,8 +6624,9 @@
   {
     "id": "Pinduoduo",
     "title": "拼多多",
+    "iconKey": "Pinduoduo",
     "suggestion": "- Pinduoduo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/pinduoduo_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6220,8 +6638,9 @@
   {
     "id": "PingAn",
     "title": "平安",
+    "iconKey": "PingAn",
     "suggestion": "- PingAn.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/nga.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6233,8 +6652,9 @@
   {
     "id": "Pinterest",
     "title": "Pinterest",
+    "iconKey": "Pinterest",
     "suggestion": "- Pinterest.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Pinterest.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6246,8 +6666,9 @@
   {
     "id": "Pixiv",
     "title": "Pixiv",
+    "iconKey": "Pixiv",
     "suggestion": "- Pixiv.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/pixiv.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6259,6 +6680,7 @@
   {
     "id": "Pixnet",
     "title": "Pixnet",
+    "iconKey": "Pixnet",
     "suggestion": "- Pixnet.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6272,8 +6694,9 @@
   {
     "id": "PlayStation",
     "title": "PlayStation",
+    "iconKey": "PlayStation",
     "suggestion": "- PlayStation.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/PlayStation.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6285,6 +6708,7 @@
   {
     "id": "PotatoChat",
     "title": "PotatoChat",
+    "iconKey": "PotatoChat",
     "suggestion": "- PotatoChat.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6298,8 +6722,9 @@
   {
     "id": "PrimeVideo",
     "title": "PrimeVideo",
+    "iconKey": "PrimeVideo",
     "suggestion": "- PrimeVideo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/PrimeVideo.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6311,23 +6736,21 @@
   {
     "id": "Privacy",
     "title": "隐私保护",
+    "iconKey": "Privacy",
     "suggestion": "- Privacy.list、Privacy_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": true,
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Privacy/Privacy.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Privacy/Privacy_Domain.list"
       }
     ]
   },
   {
     "id": "PrivateTracker",
     "title": "PT下载",
+    "iconKey": "PrivateTracker",
     "suggestion": "- PrivateTracker.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6341,8 +6764,9 @@
   {
     "id": "Protonmail",
     "title": "Protonmail",
+    "iconKey": "Protonmail",
     "suggestion": "- Protonmail.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ProtonMail.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6354,25 +6778,23 @@
   {
     "id": "Proxy",
     "title": "Proxy",
+    "iconKey": "Proxy",
     "suggestion": "- Proxy.list、Proxy_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Proxy/Proxy.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Proxy/Proxy_Domain.list"
       }
     ]
   },
   {
     "id": "ProxyLite",
     "title": "ProxyLite",
+    "iconKey": "ProxyLite",
     "suggestion": "- ProxyLite.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6384,6 +6806,7 @@
   {
     "id": "Pubmatic",
     "title": "Pubmatic",
+    "iconKey": "Pubmatic",
     "suggestion": "- Pubmatic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6397,8 +6820,9 @@
   {
     "id": "Purikonejp",
     "title": "Purikonejp",
+    "iconKey": "Purikonejp",
     "suggestion": "- Purikonejp.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/one.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6410,6 +6834,7 @@
   {
     "id": "Python",
     "title": "Python",
+    "iconKey": "Python",
     "suggestion": "- Python.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6423,8 +6848,9 @@
   {
     "id": "QiNiuYun",
     "title": "七牛云",
+    "iconKey": "QiNiuYun",
     "suggestion": "- QiNiuYun.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/niu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6436,6 +6862,7 @@
   {
     "id": "QingCloud",
     "title": "青云QingCloud",
+    "iconKey": "QingCloud",
     "suggestion": "- QingCloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6449,6 +6876,7 @@
   {
     "id": "Qobuz",
     "title": "Qobuz",
+    "iconKey": "Qobuz",
     "suggestion": "- Qobuz.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6462,6 +6890,7 @@
   {
     "id": "Qualcomm",
     "title": "Qualcomm",
+    "iconKey": "Qualcomm",
     "suggestion": "- Qualcomm.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6475,6 +6904,7 @@
   {
     "id": "QuickConnect",
     "title": "QuickConnect",
+    "iconKey": "QuickConnect",
     "suggestion": "- QuickConnect.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6488,6 +6918,7 @@
   {
     "id": "Qyyjt",
     "title": "Qyyjt",
+    "iconKey": "Qyyjt",
     "suggestion": "- Qyyjt.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6501,6 +6932,7 @@
   {
     "id": "README.md",
     "title": "# 分类",
+    "iconKey": "README.md",
     "suggestion": "",
     "icon": "",
     "isCombined": false,
@@ -6514,6 +6946,7 @@
   {
     "id": "RTHK",
     "title": "RTHK",
+    "iconKey": "RTHK",
     "suggestion": "- RTHK.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6527,6 +6960,7 @@
   {
     "id": "Rakuten",
     "title": "Rakuten",
+    "iconKey": "Rakuten",
     "suggestion": "- Rakuten.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6540,6 +6974,7 @@
   {
     "id": "Rarbg",
     "title": "Rarbg",
+    "iconKey": "Rarbg",
     "suggestion": "- Rarbg.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6553,6 +6988,7 @@
   {
     "id": "Razer",
     "title": "Razer",
+    "iconKey": "Razer",
     "suggestion": "- Razer.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6566,6 +7002,7 @@
   {
     "id": "Reabble",
     "title": "Reabble",
+    "iconKey": "Reabble",
     "suggestion": "- Reabble.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6579,8 +7016,9 @@
   {
     "id": "Reddit",
     "title": "Reddit",
+    "iconKey": "Reddit",
     "suggestion": "- Reddit.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Reddit.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6592,8 +7030,9 @@
   {
     "id": "Riot",
     "title": "Riot",
+    "iconKey": "Riot",
     "suggestion": "- Riot.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Riot.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6605,6 +7044,7 @@
   {
     "id": "Rockstar",
     "title": "Rockstar",
+    "iconKey": "Rockstar",
     "suggestion": "- Rockstar.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6618,6 +7058,7 @@
   {
     "id": "RuanMei",
     "title": "软媒",
+    "iconKey": "RuanMei",
     "suggestion": "- RuanMei.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6631,8 +7072,9 @@
   {
     "id": "SFExpress",
     "title": "顺丰速运",
+    "iconKey": "SFExpress",
     "suggestion": "- SFExpress.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/sfexpress.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6644,6 +7086,7 @@
   {
     "id": "SMG",
     "title": "SMG",
+    "iconKey": "SMG",
     "suggestion": "- SMG.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6657,8 +7100,9 @@
   {
     "id": "SMZDM",
     "title": "什么值得买",
+    "iconKey": "SMZDM",
     "suggestion": "- SMZDM.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/smzdm.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6670,6 +7114,7 @@
   {
     "id": "STUN",
     "title": "STUN",
+    "iconKey": "STUN",
     "suggestion": "- STUN.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6683,6 +7128,7 @@
   {
     "id": "Salesforce",
     "title": "Salesforce",
+    "iconKey": "Salesforce",
     "suggestion": "- Salesforce.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6696,6 +7142,7 @@
   {
     "id": "Samsung",
     "title": "Samsung",
+    "iconKey": "Samsung",
     "suggestion": "- Samsung.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6709,6 +7156,7 @@
   {
     "id": "Scaleflex",
     "title": "Scaleflex",
+    "iconKey": "Scaleflex",
     "suggestion": "- Scaleflex.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6722,6 +7170,7 @@
   {
     "id": "Scholar",
     "title": "Scholar",
+    "iconKey": "Scholar",
     "suggestion": "- Scholar.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6735,6 +7184,7 @@
   {
     "id": "Sectigo",
     "title": "Sectigo",
+    "iconKey": "Sectigo",
     "suggestion": "- Sectigo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6748,8 +7198,9 @@
   {
     "id": "ShangHaiJuXiao",
     "title": "上海聚效",
+    "iconKey": "ShangHaiJuXiao",
     "suggestion": "- ShangHaiJuXiao.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6761,8 +7212,9 @@
   {
     "id": "Shanling",
     "title": "山灵音响",
+    "iconKey": "Shanling",
     "suggestion": "- Shanling.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6774,6 +7226,7 @@
   {
     "id": "Sharethis",
     "title": "Sharethis",
+    "iconKey": "Sharethis",
     "suggestion": "- Sharethis.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6787,6 +7240,7 @@
   {
     "id": "ShenMa",
     "title": "神马",
+    "iconKey": "ShenMa",
     "suggestion": "- ShenMa.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6800,8 +7254,9 @@
   {
     "id": "ShiJiChaoXing",
     "title": "世纪超星",
+    "iconKey": "ShiJiChaoXing",
     "suggestion": "- ShiJiChaoXing.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/chaoxing.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6813,6 +7268,7 @@
   {
     "id": "ShiNongZhiKe",
     "title": "识农智能科技",
+    "iconKey": "ShiNongZhiKe",
     "suggestion": "- ShiNongZhiKe.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6826,6 +7282,7 @@
   {
     "id": "Shopee",
     "title": "Shopee",
+    "iconKey": "Shopee",
     "suggestion": "- Shopee.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6839,6 +7296,7 @@
   {
     "id": "Shopify",
     "title": "Shopify",
+    "iconKey": "Shopify",
     "suggestion": "- Shopify.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6852,8 +7310,9 @@
   {
     "id": "Sina",
     "title": "新浪",
+    "iconKey": "新浪",
     "suggestion": "- Sina.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/新浪.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6865,6 +7324,7 @@
   {
     "id": "Siri",
     "title": "Siri",
+    "iconKey": "Siri",
     "suggestion": "- Siri.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6878,6 +7338,7 @@
   {
     "id": "SkyGO",
     "title": "SkyGO",
+    "iconKey": "SkyGO",
     "suggestion": "- SkyGO.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6891,6 +7352,7 @@
   {
     "id": "Slack",
     "title": "Slack",
+    "iconKey": "Slack",
     "suggestion": "- Slack.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6904,8 +7366,9 @@
   {
     "id": "SlideShare",
     "title": "SlideShare",
+    "iconKey": "SlideShare",
     "suggestion": "- SlideShare.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Des.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6917,6 +7380,7 @@
   {
     "id": "Sling",
     "title": "Sling",
+    "iconKey": "Sling",
     "suggestion": "- Sling.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6930,8 +7394,9 @@
   {
     "id": "SmarTone",
     "title": "SmarTone",
+    "iconKey": "SmarTone",
     "suggestion": "- SmarTone.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/one.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6943,6 +7408,7 @@
   {
     "id": "Snap",
     "title": "Snap",
+    "iconKey": "Snap",
     "suggestion": "- Snap.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6956,8 +7422,9 @@
   {
     "id": "Sohu",
     "title": "搜狐",
+    "iconKey": "Sohu",
     "suggestion": "- Sohu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/sohu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6969,6 +7436,7 @@
   {
     "id": "Sony",
     "title": "Sony",
+    "iconKey": "Sony",
     "suggestion": "- Sony.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6982,6 +7450,7 @@
   {
     "id": "SouFang",
     "title": "搜房",
+    "iconKey": "SouFang",
     "suggestion": "- SouFang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -6995,6 +7464,7 @@
   {
     "id": "SoundCloud",
     "title": "SoundCloud",
+    "iconKey": "SoundCloud",
     "suggestion": "- SoundCloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7008,6 +7478,7 @@
   {
     "id": "SourceForge",
     "title": "SourceForge",
+    "iconKey": "SourceForge",
     "suggestion": "- SourceForge.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7021,8 +7492,9 @@
   {
     "id": "Spark",
     "title": "Spark",
+    "iconKey": "Spark",
     "suggestion": "- Spark.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Spark.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7034,8 +7506,9 @@
   {
     "id": "Speedtest",
     "title": "Speedtest",
+    "iconKey": "Speedtest",
     "suggestion": "- Speedtest.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Speedtest.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7047,8 +7520,9 @@
   {
     "id": "Spotify",
     "title": "Spotify",
+    "iconKey": "Spotify",
     "suggestion": "- Spotify.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7060,8 +7534,9 @@
   {
     "id": "Stackexchange",
     "title": "Stackexchange",
+    "iconKey": "Stackexchange",
     "suggestion": "- Stackexchange.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7073,6 +7548,7 @@
   {
     "id": "StarCraftII",
     "title": "StarCraftII",
+    "iconKey": "StarCraftII",
     "suggestion": "- StarCraftII.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7086,6 +7562,7 @@
   {
     "id": "Starbucks",
     "title": "Starbucks",
+    "iconKey": "Starbucks",
     "suggestion": "- Starbucks.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7099,8 +7576,9 @@
   {
     "id": "Steam",
     "title": "Steam",
+    "iconKey": "Steam",
     "suggestion": "- Steam.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/steam.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7112,8 +7590,9 @@
   {
     "id": "SteamCN",
     "title": "SteamCN",
+    "iconKey": "SteamCN",
     "suggestion": "- SteamCN.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/steam.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7125,8 +7604,9 @@
   {
     "id": "Stripe",
     "title": "Stripe",
+    "iconKey": "Stripe",
     "suggestion": "- Stripe.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/trip.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7138,8 +7618,9 @@
   {
     "id": "SuNing",
     "title": "苏宁",
+    "iconKey": "SuNing",
     "suggestion": "- SuNing.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/suning.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7151,6 +7632,7 @@
   {
     "id": "SublimeText",
     "title": "SublimeText",
+    "iconKey": "SublimeText",
     "suggestion": "- SublimeText.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7164,6 +7646,7 @@
   {
     "id": "SuiShiChuanMei",
     "title": "随视传媒",
+    "iconKey": "SuiShiChuanMei",
     "suggestion": "- SuiShiChuanMei.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7177,8 +7660,9 @@
   {
     "id": "Supercell",
     "title": "Supercell",
+    "iconKey": "Supercell",
     "suggestion": "- Supercell.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/super.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7190,6 +7674,7 @@
   {
     "id": "Synology",
     "title": "Synology",
+    "iconKey": "Synology",
     "suggestion": "- Synology.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7203,6 +7688,7 @@
   {
     "id": "SystemOTA",
     "title": "iOS系统升级",
+    "iconKey": "SystemOTA",
     "suggestion": "- SystemOTA.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7216,6 +7702,7 @@
   {
     "id": "TCL",
     "title": "TCL",
+    "iconKey": "TCL",
     "suggestion": "- TCL.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7229,6 +7716,7 @@
   {
     "id": "TIDAL",
     "title": "TIDAL",
+    "iconKey": "TIDAL",
     "suggestion": "- TIDAL.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7242,6 +7730,7 @@
   {
     "id": "TVB",
     "title": "TVB",
+    "iconKey": "TVB",
     "suggestion": "- TVB.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7255,6 +7744,7 @@
   {
     "id": "TVer",
     "title": "TVer",
+    "iconKey": "TVer",
     "suggestion": "- TVer.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7268,6 +7758,7 @@
   {
     "id": "TaiKang",
     "title": "泰康",
+    "iconKey": "TaiKang",
     "suggestion": "- TaiKang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7281,6 +7772,7 @@
   {
     "id": "TaiWanGood",
     "title": "TaiWanGood",
+    "iconKey": "TaiWanGood",
     "suggestion": "- TaiWanGood.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7294,6 +7786,7 @@
   {
     "id": "TaiheMusic",
     "title": "太合音乐",
+    "iconKey": "TaiheMusic",
     "suggestion": "- TaiheMusic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7307,8 +7800,9 @@
   {
     "id": "TapTap",
     "title": "TapTap",
+    "iconKey": "TapTap",
     "suggestion": "- TapTap.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TapTap.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7320,8 +7814,9 @@
   {
     "id": "TeamViewer",
     "title": "TeamViewer",
+    "iconKey": "TeamViewer",
     "suggestion": "- TeamViewer.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TeamViewer.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7333,6 +7828,7 @@
   {
     "id": "Teambition",
     "title": "Teambition",
+    "iconKey": "Teambition",
     "suggestion": "- Teambition.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7346,6 +7842,7 @@
   {
     "id": "Teams",
     "title": "Teams",
+    "iconKey": "Teams",
     "suggestion": "- Teams.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7359,8 +7856,9 @@
   {
     "id": "Telegram",
     "title": "Telegram",
+    "iconKey": "Telegram",
     "suggestion": "- Telegram.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Telegram_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7372,8 +7870,9 @@
   {
     "id": "TelegramNL",
     "title": "TelegramNL",
+    "iconKey": "TelegramNL",
     "suggestion": "- TelegramNL.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Telegram_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7385,8 +7884,9 @@
   {
     "id": "TelegramSG",
     "title": "TelegramSG",
+    "iconKey": "TelegramSG",
     "suggestion": "- TelegramSG.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Telegram_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7398,8 +7898,9 @@
   {
     "id": "TelegramUS",
     "title": "TelegramUS",
+    "iconKey": "TelegramUS",
     "suggestion": "- TelegramUS.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Telegram_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7411,25 +7912,23 @@
   {
     "id": "Tencent",
     "title": "腾讯",
+    "iconKey": "Tencent",
     "suggestion": "- Tencent.list、Tencent_Domain.list 共同使用。",
-    "icon": "",
-    "isCombined": true,
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/tencent.png",
+    "isCombined": false,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Tencent/Tencent.list"
-      },
-      {
-        "label": "复制域名集",
-        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Tencent/Tencent_Domain.list"
       }
     ]
   },
   {
     "id": "TencentVideo",
     "title": "腾讯视频",
+    "iconKey": "TencentVideo",
     "suggestion": "- TencentVideo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TencentVideo.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7441,8 +7940,9 @@
   {
     "id": "TeraBox",
     "title": "TeraBox",
+    "iconKey": "TeraBox",
     "suggestion": "- TeraBox.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TeraBox.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7454,8 +7954,9 @@
   {
     "id": "Tesla",
     "title": "Tesla",
+    "iconKey": "Tesla",
     "suggestion": "- Tesla.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7467,8 +7968,9 @@
   {
     "id": "TestFlight",
     "title": "TestFlight",
+    "iconKey": "TestFlight",
     "suggestion": "- TestFlight.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_03.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7480,6 +7982,7 @@
   {
     "id": "ThomsonReuters",
     "title": "ThomsonReuters",
+    "iconKey": "ThomsonReuters",
     "suggestion": "- ThomsonReuters.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7493,8 +7996,9 @@
   {
     "id": "Threads",
     "title": "Threads",
+    "iconKey": "Threads",
     "suggestion": "- Threads.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Threads.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7506,6 +8010,7 @@
   {
     "id": "TianTianKanKan",
     "title": "天天看看",
+    "iconKey": "TianTianKanKan",
     "suggestion": "- TianTianKanKan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7519,6 +8024,7 @@
   {
     "id": "TianWeiChengXin",
     "title": "天威诚信",
+    "iconKey": "TianWeiChengXin",
     "suggestion": "- TianWeiChengXin.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7532,8 +8038,9 @@
   {
     "id": "TianYaForum",
     "title": "天涯社区",
+    "iconKey": "TianYaForum",
     "suggestion": "- TianYaForum.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Nya.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7545,6 +8052,7 @@
   {
     "id": "TigerFintech",
     "title": "老虎证券",
+    "iconKey": "TigerFintech",
     "suggestion": "- TigerFintech.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7558,8 +8066,9 @@
   {
     "id": "TikTok",
     "title": "TikTok",
+    "iconKey": "TikTok",
     "suggestion": "- TikTok.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TikTok.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7571,8 +8080,9 @@
   {
     "id": "Tmdb",
     "title": "Tmdb",
+    "iconKey": "Tmdb",
     "suggestion": "- Tmdb.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/mdb.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7584,6 +8094,7 @@
   {
     "id": "TongCheng",
     "title": "同程",
+    "iconKey": "TongCheng",
     "suggestion": "- TongCheng.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7597,6 +8108,7 @@
   {
     "id": "TrustWave",
     "title": "TrustWave",
+    "iconKey": "TrustWave",
     "suggestion": "- TrustWave.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7610,6 +8122,7 @@
   {
     "id": "TruthSocial",
     "title": "TruthSocial",
+    "iconKey": "TruthSocial",
     "suggestion": "- TruthSocial.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7623,8 +8136,9 @@
   {
     "id": "Tumblr",
     "title": "Tumblr",
+    "iconKey": "Tumblr",
     "suggestion": "- Tumblr.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Tumblr.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7636,8 +8150,9 @@
   {
     "id": "Twitch",
     "title": "Twitch",
+    "iconKey": "Twitch",
     "suggestion": "- Twitch.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/twitch.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7649,8 +8164,9 @@
   {
     "id": "Twitter",
     "title": "Twitter",
+    "iconKey": "Twitter",
     "suggestion": "- Twitter.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Twitter_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7662,8 +8178,9 @@
   {
     "id": "U17",
     "title": "有妖气",
+    "iconKey": "U17",
     "suggestion": "- U17.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/u51.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7675,6 +8192,7 @@
   {
     "id": "UBI",
     "title": "UBI",
+    "iconKey": "UBI",
     "suggestion": "- UBI.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7688,6 +8206,7 @@
   {
     "id": "UC",
     "title": "UC",
+    "iconKey": "UC",
     "suggestion": "- UC.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7701,6 +8220,7 @@
   {
     "id": "UCloud",
     "title": "优刻得",
+    "iconKey": "UCloud",
     "suggestion": "- UCloud.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7714,8 +8234,9 @@
   {
     "id": "UKMedia",
     "title": "UKMedia",
+    "iconKey": "UKMedia",
     "suggestion": "- UKMedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7727,6 +8248,7 @@
   {
     "id": "UPYun",
     "title": "又拍云",
+    "iconKey": "UPYun",
     "suggestion": "- UPYun.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7740,8 +8262,9 @@
   {
     "id": "USMedia",
     "title": "USMedia",
+    "iconKey": "USMedia",
     "suggestion": "- USMedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7753,6 +8276,7 @@
   {
     "id": "Ubisoft",
     "title": "Ubisoft",
+    "iconKey": "Ubisoft",
     "suggestion": "- Ubisoft.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7766,6 +8290,7 @@
   {
     "id": "Ubuntu",
     "title": "Ubuntu",
+    "iconKey": "Ubuntu",
     "suggestion": "- Ubuntu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7779,6 +8304,7 @@
   {
     "id": "Udacity",
     "title": "Udacity",
+    "iconKey": "Udacity",
     "suggestion": "- Udacity.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7792,8 +8318,9 @@
   {
     "id": "UnionPay",
     "title": "中国银联",
+    "iconKey": "UnionPay",
     "suggestion": "- UnionPay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/UnionPay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7805,6 +8332,7 @@
   {
     "id": "Unity",
     "title": "Unity",
+    "iconKey": "Unity",
     "suggestion": "- Unity.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7818,6 +8346,7 @@
   {
     "id": "VISA",
     "title": "VISA",
+    "iconKey": "VISA",
     "suggestion": "- VISA.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7831,6 +8360,7 @@
   {
     "id": "VK",
     "title": "VK",
+    "iconKey": "VK",
     "suggestion": "- VK.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7844,6 +8374,7 @@
   {
     "id": "VOA",
     "title": "VOA",
+    "iconKey": "VOA",
     "suggestion": "- VOA.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7857,6 +8388,7 @@
   {
     "id": "Vancl",
     "title": "凡客",
+    "iconKey": "Vancl",
     "suggestion": "- Vancl.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7870,6 +8402,7 @@
   {
     "id": "Vercel",
     "title": "Vercel",
+    "iconKey": "Vercel",
     "suggestion": "- Vercel.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7883,6 +8416,7 @@
   {
     "id": "Verisign",
     "title": "Verisign",
+    "iconKey": "Verisign",
     "suggestion": "- Verisign.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7896,6 +8430,7 @@
   {
     "id": "Verizon",
     "title": "Verizon",
+    "iconKey": "Verizon",
     "suggestion": "- Verizon.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7909,6 +8444,7 @@
   {
     "id": "VidolTV",
     "title": "VidolTV",
+    "iconKey": "VidolTV",
     "suggestion": "- VidolTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7922,8 +8458,9 @@
   {
     "id": "VikACG",
     "title": "VikACG",
+    "iconKey": "VikACG",
     "suggestion": "- VikACG.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Acg.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7935,6 +8472,7 @@
   {
     "id": "Viki",
     "title": "Viki",
+    "iconKey": "Viki",
     "suggestion": "- Viki.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7948,6 +8486,7 @@
   {
     "id": "Vimeo",
     "title": "Vimeo",
+    "iconKey": "Vimeo",
     "suggestion": "- Vimeo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -7961,8 +8500,9 @@
   {
     "id": "VipShop",
     "title": "唯品会",
+    "iconKey": "VipShop",
     "suggestion": "- VipShop.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/vipshop.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7974,8 +8514,9 @@
   {
     "id": "ViuTV",
     "title": "ViuTV",
+    "iconKey": "ViuTV",
     "suggestion": "- ViuTV.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Viu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7987,6 +8528,7 @@
   {
     "id": "Vivo",
     "title": "Vivo",
+    "iconKey": "Vivo",
     "suggestion": "- Vivo.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8000,8 +8542,9 @@
   {
     "id": "Voxmedia",
     "title": "Voxmedia",
+    "iconKey": "Voxmedia",
     "suggestion": "- Voxmedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8013,6 +8556,7 @@
   {
     "id": "W3schools",
     "title": "W3schools",
+    "iconKey": "W3schools",
     "suggestion": "- W3schools.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8026,6 +8570,7 @@
   {
     "id": "WIX",
     "title": "WIX",
+    "iconKey": "WIX",
     "suggestion": "- WIX.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8039,6 +8584,7 @@
   {
     "id": "WanKaHuanJu",
     "title": "玩咖欢聚",
+    "iconKey": "WanKaHuanJu",
     "suggestion": "- WanKaHuanJu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8052,8 +8598,9 @@
   {
     "id": "WanMeiShiJie",
     "title": "完美世界",
+    "iconKey": "WanMeiShiJie",
     "suggestion": "- WanMeiShiJie.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MeiShiJie.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8065,6 +8612,7 @@
   {
     "id": "Wanfang",
     "title": "Wanfang",
+    "iconKey": "Wanfang",
     "suggestion": "- Wanfang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8078,6 +8626,7 @@
   {
     "id": "WangSuKeJi",
     "title": "网宿科技",
+    "iconKey": "WangSuKeJi",
     "suggestion": "- WangSuKeJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8091,8 +8640,9 @@
   {
     "id": "WangXinKeJi",
     "title": "网心科技",
+    "iconKey": "WangXinKeJi",
     "suggestion": "- WangXinKeJi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/inke.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8104,8 +8654,9 @@
   {
     "id": "WeChat",
     "title": "微信",
+    "iconKey": "WeChat",
     "suggestion": "- WeChat.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/wechat.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8117,6 +8668,7 @@
   {
     "id": "WeTV",
     "title": "WeTV",
+    "iconKey": "WeTV",
     "suggestion": "- WeTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8130,8 +8682,9 @@
   {
     "id": "WeType",
     "title": "微信输入法",
+    "iconKey": "微信输入法",
     "suggestion": "- WeType.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Weixin.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8143,6 +8696,7 @@
   {
     "id": "WeiZhiYunDong",
     "title": "微至云动",
+    "iconKey": "WeiZhiYunDong",
     "suggestion": "- WeiZhiYunDong.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8156,8 +8710,9 @@
   {
     "id": "Weibo",
     "title": "微博",
+    "iconKey": "Weibo",
     "suggestion": "- Weibo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-46.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8169,8 +8724,9 @@
   {
     "id": "WenJuanXing",
     "title": "问卷星",
+    "iconKey": "问卷星",
     "suggestion": "- WenJuanXing.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/问卷星.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8182,6 +8738,7 @@
   {
     "id": "Westerndigital",
     "title": "Westerndigital",
+    "iconKey": "Westerndigital",
     "suggestion": "- Westerndigital.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8195,8 +8752,9 @@
   {
     "id": "Whatsapp",
     "title": "Whatsapp",
+    "iconKey": "Whatsapp",
     "suggestion": "- Whatsapp.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/WhatsApp.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8208,8 +8766,9 @@
   {
     "id": "WiFiMaster",
     "title": "WiFi万能钥匙",
+    "iconKey": "WiFiMaster",
     "suggestion": "- WiFiMaster.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/wifi188.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8221,8 +8780,9 @@
   {
     "id": "Wikimedia",
     "title": "Wikimedia",
+    "iconKey": "Wikimedia",
     "suggestion": "- Wikimedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8234,8 +8794,9 @@
   {
     "id": "Wikipedia",
     "title": "维基",
+    "iconKey": "Wikipedia",
     "suggestion": "- Wikipedia.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8247,6 +8808,7 @@
   {
     "id": "WildRift",
     "title": "WildRift",
+    "iconKey": "WildRift",
     "suggestion": "- WildRift.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8260,6 +8822,7 @@
   {
     "id": "WoLai",
     "title": "我来",
+    "iconKey": "WoLai",
     "suggestion": "- WoLai.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8273,6 +8836,7 @@
   {
     "id": "Wordpress",
     "title": "Wordpress",
+    "iconKey": "Wordpress",
     "suggestion": "- Wordpress.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8286,6 +8850,7 @@
   {
     "id": "WorldofWarcraft",
     "title": "WorldofWarcraft",
+    "iconKey": "WorldofWarcraft",
     "suggestion": "- WorldofWarcraft.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8299,6 +8864,7 @@
   {
     "id": "Wteam",
     "title": "Wteam",
+    "iconKey": "Wteam",
     "suggestion": "- Wteam.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8312,8 +8878,9 @@
   {
     "id": "Xbox",
     "title": "Xbox",
+    "iconKey": "Xbox",
     "suggestion": "- Xbox.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xbox.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8325,6 +8892,7 @@
   {
     "id": "XiamiMusic",
     "title": "虾米音乐",
+    "iconKey": "XiamiMusic",
     "suggestion": "- XiamiMusic.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8338,8 +8906,9 @@
   {
     "id": "XianYu",
     "title": "闲鱼",
+    "iconKey": "XianYu",
     "suggestion": "- XianYu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xianyu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8351,6 +8920,7 @@
   {
     "id": "XiaoGouKeJi",
     "title": "小狗科技",
+    "iconKey": "XiaoGouKeJi",
     "suggestion": "- XiaoGouKeJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8364,8 +8934,9 @@
   {
     "id": "XiaoHongShu",
     "title": "小红书",
+    "iconKey": "XiaoHongShu",
     "suggestion": "- XiaoHongShu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xiaohongshu_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8377,8 +8948,9 @@
   {
     "id": "XiaoMi",
     "title": "小米",
+    "iconKey": "XiaoMi",
     "suggestion": "- XiaoMi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xiaomi.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8390,6 +8962,7 @@
   {
     "id": "XiaoYuanKeJi",
     "title": "小源科技",
+    "iconKey": "XiaoYuanKeJi",
     "suggestion": "- XiaoYuanKeJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8403,8 +8976,9 @@
   {
     "id": "XieCheng",
     "title": "携程",
+    "iconKey": "携程",
     "suggestion": "- XieCheng.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/携程.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8416,6 +8990,7 @@
   {
     "id": "XingKongWuXian",
     "title": "XingKongWuXian",
+    "iconKey": "XingKongWuXian",
     "suggestion": "- XingKongWuXian.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8429,6 +9004,7 @@
   {
     "id": "XueErSi",
     "title": "学而思",
+    "iconKey": "XueErSi",
     "suggestion": "- XueErSi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8442,8 +9018,9 @@
   {
     "id": "XueQiu",
     "title": "雪球",
+    "iconKey": "XueQiu",
     "suggestion": "- XueQiu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/XueQiu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8455,8 +9032,9 @@
   {
     "id": "Xunlei",
     "title": "迅雷",
+    "iconKey": "Xunlei",
     "suggestion": "- Xunlei.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/XunLei.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8468,8 +9046,9 @@
   {
     "id": "YYeTs",
     "title": "人人影视",
+    "iconKey": "人人影视",
     "suggestion": "- YYeTs.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Netflix_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8481,6 +9060,7 @@
   {
     "id": "Yandex",
     "title": "Yandex",
+    "iconKey": "Yandex",
     "suggestion": "- Yandex.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8494,8 +9074,9 @@
   {
     "id": "YiChe",
     "title": "易车",
+    "iconKey": "YiChe",
     "suggestion": "- YiChe.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/yiche.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8507,6 +9088,7 @@
   {
     "id": "YiXiaKeJi",
     "title": "一下科技",
+    "iconKey": "YiXiaKeJi",
     "suggestion": "- YiXiaKeJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8520,8 +9102,9 @@
   {
     "id": "YiZhiBo",
     "title": "易直播",
+    "iconKey": "YiZhiBo",
     "suggestion": "- YiZhiBo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Zhibo8.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8533,6 +9116,7 @@
   {
     "id": "YouMengChuangXiang",
     "title": "游梦创想",
+    "iconKey": "YouMengChuangXiang",
     "suggestion": "- YouMengChuangXiang.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8546,8 +9130,9 @@
   {
     "id": "YouTube",
     "title": "YouTube",
+    "iconKey": "YouTube",
     "suggestion": "- YouTube.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8559,8 +9144,9 @@
   {
     "id": "YouTubeMusic",
     "title": "YouTubeMusic",
+    "iconKey": "YouTubeMusic",
     "suggestion": "- YouTubeMusic.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8572,6 +9158,7 @@
   {
     "id": "YouZan",
     "title": "有赞",
+    "iconKey": "YouZan",
     "suggestion": "- YouZan.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8585,8 +9172,9 @@
   {
     "id": "Youku",
     "title": "优酷",
+    "iconKey": "Youku",
     "suggestion": "- Youku.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/youku.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8598,8 +9186,9 @@
   {
     "id": "YuanFuDao",
     "title": "猿辅导",
+    "iconKey": "YuanFuDao",
     "suggestion": "- YuanFuDao.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/yuanfudao.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8611,6 +9200,7 @@
   {
     "id": "YunFanJiaSu",
     "title": "云帆加速",
+    "iconKey": "YunFanJiaSu",
     "suggestion": "- YunFanJiaSu.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8624,6 +9214,7 @@
   {
     "id": "ZDNS",
     "title": "国家工程研究中心",
+    "iconKey": "ZDNS",
     "suggestion": "- ZDNS.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8637,8 +9228,9 @@
   {
     "id": "Zalo",
     "title": "Zalo",
+    "iconKey": "Zalo",
     "suggestion": "- Zalo.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Zalo.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8650,6 +9242,7 @@
   {
     "id": "Zee",
     "title": "Zee",
+    "iconKey": "Zee",
     "suggestion": "- Zee.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8663,6 +9256,7 @@
   {
     "id": "ZeeTV",
     "title": "ZeeTV",
+    "iconKey": "ZeeTV",
     "suggestion": "- ZeeTV.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8676,8 +9270,9 @@
   {
     "id": "Zendesk",
     "title": "Zendesk",
+    "iconKey": "Zendesk",
     "suggestion": "- Zendesk.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Des.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8689,8 +9284,9 @@
   {
     "id": "ZhangYue",
     "title": "掌阅",
+    "iconKey": "ZhangYue",
     "suggestion": "- ZhangYue.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8702,6 +9298,7 @@
   {
     "id": "ZhiYinManKe",
     "title": "知音漫客",
+    "iconKey": "ZhiYinManKe",
     "suggestion": "- ZhiYinManKe.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8715,6 +9312,7 @@
   {
     "id": "ZhiYunZhong",
     "title": "智云众",
+    "iconKey": "ZhiYunZhong",
     "suggestion": "- ZhiYunZhong.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8728,8 +9326,9 @@
   {
     "id": "Zhihu",
     "title": "知乎",
+    "iconKey": "Zhihu",
     "suggestion": "- Zhihu.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/zhihu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8741,8 +9340,9 @@
   {
     "id": "ZhihuAds",
     "title": "知乎广告拦截",
+    "iconKey": "ZhihuAds",
     "suggestion": "- ZhihuAds.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Ads.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8754,6 +9354,7 @@
   {
     "id": "ZhongGuoShiHua",
     "title": "中国石化",
+    "iconKey": "ZhongGuoShiHua",
     "suggestion": "- ZhongGuoShiHua.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8767,6 +9368,7 @@
   {
     "id": "ZhongWeiShiJi",
     "title": "中维世纪",
+    "iconKey": "ZhongWeiShiJi",
     "suggestion": "- ZhongWeiShiJi.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8780,6 +9382,7 @@
   {
     "id": "ZhongXingTongXun",
     "title": "中兴通讯",
+    "iconKey": "ZhongXingTongXun",
     "suggestion": "- ZhongXingTongXun.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8793,8 +9396,9 @@
   {
     "id": "ZhongYuanYiShang",
     "title": "中元易尚",
+    "iconKey": "ZhongYuanYiShang",
     "suggestion": "- ZhongYuanYiShang.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8806,8 +9410,9 @@
   {
     "id": "ZhuanZhuan",
     "title": "转转",
+    "iconKey": "ZhuanZhuan",
     "suggestion": "- ZhuanZhuan.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ZhuanZhuan.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8819,6 +9424,7 @@
   {
     "id": "Zoho",
     "title": "Zoho",
+    "iconKey": "Zoho",
     "suggestion": "- Zoho.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8832,6 +9438,7 @@
   {
     "id": "aiXcoder",
     "title": "aiXcoder",
+    "iconKey": "aiXcoder",
     "suggestion": "- aiXcoder.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8845,8 +9452,9 @@
   {
     "id": "eBay",
     "title": "eBay",
+    "iconKey": "eBay",
     "suggestion": "- eBay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eBay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8858,6 +9466,7 @@
   {
     "id": "friDay",
     "title": "friDay",
+    "iconKey": "friDay",
     "suggestion": "- friDay.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8871,8 +9480,9 @@
   {
     "id": "iCloud",
     "title": "iCloud",
+    "iconKey": "iCloud",
     "suggestion": "- iCloud.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/iCloud.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8884,8 +9494,9 @@
   {
     "id": "iCloudPrivateRelay",
     "title": "iCloudPrivateRelay",
+    "iconKey": "iCloudPrivateRelay",
     "suggestion": "- iCloudPrivateRelay.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/iCloud.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8897,6 +9508,7 @@
   {
     "id": "iFlytek",
     "title": "科大讯飞",
+    "iconKey": "iFlytek",
     "suggestion": "- iFlytek.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8910,8 +9522,9 @@
   {
     "id": "iQIYI",
     "title": "爱奇艺",
+    "iconKey": "iQIYI",
     "suggestion": "- iQIYI.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/iqiyi.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8923,8 +9536,9 @@
   {
     "id": "iQIYIIntl",
     "title": "iQIYIIntl",
+    "iconKey": "iQIYIIntl",
     "suggestion": "- iQIYIIntl.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/iqiyi.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8936,6 +9550,7 @@
   {
     "id": "iTalkBB",
     "title": "iTalkBB",
+    "iconKey": "iTalkBB",
     "suggestion": "- iTalkBB.list 单独使用。",
     "icon": "",
     "isCombined": false,
@@ -8949,8 +9564,9 @@
   {
     "id": "ifanr",
     "title": "爱范儿",
+    "iconKey": "ifanr",
     "suggestion": "- ifanr.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/ifanr.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8962,8 +9578,9 @@
   {
     "id": "myTVSUPER",
     "title": "myTVSUPER",
+    "iconKey": "myTVSUPER",
     "suggestion": "- myTVSUPER.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/super.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8975,8 +9592,9 @@
   {
     "id": "zhanqi",
     "title": "战旗",
+    "iconKey": "zhanqi",
     "suggestion": "- zhanqi.list 单独使用。",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Han.png",
     "isCombined": false,
     "buttons": [
       {
