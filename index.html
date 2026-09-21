@@ -2018,44 +2018,52 @@
     const pinyinCharCache = new Map();
     const iconSvgCache = new Map();
 
-    const preheatedUrls = new Set();
+const preloadedImageCache = new Map();
 
-    function isLiteMode() {
-      return document.documentElement.getAttribute("data-perf") === "lite";
+function isLiteMode() {
+  return document.documentElement.getAttribute("data-perf") === "lite";
+}
+
+function preloadImageBatch(urls, concurrency = 4) {
+  if (isLiteMode()) return;
+  if (!urls || !urls.length) return;
+
+  const filtered = [...new Set(urls)].filter(url =>
+    url &&
+    typeof url === "string" &&
+    !url.startsWith("data:") &&
+    !preloadedImageCache.has(url)
+  );
+
+  if (!filtered.length) return;
+
+  const queue = [...filtered];
+  let activeCount = 0;
+
+  function runNext() {
+    while (activeCount < concurrency && queue.length > 0) {
+      const url = queue.shift();
+      const img = new Image();
+
+      img.decoding = "async";
+      preloadedImageCache.set(url, img);
+      activeCount++;
+
+      img.onload = img.onerror = () => {
+        activeCount--;
+        runNext();
+      };
+
+      img.src = url;
     }
+  }
 
-    function preloadImageBatch(urls, concurrency = 4) {
-      if (isLiteMode()) return;
-      if (!urls || !urls.length) return;
-      const filtered = urls.filter(u => u && typeof u === "string" && !preheatedUrls.has(u) && !u.startsWith("data:"));
-      if (!filtered.length) return;
-
-      const queue = [...filtered];
-      let activeCount = 0;
-
-      function runNext() {
-        while (activeCount < concurrency && queue.length > 0) {
-          const url = queue.shift();
-          preheatedUrls.add(url);
-          activeCount++;
-
-          const img = new Image();
-          img.decoding = "async";
-          img.onload = img.onerror = () => {
-            activeCount--;
-            runNext();
-          };
-          img.src = url;
-        }
-      }
-
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => runNext(), { timeout: 2000 });
-      } else {
-        setTimeout(runNext, 180);
-      }
-    }
-
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => runNext(), { timeout: 2000 });
+  } else {
+    setTimeout(runNext, 180);
+  }
+}
     function cleanOldCaches() {
       try {
         const currentKey = CONFIG.CACHE_KEY;
@@ -3056,7 +3064,7 @@
     function renderAuthor(module) {
       const author = module.author || {};
       const avatar = module.authorAvatar;
-      const avatarHTML = avatar ? `<img class="author-avatar" src="${escapeHTML(avatar)}" decoding="async" loading="lazy" referrerpolicy="no-referrer" alt="">` : "";
+      const avatarHTML = avatar ? `<img class="author-avatar" src="${escapeHTML(avatar)}" decoding="async" referrerpolicy="no-referrer" alt="">` : "";
       const authorURL = author.url;
       const authorName = author.name || author.username || "作者信息识别失败";
       if (authorURL) {
