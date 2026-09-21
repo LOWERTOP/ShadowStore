@@ -51,6 +51,13 @@
       if (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
         document.documentElement.classList.add('is-pwa');
       }
+
+      // 极速模式防闪烁预注入
+      try {
+        if (localStorage.getItem("sr_lite_mode") === "true") {
+          document.documentElement.setAttribute("data-perf", "lite");
+        }
+      } catch (e) {}
     })();
   </script>
   <link rel="icon" href="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/img/ShadowStore_03.png">
@@ -123,9 +130,14 @@
       --lightbox-border: rgba(255, 255, 255, 0.14);
       --lightbox-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
     }
-    html.theme-transitioning, html.theme-transitioning *, html.theme-transitioning *::before, html.theme-transitioning *::after {
+    
+    html.theme-transitioning, 
+    html.theme-transitioning *, 
+    html.theme-transitioning *::before, 
+    html.theme-transitioning *::after {
       transition: none !important;
     }
+
     html.is-resizing .tab-indicator {
       transition: none !important;
     }
@@ -1588,6 +1600,62 @@
       box-shadow: var(--shadow-glass-ui) !important;
       background-color: var(--bg-surface) !important;
     }
+
+    /* ========================================================
+       极速低能耗模式 (Lite Mode / Eco Mode) - 样式降级覆写
+       ======================================================== */
+    html[data-perf="lite"] {
+      --noise-pattern: none !important;
+      --glass-bg: var(--bg-surface) !important;
+      --glass-bg-hover: var(--border-subtle) !important;
+      --shadow-glass-ui: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+      --shadow-tab-bar-bottom: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+      --shadow-glass-ui-hover: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+      --shadow-search: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    [data-theme="dark"][data-perf="lite"] {
+      --shadow-glass-ui: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+      --shadow-tab-bar-bottom: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+      --shadow-glass-ui-hover: 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+      --shadow-search: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    html[data-perf="lite"] .glass-element,
+    html[data-perf="lite"] .alphabet-main-card,
+    html[data-perf="lite"] .alphabet-fast-index,
+    html[data-perf="lite"] .image-lightbox {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: var(--bg-surface) !important;
+      border: 1px solid var(--border-subtle) !important;
+    }
+
+    html[data-perf="lite"] .alphabet-item-row::before {
+      display: none !important;
+    }
+
+    /* 仅在极速模式下关停过渡：统一消除所有延迟差，绝不污染标准模式 */
+    html[data-perf="lite"] *:not(.tab-indicator) {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition: none !important;
+    }
+
+    html[data-perf="lite"] body,
+    html[data-perf="lite"] html {
+      transition: none !important;
+    }
+
+    html[data-perf="lite"] .status-dot.loading {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+
+    .theme-controls .perf-toggle.active {
+      color: var(--primary) !important;
+    }
+
     @media (hover: none), (pointer: coarse), (max-width: 860px) {
       .modules {
         grid-template-columns: 1fr;
@@ -1740,6 +1808,11 @@
           </h1>
         </div>
         <div class="theme-controls">
+          <button id="perfToggle" class="theme-toggle immersive-icon perf-toggle" type="button" aria-label="切换极速低能耗模式" title="开启极速模式（关闭视觉特效与动画）">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </button>
           <button id="themeToggle" class="theme-toggle immersive-icon" aria-label="切换主题模式"></button>
           <a id="githubStarBtn" class="theme-toggle immersive-icon" href="https://github.com/LOWERTOP/ShadowStore" target="_blank" rel="noopener" aria-label="访问 GitHub 仓库并点亮 Star" title="前往 GitHub 为仓库点亮 Star">
             <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
@@ -1866,7 +1939,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609211208";
+    const CACHE_VERSION = "202609211250";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -1947,7 +2020,12 @@
 
     const preheatedUrls = new Set();
 
+    function isLiteMode() {
+      return document.documentElement.getAttribute("data-perf") === "lite";
+    }
+
     function preloadImageBatch(urls, concurrency = 4) {
+      if (isLiteMode()) return;
       if (!urls || !urls.length) return;
       const filtered = urls.filter(u => u && typeof u === "string" && !preheatedUrls.has(u) && !u.startsWith("data:"));
       if (!filtered.length) return;
@@ -2034,6 +2112,7 @@
     const MOON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
     const SUN_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
 
+    const perfToggleBtn = document.getElementById("perfToggle");
     const themeToggleBtn = document.getElementById("themeToggle");
     const backToTopBtn = document.getElementById("backToTopBtn");
     const tabItems = document.querySelectorAll(".tab-item");
@@ -2890,7 +2969,6 @@
       }
     });
 
-    // 核心搜索执行逻辑（仅在主动触发时执行）
     function performSearch() {
       state.focusedModuleId = null;
       if (state.isListView) {
@@ -2906,7 +2984,6 @@
       });
     }
 
-    // 取消搜索并还原列表
     function cancelSearch() {
       state.focusedModuleId = null;
       searchInput.value = "";
@@ -2928,7 +3005,6 @@
       });
     }
 
-    // 统一步骤：有内容时执行搜索，无内容时清空还原并退出键盘
     function commitOrCancelSearch() {
       const query = searchInput.value.trim();
       if (query.length > 0) {
@@ -2957,20 +3033,17 @@
       }
     });
 
-    // 激活搜索功能：添加锁定样式，严格禁止屏幕滚动
     searchInput.addEventListener("focus", () => {
       document.body.classList.add("has-search-focus");
       document.documentElement.classList.add("no-scroll");
       floatSearchToTarget(false);
     });
 
-    // 恢复轻量级输入监听：仅控制清空按钮的显隐，不触发任何搜索或 DOM 渲染，绝不跳顶
     searchInput.addEventListener("input", () => {
       state.focusedModuleId = null;
       document.body.classList.toggle("has-search-text", searchInput.value.length > 0);
     });
 
-    // 退出搜索状态：恢复屏幕滑动功能
     searchInput.addEventListener("blur", () => {
       document.body.classList.remove("has-search-focus");
       document.documentElement.classList.remove("no-scroll");
@@ -3155,6 +3228,10 @@
     }
 
     function switchWithFade(renderCallback) {
+      if (isLiteMode()) {
+        renderCallback();
+        return;
+      }
       clearTimeout(modulesFadeTimer);
       modulesContainer.classList.add("fade-out");
       modulesFadeTimer = setTimeout(() => {
@@ -3164,7 +3241,6 @@
     }
 
     function switchToTab(targetTab) {
-      // Tab 切换时立即使之前的 Worker 搜索结果失效
       currentSearchRequestId++;
       
       if (state.isListView) {
@@ -3406,7 +3482,6 @@
       }
     });
 
-    // 激活搜索时检测滑动并执行：有内容则搜索，无内容则取消搜索；忽略滑动并阻断默认滚动
     let inputTouchStartY = 0;
     let inputTouchStartX = 0;
 
@@ -3433,7 +3508,6 @@
       }
     }, { passive: false });
 
-    // PC 端滚轮同等处理
     window.addEventListener('wheel', (e) => {
       if (document.activeElement === searchInput) {
         if (e.cancelable) e.preventDefault();
@@ -3441,7 +3515,6 @@
       }
     }, { passive: false });
 
-    // 点击搜索框外部：合并相同的业务逻辑（有字则搜，无字则清空取消）
     document.addEventListener('pointerdown', (e) => {
       if (document.activeElement === searchInput) {
         if (!e.target.closest('#searchBoxInner, #standaloneListBtn')) {
@@ -3480,6 +3553,23 @@
     }
 
     let noticeInterval = null;
+    function startNoticeLoop() {
+      if (isLiteMode()) return;
+      if (noticeInterval) clearInterval(noticeInterval);
+      if (noticeTrack && noticeTrack.children.length > 0) {
+        noticeInterval = setInterval(nextNotice, 3800);
+      }
+    }
+
+    function stopNoticeLoop() {
+      if (noticeInterval) {
+        clearInterval(noticeInterval);
+        noticeInterval = null;
+      }
+    }
+
+    let nextNotice = function() {};
+
     if (noticeTrack && noticeTrack.children.length > 0) {
       const firstItemClone = noticeTrack.children[0].cloneNode(true);
       noticeTrack.appendChild(firstItemClone);
@@ -3492,8 +3582,8 @@
         noticeTrack.style.transform = `translateY(-${noticeIndex * 32}px)`;
       }
 
-      function nextNotice() {
-        if (document.activeElement === searchInput || searchInput.value.length > 0 || state.isListView || state.focusedModuleId) return;
+      nextNotice = function() {
+        if (document.activeElement === searchInput || searchInput.value.length > 0 || state.isListView || state.focusedModuleId || isLiteMode()) return;
         if (isAnimating) return;
         isAnimating = true;
         noticeIndex++;
@@ -3511,19 +3601,7 @@
             isAnimating = false;
           }, 450);
         }
-      }
-
-      function startNoticeLoop() {
-        if (noticeInterval) clearInterval(noticeInterval);
-        noticeInterval = setInterval(nextNotice, 3800);
-      }
-
-      function stopNoticeLoop() {
-        if (noticeInterval) {
-          clearInterval(noticeInterval);
-          noticeInterval = null;
-        }
-      }
+      };
 
       startNoticeLoop();
       document.addEventListener("visibilitychange", () => {
@@ -3531,6 +3609,40 @@
         else startNoticeLoop();
       });
     }
+
+    function updatePerfUI() {
+      const active = isLiteMode();
+      if (perfToggleBtn) {
+        perfToggleBtn.classList.toggle("active", active);
+        const title = active ? "当前：极速模式（已关闭视觉特效）" : "切换极速模式（关闭视觉特效与动画）";
+        perfToggleBtn.setAttribute("title", title);
+        perfToggleBtn.setAttribute("aria-label", title);
+      }
+    }
+
+    function toggleLiteMode() {
+      const currentlyLite = isLiteMode();
+      const nextLite = !currentlyLite;
+      if (nextLite) {
+        document.documentElement.setAttribute("data-perf", "lite");
+        try { localStorage.setItem("sr_lite_mode", "true"); } catch (e) {}
+        stopNoticeLoop();
+        showToast("已开启极速低能耗模式");
+      } else {
+        document.documentElement.removeAttribute("data-perf");
+        try { localStorage.setItem("sr_lite_mode", "false"); } catch (e) {}
+        startNoticeLoop();
+        showToast("已恢复标准视觉模式");
+      }
+      updatePerfUI();
+      updateTabIndicator(false);
+      scheduleLayoutUpdate();
+    }
+
+    if (perfToggleBtn) {
+      perfToggleBtn.addEventListener("click", toggleLiteMode);
+    }
+    updatePerfUI();
 
     function getThemeMode() {
       try {
@@ -3588,6 +3700,8 @@
         toastText = isSystemDark ? "已切换为自动跟随系统" : "已切换为浅色模式";
       }
       try { localStorage.setItem("sr_theme_override", nextMode); } catch (e) {}
+
+      // 移除了打断过渡的暴力 reflow 类，恢复标准模式的原生平滑渐变，消除跳白与闪烁
       updateThemeUI();
       showToast(toastText);
     });
