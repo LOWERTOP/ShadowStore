@@ -1,8 +1,8 @@
-[<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStoreSocialPreview1280x640.png" width="100%">](https://shadowstore.dpdns.org/ "访问页面")
+[<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStoreSocialPreview1280x640.png" width="100%">](https://shadowstore.dpdns.org/ "访问 ShadowStore")
 
 <div align="center">
 
- **汇聚开源力量 · 坚持原链引用 · 打造丰富的开放资源导航平台**
+**发现资源 · 原链引用 · 开放索引**
 
 [🌐 在线访问](https://shadowstore.dpdns.org) · [💡 建议反馈](https://github.com/LOWERTOP/ShadowStore/issues/new)
 
@@ -10,42 +10,68 @@
 
 ---
 
-## 📌 项目定位
+## 📌 关于 ShadowStore
 
-[<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStore_ScreenShot.png" width="100%">](https://shadowstore.dpdns.org/ "访问页面")
+[<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStore_ScreenShot.png" width="100%">](https://shadowstore.dpdns.org/ "访问 ShadowStore")
 
 **网站地址：[ShadowStore.dpdns.org](https://shadowstore.dpdns.org)**
 
-**[ShadowStore](https://shadowstore.dpdns.org/)** 是一个专为 Shadowrocket 打造的开源社区资源聚合检索平台，提供 **资源索引**、**资源检索**、**一键安装**、**一键复制** 等功能，集中收录和整理公开资源。目前已收录超过 1000 款模块及其他多种资源，支持添加网页快捷方式至桌面，并提供应用图标显示，为 Shadowrocket 用户提供更加便捷的资源发现与使用体验
+**ShadowStore** 是一个面向 Shadowrocket 及相关开源社区的 **资源索引与导航平台**。
 
-* **原始直链引用**：所有资源卡片均直接解析并指向 **原作者的官方开源仓库或原始资源直链**，不做任何代码篡改、二次打包或镜像托管
-* **零侵权与透明开放**：平台仅作为纯粹的元数据索引与导航工具，完整保留原作者署名、源仓库跳转链接与原版描述
-* **打造全景生态索引**：持续聚合开源社区中优质、实用、维护中的规则与模块，为用户提供一站式、毫秒级的检索与安装体验
+我们希望将分散在不同开源仓库、项目主页和资源目录中的公开资源集中索引，通过统一的界面提供 **浏览、搜索、分类、查看来源、一键安装与一键复制** 等功能，让用户能够更方便地发现和使用社区中相关资源。
+
+ShadowStore **不是资源托管平台，也不是第三方资源镜像站**。平台主要负责整理和展示公开资源的元数据，并尽可能保留资源与原作者之间的直接关联。
+
+### 核心理念
+
+* **开放索引**：聚合公开可访问的社区资源，为分散的开源资源提供统一的发现入口
+* **原链引用**：资源尽可能直接指向原作者的开源仓库、官方页面或原始资源地址，不对资源进行二次打包或镜像托管
+* **尊重作者**：保留资源名称、作者信息、来源仓库及原始描述，并提供原项目跳转入口
+* **便捷使用**：在资源索引的基础上提供搜索、分类、一键安装、一键复制等便捷功能
+
+---
+
+## 🧭 资源中心
+
+ShadowStore 的核心是 **资源中心**。
+
+平台目前主要收录和整理以下类型的公开资源：
+
+* **模块**：可直接安装或引用的公开模块资源
+* **规则**：社区适用于 Shadowrocket 的规则集
+* **配色**：社区公开的 Shadowrocket 配色资源
+* **配置**：推荐使用的 Shadowrocket 配置文件
+* **手册**：社区维护的 Shadowrocket 使用手册
+* **其他资源**：与 Shadowrocket 相关生态有关的其他资源
 
 ---
 
 ## 🙏 数据来源
 
-本仓库仅以静态前端网页的形式保存 [ShadowStore](https://shadowstore.dpdns.org/) 的交互界面，相关后台数据及资源信息均通过自动化工作流进行处理、更新与维护
+ShadowStore 的运行与发展离不开开源社区以及众多创作者的贡献。
 
-[ShadowStore](https://shadowstore.dpdns.org/) 的运行与发展得益于开源社区及众多创作者的持续贡献。在此特别感谢以下核心项目、模块及图标资源的作者与维护者：
+目前平台使用或参考的主要公开资源来源包括：
 
-* 自有文件仓库：[Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
+* 自有资源仓库：[LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
 * 主要资源来源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
 * 主要资源来源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
 * 备用图标资源：[luestr/IconResource](https://github.com/luestr/IconResource)
-* 以及所有为开源社区贡献代码、模块、规则、图标及其他资源的创作者与维护者
+* 以及其他为开源社区贡献规则、模块、脚本、图标及相关资源的开发者与维护者
 
-谨向所有开源项目的贡献者致以诚挚感谢
+感谢所有开源项目作者、贡献者和维护者为社区持续提供公开资源。
 
 ---
 
-## 📥 权利说明
+## 📥 权利声明
 
-* 本项目充分尊重每一位开源开发者的意愿。若您是某资源的原作者，**不希望您的资源被本平台索引**，或发现收录信息有误，请随时提交 [Issue](https://github.com/LOWERTOP/ShadowStore/issues/new?title=%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82&body=%E8%A6%81%E6%B1%82%E7%AE%80%E8%BF%B0%EF%BC%9A&labels=invalid) 说明，ShadowStore 会在第一时间更新或移除相关索引
-*  **索引检索性质**：本平台仅提供开源公开信息的索引与跳转服务，不托管、不拥有、亦不对第三方脚本的具体功能与内容负责
-*  **知识产权归属**：所有被收录资源的名称、脚本代码及版权均归原作者或对应版权方所有
-*  **使用风险自负**：各资源的功能与有效性由其原作者维护，请使用者自行甄别资源安全性，并遵守相关法律法规及开源协议
+ShadowStore 尊重所有资源作者及版权持有者的权利。
+
+* **资源归属**：平台收录的第三方资源，其名称、代码、内容及相关知识产权均归原作者或相应权利人所有
+* **索引性质**：ShadowStore 主要提供公开资源的索引、整理和导航服务，不主张拥有第三方资源的所有权
+* **非资源托管**：第三方资源原则上不由 ShadowStore 托管、修改或二次分发，具体资源仍以原作者提供的来源为准
+* **作者自主权**：如果您是相关资源的作者，不希望您的资源被 ShadowStore 索引，或发现平台展示的信息存在错误，可以提交 [Issue](https://github.com/LOWERTOP/ShadowStore/issues/new?title=%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82&body=%E8%A6%81%E6%B1%82%E7%AE%80%E8%BF%B0%EF%BC%9A&labels=invalid) 联系我们，我们会根据实际情况及时处理
+* **资源责任**：第三方资源由其原作者或维护者负责维护。ShadowStore 不对第三方资源的具体功能、内容、持续可用性或安全性作出保证
+* **使用须知**：使用任何第三方资源前，请自行确认其来源、功能及适用范围，并遵守相关法律法规以及资源所采用的开源许可证或其他使用条款
 
 ---
 
