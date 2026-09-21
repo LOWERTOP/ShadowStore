@@ -241,10 +241,13 @@ function resolveModuleIcon(metadata, rawURL) {
   if (rawIcon) {
     let fixedIcon = rawIcon;
     if (fixedIcon.includes("zirawell/R-Store")) {
-      fixedIcon = fixedIcon
-        .replace("/master/", "/main/")
-        .replace("/Rule/Res/Icon/", "/Res/Icon/")
-        .replace("/Icon/", "/Res/Icon/");
+      // 仅当路径缺少 Res 前缀或使用了 master 时才做精细规范化，避免重复拼接
+      fixedIcon = fixedIcon.replace("/master/", "/main/");
+      if (fixedIcon.includes("/Rule/Res/Icon/")) {
+        fixedIcon = fixedIcon.replace("/Rule/Res/Icon/", "/Res/Icon/");
+      } else if (!fixedIcon.includes("/Res/Icon/") && fixedIcon.includes("/Icon/")) {
+        fixedIcon = fixedIcon.replace("/Icon/", "/Res/Icon/");
+      }
     }
 
     const resolved = resolveIconURL(fixedIcon, rawURL);
@@ -255,18 +258,18 @@ function resolveModuleIcon(metadata, rawURL) {
 
   // 2. 次选：自带图标缺失或解析无效时，再使用名称从远程图标库匹配
   if (metadata.declaredName) {
-    const matched = getMatchedIcon(metadata.declaredName);
+    const matched = getMatchedIcon(metadata.declaredName, rawIcon);
     if (matched) return matched;
   }
 
   const fileName = getModuleNameFromURL(rawURL);
   if (fileName) {
-    const matched = getMatchedIcon(fileName);
+    const matched = getMatchedIcon(fileName, rawIcon);
     if (matched) return matched;
   }
 
   if (metadata.name) {
-    const matched = getMatchedIcon(metadata.name);
+    const matched = getMatchedIcon(metadata.name, rawIcon);
     if (matched) return matched;
   }
 
