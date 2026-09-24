@@ -1656,12 +1656,34 @@
       color: var(--primary) !important;
     }
 
-    @media (hover: none), (pointer: coarse), (max-width: 860px) {
-      .modules {
-        grid-template-columns: 1fr;
-        min-height: 0;
-        align-items: start;
-      }
+/* 仅在屏幕宽度小于等于 860px 时（如手机竖屏、手机横屏）才强制单列 */
+@media (max-width: 860px) {
+  .modules {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    align-items: start;
+  }
+}
+
+/* 针对触控设备的交互优化（去除 hover 态抖动），仅保留交互状态禁用，不影响列数 */
+@media (hover: none), (pointer: coarse) {
+  .module-card, .module-card:hover, .module-card:active, .module-card:focus, .module-card:focus-within {
+    height: auto !important;
+    transform: none !important;
+    box-shadow: var(--shadow-glass-ui) !important;
+    transition: none !important;
+  }
+  [data-theme="dark"] .module-card, [data-theme="dark"] .module-card:hover, [data-theme="dark"] .module-card:active, [data-theme="dark"] .module-card:focus, [data-theme="dark"] .module-card:focus-within {
+    transform: none !important;
+    box-shadow: var(--shadow-glass-ui) !important;
+    background-image: var(--noise-pattern) !important;
+    background-color: var(--bg-surface) !important;
+  }
+  .alphabet-item-row::before, .alphabet-item-row:hover::before, .alphabet-item-row:active::before {
+    display: none !important;
+    opacity: 0 !important;
+    transition: none !important;
+  }
       .module-card, .module-card:hover, .module-card:active, .module-card:focus, .module-card:focus-within {
         height: auto !important;
         transform: none !important;
