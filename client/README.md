@@ -1,5 +1,3 @@
-[<img src="https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/refs/heads/main/img/ShadowStoreSocialPreview1280x640.png" width="100%">](https://shadowstore.dpdns.org/client "访问页面")
-
 ## 多客户端支持
 
 ShadowStore 现已提供多客户端专属支持页面，方便不同代理工具用户快速获取和安装相应的模块
