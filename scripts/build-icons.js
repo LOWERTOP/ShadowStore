@@ -5,7 +5,7 @@ const CONFIG = {
 };
 
 const APP_ALIASES = {
-  "Plugin2Rocket": ["Shadowrocket"],
+  "Plugin2Rocket": ["Script-Hub"],
   "一汽大众": ["fawvw"],
   "上汽大众": ["csvw"],
   "流媒体": ["netflix"],
