@@ -5,7 +5,8 @@ const CONFIG = {
 };
 
 const APP_ALIASES = {
-  "Plugin2Rocket": ["Script-Hub"],
+  "Plugin2Rocket": ["script-hub"],
+  "NSCheckin": ["cookie"],
   "一汽大众": ["fawvw"],
   "上汽大众": ["csvw"],
   "流媒体": ["netflix"],
@@ -44,6 +45,7 @@ const APP_ALIASES = {
   "网易云": ["netease", "cloudmusic"],
   "百度": ["baidu"],
   "高德": ["amap", "gaode"],
+  "高德地图": ["amap"],
   "腾讯": ["tencent"],
   "美团": ["meituan"],
   "拼多多": ["pdd", "pinduoduo"],
@@ -56,8 +58,7 @@ const APP_ALIASES = {
   "豆瓣": ["douban"],
   "贴吧": ["tieba"],
   "夸克": ["quark"],
-  "12306": ["12306"],
-  "高德地图": ["amap"]
+  "12306": ["12306"]
 };
 
 const FLAG_CODES = new Set([
