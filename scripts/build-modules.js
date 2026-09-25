@@ -953,8 +953,8 @@ async function main() {
       name: "ScriptHub",
       category: "module",
       description: "可将各类代理工具的脚本规则重写为通用格式，便于在 Shadowrocket 中集中管理与自动转换。",
-      rawURL: "https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/scripthub.sgmodule",
-      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FScript-Hub-Org%2FScript-Hub%2Fmain%2Fscripthub.sgmodule",
+      rawURL: "https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/modules/script-hub.rocket.module",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FScript-Hub-Org%2FScript-Hub%2Fmain%2Fmodules%2Fscript-hub.rocket.module",
       author: {
         name: "Script-Hub-Org",
         url: "https://github.com/Script-Hub-Org",
@@ -972,8 +972,8 @@ async function main() {
       name: "Sub-Store",
       category: "module",
       description: "功能强大的高级订阅管理工具，支持节点批量清洗、重命名、测速、分流策略编排及转换同步。",
-      rawURL: "https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store.sgmodule",
-      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fsub-store-org%2FSub-Store%2Frelease%2Fsub-store.sgmodule",
+      rawURL: "https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Surge.sgmodule",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fsub-store-org%2FSub-Store%2Fmaster%2Fconfig%2FSurge.sgmodule",
       author: {
         name: "sub-store-org",
         url: "https://github.com/sub-store-org",
@@ -991,8 +991,8 @@ async function main() {
       name: "BoxJs",
       category: "module",
       description: "轻量级网页端脚本持久化数据管理工具，用于查看和修改各类自动化签到与任务脚本的环境变量及数据。",
-      rawURL: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.sgmodule",
-      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fchavyleung%2Fscripts%2Fmaster%2Fbox%2Frewrite%2Fboxjs.rewrite.sgmodule",
+      rawURL: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.surge.sgmodule",
+      installURL: "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fchavyleung%2Fscripts%2Fmaster%2Fbox%2Frewrite%2Fboxjs.rewrite.surge.sgmodule",
       author: {
         name: "chavyleung",
         url: "https://github.com/chavyleung",
