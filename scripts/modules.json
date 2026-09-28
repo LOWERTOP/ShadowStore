@@ -1,9 +1,10 @@
 [
   {
-    "name": "Script Hub: 重写 & 规则集转换",
-    "rawURL": "https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/modules/script-hub.rocket.module",
+    "name": "ScriptHub",
     "category": "module",
-    "description": "https://script.hub",
+    "description": "可将各类代理工具的脚本规则重写为通用格式，便于在 Shadowrocket 中集中管理与自动转换。",
+    "rawURL": "https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/modules/script-hub.rocket.module",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FScript-Hub-Org%2FScript-Hub%2Fmain%2Fmodules%2Fscript-hub.rocket.module",
     "author": {
       "name": "Script-Hub-Org",
       "url": "https://github.com/Script-Hub-Org",
@@ -13,13 +14,9 @@
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Script-Hub.png",
     "sourceName": "Script-Hub",
     "sourceURL": "https://github.com/Script-Hub-Org/Script-Hub",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FScript-Hub-Org%2FScript-Hub%2Fmain%2Fmodules%2Fscript-hub.rocket.module",
     "isDubious": false,
     "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 22,
-    "_searchKeywords": "script hub: 重写 & 规则集转换 https://script.hub script-hub-org script-hub"
+    "_searchKeywords": "scripthub script-hub 脚本转换"
   },
   {
     "name": "Sub-Store",
@@ -522,28 +519,6 @@
     "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，以编辑参数的方式测试隐式参数及各项规则。新手用户不建议使用 lowertop shadowrocket-first"
   },
   {
-    "name": "Plugin2Rocket",
-    "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/Plugin2Rocket.srmodule",
-    "category": "module",
-    "description": "将可莉插件中心转换给小火箭使用; 插件中心 https://hub.kelee.one ; 此版集成Script-Hub，若有侵权可联系我们立马删除",
-    "author": {
-      "name": "iab0x00",
-      "url": "https://github.com/iab0x00",
-      "username": "iab0x00"
-    },
-    "authorAvatar": "https://github.com/iab0x00.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Script-Hub.png",
-    "sourceName": "ProxyRules",
-    "sourceURL": "https://github.com/iab0x00/ProxyRules",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FPlugin2Rocket.srmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 21,
-    "_searchKeywords": "plugin2rocket 将可莉插件中心转换给小火箭使用; 插件中心 https://hub.kelee.one ; 此版集成script-hub，若有侵权可联系我们立马删除 iab0x00 proxyrules"
-  },
-  {
     "name": "YouTubeNoAds",
     "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/YouTubeNoAd.sgmodule",
     "category": "module",
@@ -562,7 +537,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 25,
+    "readmeIndex": 21,
     "_searchKeywords": "youtubenoads youtube enhance & adsblock iab0x00 proxyrules"
   },
   {
@@ -584,7 +559,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 26,
+    "readmeIndex": 22,
     "_searchKeywords": "youtube (music) enhance 适用于 youtube & youtube music maasea sgmodule"
   },
   {
@@ -606,7 +581,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 29,
+    "readmeIndex": 25,
     "_searchKeywords": "x(twitter)网页版去广告 移除网页版 x (twitter) 广告。 fmz200 wool_scripts"
   },
   {
@@ -628,7 +603,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 31,
+    "readmeIndex": 27,
     "_searchKeywords": "哔哩哔哩增强 拜托，没有广告的哔哩哔哩真的超酷的 kokoryh sparkle"
   },
   {
@@ -650,7 +625,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 33,
+    "readmeIndex": 29,
     "_searchKeywords": "biliintlclean 国际版哔哩，移除热搜、搜索发现，精简我的页面 iab0x00 proxyrules"
   },
   {
@@ -672,7 +647,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 35,
+    "readmeIndex": 31,
     "_searchKeywords": "didiclean 移除滴滴开屏广告，精简首页、底栏和我的页面 iab0x00 proxyrules"
   },
   {
@@ -694,7 +669,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 37,
+    "readmeIndex": 33,
     "_searchKeywords": "rednote 小红书去广告、去图片视频水印 iab0x00 proxyrules"
   },
   {
@@ -716,7 +691,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 39,
+    "readmeIndex": 35,
     "_searchKeywords": "nscheckin nodeseek每天定时自动签到 iab0x00 proxyrules"
   },
   {
@@ -738,7 +713,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 41,
+    "readmeIndex": 37,
     "_searchKeywords": "weibointl 移除开屏、瀑布流、趋势页、用户中心广告 iab0x00 proxyrules"
   },
   {
@@ -760,7 +735,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 43,
+    "readmeIndex": 39,
     "_searchKeywords": "微博去广告&净化 去除常见的广告和部分多余的模块 fmz200 wool_scripts"
   },
   {
@@ -782,7 +757,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 46,
+    "readmeIndex": 42,
     "_searchKeywords": "贴吧去广告(>=ios15) 260106;开屏广告;推荐和吧内帖子列表的直播及广告;详情页直播/关联商品/广告;看图模式广告;首页和帖子详情页右下角悬浮广告;部分吧内的置顶/最新中间的广告/head图片广告/head直播 app2smile rules"
   },
   {
@@ -804,7 +779,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 49,
+    "readmeIndex": 45,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）折线图 githubdulong script"
   },
   {
@@ -826,7 +801,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 51,
+    "readmeIndex": 47,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
   },
   {
@@ -848,7 +823,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 52,
+    "readmeIndex": 48,
     "_searchKeywords": "spotify ad 001promax surge"
   },
   {
@@ -870,7 +845,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 53,
+    "readmeIndex": 49,
     "_searchKeywords": "spotify(>=ios15) 2025.06.27 部分解锁premium,音质不能设置为超高(建议登录后再打开脚本,重启app等待脚本生效) app2smile rules"
   },
   {
@@ -892,7 +867,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 55,
+    "readmeIndex": 51,
     "_searchKeywords": "spotify premium spotify premium reukix ukix"
   },
   {
@@ -914,7 +889,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 56,
+    "readmeIndex": 52,
     "_searchKeywords": "机场流量查询 定时查询机场订阅链接的流量使用情况和到期时间（支持多地址 & 参数编辑） huskydsb shadowrocket"
   },
   {
@@ -936,7 +911,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 58,
+    "readmeIndex": 54,
     "_searchKeywords": "高德地图 2026-08-25 18:07:32 xiangwanguan shadowrocket-first"
   },
   {
@@ -958,7 +933,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 60,
+    "readmeIndex": 56,
     "_searchKeywords": "一汽大众 2026-07-18 11:35:27 xiangwanguan shadowrocket-first"
   },
   {
@@ -980,7 +955,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 62,
+    "readmeIndex": 58,
     "_searchKeywords": "彩云天气 2026-02-06 09:00:03 xiangwanguan shadowrocket-first"
   },
   {
