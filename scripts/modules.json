@@ -959,6 +959,28 @@
     "_searchKeywords": "彩云天气 2026-09-30 09:28:50 xiangwanguan shadowrocket-first"
   },
   {
+    "name": "小红书",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/PR/XiangwanGuan/%E5%B0%8F%E7%BA%A2%E4%B9%A6.sgmodule",
+    "category": "module",
+    "description": "2026-10-03 15:27:09",
+    "author": {
+      "name": "XiangwanGuan",
+      "url": "https://github.com/XiangwanGuan",
+      "username": "XiangwanGuan"
+    },
+    "authorAvatar": "https://github.com/XiangwanGuan.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/小红书.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FPR%2FXiangwanGuan%2F%25E5%25B0%258F%25E7%25BA%25A2%25E4%25B9%25A6.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 60,
+    "_searchKeywords": "小红书 2026-10-03 15:27:09 xiangwanguan shadowrocket-first"
+  },
+  {
     "name": "12123",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/part1/12123.srmodule",
     "category": "module",
