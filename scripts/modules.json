@@ -189,28 +189,6 @@
     "_searchKeywords": "🅲🅰🅳🆅🅸🅴🆆 浩辰cad看图王 自用测试模块，仅包含规则不包含重写，若有误杀概不负责 lowertop shadowrocket-first"
   },
   {
-    "name": "🆁🆄🅸🆇🅸🅽🅶 瑞幸咖啡",
-    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/LuckinCoffee.sgmodule",
-    "category": "module",
-    "description": "屏蔽瑞幸咖啡开屏广告及部分其他广告。本模块仅为自用，不保证可以将广告或弹窗全部清理",
-    "author": {
-      "name": "LOWERTOP",
-      "url": "https://github.com/LOWERTOP",
-      "username": "LOWERTOP"
-    },
-    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/lkcoffee.png",
-    "sourceName": "Shadowrocket-First",
-    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FLuckinCoffee.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 6,
-    "_searchKeywords": "🆁🆄🅸🆇🅸🅽🅶 瑞幸咖啡 屏蔽瑞幸咖啡开屏广告及部分其他广告。本模块仅为自用，不保证可以将广告或弹窗全部清理 lowertop shadowrocket-first"
-  },
-  {
     "name": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CMCCiTV.sgmodule",
     "category": "module",
@@ -229,30 +207,8 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 7,
+    "readmeIndex": 6,
     "_searchKeywords": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析 有参数编辑功能。中国移动itv平台中的部分域名在非移动网络下会被解析到cf的dns服务ip上，导致无法访问，本模块根据pixman大佬coding自制dns的解决方案所制作，应该可以解决这个问题 lowertop shadowrocket-first"
-  },
-  {
-    "name": "🅴🅼🅱🆈🅺🅸🆃 Emby模块",
-    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/EmbyProxy.module",
-    "category": "module",
-    "description": "编辑参数以设置分流策略",
-    "author": {
-      "name": "LOWERTOP",
-      "url": "https://github.com/LOWERTOP",
-      "username": "LOWERTOP"
-    },
-    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Emby.png",
-    "sourceName": "Shadowrocket-First",
-    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FEmbyProxy.module",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 8,
-    "_searchKeywords": "🅴🅼🅱🆈🅺🅸🆃 emby模块 编辑参数以设置分流策略 lowertop shadowrocket-first"
   },
   {
     "name": "🆆🅸🅵🅸🆅🅾🅲 HK Call",
@@ -273,7 +229,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 9,
+    "readmeIndex": 7,
     "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 hk call 香港 sim 卡 wi-fi calling 配置规则，本规则适用于 csl、cmhk、3 hk 的香港 sim 卡的 wi-fi calling 功能，分流节点须是香港节点 lowertop shadowrocket-first"
   },
   {
@@ -295,7 +251,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 10,
+    "readmeIndex": 8,
     "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 us call 参数编辑可以细化设置。适用于部分美国sim卡的wi-fi calling功能。使用本模块后打开飞行模式后再关闭飞行模式进行联网即可正常开启wi-fi calling lowertop shadowrocket-first"
   },
   {
@@ -317,7 +273,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 11,
+    "readmeIndex": 9,
     "_searchKeywords": "🆆🅸🅵🅸🆅🅾🅲 uk call 参数编辑可以细化设置。适用于部分英国sim卡的wi-fi calling功能 lowertop shadowrocket-first"
   },
   {
@@ -339,7 +295,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 12,
+    "readmeIndex": 10,
     "_searchKeywords": "🅸🅷🅴🅻🅿🅴🆁 苹果助手 苹果下载/更新服务器切换模块，编辑参数以修改 lowertop shadowrocket-first"
   },
   {
@@ -361,7 +317,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 13,
+    "readmeIndex": 11,
     "_searchKeywords": "🆅🅿🅽🆂🅺🅸🅿 优化vpn检测提示 通过调整部分域名的处理方式，改善部分应用出现 “检测到正在使用 vpn” 等类似提示的问题。详情请查看编辑参数内的说明 lowertop shadowrocket-first"
   },
   {
@@ -383,7 +339,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 14,
+    "readmeIndex": 12,
     "_searchKeywords": "skip proxy and real-ip lists 跳过部分应用的代理检测 mieqq mieqq"
   },
   {
@@ -405,7 +361,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 15,
+    "readmeIndex": 13,
     "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 资源加速 将 github raw 资源重定向至国内可用的镜像资源站。编辑参数可自定义切换 cdn 节点 lowertop shadowrocket-first"
   },
   {
@@ -427,7 +383,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 16,
+    "readmeIndex": 14,
     "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 私库助手 编辑参数以启用按 github 用户名自动注入 token，用于访问对应的私密仓库 lowertop shadowrocket-first"
   },
   {
@@ -449,7 +405,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 17,
+    "readmeIndex": 15,
     "_searchKeywords": "🅶🅸🆃🅷🅴🅻🅿 限制解除 解除 github 针对 zh-cn 的语言限制 lowertop shadowrocket-first"
   },
   {
@@ -471,7 +427,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 18,
+    "readmeIndex": 16,
     "_searchKeywords": "🅲🅴🆁🆃🅷🆄🅱 证书模块 需要以编辑参数的方式启用并填写完整 lowertop shadowrocket-first"
   },
   {
@@ -493,7 +449,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 19,
+    "readmeIndex": 17,
     "_searchKeywords": "🅼🅸🆃🅼🅾🅵🅵 排除解密模块 放置于模块列表最下方并以编辑参数的方式添加需要排除解密的主机名。本模块所有功能均包含在本仓【证书模块】内 lowertop shadowrocket-first"
   },
   {
@@ -515,7 +471,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 20,
+    "readmeIndex": 18,
     "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，以编辑参数的方式测试隐式参数及各项规则。新手用户不建议使用 lowertop shadowrocket-first"
   },
   {
@@ -537,7 +493,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 21,
+    "readmeIndex": 19,
     "_searchKeywords": "youtubenoads youtube enhance & adsblock iab0x00 proxyrules"
   },
   {
@@ -559,7 +515,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 22,
+    "readmeIndex": 20,
     "_searchKeywords": "youtube (music) enhance 适用于 youtube & youtube music maasea sgmodule"
   },
   {
@@ -581,7 +537,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 25,
+    "readmeIndex": 23,
     "_searchKeywords": "x(twitter)网页版去广告 移除网页版 x (twitter) 广告。 fmz200 wool_scripts"
   },
   {
@@ -603,7 +559,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 27,
+    "readmeIndex": 25,
     "_searchKeywords": "哔哩哔哩增强 拜托，没有广告的哔哩哔哩真的超酷的 kokoryh sparkle"
   },
   {
@@ -625,7 +581,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 29,
+    "readmeIndex": 27,
     "_searchKeywords": "biliintlclean 国际版哔哩，移除热搜、搜索发现，精简我的页面 iab0x00 proxyrules"
   },
   {
@@ -647,7 +603,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 31,
+    "readmeIndex": 29,
     "_searchKeywords": "didiclean 移除滴滴开屏广告，精简首页、底栏和我的页面 iab0x00 proxyrules"
   },
   {
@@ -669,7 +625,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 33,
+    "readmeIndex": 31,
     "_searchKeywords": "rednote 小红书去广告、去图片视频水印 iab0x00 proxyrules"
   },
   {
@@ -691,7 +647,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 35,
+    "readmeIndex": 33,
     "_searchKeywords": "nscheckin nodeseek每天定时自动签到 iab0x00 proxyrules"
   },
   {
@@ -713,7 +669,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 37,
+    "readmeIndex": 35,
     "_searchKeywords": "weibointl 移除开屏、瀑布流、趋势页、用户中心广告 iab0x00 proxyrules"
   },
   {
@@ -735,7 +691,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 39,
+    "readmeIndex": 37,
     "_searchKeywords": "微博去广告&净化 去除常见的广告和部分多余的模块 fmz200 wool_scripts"
   },
   {
@@ -757,7 +713,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 42,
+    "readmeIndex": 40,
     "_searchKeywords": "贴吧去广告(>=ios15) 260106;开屏广告;推荐和吧内帖子列表的直播及广告;详情页直播/关联商品/广告;看图模式广告;首页和帖子详情页右下角悬浮广告;部分吧内的置顶/最新中间的广告/head图片广告/head直播 app2smile rules"
   },
   {
@@ -779,7 +735,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 45,
+    "readmeIndex": 43,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）折线图 githubdulong script"
   },
   {
@@ -801,7 +757,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 47,
+    "readmeIndex": 45,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
   },
   {
@@ -823,7 +779,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 48,
+    "readmeIndex": 46,
     "_searchKeywords": "spotify ad 001promax surge"
   },
   {
@@ -845,7 +801,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 49,
+    "readmeIndex": 47,
     "_searchKeywords": "spotify(>=ios15) 2025.06.27 部分解锁premium,音质不能设置为超高(建议登录后再打开脚本,重启app等待脚本生效) app2smile rules"
   },
   {
@@ -867,7 +823,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 51,
+    "readmeIndex": 49,
     "_searchKeywords": "spotify premium spotify premium reukix ukix"
   },
   {
@@ -889,7 +845,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 52,
+    "readmeIndex": 50,
     "_searchKeywords": "机场流量查询 定时查询机场订阅链接的流量使用情况和到期时间（支持多地址 & 参数编辑） huskydsb shadowrocket"
   },
   {
@@ -911,7 +867,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 54,
+    "readmeIndex": 52,
     "_searchKeywords": "高德地图 2026-08-25 18:07:32 xiangwanguan shadowrocket-first"
   },
   {
@@ -933,7 +889,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 56,
+    "readmeIndex": 54,
     "_searchKeywords": "一汽大众 2026-07-18 11:35:27 xiangwanguan shadowrocket-first"
   },
   {
@@ -955,7 +911,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 58,
+    "readmeIndex": 56,
     "_searchKeywords": "彩云天气 2026-09-30 09:28:50 xiangwanguan shadowrocket-first"
   },
   {
@@ -977,7 +933,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 60,
+    "readmeIndex": 58,
     "_searchKeywords": "小红书 2026-10-04 20:23:03 xiangwanguan shadowrocket-first"
   },
   {
