@@ -852,7 +852,7 @@
     "name": "高德地图",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/PR/XiangwanGuan/%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE.sgmodule",
     "category": "module",
-    "description": "2026-08-25 18:07:32",
+    "description": "2026-10-07 12:43:04",
     "author": {
       "name": "XiangwanGuan",
       "url": "https://github.com/XiangwanGuan",
@@ -868,7 +868,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 52,
-    "_searchKeywords": "高德地图 2026-08-25 18:07:32 xiangwanguan shadowrocket-first"
+    "_searchKeywords": "高德地图 2026-10-07 12:43:04 xiangwanguan shadowrocket-first"
   },
   {
     "name": "一汽大众",
@@ -918,7 +918,7 @@
     "name": "小红书",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/PR/XiangwanGuan/%E5%B0%8F%E7%BA%A2%E4%B9%A6.sgmodule",
     "category": "module",
-    "description": "2026-10-04 20:23:03",
+    "description": "2026-10-08 16:38:39",
     "author": {
       "name": "XiangwanGuan",
       "url": "https://github.com/XiangwanGuan",
@@ -934,7 +934,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 58,
-    "_searchKeywords": "小红书 2026-10-04 20:23:03 xiangwanguan shadowrocket-first"
+    "_searchKeywords": "小红书 2026-10-08 16:38:39 xiangwanguan shadowrocket-first"
   },
   {
     "name": "12123",
@@ -33155,30 +33155,7 @@
     "_searchKeywords": "qingrex qingrex 维护的资源丰富的 模块资源仓库，多数可直接使用 loonkisssurge qingrex 更多资源"
   },
   {
-    "id": "more_auto_4_Kelee",
-    "category": "more",
-    "name": "Kelee",
-    "description": "Kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
-    "icon": "https://github.com/luestr.png?size=64",
-    "author": {
-      "name": "Kelee",
-      "url": "https://github.com/luestr",
-      "username": "luestr"
-    },
-    "authorAvatar": "https://github.com/luestr.png?size=64",
-    "sourceName": "hub.kelee.one",
-    "sourceURL": "https://hub.kelee.one/",
-    "rawURL": "https://hub.kelee.one/",
-    "installURL": "https://hub.kelee.one/",
-    "primaryBtnText": "访问链接",
-    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FPlugin2Rocket.srmodule",
-    "secondaryBtnText": "安装模块",
-    "isRepoCard": true,
-    "isDubious": false,
-    "_searchKeywords": "kelee kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one kelee 更多资源"
-  },
-  {
-    "id": "more_auto_5_Cuttlefish",
+    "id": "more_auto_4_Cuttlefish",
     "category": "more",
     "name": "Cuttlefish",
     "description": "Cuttlefish 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块",
