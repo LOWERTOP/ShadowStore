@@ -34,23 +34,16 @@
 * **使用手册**：社区维护的 Shadowrocket 使用手册
 * **其他资源**：与 Shadowrocket 相关生态有关的其他资源
 
-## 数据来源
-
-* **自有仓库**：[LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
-* **模块资源**：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
-* **模块资源**：[zirawell/R-Store](https://github.com/zirawell/R-Store)
-* **规则资源**：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
-* **备用图标**：[luestr/IconResource](https://github.com/luestr/IconResource)
-* **以及其他为开源社区贡献规则、模块、脚本、图标及相关资源的开发者与维护者**
-
 ## 权利声明
 
-* **资源归属**：平台收录的第三方资源，其名称、代码、内容及相关知识产权均归原作者或相应权利人所有
-* **索引性质**：ShadowStore 主要提供公开资源的索引、整理和导航服务，不主张拥有第三方资源的所有权
-* **非资源托管**：第三方资源原则上不由 ShadowStore 托管、修改或二次分发，具体资源仍以原作者提供的来源为准
-* **作者自主权**：如果您是相关资源的作者，不希望您的资源被 ShadowStore 索引，或发现平台展示的信息存在错误，可以提交 [Issue](https://github.com/LOWERTOP/ShadowStore/issues/new?title=%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82&body=%E8%A6%81%E6%B1%82%E7%AE%80%E8%BF%B0%EF%BC%9A&labels=invalid) 联系我们，我们会根据实际情况及时处理
-* **资源责任**：第三方资源由其原作者或维护者负责维护。ShadowStore 不对第三方资源的具体功能、内容、持续可用性或安全性作出保证
 * **使用须知**：使用任何第三方资源前，请自行确认其来源、功能及适用范围，并遵守相关法律法规以及资源所采用的开源许可证或其他使用条款
+* **资源归属**：平台收录的第三方资源，其名称、代码、内容及相关知识产权均归原作者或相应权利人所有。ShadowStore 主要提供公开资源的索引、整理和导航服务，原则上不由 ShadowStore 托管、修改或二次分发，不主张拥有第三方资源的所有权，不对第三方资源的具体功能、内容、持续可用性或安全性作出保证。如果您是相关资源的作者，不希望您的资源被 ShadowStore 索引，或发现平台展示的信息存在错误，可以提交 [Issue](https://github.com/LOWERTOP/ShadowStore/issues/new?title=%E6%9D%83%E5%88%A9%E8%A6%81%E6%B1%82&body=%E8%A6%81%E6%B1%82%E7%AE%80%E8%BF%B0%EF%BC%9A&labels=invalid)
+* **资源来源**：平台包含且不限于以下来源
+  * 自有仓库：[LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
+  * 模块资源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
+  * 模块资源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
+  * 规则资源：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
+  * 备用图标：[luestr/IconResource](https://github.com/luestr/IconResource)
 
 ---
 
