@@ -18,7 +18,7 @@
     "title": "12306",
     "iconKey": "12306",
     "suggestion": "- 12306.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/12306.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/12306.png",
     "isCombined": false,
     "buttons": [
       {
@@ -116,7 +116,7 @@
     "title": "36氪",
     "iconKey": "36kr",
     "suggestion": "- 36kr.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/36kr.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/36Kr.png",
     "isCombined": false,
     "buttons": [
       {
@@ -200,7 +200,7 @@
     "title": "前程无忧",
     "iconKey": "51Job",
     "suggestion": "- 51Job.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/51job.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/51Job.png",
     "isCombined": false,
     "buttons": [
       {
@@ -466,7 +466,7 @@
     "title": "AcFun",
     "iconKey": "AcFun",
     "suggestion": "- AcFun.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/acfun.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AcFun.png",
     "isCombined": false,
     "buttons": [
       {
@@ -649,11 +649,15 @@
     "iconKey": "Advertising",
     "suggestion": "- Advertising.list、Advertising_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Advertising/Advertising.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Advertising/Advertising_Domain.list"
       }
     ]
   },
@@ -663,11 +667,15 @@
     "iconKey": "AdvertisingLite",
     "suggestion": "- AdvertisingLite.list、AdvertisingLite_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingLite/AdvertisingLite.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingLite/AdvertisingLite_Domain.list"
       }
     ]
   },
@@ -691,11 +699,15 @@
     "iconKey": "AdvertisingTest",
     "suggestion": "- AdvertisingTest.list、AdvertisingTest_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingTest/AdvertisingTest.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/AdvertisingTest/AdvertisingTest_Domain.list"
       }
     ]
   },
@@ -816,7 +828,7 @@
     "title": "支付宝",
     "iconKey": "AliPay",
     "suggestion": "- AliPay.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/alipay.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AliPay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -831,11 +843,15 @@
     "iconKey": "阿里巴巴",
     "suggestion": "- Alibaba.list、Alibaba_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/阿里巴巴.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Alibaba/Alibaba.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Alibaba/Alibaba_Domain.list"
       }
     ]
   },
@@ -1125,11 +1141,15 @@
     "iconKey": "Apple",
     "suggestion": "- Apple.list、Apple_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_01.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Apple/Apple_Domain.list"
       }
     ]
   },
@@ -2119,11 +2139,15 @@
     "iconKey": "China",
     "suggestion": "- China.list、China_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China_Domain.list"
       }
     ]
   },
@@ -2189,11 +2213,15 @@
     "iconKey": "ChinaMax",
     "suggestion": "- ChinaMax.list、ChinaMax_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMax/ChinaMax.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMax/ChinaMax_Domain.list"
       }
     ]
   },
@@ -2203,11 +2231,15 @@
     "iconKey": "ChinaMaxNoIP",
     "suggestion": "- ChinaMaxNoIP.list、ChinaMaxNoIP_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP_Domain.list"
       }
     ]
   },
@@ -2217,11 +2249,15 @@
     "iconKey": "ChinaMaxNoMedia",
     "suggestion": "- ChinaMaxNoMedia.list、ChinaMaxNoMedia_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoMedia/ChinaMaxNoMedia.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaMaxNoMedia/ChinaMaxNoMedia_Domain.list"
       }
     ]
   },
@@ -2273,11 +2309,15 @@
     "iconKey": "ChinaNoMedia",
     "suggestion": "- ChinaNoMedia.list、ChinaNoMedia_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaNoMedia/ChinaNoMedia.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaNoMedia/ChinaNoMedia_Domain.list"
       }
     ]
   },
@@ -2301,11 +2341,15 @@
     "iconKey": "ChinaTest",
     "suggestion": "- ChinaTest.list、ChinaTest_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/LPL/TES.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaTest/ChinaTest.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/ChinaTest/ChinaTest_Domain.list"
       }
     ]
   },
@@ -2706,7 +2750,7 @@
     "title": "Coolapk",
     "iconKey": "Coolapk",
     "suggestion": "- Coolapk.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/coolapk.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CoolApk.png",
     "isCombined": false,
     "buttons": [
       {
@@ -2818,7 +2862,7 @@
     "title": "红马传媒(大麦网)",
     "iconKey": "DaMai",
     "suggestion": "- DaMai.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/damai.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Damai.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3210,7 +3254,7 @@
     "title": "豆瓣",
     "iconKey": "DouBan",
     "suggestion": "- DouBan.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/douban.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/DouBan.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3448,7 +3492,7 @@
     "title": "饿了么",
     "iconKey": "Eleme",
     "suggestion": "- Eleme.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/eleme.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eleme.png",
     "isCombined": false,
     "buttons": [
       {
@@ -3910,7 +3954,7 @@
     "title": "高德",
     "iconKey": "高德",
     "suggestion": "- GaoDe.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/amap.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Amap.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4051,11 +4095,15 @@
     "iconKey": "Global",
     "suggestion": "- Global.list、Global_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Global/Global_Domain.list"
       }
     ]
   },
@@ -4065,11 +4113,15 @@
     "iconKey": "GlobalMedia",
     "suggestion": "- GlobalMedia.list、GlobalMedia_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/DIA.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GlobalMedia/GlobalMedia.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GlobalMedia/GlobalMedia_Domain.list"
       }
     ]
   },
@@ -4708,7 +4760,7 @@
     "title": "虎扑",
     "iconKey": "Hupu",
     "suggestion": "- Hupu.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/hupu.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/HUPU.png",
     "isCombined": false,
     "buttons": [
       {
@@ -4793,11 +4845,15 @@
     "iconKey": "IPTVOther",
     "suggestion": "- IPTVOther.list、IPTVOther_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/IPTVOther/IPTVOther.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/IPTVOther/IPTVOther_Domain.list"
       }
     ]
   },
@@ -5128,7 +5184,7 @@
     "title": "Keep",
     "iconKey": "Keep",
     "suggestion": "- Keep.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/keep.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Keep.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5212,7 +5268,7 @@
     "title": "快递100",
     "iconKey": "KuaiDi100",
     "suggestion": "- KuaiDi100.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kuaidi100.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuaiDi100.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5254,7 +5310,7 @@
     "title": "酷狗/酷我",
     "iconKey": "KugouKuwo",
     "suggestion": "- KugouKuwo.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kugou.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuGou.png",
     "isCombined": false,
     "buttons": [
       {
@@ -5744,7 +5800,7 @@
     "title": "美图",
     "iconKey": "MeiTu",
     "suggestion": "- MeiTu.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/meitu.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MeiTu.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6220,7 +6276,7 @@
     "title": "OKX",
     "iconKey": "OKX",
     "suggestion": "- OKX.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/okx.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/OKX.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6304,7 +6360,7 @@
     "title": "OpenAI",
     "iconKey": "OpenAI",
     "suggestion": "- OpenAI.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/Filter/OpenAI.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/Website_icon/1024px/OpenAI.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6668,7 +6724,7 @@
     "title": "Pixiv",
     "iconKey": "Pixiv",
     "suggestion": "- Pixiv.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/pixiv.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/pixiv.png",
     "isCombined": false,
     "buttons": [
       {
@@ -6739,11 +6795,15 @@
     "iconKey": "Privacy",
     "suggestion": "- Privacy.list、Privacy_Domain.list 共同使用。",
     "icon": "",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Privacy/Privacy.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Privacy/Privacy_Domain.list"
       }
     ]
   },
@@ -6781,11 +6841,15 @@
     "iconKey": "Proxy",
     "suggestion": "- Proxy.list、Proxy_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Proxy.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Proxy/Proxy.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Proxy/Proxy_Domain.list"
       }
     ]
   },
@@ -7018,7 +7082,7 @@
     "title": "Reddit",
     "iconKey": "Reddit",
     "suggestion": "- Reddit.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/reddit.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Reddit.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7802,7 +7866,7 @@
     "title": "TapTap",
     "iconKey": "TapTap",
     "suggestion": "- TapTap.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/taptap.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TapTap.png",
     "isCombined": false,
     "buttons": [
       {
@@ -7915,11 +7979,15 @@
     "iconKey": "Tencent",
     "suggestion": "- Tencent.list、Tencent_Domain.list 共同使用。",
     "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/tencent.png",
-    "isCombined": false,
+    "isCombined": true,
     "buttons": [
       {
         "label": "复制规则集",
         "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Tencent/Tencent.list"
+      },
+      {
+        "label": "复制域名集",
+        "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Tencent/Tencent_Domain.list"
       }
     ]
   },
@@ -8068,7 +8136,7 @@
     "title": "TikTok",
     "iconKey": "TikTok",
     "suggestion": "- TikTok.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/Filter/TikTok.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TikTok.png",
     "isCombined": false,
     "buttons": [
       {
@@ -8320,7 +8388,7 @@
     "title": "中国银联",
     "iconKey": "UnionPay",
     "suggestion": "- UnionPay.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/unionpay.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/UnionPay.png",
     "isCombined": false,
     "buttons": [
       {
@@ -9034,7 +9102,7 @@
     "title": "迅雷",
     "iconKey": "Xunlei",
     "suggestion": "- Xunlei.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/xunlei.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/XunLei.png",
     "isCombined": false,
     "buttons": [
       {
@@ -9412,7 +9480,7 @@
     "title": "转转",
     "iconKey": "ZhuanZhuan",
     "suggestion": "- ZhuanZhuan.list 单独使用。",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/zhuanzhuan.png",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ZhuanZhuan.png",
     "isCombined": false,
     "buttons": [
       {
