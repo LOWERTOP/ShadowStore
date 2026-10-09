@@ -4,16 +4,11 @@
  */
 const fs = require('fs');
 const path = require('path');
-
-const {
-  loadRemoteIcons,
-  getMatchedIcon
-} = require('./build-icons');
+const { loadRemoteIcons, getMatchedIcon } = require('./build-icons');
 
 const REPO_OWNER = 'blackmatrix7';
 const REPO_NAME = 'ios_rule_script';
 const RAW_PREFIX = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/rule/Shadowrocket`;
-
 const BATCH_SIZE = 15;
 const MAX_RETRIES = 2;
 
@@ -42,11 +37,9 @@ async function fetchWithRetry(url, options = {}, retries = MAX_RETRIES) {
  */
 function resolveRuleIcon(id, title) {
   const candidates = [];
-
   if (id && String(id).trim()) {
     candidates.push(String(id).trim());
   }
-
   if (
     title &&
     String(title).trim() &&
@@ -54,22 +47,13 @@ function resolveRuleIcon(id, title) {
   ) {
     candidates.push(String(title).trim());
   }
-
   for (const candidate of candidates) {
     const icon = getMatchedIcon(candidate);
-
     if (icon) {
-      return {
-        iconKey: candidate,
-        icon
-      };
+      return { iconKey: candidate, icon };
     }
   }
-
-  return {
-    iconKey: candidates[0] || String(title || '').trim() || '',
-    icon: ''
-  };
+  return { iconKey: candidates[0] || String(title || '').trim() || '', icon: '' };
 }
 
 /**
@@ -80,23 +64,20 @@ async function getRulePaths() {
   const treeUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/trees/master?recursive=1`;
   const res = await fetchWithRetry(treeUrl);
   if (!res || !res.ok) throw new Error(`无法获取目录树: HTTP ${res?.status}`);
-
   const data = await res.json();
-
   // 关键改进 ①：截断校验，绝不使用不完整的残缺目录树
   if (data?.truncated) {
     throw new Error('❌ 来源熔断：Git Trees API 返回 truncated: true，目录树被截断，拒绝生成规则数据！');
   }
-
   if (!Array.isArray(data?.tree)) {
     throw new Error('❌ 来源熔断：Git Trees API 返回的数据结构异常！');
   }
-
   return data.tree
-    .filter(item =>
-      item.type === 'blob' &&
-      item.path.startsWith('rule/Shadowrocket/') &&
-      item.path.endsWith('/README.md')
+    .filter(
+      item =>
+        item.type === 'blob' &&
+        item.path.startsWith('rule/Shadowrocket/') &&
+        item.path.endsWith('/README.md')
     )
     .map(item => item.path);
 }
@@ -109,7 +90,6 @@ async function parseRule(readmePath) {
   const rawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/${readmePath}`;
   const res = await fetchWithRetry(rawUrl);
   if (!res || !res.ok) return null;
-
   const text = await res.text();
   const dirName = readmePath.split('/')[2];
 
@@ -121,11 +101,10 @@ async function parseRule(readmePath) {
     .replace(/^[\s\-_—·|/:：]+|[\s\-_—·|/:：]+$/g, '') // 清除首尾因去除表情残留的连字符、标点与空格
     .trim() || dirName; // 如果清理后为空则回退使用目录名
 
-  // 2. 提取配置建议
-  const configMatch = text.match(/###\s*配置建议([\s\S]*?)(?=###|$)/);
+  // 2. 提取配置建议（兼容 ##/### 等标题层级，精准截断到下一个标题）
+  const configMatch = text.match(/#{2,4}\s*配置建议([\s\S]*?)(?=\n#{2,4}|$)/);
   let suggestion = '';
   let suggestionRaw = '';
-
   if (configMatch) {
     suggestionRaw = configMatch[1];
     suggestion = suggestionRaw
@@ -135,34 +114,25 @@ async function parseRule(readmePath) {
       .join('\n');
   }
 
-  // 3. 关键改进 ②：从 README 提取真实的直链，避免硬编码推导导致幽灵链接
+  // 3. 提取直链与生成按钮
   const buttons = [];
-
   // 提取主规则直链（.list）
   const mainListRegex = new RegExp(`(https?:\\/\\/[^\\s)\\]\"'<>]+\\/${dirName}\\.list)`, 'i');
   const mainListMatch = text.match(mainListRegex);
   const mainRuleUrl = mainListMatch ? mainListMatch[1].trim() : `${RAW_PREFIX}/${dirName}/${dirName}.list`;
-
-  buttons.push({
-    label: '复制规则集',
-    url: mainRuleUrl
-  });
+  buttons.push({ label: '复制规则集', url: mainRuleUrl });
 
   // 提取域名集直链（_Domain.list）
-  const isCombined = /共同使用/.test(suggestionRaw) && /_Domain\\.list/.test(suggestionRaw);
+  const isCombined = suggestionRaw.includes('_Domain.list') && /共同使用|配合使用|搭配使用/.test(suggestionRaw);
   if (isCombined) {
     const domainListRegex = new RegExp(`(https?:\\/\\/[^\\s)\\]\"'<>]+\\/${dirName}_Domain\\.list)`, 'i');
     const domainListMatch = text.match(domainListRegex);
     const domainRuleUrl = domainListMatch ? domainListMatch[1].trim() : `${RAW_PREFIX}/${dirName}/${dirName}_Domain.list`;
-
-    buttons.push({
-      label: '复制域名集',
-      url: domainRuleUrl
-    });
+    buttons.push({ label: '复制域名集', url: domainRuleUrl });
   }
 
   // 4. 提取图标
-  const iconMatch = text.match(/!\[.*?\]\((https?:\/\/.*?\.(?:png|jpg|jpeg|svg|webp).*?)\)/i);
+  const iconMatch = text.match(/!\[.*?\]\((https?:\/\/.*?\.(?:png\vert{}jpg\vert{}jpeg\vert{}svg\vert{}webp).*?)\)/i);
   const readmeIcon = iconMatch ? iconMatch[1].trim() : '';
 
   // 优先使用统一图标库匹配；匹配不到才回退 README 原图标
@@ -195,6 +165,7 @@ async function main() {
     results.push(...batchData.filter(Boolean));
     process.stdout.write(`\r⏳ 进度: ${Math.min(i + BATCH_SIZE, paths.length)} / ${paths.length}`);
   }
+
   console.log('\n✅ 规则详情解析完成！');
 
   const outputPath = path.resolve(__dirname, 'rules.json');
@@ -232,7 +203,9 @@ main().catch(err => {
   console.error('\n❌ rules 构建失败:', err.message);
   const tempPath = path.resolve(__dirname, 'rules.json.tmp');
   if (fs.existsSync(tempPath)) {
-    try { fs.unlinkSync(tempPath); } catch (e) {}
+    try {
+      fs.unlinkSync(tempPath);
+    } catch (e) {}
   }
   process.exit(1);
 });
