@@ -717,6 +717,72 @@
     "_searchKeywords": "贴吧去广告(>=ios15) 260106;开屏广告;推荐和吧内帖子列表的直播及广告;详情页直播/关联商品/广告;看图模式广告;首页和帖子详情页右下角悬浮广告;部分吧内的置顶/最新中间的广告/head图片广告/head直播 app2smile rules"
   },
   {
+    "name": "Reddit 去广告",
+    "rawURL": "https://raw.githubusercontent.com/QingRex/LoonKissSurge/main/Surge/Official/Reddit%20%E5%8E%BB%E5%B9%BF%E5%91%8A.sgmodule",
+    "category": "module",
+    "description": "过滤推广, 关 NSFW 提示, 自动开启翻译(JQ 版)",
+    "author": {
+      "name": "QingRex",
+      "url": "https://github.com/QingRex",
+      "username": "QingRex"
+    },
+    "authorAvatar": "https://github.com/QingRex.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/reddit.png",
+    "sourceName": "LoonKissSurge",
+    "sourceURL": "https://github.com/QingRex/LoonKissSurge",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FQingRex%2FLoonKissSurge%2Fmain%2FSurge%2FOfficial%2FReddit%2520%25E5%258E%25BB%25E5%25B9%25BF%25E5%2591%258A.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 43,
+    "_searchKeywords": "reddit 去广告 过滤推广, 关 nsfw 提示, 自动开启翻译(jq 版) qingrex loonkisssurge"
+  },
+  {
+    "name": "SDGun 社区去广告",
+    "rawURL": "https://raw.githubusercontent.com/QingRex/LoonKissSurge/main/Surge/Official/SDGun%20%E7%A4%BE%E5%8C%BA%E5%8E%BB%E5%B9%BF%E5%91%8A.sgmodule",
+    "category": "module",
+    "description": "去开屏, 轮播等",
+    "author": {
+      "name": "QingRex",
+      "url": "https://github.com/QingRex",
+      "username": "QingRex"
+    },
+    "authorAvatar": "https://github.com/QingRex.png?size=64",
+    "icon": "",
+    "sourceName": "LoonKissSurge",
+    "sourceURL": "https://github.com/QingRex/LoonKissSurge",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FQingRex%2FLoonKissSurge%2Fmain%2FSurge%2FOfficial%2FSDGun%2520%25E7%25A4%25BE%25E5%258C%25BA%25E5%258E%25BB%25E5%25B9%25BF%25E5%2591%258A.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 45,
+    "_searchKeywords": "sdgun 社区去广告 去开屏, 轮播等 qingrex loonkisssurge"
+  },
+  {
+    "name": "SDGun 社区 Tablet 访问",
+    "rawURL": "https://raw.githubusercontent.com/QingRex/LoonKissSurge/main/Surge/Official/SDGun%20%E7%A4%BE%E5%8C%BA%20Tablet%20%E8%AE%BF%E9%97%AE.sgmodule",
+    "category": "module",
+    "description": "替换 User-Agent, 修改 JS/CSS, 允许不安全的图片/视频资源, 视频链接 VLC 播放",
+    "author": {
+      "name": "QingRex",
+      "url": "https://github.com/QingRex",
+      "username": "QingRex"
+    },
+    "authorAvatar": "https://github.com/QingRex.png?size=64",
+    "icon": "",
+    "sourceName": "LoonKissSurge",
+    "sourceURL": "https://github.com/QingRex/LoonKissSurge",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FQingRex%2FLoonKissSurge%2Fmain%2FSurge%2FOfficial%2FSDGun%2520%25E7%25A4%25BE%25E5%258C%25BA%2520Tablet%2520%25E8%25AE%25BF%25E9%2597%25AE.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 47,
+    "_searchKeywords": "sdgun 社区 tablet 访问 替换 user-agent, 修改 js/css, 允许不安全的图片/视频资源, 视频链接 vlc 播放 qingrex loonkisssurge"
+  },
+  {
     "name": "京东比价",
     "rawURL": "https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jd_price.sgmodule",
     "category": "module",
@@ -735,7 +801,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 43,
+    "readmeIndex": 48,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）折线图 githubdulong script"
   },
   {
@@ -757,7 +823,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 45,
+    "readmeIndex": 50,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
   },
   {
@@ -779,7 +845,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 46,
+    "readmeIndex": 51,
     "_searchKeywords": "spotify ad 001promax surge"
   },
   {
@@ -801,7 +867,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 47,
+    "readmeIndex": 52,
     "_searchKeywords": "spotify(>=ios15) 2025.06.27 部分解锁premium,音质不能设置为超高(建议登录后再打开脚本,重启app等待脚本生效) app2smile rules"
   },
   {
@@ -823,7 +889,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 49,
+    "readmeIndex": 54,
     "_searchKeywords": "spotify premium spotify premium reukix ukix"
   },
   {
@@ -845,7 +911,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 50,
+    "readmeIndex": 55,
     "_searchKeywords": "机场流量查询 定时查询机场订阅链接的流量使用情况和到期时间（支持多地址 & 参数编辑） huskydsb shadowrocket"
   },
   {
@@ -867,7 +933,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 52,
+    "readmeIndex": 57,
     "_searchKeywords": "高德地图 2026-10-09 16:50:20 xiangwanguan shadowrocket-first"
   },
   {
@@ -889,7 +955,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 54,
+    "readmeIndex": 59,
     "_searchKeywords": "一汽大众 2026-07-18 11:35:27 xiangwanguan shadowrocket-first"
   },
   {
@@ -911,7 +977,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 56,
+    "readmeIndex": 61,
     "_searchKeywords": "彩云天气 2026-10-09 16:50:20 xiangwanguan shadowrocket-first"
   },
   {
@@ -933,7 +999,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 58,
+    "readmeIndex": 63,
     "_searchKeywords": "小红书 2026-10-09 13:15:00 xiangwanguan shadowrocket-first"
   },
   {
