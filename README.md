@@ -14,12 +14,9 @@
 
 **网站地址：[ShadowStore.dpdns.org](https://shadowstore.dpdns.org)**
 
-**ShadowStore** 是一个面向 Shadowrocket 及相关开源社区的 **资源索引与导航平台**。ShadowStore **不是资源托管平台，也不是第三方资源镜像站**。我们希望将分散在不同开源仓库、项目主页和资源目录中的公开资源集中索引，并尽可能保留资源与原作者之间的直接关联，通过统一的界面提供 **浏览、搜索、分类、查看来源、一键安装与一键复制** 等功能，平台主要负责整理和展示公开资源的元数据，让用户能够更方便地发现和使用社区中相关资源
+**ShadowStore** 是一个面向 Shadowrocket 及相关开源社区的 **资源索引与导航平台**。ShadowStore **不是资源托管平台，也不是第三方资源镜像站**。我们希望将分散在不同开源仓库、项目主页和资源目录中的公开资源集中索引，并尽可能保留资源与原作者之间的直接关联，通过统一的界面提供 **浏览、搜索、分类、查看来源、一键安装与一键复制** 等功能，平台主要负责整理和展示公开资源的元数据，让用户能够更方便地发现和使用社区中相关资源，提供搜索、分类、一键安装、一键复制等便捷功能
 
-* **开放索引**：聚合公开可访问的社区资源，为分散的开源资源提供统一的发现入口
-* **原链引用**：资源尽可能直接指向原作者的开源仓库、官方页面或原始资源地址，不对资源进行二次打包或镜像托管
-* **尊重作者**：保留资源名称、作者信息、来源仓库及原始描述，并提供原项目跳转入口
-* **便捷使用**：在资源索引的基础上提供搜索、分类、一键安装、一键复制等便捷功能
+---
 
 ## 资源类型
 
@@ -28,9 +25,10 @@
 * **配色资源**：社区公开的 Shadowrocket 配色资源
 * **配置文件**：推荐使用的 Shadowrocket 配置文件
 * **使用手册**：社区维护的 Shadowrocket 使用手册
-* **其他资源**：与 Shadowrocket 相关生态有关的其他资源
-* **资源来源**：平台包含且不限于以下来源
+* **其他资源**：社区维护的 Shadowrocket 其他资源
+* **资源来源**：感谢开源资源的作者及维护者，现阶段本平台包含且不限于以下来源，
   * 自有仓库：[LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
+  * 手册仓库：[LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket)
   * 模块资源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
   * 模块资源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
   * 规则资源：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
