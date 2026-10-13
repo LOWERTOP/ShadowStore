@@ -1684,127 +1684,110 @@
     opacity: 0 !important;
     transition: none !important;
   }
-      .module-card, .module-card:hover, .module-card:active, .module-card:focus, .module-card:focus-within {
-        height: auto !important;
-        transform: none !important;
-        box-shadow: var(--shadow-glass-ui) !important;
-        transition: none !important;
-      }
-      [data-theme="dark"] .module-card, [data-theme="dark"] .module-card:hover, [data-theme="dark"] .module-card:active, [data-theme="dark"] .module-card:focus, [data-theme="dark"] .module-card:focus-within {
-        transform: none !important;
-        box-shadow: var(--shadow-glass-ui) !important;
-        background-image: var(--noise-pattern) !important;
-        background-color: var(--bg-surface) !important;
-      }
-      .alphabet-item-row::before, .alphabet-item-row:hover::before, .alphabet-item-row:active::before {
-        display: none !important;
-        opacity: 0 !important;
-        transition: none !important;
-      }
-      .tab-item:not(.active):hover, .tab-item:not(.active):active, .tab-item:not(.active):focus-visible,
-      .alphabet-item-row:hover, .alphabet-item-row:active, .alphabet-item-row:focus-visible {
-        color: var(--text-secondary) !important;
-        background: transparent !important;
-        box-shadow: none !important;
-      }
-      .alphabet-item-row:hover, .alphabet-item-row:active, .alphabet-item-row:focus-visible {
-        color: var(--text-primary) !important;
-      }
-      .button-secondary, .button-secondary:hover, .button-secondary:active, .button-secondary:focus-visible {
-        transform: none !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        color: #06b6d4 !important;
-      }
-      [data-theme="dark"] .button-secondary, [data-theme="dark"] .button-secondary:hover, [data-theme="dark"] .button-secondary:active, [data-theme="dark"] .button-secondary:focus-visible {
-        color: #22d3ee !important;
-      }
-      .button-primary, .button-primary:hover, .button-primary:active, .button-primary:focus-visible {
-        transform: none !important;
-        box-shadow: var(--primary-gradient-shadow) !important;
-        background: var(--primary-gradient) !important;
-      }
-      .module-icon, .module-icon:hover, .module-icon:active, .module-icon:focus {
-        transform: none !important;
-        opacity: 1 !important;
-        transition: none !important;
-        -webkit-tap-highlight-color: transparent !important;
-      }
-      .theme-toggle:hover, .theme-toggle:active {
-        transform: none !important;
-        box-shadow: var(--shadow-glass-ui) !important;
-        color: var(--text-secondary) !important;
-      }
-      .theme-controls .immersive-icon, .theme-controls .immersive-icon:hover, .theme-controls .immersive-icon:active {
-        background: transparent !important;
-        background-image: none !important;
-        border: none !important;
-        box-shadow: none !important;
-      }
-      .theme-controls .immersive-icon:hover, .theme-controls .immersive-icon:active {
-        transform: none !important;
-      }
-      .title a:hover { opacity: 1 !important; }
-      .author:hover, .source-link:hover:not(.source-link-static) {
-        color: var(--text-secondary) !important;
-        text-decoration: none !important;
-      }
-      .standalone-list-btn:not(.active), .standalone-list-btn:not(.active):hover, .standalone-list-btn:not(.active):active, .standalone-list-btn:not(.active):focus, .standalone-list-btn:not(.active):focus-visible {
-        color: var(--text-secondary) !important;
-      }
-      .standalone-list-btn.active {
-        color: #06b6d4 !important;
-      }
-      [data-theme="dark"] .standalone-list-btn.active {
-        color: #22d3ee !important;
-      }
-    }
-    @media (max-width: 600px) {
-      :root { --radius-card: 42px; }
-      .title { font-size: 22px; }
-      .tag-pill-badge {
-        height: 15px;
-        font-size: 9px;
-        padding: 0 5px;
-        transform: translateY(calc(2px - 50%));
-      }
-      .module-card {
-        padding: 22px;
-        border-radius: var(--radius-card);
-      }
-      .module-description { flex: none; }
-      .card-bottom {
-        margin-top: 20px;
-        padding-top: 0;
-      }
-      .search-shortcut { display: none; }
-    }
-    @media (max-width: 480px) {
-      .lightbox-close-btn {
-        top: 10px;
-        right: 10px;
-      }
-    }
-    @media (max-width: 420px) {
-      .card-bottom {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-      }
-      .action-buttons {
-        width: 100%;
-        justify-content: flex-end;
-      }
-      .control-bar.is-single-column .tab-bar {
-        padding: 5px;
-        gap: 2px;
-      }
-      .control-bar.is-single-column .tab-item {
-        font-size: 13px;
-        padding: 0 4px;
-        border-radius: 26px;
-      }
-    }
+  .tab-item:not(.active):hover, .tab-item:not(.active):active, .tab-item:not(.active):focus-visible,
+  .alphabet-item-row:hover, .alphabet-item-row:active, .alphabet-item-row:focus-visible {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .alphabet-item-row:hover, .alphabet-item-row:active, .alphabet-item-row:focus-visible {
+    color: var(--text-primary) !important;
+  }
+  .button-secondary, .button-secondary:hover, .button-secondary:active, .button-secondary:focus-visible {
+    transform: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #06b6d4 !important;
+  }
+  [data-theme="dark"] .button-secondary, [data-theme="dark"] .button-secondary:hover, [data-theme="dark"] .button-secondary:active, [data-theme="dark"] .button-secondary:focus-visible {
+    color: #22d3ee !important;
+  }
+  .button-primary, .button-primary:hover, .button-primary:active, .button-primary:focus-visible {
+    transform: none !important;
+    box-shadow: var(--primary-gradient-shadow) !important;
+    background: var(--primary-gradient) !important;
+  }
+  .module-icon, .module-icon:hover, .module-icon:active, .module-icon:focus {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .theme-toggle:hover, .theme-toggle:active {
+    transform: none !important;
+    box-shadow: var(--shadow-glass-ui) !important;
+    color: var(--text-secondary) !important;
+  }
+  .theme-controls .immersive-icon, .theme-controls .immersive-icon:hover, .theme-controls .immersive-icon:active {
+    background: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .theme-controls .immersive-icon:hover, .theme-controls .immersive-icon:active {
+    transform: none !important;
+  }
+  .title a:hover { opacity: 1 !important; }
+  .author:hover, .source-link:hover:not(.source-link-static) {
+    color: var(--text-secondary) !important;
+    text-decoration: none !important;
+  }
+  .standalone-list-btn:not(.active), .standalone-list-btn:not(.active):hover, .standalone-list-btn:not(.active):active, .standalone-list-btn:not(.active):focus, .standalone-list-btn:not(.active):focus-visible {
+    color: var(--text-secondary) !important;
+  }
+  .standalone-list-btn.active {
+    color: #06b6d4 !important;
+  }
+  [data-theme="dark"] .standalone-list-btn.active {
+    color: #22d3ee !important;
+  }
+}
+@media (max-width: 600px) {
+  :root { --radius-card: 42px; }
+  .title { font-size: 22px; }
+  .tag-pill-badge {
+    height: 15px;
+    font-size: 9px;
+    padding: 0 5px;
+    transform: translateY(calc(2px - 50%));
+  }
+  .module-card {
+    padding: 22px;
+    border-radius: var(--radius-card);
+  }
+  .module-description { flex: none; }
+  .card-bottom {
+    margin-top: 20px;
+    padding-top: 0;
+  }
+  .search-shortcut { display: none; }
+}
+@media (max-width: 480px) {
+  .lightbox-close-btn {
+    top: 10px;
+    right: 10px;
+  }
+}
+@media (max-width: 420px) {
+  .card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .action-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .control-bar.is-single-column .tab-bar {
+    padding: 5px;
+    gap: 2px;
+  }
+  .control-bar.is-single-column .tab-item {
+    font-size: 13px;
+    padding: 0 4px;
+    border-radius: 26px;
+  }
+}
   </style>
 </head>
 <body>
@@ -1961,7 +1944,7 @@
       }
     })();
 
-    const CACHE_VERSION = "202609211250";
+    const CACHE_VERSION = "202610131010";
     const CONFIG = {
       DATA_JSON_URL: "https://shadowstore.dpdns.org/scripts/modules.json",
       DATA_FALLBACK_URLS: [
@@ -2040,52 +2023,53 @@
     const pinyinCharCache = new Map();
     const iconSvgCache = new Map();
 
-const preloadedImageCache = new Map();
+    const preloadedImageCache = new Map();
 
-function isLiteMode() {
-  return document.documentElement.getAttribute("data-perf") === "lite";
-}
-
-function preloadImageBatch(urls, concurrency = 4) {
-  if (isLiteMode()) return;
-  if (!urls || !urls.length) return;
-
-  const filtered = [...new Set(urls)].filter(url =>
-    url &&
-    typeof url === "string" &&
-    !url.startsWith("data:") &&
-    !preloadedImageCache.has(url)
-  );
-
-  if (!filtered.length) return;
-
-  const queue = [...filtered];
-  let activeCount = 0;
-
-  function runNext() {
-    while (activeCount < concurrency && queue.length > 0) {
-      const url = queue.shift();
-      const img = new Image();
-
-      img.decoding = "async";
-      preloadedImageCache.set(url, img);
-      activeCount++;
-
-      img.onload = img.onerror = () => {
-        activeCount--;
-        runNext();
-      };
-
-      img.src = url;
+    function isLiteMode() {
+      return document.documentElement.getAttribute("data-perf") === "lite";
     }
-  }
 
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(() => runNext(), { timeout: 2000 });
-  } else {
-    setTimeout(runNext, 180);
-  }
-}
+    function preloadImageBatch(urls, concurrency = 4) {
+      if (isLiteMode()) return;
+      if (!urls || !urls.length) return;
+
+      const filtered = [...new Set(urls)].filter(url =>
+        url &&
+        typeof url === "string" &&
+        !url.startsWith("data:") &&
+        !preloadedImageCache.has(url)
+      );
+
+      if (!filtered.length) return;
+
+      const queue = [...filtered];
+      let activeCount = 0;
+
+      function runNext() {
+        while (activeCount < concurrency && queue.length > 0) {
+          const url = queue.shift();
+          const img = new Image();
+
+          img.decoding = "async";
+          preloadedImageCache.set(url, img);
+          activeCount++;
+
+          img.onload = img.onerror = () => {
+            activeCount--;
+            runNext();
+          };
+
+          img.src = url;
+        }
+      }
+
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => runNext(), { timeout: 2000 });
+      } else {
+        setTimeout(runNext, 180);
+      }
+    }
+
     function cleanOldCaches() {
       try {
         const currentKey = CONFIG.CACHE_KEY;
@@ -2469,28 +2453,83 @@ function preloadImageBatch(urls, concurrency = 4) {
       showToast(success ? toastMessage : "复制失败，请手动复制");
     });
 
+    // 从深层客户端协议链接中精确逆向解析出真正的 HTTP/HTTPS 直链
+    function extractDirectUrlFromScheme(targetUrl) {
+      if (!targetUrl || typeof targetUrl !== "string") return "";
+
+      // 1. 优先提取 ?url= 或 ?src= 后的参数内容（兼容已编码或半编码的直链）
+      const queryMatch = targetUrl.match(/[?&](?:url|src)=([^&#]+)/i);
+      if (queryMatch && queryMatch[1]) {
+        try {
+          return decodeURIComponent(queryMatch[1]);
+        } catch (e) {
+          return queryMatch[1];
+        }
+      }
+
+      // 2. 模拟构造标准 URL 对象，读取其 searchParams 参数
+      try {
+        const dummyUrl = targetUrl.replace(/^[a-zA-Z0-9_-]+:\/+/i, "https://dummy.local/");
+        const parsed = new URL(dummyUrl);
+        const param = parsed.searchParams.get("url") || parsed.searchParams.get("src");
+        if (param) {
+          try {
+            return decodeURIComponent(param);
+          } catch (e) {
+            return param;
+          }
+        }
+      } catch (err) {}
+
+      // 3. 匹配编码形式的 http(s)%3A%2F%2F 直链内容
+      const encodedMatch = targetUrl.match(/https?%3A%2F%2F[^\s"'\)]+/i);
+      if (encodedMatch) {
+        try {
+          return decodeURIComponent(encodedMatch[0]);
+        } catch (e) {
+          return encodedMatch[0];
+        }
+      }
+
+      // 4. 匹配直接拼接在路径中的 http(s)://（例如 shadowrocket://config/add/https://...）
+      const plainMatch = targetUrl.match(/https?:\/\/[^\s"'\)]+/i);
+      if (plainMatch) {
+        return plainMatch[0];
+      }
+
+      return "";
+    }
+
     document.addEventListener("click", (e) => {
-      const installBtn = e.target.closest('a[href^="shadowrocket://"]');
+      // 捕获所有客户端唤起链接
+      const installBtn = e.target.closest('a[href*="://"]:not([href^="http://"]):not([href^="https://"])');
       if (!installBtn) return;
       e.preventDefault();
+
       const targetUrl = installBtn.getAttribute("href");
       const card = installBtn.closest(".module-card");
-      const rawUrl = card?.querySelector(".copy-btn")?.getAttribute("data-url");
+      const moduleId = card?.dataset?.moduleId;
+      const module = moduleId ? moduleDataMap.get(moduleId) : null;
+
+      // 核心修复：优先从当前被点击按钮的唤起链接中提取直链，避免外部工具卡片误复制主站网页
+      const directUrl = extractDirectUrlFromScheme(targetUrl);
+      const copyTarget = directUrl || card?.querySelector(".copy-btn")?.getAttribute("data-url") || module?.rawURL || targetUrl;
+
       let hasAppOpened = false;
       const blurHandler = () => { hasAppOpened = true; };
+
       window.addEventListener("pagehide", blurHandler, { once: true });
       window.addEventListener("blur", blurHandler, { once: true });
       window.location.href = targetUrl;
+
       setTimeout(async () => {
         window.removeEventListener("pagehide", blurHandler);
         window.removeEventListener("blur", blurHandler);
         if (!hasAppOpened && !document.hidden) {
-          if (rawUrl) {
-            await copyToClipboard(rawUrl);
-            showToast("未调起客户端，已自动复制直链");
-          } else {
-            showToast("唤起失败，请确认是否已安装小火箭");
+          if (copyTarget) {
+            await copyToClipboard(copyTarget);
           }
+          showToast("未调起客户端，已自动复制直链");
         }
       }, 1600);
     });
@@ -3731,7 +3770,6 @@ function preloadImageBatch(urls, concurrency = 4) {
       }
       try { localStorage.setItem("sr_theme_override", nextMode); } catch (e) {}
 
-      // 移除了打断过渡的暴力 reflow 类，恢复标准模式的原生平滑渐变，消除跳白与闪烁
       updateThemeUI();
       showToast(toastText);
     });
