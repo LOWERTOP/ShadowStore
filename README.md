@@ -26,13 +26,14 @@
 * **配置文件**：推荐使用的 Shadowrocket 配置文件
 * **使用手册**：社区维护的 Shadowrocket 使用手册
 * **其他资源**：社区维护的 Shadowrocket 其他资源
-* **资源来源**：感谢开源资源的作者及维护者，现阶段本平台包含且不限于以下来源，
-  * 自有仓库：[LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
-  * 手册仓库：[LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket)
-  * 模块资源：[fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
-  * 模块资源：[zirawell/R-Store](https://github.com/zirawell/R-Store)
-  * 规则资源：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
-  * 备用图标：[luestr/IconResource](https://github.com/luestr/IconResource)
+* **资源来源**：感谢开源资源的作者及维护者，现阶段本平台包含且不限于以下来源
+  
+  * [LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
+  * [LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket)
+  * [fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
+  * [zirawell/R-Store](https://github.com/zirawell/R-Store)
+  * [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
+  * [luestr/IconResource](https://github.com/luestr/IconResource)
 
 ## 权利声明
 
