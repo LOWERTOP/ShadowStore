@@ -79,7 +79,7 @@
     "_searchKeywords": "🆃🅾🅿🅼🅾🅳🆂 deepseek 本模块主要为 deepseek 进行分流，可使用其他登录方式注册和登录，并尝试屏蔽上传信息的地址 lowertop shadowrocket-first"
   },
   {
-    "name": "🅳🅸🆂🅲🅾🆁🅳 Discord 翻译",
+    "name": "🅳🅸🆂🅲🅾🆁🅳 Discord 自动翻译",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Discord.sgmodule",
     "category": "module",
     "description": "调用 Google 翻译为 Discord 历史消息生成双语对照，支持自定义翻译条目数量、目标语言及对应旗帜；新消息可能需重新进入频道触发刷新",
@@ -98,7 +98,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 1,
-    "_searchKeywords": "🅳🅸🆂🅲🅾🆁🅳 discord 翻译 调用 google 翻译为 discord 历史消息生成双语对照，支持自定义翻译条目数量、目标语言及对应旗帜；新消息可能需重新进入频道触发刷新 lowertop shadowrocket-first"
+    "_searchKeywords": "🅳🅸🆂🅲🅾🆁🅳 discord 自动翻译 调用 google 翻译为 discord 历史消息生成双语对照，支持自定义翻译条目数量、目标语言及对应旗帜；新消息可能需重新进入频道触发刷新 lowertop shadowrocket-first"
   },
   {
     "name": "🆃🅾🅿🅼🅾🅳🆂 Talkatone",
