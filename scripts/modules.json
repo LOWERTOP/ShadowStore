@@ -170,7 +170,7 @@
     "name": "🆀🅸🅽🅶🅰🅿🅿 Qing 净化增强",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/QingApp.sgmodule",
     "category": "module",
-    "description": "移除开屏广告、阻断火山引擎与 MobTech 隐私追踪、禁用 HTTPDNS；可在编辑参数页面启用本地解锁真实视界、隐身消息配额满载、动态媒体下载解锁、地图位置切换限制及强制透视附近的人隐身活跃状态等",
+    "description": "移除开屏广告、阻断火山引擎与 MobTech 隐私追踪、禁用 HTTPDNS；可在编辑参数页面启用本地解锁真实视界、隐身消息配额满载、动态媒体下载解锁、强制透视附近的人隐身活跃状态及实验性测试增加地图位置切换限制次数",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -186,7 +186,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 5,
-    "_searchKeywords": "🆀🅸🅽🅶🅰🅿🅿 qing 净化增强 移除开屏广告、阻断火山引擎与 mobtech 隐私追踪、禁用 httpdns；可在编辑参数页面启用本地解锁真实视界、隐身消息配额满载、动态媒体下载解锁、地图位置切换限制及强制透视附近的人隐身活跃状态等 lowertop shadowrocket-first"
+    "_searchKeywords": "🆀🅸🅽🅶🅰🅿🅿 qing 净化增强 移除开屏广告、阻断火山引擎与 mobtech 隐私追踪、禁用 httpdns；可在编辑参数页面启用本地解锁真实视界、隐身消息配额满载、动态媒体下载解锁、强制透视附近的人隐身活跃状态及实验性测试增加地图位置切换限制次数 lowertop shadowrocket-first"
   },
   {
     "name": "🅲🅼🅲🅲🅸🆃🆅 移动直播解析",
