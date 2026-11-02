@@ -126,7 +126,7 @@
     "name": "🆃🅴🅻🅳🅰🅿🅿 特来电增强",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Teld.sgmodule",
     "category": "module",
-    "description": "阻断开屏广告聚合与各家广告 SDK，屏蔽 App 广告位接口，可选屏蔽福利中心推广位与统计埋点。支持在编辑参数页面开启「记录签到请求」与「自动签到」(实验性，需开启签到记录开关并在 App 内手动签到一次)",
+    "description": "阻断开屏广告聚合与各家广告 SDK，屏蔽 App 广告位接口，可选屏蔽福利中心推广位与统计埋点。支持在编辑参数页面开启「记录签到请求」与「自动签到」(实验性功能，首次运行需开启签到记录开关并在 App 内手动签到一次，完成后关闭签到记录开关并打开自动签到)",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -142,7 +142,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 3,
-    "_searchKeywords": "🆃🅴🅻🅳🅰🅿🅿 特来电增强 阻断开屏广告聚合与各家广告 sdk，屏蔽 app 广告位接口，可选屏蔽福利中心推广位与统计埋点。支持在编辑参数页面开启「记录签到请求」与「自动签到」(实验性，需开启签到记录开关并在 app 内手动签到一次) lowertop shadowrocket-first"
+    "_searchKeywords": "🆃🅴🅻🅳🅰🅿🅿 特来电增强 阻断开屏广告聚合与各家广告 sdk，屏蔽 app 广告位接口，可选屏蔽福利中心推广位与统计埋点。支持在编辑参数页面开启「记录签到请求」与「自动签到」(实验性功能，首次运行需开启签到记录开关并在 app 内手动签到一次，完成后关闭签到记录开关并打开自动签到) lowertop shadowrocket-first"
   },
   {
     "name": "🆁🅴🆂🅸🅽🅿🆁 米家3D打印增强",
