@@ -793,7 +793,7 @@
       "username": "app2smile"
     },
     "authorAvatar": "https://github.com/app2smile.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Tieba.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/tieba.png",
     "sourceName": "rules",
     "sourceURL": "https://github.com/app2smile/rules",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fapp2smile%2Frules%2Fmaster%2Fmodule%2Ftieba.sgmodule",
@@ -815,7 +815,7 @@
       "username": "QingRex"
     },
     "authorAvatar": "https://github.com/QingRex.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Reddit.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/reddit.png",
     "sourceName": "LoonKissSurge",
     "sourceURL": "https://github.com/QingRex/LoonKissSurge",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FQingRex%2FLoonKissSurge%2Fmain%2FSurge%2FOfficial%2FReddit%2520%25E5%258E%25BB%25E5%25B9%25BF%25E5%2591%258A.sgmodule",
@@ -1123,7 +1123,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/12306.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/12306.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2Fpart1%2F12306.srmodule",
@@ -1365,7 +1365,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/36Kr.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/36kr.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2Fpart3%2F36kr.srmodule",
@@ -1915,7 +1915,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/BaiCiZhan.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/baicizhan.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartB%2Fbaicizhan.srmodule",
@@ -2201,7 +2201,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/BabyTree.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/babytree.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartB%2FBabyTree.srmodule",
@@ -2839,7 +2839,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Chelaile.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/chelaile.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartC%2FCheLaiLe.srmodule",
@@ -2971,7 +2971,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Damai.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/damai.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartD%2FDamai.srmodule",
@@ -3125,7 +3125,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Dewu.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/dewu.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartD%2FDeWu.srmodule",
@@ -3719,7 +3719,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eleme.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/eleme.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartE%2FEleme.srmodule",
@@ -3961,7 +3961,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/FenBi.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/fenbi.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartF%2FFenBi.srmodule",
@@ -5259,7 +5259,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Huxiu.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/huxiu.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartH%2FHuxiu.srmodule",
@@ -6447,7 +6447,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuGou.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kugou.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartK%2FKuGouMusic.srmodule",
@@ -6469,7 +6469,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Kuwo.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kuwo.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartK%2FKuwoMusic.srmodule",
@@ -6513,7 +6513,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuaiDi100.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kuaidi100.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartK%2FKuaiDi100.srmodule",
@@ -7239,7 +7239,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MaFengWo.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/mafengwo.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartM%2FMafengwo.srmodule",
@@ -7349,7 +7349,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/MaiMai.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/maimai.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartM%2FMaimai.srmodule",
@@ -8471,7 +8471,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AutoHome.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/autohome.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartQ%2FAutohome.srmodule",
@@ -8515,7 +8515,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/51Job.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/51job.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartQ%2F51Job.srmodule",
@@ -10429,7 +10429,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Stay.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/tujia.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartT%2FTujiaHomestay.srmodule",
@@ -11023,7 +11023,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/SnailSleep.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/snailsleep.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartW%2FSnailSleep.srmodule",
@@ -11265,7 +11265,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/XiaChuFang.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/xiachufang.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartX%2FXiaChuFang.srmodule",
@@ -12695,7 +12695,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/YiKaoBang.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/yikaobang.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartY%2FYiKaoBang.srmodule",
@@ -13751,7 +13751,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/iReader.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/ireader.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartZ%2FiReader.srmodule",
@@ -14653,7 +14653,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ZhuanZhuan.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/zhuanzhuan.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartZ%2FZhuanZhuan.srmodule",
@@ -14807,7 +14807,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/AcFun.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/acfun.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartA%2FAcFun.srmodule",
@@ -15511,7 +15511,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Keep.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/keep.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartK%2FKeep.srmodule",
@@ -15709,7 +15709,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Keep.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/keep.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartM%2FMacKeeper.srmodule",
@@ -16281,7 +16281,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Reddit.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/reddit.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartR%2FReddit.srmodule",
@@ -16303,7 +16303,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Reddit.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/reddit.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2FRedditTranslation.srmodule",
@@ -16413,7 +16413,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Talkatone.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/talkatone.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartT%2FTalkatone.srmodule",
@@ -16457,7 +16457,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TapTap.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/taptap.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartT%2FTapTap.srmodule",
@@ -16545,7 +16545,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/TubeMax.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/tubemax.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartT%2FTubeMax.srmodule",
@@ -16963,7 +16963,7 @@
       "username": "fmz200"
     },
     "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/WPS.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/wps.png",
     "sourceName": "wool_scripts",
     "sourceURL": "https://github.com/fmz200/wool_scripts",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartW%2FWPS.srmodule",
@@ -28271,7 +28271,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Amap.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/amap.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FAlipay%2FG%2F%25E9%25AB%2598%25E5%25BE%25B7%25E6%2589%2593%25E8%25BD%25A6%2Famap.sgmodule",
@@ -28657,6 +28657,28 @@
     "_searchKeywords": "chatgpt - chatgpt chatgpt zirawell r-store"
   },
   {
+    "name": "choice - CHOICE",
+    "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/C/choice/choice.sgmodule",
+    "category": "module",
+    "description": "Choice数据-下一代智能金融终端",
+    "author": {
+      "name": "zirawell",
+      "url": "https://github.com/zirawell",
+      "username": "zirawell"
+    },
+    "authorAvatar": "https://github.com/zirawell.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/choice.png",
+    "sourceName": "R-Store",
+    "sourceURL": "https://github.com/zirawell/R-Store",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApp%2FC%2Fchoice%2Fchoice.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": false,
+    "fromFMZ": false,
+    "fromZirawell": true,
+    "readmeIndex": 99999,
+    "_searchKeywords": "choice - choice choice数据-下一代智能金融终端 zirawell r-store"
+  },
+  {
     "name": "cloudpnr",
     "rawURL": "https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/Applet/Wechat/H/%E6%B1%87%E4%BB%98%E5%A4%A9%E4%B8%8B%E5%95%86%E6%88%B7%E6%9C%8D%E5%8A%A1/cloudpnr.sgmodule",
     "category": "module",
@@ -28887,7 +28909,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Ctrip.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/ctrip.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FX%2F%25E6%2590%25BA%25E7%25A8%258B%25E6%2597%2585%25E8%25A1%258C%2Fctrip.sgmodule",
@@ -29195,7 +29217,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eleme.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/eleme.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FAlipay%2FE%2F%25E9%25A5%25BF%25E4%25BA%2586%25E4%25B9%2588%2Feleme.sgmodule",
@@ -29217,7 +29239,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/eleme.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/eleme.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FE%2F%25E9%25A5%25BF%25E4%25BA%2586%25E4%25B9%2588%2Feleme.sgmodule",
@@ -31835,7 +31857,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/Walmart.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/walmart.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FW%2F%25E6%25B2%2583%25E5%25B0%2594%25E7%258E%259B%2Fwalmart.sgmodule",
@@ -31945,7 +31967,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/KuaiDi100.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/kuaidi100.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FW%2F%25E5%25BE%25AE%25E5%25BF%25AB%25E9%2580%2592%2FweiKuaiDi.sgmodule",
@@ -32429,7 +32451,7 @@
       "username": "zirawell"
     },
     "authorAvatar": "https://github.com/zirawell.png?size=64",
-    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/ZhuanZhuan.png",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/zhuanzhuan.png",
     "sourceName": "R-Store",
     "sourceURL": "https://github.com/zirawell/R-Store",
     "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fzirawell%2FR-Store%2Fmain%2FRule%2FSurge%2FAdblock%2FApplet%2FWechat%2FZ%2F%25E8%25BD%25AC%25E8%25BD%25AC%2Fzhuanzhuan.sgmodule",
