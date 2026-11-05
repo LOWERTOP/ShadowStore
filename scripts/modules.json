@@ -720,7 +720,7 @@
     "name": "NSCheckin",
     "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/NodeSeek.sgmodule",
     "category": "module",
-    "description": "NodeSeek每天定时自动签到",
+    "description": "NodeSeek自动签到及均值统计",
     "author": {
       "name": "iab0x00",
       "url": "https://github.com/iab0x00",
@@ -736,7 +736,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 37,
-    "_searchKeywords": "nscheckin nodeseek每天定时自动签到 iab0x00 proxyrules"
+    "_searchKeywords": "nscheckin nodeseek自动签到及均值统计 iab0x00 proxyrules"
   },
   {
     "name": "WeiboIntl",
