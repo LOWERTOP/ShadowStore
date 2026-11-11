@@ -984,7 +984,7 @@
     "name": "Spotify Premium",
     "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/main/Script/Spotify.sgmodule",
     "category": "module",
-    "description": "适配 Spotify 9.1.98 的 Nebula / Remote Config 接口，兼容旧版配置接口",
+    "description": "适配 Spotify 9.1.98 的 Nebula / Remote Config 接口及 Casita 首页去广告，兼容旧版接口",
     "author": {
       "name": "Reukix",
       "url": "https://github.com/Reukix",
@@ -1000,7 +1000,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 59,
-    "_searchKeywords": "spotify premium 适配 spotify 9.1.98 的 nebula / remote config 接口，兼容旧版配置接口 reukix ukix"
+    "_searchKeywords": "spotify premium 适配 spotify 9.1.98 的 nebula / remote config 接口及 casita 首页去广告，兼容旧版接口 reukix ukix"
   },
   {
     "name": "机场流量查询",
@@ -2717,6 +2717,28 @@
     "fromZirawell": false,
     "readmeIndex": 99999,
     "_searchKeywords": "财联社 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
+  },
+  {
+    "name": "财新网",
+    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partC/Caixin.srmodule",
+    "category": "module",
+    "description": "某些APP要清除缓存或者重新安装拦截广告才会生效！",
+    "author": {
+      "name": "fmz200",
+      "url": "https://github.com/fmz200",
+      "username": "fmz200"
+    },
+    "authorAvatar": "https://github.com/fmz200.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/caixin.png",
+    "sourceName": "wool_scripts",
+    "sourceURL": "https://github.com/fmz200/wool_scripts",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartC%2FCaixin.srmodule",
+    "isDubious": false,
+    "fromMyRepo": false,
+    "fromFMZ": true,
+    "fromZirawell": false,
+    "readmeIndex": 99999,
+    "_searchKeywords": "财新网 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
     "name": "彩云天气",
@@ -5467,6 +5489,28 @@
     "fromZirawell": false,
     "readmeIndex": 99999,
     "_searchKeywords": "华尔街见闻 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
+  },
+  {
+    "name": "华盛通",
+    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partH/HuaShengTong.srmodule",
+    "category": "module",
+    "description": "某些APP要清除缓存或者重新安装拦截广告才会生效！",
+    "author": {
+      "name": "fmz200",
+      "url": "https://github.com/fmz200",
+      "username": "fmz200"
+    },
+    "authorAvatar": "https://github.com/fmz200.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/gif/naisi-01.gif",
+    "sourceName": "wool_scripts",
+    "sourceURL": "https://github.com/fmz200/wool_scripts",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartH%2FHuaShengTong.srmodule",
+    "isDubious": false,
+    "fromMyRepo": false,
+    "fromFMZ": true,
+    "fromZirawell": false,
+    "readmeIndex": 99999,
+    "_searchKeywords": "华盛通 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
     "name": "华数TV",
@@ -9119,6 +9163,28 @@
     "fromZirawell": false,
     "readmeIndex": 99999,
     "_searchKeywords": "少数派 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
+  },
+  {
+    "name": "深圳通",
+    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partS/ShenZhenTong.srmodule",
+    "category": "module",
+    "description": "某些APP要清除缓存或者重新安装拦截广告才会生效！",
+    "author": {
+      "name": "fmz200",
+      "url": "https://github.com/fmz200",
+      "username": "fmz200"
+    },
+    "authorAvatar": "https://github.com/fmz200.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/shenzhentong.png",
+    "sourceName": "wool_scripts",
+    "sourceURL": "https://github.com/fmz200/wool_scripts",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartS%2FShenZhenTong.srmodule",
+    "isDubious": false,
+    "fromMyRepo": false,
+    "fromFMZ": true,
+    "fromZirawell": false,
+    "readmeIndex": 99999,
+    "_searchKeywords": "深圳通 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
     "name": "什么值得买",
@@ -15213,6 +15279,28 @@
     "fromZirawell": false,
     "readmeIndex": 99999,
     "_searchKeywords": "crunchyroll 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
+  },
+  {
+    "name": "CSDN",
+    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partC/CSDN.srmodule",
+    "category": "module",
+    "description": "某些APP要清除缓存或者重新安装拦截广告才会生效！",
+    "author": {
+      "name": "fmz200",
+      "url": "https://github.com/fmz200",
+      "username": "fmz200"
+    },
+    "authorAvatar": "https://github.com/fmz200.png?size=64",
+    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/csdn.png",
+    "sourceName": "wool_scripts",
+    "sourceURL": "https://github.com/fmz200/wool_scripts",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartC%2FCSDN.srmodule",
+    "isDubious": false,
+    "fromMyRepo": false,
+    "fromFMZ": true,
+    "fromZirawell": false,
+    "readmeIndex": 99999,
+    "_searchKeywords": "csdn 某些app要清除缓存或者重新安装拦截广告才会生效！ fmz200 wool_scripts"
   },
   {
     "name": "DLabel云标签",
@@ -32527,94 +32615,6 @@
     "fromZirawell": true,
     "readmeIndex": 99999,
     "_searchKeywords": "zuche 神州租车 - zuche zirawell r-store"
-  },
-  {
-    "name": "Caixin",
-    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partC/Caixin.srmodule",
-    "category": "module",
-    "description": "Caixin",
-    "author": {
-      "name": "fmz200",
-      "url": "https://github.com/fmz200",
-      "username": "fmz200"
-    },
-    "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/caixin.png",
-    "sourceName": "wool_scripts",
-    "sourceURL": "https://github.com/fmz200/wool_scripts",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartC%2FCaixin.srmodule",
-    "isDubious": true,
-    "fromMyRepo": false,
-    "fromFMZ": true,
-    "fromZirawell": false,
-    "readmeIndex": 99999,
-    "_searchKeywords": "caixin caixin fmz200 wool_scripts"
-  },
-  {
-    "name": "CSDN",
-    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partC/CSDN.srmodule",
-    "category": "module",
-    "description": "CSDN",
-    "author": {
-      "name": "fmz200",
-      "url": "https://github.com/fmz200",
-      "username": "fmz200"
-    },
-    "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/csdn.png",
-    "sourceName": "wool_scripts",
-    "sourceURL": "https://github.com/fmz200/wool_scripts",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartC%2FCSDN.srmodule",
-    "isDubious": true,
-    "fromMyRepo": false,
-    "fromFMZ": true,
-    "fromZirawell": false,
-    "readmeIndex": 99999,
-    "_searchKeywords": "csdn csdn fmz200 wool_scripts"
-  },
-  {
-    "name": "HuaShengTong",
-    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partH/HuaShengTong.srmodule",
-    "category": "module",
-    "description": "HuaShengTong",
-    "author": {
-      "name": "fmz200",
-      "url": "https://github.com/fmz200",
-      "username": "fmz200"
-    },
-    "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "",
-    "sourceName": "wool_scripts",
-    "sourceURL": "https://github.com/fmz200/wool_scripts",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartH%2FHuaShengTong.srmodule",
-    "isDubious": true,
-    "fromMyRepo": false,
-    "fromFMZ": true,
-    "fromZirawell": false,
-    "readmeIndex": 99999,
-    "_searchKeywords": "huashengtong huashengtong fmz200 wool_scripts"
-  },
-  {
-    "name": "ShenZhenTong",
-    "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Shadowrocket/module/split/partS/ShenZhenTong.srmodule",
-    "category": "module",
-    "description": "ShenZhenTong",
-    "author": {
-      "name": "fmz200",
-      "url": "https://github.com/fmz200",
-      "username": "fmz200"
-    },
-    "authorAvatar": "https://github.com/fmz200.png?size=64",
-    "icon": "https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/shenzhentong.png",
-    "sourceName": "wool_scripts",
-    "sourceURL": "https://github.com/fmz200/wool_scripts",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FShadowrocket%2Fmodule%2Fsplit%2FpartS%2FShenZhenTong.srmodule",
-    "isDubious": true,
-    "fromMyRepo": false,
-    "fromFMZ": true,
-    "fromZirawell": false,
-    "readmeIndex": 99999,
-    "_searchKeywords": "shenzhentong shenzhentong fmz200 wool_scripts"
   },
   {
     "name": "Epic 清晨  亮底色",
