@@ -984,7 +984,7 @@
     "name": "Spotify Premium",
     "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/main/Script/Spotify.sgmodule",
     "category": "module",
-    "description": "适配 Spotify 9.1.98 的 Nebula / Remote Config 接口及 Casita 首页去广告，兼容旧版接口",
+    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译",
     "author": {
       "name": "Reukix",
       "url": "https://github.com/Reukix",
@@ -1000,7 +1000,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 59,
-    "_searchKeywords": "spotify premium 适配 spotify 9.1.98 的 nebula / remote config 接口及 casita 首页去广告，兼容旧版接口 reukix ukix"
+    "_searchKeywords": "spotify premium 会员配置、首页与播放页去广告，集成歌词补全和双语翻译 reukix ukix"
   },
   {
     "name": "机场流量查询",
