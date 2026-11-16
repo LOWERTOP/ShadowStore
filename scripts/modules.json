@@ -937,28 +937,6 @@
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
   },
   {
-    "name": "Spotify",
-    "rawURL": "https://raw.githubusercontent.com/001ProMax/Surge/main/Module/AD/Spotify.sgmodule",
-    "category": "module",
-    "description": "AD",
-    "author": {
-      "name": "001ProMax",
-      "url": "https://github.com/001ProMax",
-      "username": "001ProMax"
-    },
-    "authorAvatar": "https://github.com/001ProMax.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
-    "sourceName": "Surge",
-    "sourceURL": "https://github.com/001ProMax/Surge",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2F001ProMax%2FSurge%2Fmain%2FModule%2FAD%2FSpotify.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 56,
-    "_searchKeywords": "spotify ad 001promax surge"
-  },
-  {
     "name": "Spotify Premium",
     "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/main/Script/Spotify.sgmodule",
     "category": "module",
@@ -977,8 +955,30 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 57,
+    "readmeIndex": 56,
     "_searchKeywords": "spotify premium 会员配置、首页与播放页去广告，集成歌词补全和双语翻译 reukix ukix"
+  },
+  {
+    "name": "Spotify",
+    "rawURL": "https://raw.githubusercontent.com/001ProMax/Surge/main/Module/AD/Spotify.sgmodule",
+    "category": "module",
+    "description": "AD",
+    "author": {
+      "name": "001ProMax",
+      "url": "https://github.com/001ProMax",
+      "username": "001ProMax"
+    },
+    "authorAvatar": "https://github.com/001ProMax.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
+    "sourceName": "Surge",
+    "sourceURL": "https://github.com/001ProMax/Surge",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2F001ProMax%2FSurge%2Fmain%2FModule%2FAD%2FSpotify.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 58,
+    "_searchKeywords": "spotify ad 001promax surge"
   },
   {
     "name": "Spotify(>=iOS15)",
