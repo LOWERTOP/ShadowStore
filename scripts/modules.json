@@ -585,50 +585,6 @@
     "_searchKeywords": "🅳🅴🆅🆃🅾🅾🅻 配置调试工具，以编辑参数的方式测试隐式参数及各项规则。新手用户不建议使用 lowertop shadowrocket-first"
   },
   {
-    "name": "YouTubeNoAds",
-    "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/YouTubeNoAd.sgmodule",
-    "category": "module",
-    "description": "YouTube Enhance & AdsBlock",
-    "author": {
-      "name": "iab0x00",
-      "url": "https://github.com/iab0x00",
-      "username": "iab0x00"
-    },
-    "authorAvatar": "https://github.com/iab0x00.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
-    "sourceName": "ProxyRules",
-    "sourceURL": "https://github.com/iab0x00/ProxyRules",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FYouTubeNoAd.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 24,
-    "_searchKeywords": "youtubenoads youtube enhance & adsblock iab0x00 proxyrules"
-  },
-  {
-    "name": "Youtube (Music) Enhance",
-    "rawURL": "https://raw.githubusercontent.com/Maasea/sgmodule/master/YouTube.Enhance.sgmodule",
-    "category": "module",
-    "description": "适用于 Youtube & Youtube Music",
-    "author": {
-      "name": "Maasea",
-      "url": "https://github.com/Maasea",
-      "username": "Maasea"
-    },
-    "authorAvatar": "https://github.com/Maasea.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
-    "sourceName": "sgmodule",
-    "sourceURL": "https://github.com/Maasea/sgmodule",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FMaasea%2Fsgmodule%2Fmaster%2FYouTube.Enhance.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 25,
-    "_searchKeywords": "youtube (music) enhance 适用于 youtube & youtube music maasea sgmodule"
-  },
-  {
     "name": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Spotify.sgmodule",
     "category": "module",
@@ -647,7 +603,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 28,
+    "readmeIndex": 24,
     "_searchKeywords": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁 会员配置、首页与播放页去广告，集成歌词补全和双语翻译。支持编辑参数，可以调整歌词部分选项，增加百度翻译开放平台服务以增强翻译成功率。脚本来源：reukix lowertop shadowrocket-first"
   },
   {
@@ -669,8 +625,52 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 30,
+    "readmeIndex": 26,
     "_searchKeywords": "spotify premium 会员配置、首页与播放页去广告，集成歌词补全和双语翻译 reukix ukix"
+  },
+  {
+    "name": "YouTubeNoAds",
+    "rawURL": "https://raw.githubusercontent.com/iab0x00/ProxyRules/main/Rewrite/YouTubeNoAd.sgmodule",
+    "category": "module",
+    "description": "YouTube Enhance & AdsBlock",
+    "author": {
+      "name": "iab0x00",
+      "url": "https://github.com/iab0x00",
+      "username": "iab0x00"
+    },
+    "authorAvatar": "https://github.com/iab0x00.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
+    "sourceName": "ProxyRules",
+    "sourceURL": "https://github.com/iab0x00/ProxyRules",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FYouTubeNoAd.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 27,
+    "_searchKeywords": "youtubenoads youtube enhance & adsblock iab0x00 proxyrules"
+  },
+  {
+    "name": "Youtube (Music) Enhance",
+    "rawURL": "https://raw.githubusercontent.com/Maasea/sgmodule/master/YouTube.Enhance.sgmodule",
+    "category": "module",
+    "description": "适用于 Youtube & Youtube Music",
+    "author": {
+      "name": "Maasea",
+      "url": "https://github.com/Maasea",
+      "username": "Maasea"
+    },
+    "authorAvatar": "https://github.com/Maasea.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/YouTube_01.png",
+    "sourceName": "sgmodule",
+    "sourceURL": "https://github.com/Maasea/sgmodule",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FMaasea%2Fsgmodule%2Fmaster%2FYouTube.Enhance.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 28,
+    "_searchKeywords": "youtube (music) enhance 适用于 youtube & youtube music maasea sgmodule"
   },
   {
     "name": "X(Twitter)网页版去广告",
