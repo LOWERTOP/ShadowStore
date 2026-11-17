@@ -629,6 +629,50 @@
     "_searchKeywords": "youtube (music) enhance 适用于 youtube & youtube music maasea sgmodule"
   },
   {
+    "name": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁",
+    "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Spotify.sgmodule",
+    "category": "module",
+    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译。包含去除首页广告和播放页广告，支持编辑参数，可以调整歌词等选项，翻译支持百度翻译（需填 appid 与密钥，启用后为首选）。脚本来源：Reukix",
+    "author": {
+      "name": "LOWERTOP",
+      "url": "https://github.com/LOWERTOP",
+      "username": "LOWERTOP"
+    },
+    "authorAvatar": "https://github.com/LOWERTOP.png?size=64",
+    "icon": "https://raw.githubusercontent.com/LOWERTOP/ShadowRule/refs/heads/master/icon/color/spotify.png",
+    "sourceName": "Shadowrocket-First",
+    "sourceURL": "https://github.com/LOWERTOP/Shadowrocket-First",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FLOWERTOP%2FShadowrocket-First%2Fmain%2FSpotify.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 28,
+    "_searchKeywords": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁 会员配置、首页与播放页去广告，集成歌词补全和双语翻译。包含去除首页广告和播放页广告，支持编辑参数，可以调整歌词等选项，翻译支持百度翻译（需填 appid 与密钥，启用后为首选）。脚本来源：reukix lowertop shadowrocket-first"
+  },
+  {
+    "name": "Spotify Premium",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/main/Script/Spotify.sgmodule",
+    "category": "module",
+    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Fmain%2FScript%2FSpotify.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 30,
+    "_searchKeywords": "spotify premium 会员配置、首页与播放页去广告，集成歌词补全和双语翻译 reukix ukix"
+  },
+  {
     "name": "X(Twitter)网页版去广告",
     "rawURL": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/Surge/module/XWebAds.module",
     "category": "module",
@@ -647,7 +691,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 28,
+    "readmeIndex": 31,
     "_searchKeywords": "x(twitter)网页版去广告 移除网页版 x (twitter) 广告。 fmz200 wool_scripts"
   },
   {
@@ -669,7 +713,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 30,
+    "readmeIndex": 33,
     "_searchKeywords": "哔哩哔哩增强 拜托，没有广告的哔哩哔哩真的超酷的 kokoryh sparkle"
   },
   {
@@ -691,7 +735,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 32,
+    "readmeIndex": 35,
     "_searchKeywords": "biliintlclean 国际版哔哩，移除热搜、搜索发现，精简我的页面 iab0x00 proxyrules"
   },
   {
@@ -713,7 +757,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 34,
+    "readmeIndex": 37,
     "_searchKeywords": "didiclean 移除滴滴开屏广告，精简首页、底栏和我的页面 iab0x00 proxyrules"
   },
   {
@@ -735,7 +779,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 36,
+    "readmeIndex": 39,
     "_searchKeywords": "rednote 小红书去广告、去图片视频水印 iab0x00 proxyrules"
   },
   {
@@ -757,7 +801,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 38,
+    "readmeIndex": 41,
     "_searchKeywords": "nscheckin nodeseek自动签到及均值统计 iab0x00 proxyrules"
   },
   {
@@ -779,7 +823,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 40,
+    "readmeIndex": 43,
     "_searchKeywords": "weibointl 移除开屏、瀑布流、趋势页、用户中心广告 iab0x00 proxyrules"
   },
   {
@@ -801,7 +845,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 42,
+    "readmeIndex": 45,
     "_searchKeywords": "微博去广告&净化 去除常见的广告和部分多余的模块 fmz200 wool_scripts"
   },
   {
@@ -823,7 +867,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 45,
+    "readmeIndex": 48,
     "_searchKeywords": "贴吧去广告(>=ios15) 260106;开屏广告;推荐和吧内帖子列表的直播及广告;详情页直播/关联商品/广告;看图模式广告;首页和帖子详情页右下角悬浮广告;部分吧内的置顶/最新中间的广告/head图片广告/head直播 app2smile rules"
   },
   {
@@ -845,7 +889,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 48,
+    "readmeIndex": 51,
     "_searchKeywords": "reddit 去广告 过滤推广, 关 nsfw 提示, 自动开启翻译(jq 版) qingrex loonkisssurge"
   },
   {
@@ -867,7 +911,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 50,
+    "readmeIndex": 53,
     "_searchKeywords": "sdgun 社区去广告 去开屏, 轮播等 qingrex loonkisssurge"
   },
   {
@@ -889,7 +933,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 52,
+    "readmeIndex": 55,
     "_searchKeywords": "sdgun 社区 tablet 访问 替换 user-agent, 修改 js/css, 允许不安全的图片/视频资源, 视频链接 vlc 播放 qingrex loonkisssurge"
   },
   {
@@ -911,7 +955,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 53,
+    "readmeIndex": 56,
     "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）折线图 githubdulong script"
   },
   {
@@ -933,74 +977,8 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 55,
-    "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
-  },
-  {
-    "name": "Spotify Premium",
-    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/main/Script/Spotify.sgmodule",
-    "category": "module",
-    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译",
-    "author": {
-      "name": "Reukix",
-      "url": "https://github.com/Reukix",
-      "username": "Reukix"
-    },
-    "authorAvatar": "https://github.com/Reukix.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
-    "sourceName": "ukix",
-    "sourceURL": "https://github.com/Reukix/ukix",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Fmain%2FScript%2FSpotify.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 56,
-    "_searchKeywords": "spotify premium 会员配置、首页与播放页去广告，集成歌词补全和双语翻译 reukix ukix"
-  },
-  {
-    "name": "Spotify",
-    "rawURL": "https://raw.githubusercontent.com/001ProMax/Surge/main/Module/AD/Spotify.sgmodule",
-    "category": "module",
-    "description": "AD",
-    "author": {
-      "name": "001ProMax",
-      "url": "https://github.com/001ProMax",
-      "username": "001ProMax"
-    },
-    "authorAvatar": "https://github.com/001ProMax.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
-    "sourceName": "Surge",
-    "sourceURL": "https://github.com/001ProMax/Surge",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2F001ProMax%2FSurge%2Fmain%2FModule%2FAD%2FSpotify.sgmodule",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
     "readmeIndex": 58,
-    "_searchKeywords": "spotify ad 001promax surge"
-  },
-  {
-    "name": "Spotify(>=iOS15)",
-    "rawURL": "https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module",
-    "category": "module",
-    "description": "2025.06.27 部分解锁premium,音质不能设置为超高(建议登录后再打开脚本,重启app等待脚本生效)",
-    "author": {
-      "name": "app2smile",
-      "url": "https://github.com/app2smile",
-      "username": "app2smile"
-    },
-    "authorAvatar": "https://github.com/app2smile.png?size=64",
-    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Spotify_01.png",
-    "sourceName": "rules",
-    "sourceURL": "https://github.com/app2smile/rules",
-    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fapp2smile%2Frules%2Fmaster%2Fmodule%2Fspotify.module",
-    "isDubious": false,
-    "fromMyRepo": true,
-    "fromFMZ": false,
-    "fromZirawell": false,
-    "readmeIndex": 59,
-    "_searchKeywords": "spotify(>=ios15) 2025.06.27 部分解锁premium,音质不能设置为超高(建议登录后再打开脚本,重启app等待脚本生效) app2smile rules"
+    "_searchKeywords": "京东比价 京东app历史价格（商品详情页面触发）表格 githubdulong script"
   },
   {
     "name": "机场流量查询",
@@ -1021,7 +999,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 60,
+    "readmeIndex": 59,
     "_searchKeywords": "机场流量查询 定时查询机场订阅链接的流量使用情况和到期时间（支持多地址 & 参数编辑） huskydsb shadowrocket"
   },
   {
@@ -1043,7 +1021,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 62,
+    "readmeIndex": 61,
     "_searchKeywords": "高德地图 2026-10-10 15:27:29 xiangwanguan shadowrocket-first"
   },
   {
@@ -1065,7 +1043,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 64,
+    "readmeIndex": 63,
     "_searchKeywords": "一汽大众 2026-07-18 11:35:27 xiangwanguan shadowrocket-first"
   },
   {
@@ -1087,7 +1065,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 66,
+    "readmeIndex": 65,
     "_searchKeywords": "彩云天气 2026-10-10 09:37:55 xiangwanguan shadowrocket-first"
   },
   {
@@ -1109,7 +1087,7 @@
     "fromMyRepo": true,
     "fromFMZ": false,
     "fromZirawell": false,
-    "readmeIndex": 68,
+    "readmeIndex": 67,
     "_searchKeywords": "小红书 2026-11-16 19:06:35 xiangwanguan shadowrocket-first"
   },
   {
