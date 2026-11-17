@@ -632,7 +632,7 @@
     "name": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/Spotify.sgmodule",
     "category": "module",
-    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译。包含去除首页广告和播放页广告，支持编辑参数，可以调整歌词等选项。脚本来源：Reukix",
+    "description": "会员配置、首页与播放页去广告，集成歌词补全和双语翻译。支持编辑参数，可以调整歌词部分选项，增加百度翻译开放平台服务以增强翻译成功率。脚本来源：Reukix",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -648,7 +648,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 28,
-    "_searchKeywords": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁 会员配置、首页与播放页去广告，集成歌词补全和双语翻译。包含去除首页广告和播放页广告，支持编辑参数，可以调整歌词等选项。脚本来源：reukix lowertop shadowrocket-first"
+    "_searchKeywords": "🆂🅿🅾🆃🅸🅵🆈 声破天解锁 会员配置、首页与播放页去广告，集成歌词补全和双语翻译。支持编辑参数，可以调整歌词部分选项，增加百度翻译开放平台服务以增强翻译成功率。脚本来源：reukix lowertop shadowrocket-first"
   },
   {
     "name": "Spotify Premium",
