@@ -33507,7 +33507,7 @@
     "id": "more_auto_1_fmz200",
     "category": "more",
     "name": "fmz200",
-    "description": "fmz200 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块",
+    "description": "fmz200 维护的仓库，包含数百款不同类型的模块",
     "icon": "https://github.com/fmz200.png?size=64",
     "author": {
       "name": "fmz200",
@@ -33524,36 +33524,13 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "fmz200 fmz200 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 wool_scripts fmz200 更多资源"
+    "_searchKeywords": "fmz200 fmz200 维护的仓库，包含数百款不同类型的模块 wool_scripts fmz200 更多资源"
   },
   {
-    "id": "more_auto_2_Reukix",
-    "category": "more",
-    "name": "Reukix",
-    "description": "Reukix 维护的仓库，包含数多款不同类型的模块",
-    "icon": "https://github.com/Reukix.png?size=64",
-    "author": {
-      "name": "Reukix",
-      "url": "https://github.com/Reukix",
-      "username": "Reukix"
-    },
-    "authorAvatar": "https://github.com/Reukix.png?size=64",
-    "sourceName": "ukix",
-    "sourceURL": "https://github.com/Reukix/ukix/tree/main/Script",
-    "rawURL": "https://github.com/Reukix/ukix/tree/main/Script",
-    "installURL": "https://github.com/Reukix/ukix/tree/main/Script",
-    "primaryBtnText": "访问链接",
-    "preInstallURL": "",
-    "secondaryBtnText": "",
-    "isRepoCard": true,
-    "isDubious": false,
-    "_searchKeywords": "reukix reukix 维护的仓库，包含数多款不同类型的模块 ukix reukix 更多资源"
-  },
-  {
-    "id": "more_auto_3_zirawell",
+    "id": "more_auto_2_zirawell",
     "category": "more",
     "name": "zirawell",
-    "description": "zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块",
+    "description": "zirawell 维护的仓库，包含数百款不同类型的模块",
     "icon": "https://github.com/zirawell.png?size=64",
     "author": {
       "name": "zirawell",
@@ -33570,7 +33547,30 @@
     "secondaryBtnText": "",
     "isRepoCard": true,
     "isDubious": false,
-    "_searchKeywords": "zirawell zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 r-store zirawell 更多资源"
+    "_searchKeywords": "zirawell zirawell 维护的仓库，包含数百款不同类型的模块 r-store zirawell 更多资源"
+  },
+  {
+    "id": "more_auto_3_Reukix",
+    "category": "more",
+    "name": "Reukix",
+    "description": "Reukix 维护的仓库，包含多款不同类型的模块",
+    "icon": "https://github.com/Reukix.png?size=64",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "rawURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "installURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "primaryBtnText": "访问链接",
+    "preInstallURL": "",
+    "secondaryBtnText": "",
+    "isRepoCard": true,
+    "isDubious": false,
+    "_searchKeywords": "reukix reukix 维护的仓库，包含多款不同类型的模块 ukix reukix 更多资源"
   },
   {
     "id": "more_auto_4_QingRex",
@@ -33640,5 +33640,51 @@
     "isRepoCard": true,
     "isDubious": false,
     "_searchKeywords": "kelee kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one kelee 更多资源"
+  },
+  {
+    "id": "more_auto_7_Kelee",
+    "category": "more",
+    "name": "Kelee",
+    "description": "Kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
+    "icon": "https://github.com/luestr.png?size=64",
+    "author": {
+      "name": "Kelee",
+      "url": "https://github.com/luestr",
+      "username": "luestr"
+    },
+    "authorAvatar": "https://github.com/luestr.png?size=64",
+    "sourceName": "hub.kelee.one",
+    "sourceURL": "https://hub.kelee.one/",
+    "rawURL": "https://hub.kelee.one/",
+    "installURL": "https://hub.kelee.one/",
+    "primaryBtnText": "访问链接",
+    "preInstallURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2Fiab0x00%2FProxyRules%2Fmain%2FRewrite%2FPlugin2Rocket.srmodule",
+    "secondaryBtnText": "安装模块",
+    "isRepoCard": true,
+    "isDubious": false,
+    "_searchKeywords": "kelee kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭 hub.kelee.one kelee 更多资源"
+  },
+  {
+    "id": "more_auto_8_MagicRule",
+    "category": "more",
+    "name": "MagicRule",
+    "description": "blackmatrix7 维护的开源规则集仓库 iosrulescript 将在 2026 年底 停止维护，其作者重新上线了新版闭源规则集网站",
+    "icon": "https://github.com/blackmatrix7.png?size=64",
+    "author": {
+      "name": "blackmatrix7",
+      "url": "https://github.com/blackmatrix7",
+      "username": "blackmatrix7"
+    },
+    "authorAvatar": "https://github.com/blackmatrix7.png?size=64",
+    "sourceName": "ios_rule_script",
+    "sourceURL": "https://github.com/blackmatrix7/ios_rule_script",
+    "rawURL": "https://magicrule.pages.dev/#/c/Shadowrocket",
+    "installURL": "https://magicrule.pages.dev/#/c/Shadowrocket",
+    "primaryBtnText": "访问链接",
+    "preInstallURL": "",
+    "secondaryBtnText": "",
+    "isRepoCard": true,
+    "isDubious": false,
+    "_searchKeywords": "magicrule blackmatrix7 维护的开源规则集仓库 iosrulescript 将在 2026 年底 停止维护，其作者重新上线了新版闭源规则集网站 ios_rule_script blackmatrix7 更多资源"
   }
 ]
