@@ -31,9 +31,9 @@
   * [LOWERTOP/Shadowrocket-First](https://github.com/LOWERTOP/Shadowrocket-First)
   * [LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket)
   * [fmz200/wool_scripts](https://github.com/fmz200/wool_scripts)
+  * [Reukix/ukix](https://github.com/Reukix/ukix/tree/main/Script)
   * [zirawell/R-Store](https://github.com/zirawell/R-Store)
   * [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
-  * [luestr/IconResource](https://github.com/luestr/IconResource)
 
 ## 权利声明
 
