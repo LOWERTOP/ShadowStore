@@ -522,7 +522,7 @@
     "name": "🅲🅴🆁🆃🅷🆄🅱 证书模块",
     "rawURL": "https://raw.githubusercontent.com/LOWERTOP/Shadowrocket-First/main/CA.sgmodule",
     "category": "module",
-    "description": "需要以编辑参数的方式启用并填写完整",
+    "description": "启用解密后正确使用证书模块可以保证在切换配置时无需重复执行解密操作。需要以编辑参数的方式启用并填写完整",
     "author": {
       "name": "LOWERTOP",
       "url": "https://github.com/LOWERTOP",
@@ -538,7 +538,7 @@
     "fromFMZ": false,
     "fromZirawell": false,
     "readmeIndex": 21,
-    "_searchKeywords": "🅲🅴🆁🆃🅷🆄🅱 证书模块 需要以编辑参数的方式启用并填写完整 lowertop shadowrocket-first"
+    "_searchKeywords": "🅲🅴🆁🆃🅷🆄🅱 证书模块 启用解密后正确使用证书模块可以保证在切换配置时无需重复执行解密操作。需要以编辑参数的方式启用并填写完整 lowertop shadowrocket-first"
   },
   {
     "name": "🅼🅸🆃🅼🅾🅵🅵 排除解密模块",
@@ -1089,6 +1089,160 @@
     "fromZirawell": false,
     "readmeIndex": 67,
     "_searchKeywords": "小红书 2026-11-16 19:06:35 xiangwanguan shadowrocket-first"
+  },
+  {
+    "name": "米家去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/MiHome.sgmodule",
+    "category": "module",
+    "description": "移除米家开屏、我的页面轮播推广及底栏活动图标",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/xiaomi.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FMiHome.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 69,
+    "_searchKeywords": "米家去广告 移除米家开屏、我的页面轮播推广及底栏活动图标 reukix ukix"
+  },
+  {
+    "name": "闲鱼去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/FleaMarket.sgmodule",
+    "category": "module",
+    "description": "移除闲鱼广告",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/闲鱼.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FFleaMarket.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 71,
+    "_searchKeywords": "闲鱼去广告 移除闲鱼广告 reukix ukix"
+  },
+  {
+    "name": "京东去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/JD.sgmodule",
+    "category": "module",
+    "description": "兼容 URL 参数与 POST 路由、明文和 base64 响应，过滤开屏配置和推广楼层；正常业务响应原样放行。",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/京东.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FJD.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 73,
+    "_searchKeywords": "京东去广告 兼容 url 参数与 post 路由、明文和 base64 响应，过滤开屏配置和推广楼层；正常业务响应原样放行。 reukix ukix"
+  },
+  {
+    "name": "拼多多去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/Pinduoduo.sgmodule",
+    "category": "module",
+    "description": "移除开屏广告。",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/拼多多.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FPinduoduo.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 75,
+    "_searchKeywords": "拼多多去广告 移除开屏广告。 reukix ukix"
+  },
+  {
+    "name": "淘宝去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/Taobao.sgmodule",
+    "category": "module",
+    "description": "过滤淘宝开屏广告",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/淘宝.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FTaobao.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 77,
+    "_searchKeywords": "淘宝去广告 过滤淘宝开屏广告 reukix ukix"
+  },
+  {
+    "name": "美团去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/meituan.sgmodule",
+    "category": "module",
+    "description": "美团去广告, 告别烦人的垃圾广告",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/美团.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2Fmeituan.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 79,
+    "_searchKeywords": "美团去广告 美团去广告, 告别烦人的垃圾广告 reukix ukix"
+  },
+  {
+    "name": "小红书去广告",
+    "rawURL": "https://raw.githubusercontent.com/Reukix/ukix/refs/heads/main/Script/Xiaohongshu.sgmodule",
+    "category": "module",
+    "description": "过滤信息流推广，移除图片及视频水印",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "icon": "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/1024px/小红书.png",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix",
+    "installURL": "shadowrocket://install?module=https%3A%2F%2Fraw.githubusercontent.com%2FReukix%2Fukix%2Frefs%2Fheads%2Fmain%2FScript%2FXiaohongshu.sgmodule",
+    "isDubious": false,
+    "fromMyRepo": true,
+    "fromFMZ": false,
+    "fromZirawell": false,
+    "readmeIndex": 81,
+    "_searchKeywords": "小红书去广告 过滤信息流推广，移除图片及视频水印 reukix ukix"
   },
   {
     "name": "12123",
@@ -33373,7 +33527,30 @@
     "_searchKeywords": "fmz200 fmz200 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 wool_scripts fmz200 更多资源"
   },
   {
-    "id": "more_auto_2_zirawell",
+    "id": "more_auto_2_Reukix",
+    "category": "more",
+    "name": "Reukix",
+    "description": "Reukix 维护的仓库，包含数多款不同类型的模块",
+    "icon": "https://github.com/Reukix.png?size=64",
+    "author": {
+      "name": "Reukix",
+      "url": "https://github.com/Reukix",
+      "username": "Reukix"
+    },
+    "authorAvatar": "https://github.com/Reukix.png?size=64",
+    "sourceName": "ukix",
+    "sourceURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "rawURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "installURL": "https://github.com/Reukix/ukix/tree/main/Script",
+    "primaryBtnText": "访问链接",
+    "preInstallURL": "",
+    "secondaryBtnText": "",
+    "isRepoCard": true,
+    "isDubious": false,
+    "_searchKeywords": "reukix reukix 维护的仓库，包含数多款不同类型的模块 ukix reukix 更多资源"
+  },
+  {
+    "id": "more_auto_3_zirawell",
     "category": "more",
     "name": "zirawell",
     "description": "zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块",
@@ -33396,7 +33573,7 @@
     "_searchKeywords": "zirawell zirawell 维护的仓库，包含数百款独立模块和多个不同类型的合集类模块 r-store zirawell 更多资源"
   },
   {
-    "id": "more_auto_3_QingRex",
+    "id": "more_auto_4_QingRex",
     "category": "more",
     "name": "QingRex",
     "description": "QingRex 维护的资源丰富的 模块资源仓库，多数可直接使用",
@@ -33419,7 +33596,7 @@
     "_searchKeywords": "qingrex qingrex 维护的资源丰富的 模块资源仓库，多数可直接使用 loonkisssurge qingrex 更多资源"
   },
   {
-    "id": "more_auto_4_Cuttlefish",
+    "id": "more_auto_5_Cuttlefish",
     "category": "more",
     "name": "Cuttlefish",
     "description": "Cuttlefish 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块",
@@ -33442,7 +33619,7 @@
     "_searchKeywords": "cuttlefish cuttlefish 维护的可适用小火箭的模块资源网站，需提前安装 墨鱼专用前置模块 ddgksf2013.top cuttlefish 更多资源"
   },
   {
-    "id": "more_auto_5_Kelee",
+    "id": "more_auto_6_Kelee",
     "category": "more",
     "name": "Kelee",
     "description": "Kelee 维护的资源，安装 插件中心专用转换器 后可用于小火箭",
